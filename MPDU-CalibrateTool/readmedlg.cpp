@@ -1,6 +1,7 @@
 #include "readmedlg.h"
 #include "ui_readmedlg.h"
 #include <QtCore>
+#include "common.h"
 
 ReadMeDLg::ReadMeDLg(QWidget *parent) :
     QDialog(parent),
@@ -8,6 +9,7 @@ ReadMeDLg::ReadMeDLg(QWidget *parent) :
 {
     ui->setupUi(this);
     initText();
+    groupBox_background_icon(this);
 }
 
 ReadMeDLg::~ReadMeDLg()

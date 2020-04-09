@@ -10,15 +10,21 @@
     <height>768</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>MPDU校准软件</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="readmeBtn">
     <property name="geometry">
      <rect>
-      <x>890</x>
-      <y>130</y>
+      <x>370</x>
+      <y>20</y>
       <width>93</width>
       <height>41</height>
      </rect>
@@ -30,11 +36,33 @@
    <widget class="QWidget" name="serialWid" native="true">
     <property name="geometry">
      <rect>
-      <x>860</x>
+      <x>750</x>
       <y>10</y>
-      <width>140</width>
-      <height>100</height>
+      <width>270</width>
+      <height>60</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="titlelabel">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>10</y>
+      <width>341</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>20</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>MPDU校准工具_V2.0</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
   </widget>

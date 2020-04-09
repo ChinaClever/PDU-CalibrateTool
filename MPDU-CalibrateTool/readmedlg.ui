@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>670</x>
-     <y>547</y>
+     <y>550</y>
      <width>121</width>
      <height>41</height>
     </rect>
@@ -26,13 +26,13 @@
     <string>确认</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="textEdit">
+  <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
      <width>781</width>
-     <height>531</height>
+     <height>541</height>
     </rect>
    </property>
    <property name="font">
@@ -41,6 +41,21 @@
      <pointsize>11</pointsize>
     </font>
    </property>
+   <property name="title">
+    <string>操作说明</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QTextEdit" name="textEdit">
+      <property name="font">
+       <font>
+        <family>微软雅黑</family>
+        <pointsize>11</pointsize>
+       </font>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

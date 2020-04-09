@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>128</width>
-    <height>93</height>
+    <width>269</width>
+    <height>62</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QLabel" name="serialLab">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>0</y>
-     <width>111</width>
-     <height>31</height>
+     <x>20</x>
+     <y>10</y>
+     <width>141</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -28,18 +28,24 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
    <property name="text">
     <string>请打开</string>
    </property>
    <property name="alignment">
-    <set>Qt::AlignCenter</set>
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QPushButton" name="comBtn">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>40</y>
+     <x>170</x>
+     <y>10</y>
      <width>93</width>
      <height>41</height>
     </rect>

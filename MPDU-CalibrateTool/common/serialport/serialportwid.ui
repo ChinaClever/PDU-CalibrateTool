@@ -13,7 +13,7 @@
   <property name="font">
    <font>
     <family>微软雅黑</family>
-    <pointsize>12</pointsize>
+    <pointsize>11</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -31,6 +31,12 @@
      <width>110</width>
      <height>30</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>11</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>----</string>
@@ -138,6 +144,7 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>11</pointsize>
     </font>
    </property>
    <property name="styleSheet">
@@ -156,6 +163,7 @@
    <property name="font">
     <font>
      <family>微软雅黑</family>
+     <pointsize>11</pointsize>
     </font>
    </property>
    <property name="styleSheet">
