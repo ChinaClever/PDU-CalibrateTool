@@ -31,6 +31,7 @@ private:
     sDataUnit *mData;
     sConfigItem *mItem;
     SerialPort *mSerial;
+    sDataPacket *mPacket;
 };
 
 #endif // ADJUSTCORETHREAD_H
