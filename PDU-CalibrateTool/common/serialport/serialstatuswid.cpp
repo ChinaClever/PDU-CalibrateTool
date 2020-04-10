@@ -28,7 +28,7 @@ bool SerialStatusWid::checkSerial()
             on_comBtn_clicked();
         }
     }
-    mEnable = serial->isOpened();
+    //mEnable = serial->isOpened();
 
     return ret;
 }

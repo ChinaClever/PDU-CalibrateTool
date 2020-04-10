@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "serialstatuswid.h"
+#include "modeselectwid.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +22,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    DataTableWid *mTableWid;
+    ModeSelectWid *mModeWid;
     SerialStatusWid *mSerialWid;
 };
 #endif // MAINWINDOW_H

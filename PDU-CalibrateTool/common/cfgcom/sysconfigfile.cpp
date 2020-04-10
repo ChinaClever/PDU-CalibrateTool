@@ -18,7 +18,7 @@ static QSettings *pConfigIni = NULL;
 QString cm_pathOfData(const QString& name)
 {
     QDir dataDir(QDir::home());
-    QString dirName = ".MPDU-CalibrateTool";
+    QString dirName = ".PDU-CalibrateTool";
     if(!dataDir.exists(dirName))
         dataDir.mkdir(dirName);
     dataDir.cd(dirName);

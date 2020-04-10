@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MPDU校准软件</string>
+   <string>PDU校准软件</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="readmeBtn">
@@ -59,10 +59,30 @@
      </font>
     </property>
     <property name="text">
-     <string>MPDU校准工具_V2.0</string>
+     <string>PDU校准工具_V0.0</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QWidget" name="modeWid" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>470</width>
+      <height>310</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="tableWid" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>429</y>
+      <width>1001</width>
+      <height>311</height>
+     </rect>
     </property>
    </widget>
   </widget>

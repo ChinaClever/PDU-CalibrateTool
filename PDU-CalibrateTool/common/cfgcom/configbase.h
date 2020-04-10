@@ -5,8 +5,8 @@
 
 class ConfigBase
 {
-    ConfigBase();
 public:
+    ConfigBase();
     static ConfigBase *bulid();
 
     QString getSerialName();
