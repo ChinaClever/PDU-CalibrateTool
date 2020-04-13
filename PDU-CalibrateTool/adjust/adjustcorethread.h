@@ -8,8 +8,8 @@
 class AdjustCoreThread : public QThread
 {
     Q_OBJECT
-    explicit AdjustCoreThread(QObject *parent = nullptr);
 public:
+    explicit AdjustCoreThread(QObject *parent = nullptr);
     static AdjustCoreThread *bulid(QObject *parent = nullptr);
     ~AdjustCoreThread();
 
@@ -20,14 +20,34 @@ protected:
     void delay(int s);
     void workDown();
 
+    int readSerial(quint8 *cmd, int sec);
     bool writeSerial(quint8 *cmd, int len);
-    bool startActivationCmd();
-    bool resActivationCmd();
+    int transmit(uchar *sent, int len, uchar *recv, int sec);
+
+    void sendModeCmd();
+    void sendGainCmd();
+    void sendActivationCmd();
+
+    virtual bool resActivationCmd()=0;
+    virtual bool startActivationCmd()=0;
     bool resActivateVert(uchar *cmd, int len);
+    quint8 getXorNumber(quint8 *data,int len);
 
-public slots:
+    virtual int openSwitch()=0;
+    virtual bool readPduData()=0;
 
-private:
+
+    bool curAllAdjust();
+    bool curOneAdjust();
+    bool volAdjust();
+
+    void clearMpduEle();
+    bool dataAdjust();
+    bool mpduAdjust();
+
+    void workResult(bool res);
+
+protected:
     sDataUnit *mData;
     sConfigItem *mItem;
     SerialPort *mSerial;

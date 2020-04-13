@@ -206,6 +206,7 @@ void ComTableWid::clearRow(int row)
     int column = ui->tableWidget->columnCount();
     for(int i=0; i<column; ++i) {
         setTableItem(row, i, "---");
+        setItemColor(row, i, 0);
     }
 }
 

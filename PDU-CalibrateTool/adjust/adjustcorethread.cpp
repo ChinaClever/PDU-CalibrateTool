@@ -17,7 +17,7 @@ AdjustCoreThread::~AdjustCoreThread()
 
 AdjustCoreThread *AdjustCoreThread::bulid(QObject *parent)
 {
-    static AdjustCoreThread* sington = nullptr;
+    AdjustCoreThread* sington = nullptr;
     if(sington == nullptr)
         sington = new AdjustCoreThread(parent);
     return sington;
@@ -28,6 +28,23 @@ void AdjustCoreThread::delay(int s)
     for(int i=0; i<10*s; ++i) {
         if(mItem->mode != Test_Over) msleep(100);
     }
+}
+
+int AdjustCoreThread::readSerial(quint8 *cmd, int sec)
+{
+    int rtn = 0;
+    bool ret = mSerial->isOpened();
+    if(ret) {
+        for(int i=0; i<sec*2; ++i) {
+            if(mItem->mode == Test_Start) {
+                rtn += mSerial->read(cmd, 5);
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    return rtn;
 }
 
 bool AdjustCoreThread::writeSerial(quint8 *cmd, int len)
@@ -41,6 +58,20 @@ bool AdjustCoreThread::writeSerial(quint8 *cmd, int len)
 
     return ret;
 }
+
+
+int AdjustCoreThread::transmit(uchar *sent, int len, uchar *recv, int sec)
+{
+    int rtn = 0;
+    bool ret = writeSerial(sent, len);
+    if(ret) {
+        rtn = readSerial(recv, sec);
+    }
+
+    return rtn;
+}
+
+
 
 bool AdjustCoreThread::resActivateVert(uchar *cmd, int len)
 {
@@ -66,24 +97,20 @@ bool AdjustCoreThread::resActivateVert(uchar *cmd, int len)
 }
 
 
-bool AdjustCoreThread::resActivationCmd()
-{
-    static uchar cmd[128] = {0};
-    int rtn = mSerial->read(cmd, 5); // 清空串口数据
-    rtn = mSerial->read(cmd, 600);
 
-    return resActivateVert(cmd, rtn);
+void AdjustCoreThread::sendActivationCmd()
+{
+    int len = 16;
+    static quint8 activationCmd[16]={0x7B, 0xA0, 0x10,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00, 0xCB};
+    quint8 *cmd = activationCmd;
+    writeSerial(cmd, len); delay(300);
 }
 
 
-bool AdjustCoreThread::startActivationCmd()
+void AdjustCoreThread::sendModeCmd()
 {
     int len = 16;
-    quint8 activationCmd[16]={0x7B, 0xA0, 0x10,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00, 0xCB};
-    quint8 *cmd = activationCmd;
-    bool ret = writeSerial(cmd, len); delay(300);
-
-    quint8 modelCmd[2][4][16]= {
+    static quint8 modelCmd[2][4][16]= {
         { //锰铜模式
           {0x7B, 0xA6, 0x01, 0x10, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCD},
           {0x7B, 0xA6, 0x02, 0x10, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xCE},
@@ -97,19 +124,157 @@ bool AdjustCoreThread::startActivationCmd()
           {0x7B, 0xA6, 0x04, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xC9}
         }};
 
-    cmd = modelCmd[mItem->mode][mItem->addr];
-    ret = writeSerial(cmd, len); delay(1300);
+    int addr = mItem->addr - 1;
+    quint8 *cmd = modelCmd[mItem->mode][addr];
+    writeSerial(cmd, len); delay(1300);
+}
 
-    quint8 gainCmd[4][6]={ //增益校准命令
-        {0x01,  0x04,  0x04,  0x01,  0x04,  0x04 },
-        {0x02,  0x04,  0x04,  0x01,  0x04,  0x07 },
-        {0x03,  0x04,  0x04,  0x01,  0x04,  0x06 },
-        {0x04 , 0x04,  0x04,  0x01,  0x04,  0x01 }
-    };
-    cmd = gainCmd[mItem->addr];
-    ret = writeSerial(cmd, len); delay(1300);
+void AdjustCoreThread::sendGainCmd()
+{
+    int len = 16;
+    static quint8 gainCmd[4][6]={ //增益校准命令
+                                  {0x01,  0x04,  0x04,  0x01,  0x04,  0x04 },
+                                  {0x02,  0x04,  0x04,  0x01,  0x04,  0x07 },
+                                  {0x03,  0x04,  0x04,  0x01,  0x04,  0x06 },
+                                  {0x04 , 0x04,  0x04,  0x01,  0x04,  0x01 }
+                                };
+    int addr = mItem->addr - 1;
+    quint8 *cmd = gainCmd[addr];
+    writeSerial(cmd, len); delay(1300);
+}
 
-    return resActivationCmd();
+
+
+
+
+quint8 AdjustCoreThread::getXorNumber(quint8 *data,int len)
+{
+    quint8 xorNumber = 0;
+    for(int i = 0;i<len ;i++) {
+        xorNumber ^= *(data+i);
+    }
+
+    return xorNumber;
+}
+
+
+
+
+void AdjustCoreThread::clearMpduEle()
+{
+    static uchar recv[256] = {0};
+    static uchar cmd[] = {0x7B, 0xC1, 0x01, 0x15, 0xD1,
+                          0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
+                          0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                          0x00, 0x00, 0x00, 0xCC};
+
+    cmd[2] = mItem->addr;
+    cmd[20] = getXorNumber(cmd,sizeof(cmd)-1);
+    writeSerial(cmd, sizeof(cmd));
+}
+
+
+bool AdjustCoreThread::mpduAdjust()
+{
+    bool ret = true;
+    for(int i=0; i<3; ++i) {
+        mPacket->status = tr("校验数据 %1 次").arg(i+1);
+
+        readPduData();
+        ret = dataAdjust();
+        if(ret) {
+            clearMpduEle();
+            break;
+        } else {
+            delay(1);
+        }
+    }
+
+    return ret;
+}
+
+
+
+bool AdjustCoreThread::curAllAdjust()
+{
+    int cur = 0;
+    for(int i=0; i<mData->size; ++i) {
+        cur += mData->cur[i];
+    }
+
+    int min = mItem->cur - mItem->curErr;
+    int max = mItem->cur + mItem->curErr;
+    if((cur >= min) && (cur <= max)) {
+        return true;
+    }
+
+    return false;
+}
+
+bool AdjustCoreThread::curOneAdjust()
+{
+    int min = mItem->cur - mItem->curErr;
+    int max = mItem->cur + mItem->curErr;
+
+    bool ret = true;
+    for(int i=0; i<mData->size; ++i) {
+        int cur = mData->cur[i] / mData->rate;
+        if((cur >= min) && (cur <= max)) {
+            mData->status[i] = 1;
+        } else {
+            ret = false;
+            mData->status[i] = 2;
+        }
+    }
+
+    return ret;
+}
+
+bool AdjustCoreThread::volAdjust()
+{
+    int min = mItem->vol - mItem->volErr;
+    int max = mItem->vol + mItem->volErr;
+
+    bool ret = true;
+    for(int i=0; i<mData->size; ++i) {
+        int vol = mData->vol[i] * mData->rate;
+        if((vol >= min) && (vol <= max)) {
+            mData->status[i] = 1;
+        } else {
+            ret = false;
+            mData->status[i] = 2;
+        }
+    }
+
+    return ret;
+}
+
+
+bool AdjustCoreThread::dataAdjust()
+{
+    bool ret = volAdjust();
+    if(!ret) return ret;
+
+    if(mItem->mode) {
+        ret = curOneAdjust();
+    } else {
+        ret = curAllAdjust();
+    }
+
+    return ret;
+}
+
+void AdjustCoreThread::workResult(bool res)
+{
+    QString str = tr("校准失败!");
+    if(res) {
+        mPacket->pass = 1;
+        str = tr("校准成功!");
+    } else {
+        mPacket->pass = 2;
+    }
+    mPacket->status = str;
+    mItem->mode = Test_End;
 }
 
 
@@ -120,24 +285,21 @@ void AdjustCoreThread::workDown()
     bool ret = startActivationCmd();
     if(ret) { // 校准成功
         mPacket->status = tr("等待重启!"); delay(1300);
+        openSwitch();
 
 
-        ////// 赢取数据
+        if(mItem->devType){ // ZPDU执行板
 
+        } else {  // MPDU执行板
 
-
-
-
-
-    } else { // 校准失败
-        mPacket->pass = 2;
-        mPacket->status = tr("校准失败");
+            ret = mpduAdjust();
+        }
     }
 
-
+    workResult(ret);
 }
 
 void AdjustCoreThread::run()
 {
-
+    workDown();
 }

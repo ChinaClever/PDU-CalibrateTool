@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     mSerialWid = new SerialStatusWid(ui->serialWid);
     sConfigItem *item = AdjustConfig::bulid()->item;
     item->serial = mSerialWid->getSerialPort();
+    AdjustCoreThread::bulid(this);
 }
 
 MainWindow::~MainWindow()

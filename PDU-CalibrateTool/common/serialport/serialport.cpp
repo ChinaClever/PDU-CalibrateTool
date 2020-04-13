@@ -1,4 +1,4 @@
-﻿/*
+/*
  * 对串口的常用操作：打开、读、写、关闭
  *
  *  Created on: 2018年1月1日
@@ -120,7 +120,7 @@ void SerialPort::timeoutDone()
         if(mWriteArray.size()) {
             int ret = write();
             QString str = mWriteArray;
-            qDebug()<<str<<mWriteArray.size()<<mWriteArray.toHex();
+            //qDebug()<<str<<mWriteArray.size()<<mWriteArray.toHex();
             if(ret) {
                 mWriteArray.clear();
                 mSerialData.clear();

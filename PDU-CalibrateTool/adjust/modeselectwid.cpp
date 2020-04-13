@@ -23,7 +23,7 @@ ModeSelectWid::~ModeSelectWid()
 void ModeSelectWid::initData()
 {
     mItem->devType = ui->devTypeBox->currentIndex();
-    mItem->addr = ui->addrBox->currentIndex();
+    mItem->addr = ui->addrBox->currentIndex()+1;
     mItem->mode = ui->modeBox->currentIndex();
     mItem->vol = ui->volBox->value() * 10;
     mItem->cur = ui->curBox->value() * 10;
@@ -38,6 +38,7 @@ void ModeSelectWid::initData()
     mItem->step = Test_Start;
     sDataPacket::bulid()->clear();
     if(mItem->devType) mData->rate = 10; else mData->rate = 1;
+    AdjustCoreThread::bulid(this)->start();
 }
 
 void ModeSelectWid::on_startBtn_clicked()
@@ -77,13 +78,16 @@ void ModeSelectWid::timeoutDone()
     QString str = packet->status;
     ui->statusLab->setText(str);
 
-
-    /////// 背景颜色设置
+    QPalette pe;
     switch (packet->pass) {
-    case 0:
+    case 0:  pe.setColor(QPalette::WindowText, Qt::black); break;
+    case 1:  pe.setColor(QPalette::WindowText, Qt::green); break;
+    case 2:  pe.setColor(QPalette::WindowText, Qt::red); break;
+    }
+    ui->statusLab->setPalette(pe);
 
-        break;
-    default:
-        break;
+    if(mItem->step == Test_End) {
+        mItem->step = Test_Start;
+        on_startBtn_clicked();
     }
 }
