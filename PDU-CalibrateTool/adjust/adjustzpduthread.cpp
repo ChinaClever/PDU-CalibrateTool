@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "adjustzpduthread.h"
 
 AdjustZpduThread::AdjustZpduThread(QObject *parent) : AdjustCoreThread(parent)

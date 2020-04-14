@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "readmedlg.h"
