@@ -6,28 +6,30 @@ AdjustCoreThread::AdjustCoreThread(QObject *parent) : QThread(parent)
     mItem = AdjustConfig::bulid()->item;
     mSerial = mItem->serial;
     mData = mPacket->data;
+    isRun = false;
 }
 
 
 AdjustCoreThread::~AdjustCoreThread()
 {
-    mItem->mode = Test_Over;
+    mItem->step = Test_Over;
     wait();
 }
 
-AdjustCoreThread *AdjustCoreThread::bulid(QObject *parent)
-{
-    AdjustCoreThread* sington = nullptr;
-    if(sington == nullptr)
-        sington = new AdjustCoreThread(parent);
-    return sington;
-}
 
-void AdjustCoreThread::delay(int s)
+bool AdjustCoreThread::delay(int s)
 {
+    bool ret = true;
     for(int i=0; i<10*s; ++i) {
-        if(mItem->mode != Test_Over) msleep(100);
+        if(mItem->step != Test_Over) {
+            msleep(100);
+        } else {
+            ret = false;
+            break;
+        }
     }
+
+    return ret;
 }
 
 int AdjustCoreThread::readSerial(quint8 *cmd, int sec)
@@ -36,7 +38,7 @@ int AdjustCoreThread::readSerial(quint8 *cmd, int sec)
     bool ret = mSerial->isOpened();
     if(ret) {
         for(int i=0; i<sec*2; ++i) {
-            if(mItem->mode == Test_Start) {
+            if(mItem->step != Test_Over) {
                 rtn += mSerial->read(cmd, 5);
             } else {
                 return 0;
@@ -53,7 +55,7 @@ bool AdjustCoreThread::writeSerial(quint8 *cmd, int len)
     if(ret) {
         mSerial->write(cmd, len);
     } else {
-        qDebug() << "AdjustCoreThread writeSerial err !";
+        qDebug() << "AdjustCoreThread writeSerial err !" << ret;
     }
 
     return ret;
@@ -98,7 +100,7 @@ bool AdjustCoreThread::resActivateVert(uchar *cmd, int len)
 
 
 
-void AdjustCoreThread::sendActivationCmd()
+void AdjustCoreThread::sendActivateCmd()
 {
     int len = 16;
     static quint8 activationCmd[16]={0x7B, 0xA0, 0x10,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00, 0xCB};
@@ -157,42 +159,24 @@ quint8 AdjustCoreThread::getXorNumber(quint8 *data,int len)
     return xorNumber;
 }
 
-
-
-
-void AdjustCoreThread::clearMpduEle()
-{
-    static uchar recv[256] = {0};
-    static uchar cmd[] = {0x7B, 0xC1, 0x01, 0x15, 0xD1,
-                          0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
-                          0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                          0x00, 0x00, 0x00, 0xCC};
-
-    cmd[2] = mItem->addr;
-    cmd[20] = getXorNumber(cmd,sizeof(cmd)-1);
-    writeSerial(cmd, sizeof(cmd));
-}
-
-
-bool AdjustCoreThread::mpduAdjust()
+bool AdjustCoreThread::pduAdjust()
 {
     bool ret = true;
     for(int i=0; i<3; ++i) {
-        mPacket->status = tr("校验数据 %1 次").arg(i+1);
-
+        mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
         readPduData();
         ret = dataAdjust();
         if(ret) {
-            clearMpduEle();
+            clearPduEle();
             break;
         } else {
-            delay(1);
+            ret = delay(1);
+            if(!ret) break;
         }
     }
 
     return ret;
 }
-
 
 
 bool AdjustCoreThread::curAllAdjust()
@@ -249,6 +233,13 @@ bool AdjustCoreThread::volAdjust()
     return ret;
 }
 
+void AdjustCoreThread::resTgData(sTgObjData *tg)
+{
+    for(int i=0; i<mData->size; ++i) {
+        tg->cur += mData->cur[i];
+        tg->pow += mData->pow[i];
+    }
+}
 
 bool AdjustCoreThread::dataAdjust()
 {
@@ -260,6 +251,7 @@ bool AdjustCoreThread::dataAdjust()
     } else {
         ret = curAllAdjust();
     }
+    resTgData(mPacket->tg);
 
     return ret;
 }
@@ -285,15 +277,8 @@ void AdjustCoreThread::workDown()
     bool ret = startActivationCmd();
     if(ret) { // 校准成功
         mPacket->status = tr("等待重启!"); delay(1300);
-        openSwitch();
-
-
-        if(mItem->devType){ // ZPDU执行板
-
-        } else {  // MPDU执行板
-
-            ret = mpduAdjust();
-        }
+        openAllSwitch();
+        ret = pduAdjust();
     }
 
     workResult(ret);
@@ -301,5 +286,11 @@ void AdjustCoreThread::workDown()
 
 void AdjustCoreThread::run()
 {
-    workDown();
+    if(!isRun) {
+        isRun = true;
+        workDown();
+        isRun = false;
+    } else {
+        qDebug() << "AdjustCoreThread run err" << isRun;
+    }
 }

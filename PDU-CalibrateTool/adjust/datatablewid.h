@@ -2,7 +2,7 @@
 #define DATATABLEWID_H
 
 #include "comtablewid.h"
-#include "adjustcorethread.h"
+#include "adjustzpduthread.h"
 
 class DataTableWid : public ComTableWid
 {

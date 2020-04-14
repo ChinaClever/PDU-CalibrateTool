@@ -30,7 +30,6 @@ private:
     Ui::SerialStatusWid *ui;
 
     bool mEnable;
-   // sTestConfigItem *mItem;
     SerialPortDlg *mSerialDlg;
 };
 

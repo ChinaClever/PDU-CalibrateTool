@@ -16,7 +16,9 @@ public:
     ~ModeSelectWid();
 
 protected:
-    void initData();
+    bool initData();
+    void setEnablWid(bool en);
+    void endFun();
 
 private slots:
     void timeoutDone();
@@ -28,6 +30,9 @@ private:
     sDataUnit *mData;
     sConfigItem *mItem;
     QTimer *timer;
+
+    AdjustMpduThread *mMpduThread;
+    AdjustZpduThread *mZpduThread;
 };
 
 #endif // MODESELECTWID_H

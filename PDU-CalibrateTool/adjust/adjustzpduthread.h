@@ -15,11 +15,12 @@ signals:
 protected:
     bool startActivationCmd();
     bool resActivationCmd();
-    int openSwitch();
+    int openAllSwitch();
 
     bool recvZpduVolCur(uchar *recv, int len);
     bool getZpduVolCur();
-
+    bool readPduData();
+    void clearPduEle();
 };
 
 #endif // ADJUSTZPDUTHREAD_H

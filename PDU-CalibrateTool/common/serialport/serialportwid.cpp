@@ -14,7 +14,7 @@ SerialPortWid::SerialPortWid(QWidget *parent) :
 {
     ui->setupUi(this);
     mSerialPort = new SerialPort(this);
-    QTimer::singleShot(150,this,SLOT(statusSlot())); //延时初始化
+    QTimer::singleShot(50,this,SLOT(statusSlot())); //延时初始化
 
     initSerialPort();
     initWidget();

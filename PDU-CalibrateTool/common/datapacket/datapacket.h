@@ -32,6 +32,8 @@ struct sDataUnit
     uchar sw[PACK_ARRAY_SIZE]; // 开关状态 0 表示未启用
 
     uchar hz; // 电压频率
+    uchar version;
+    uchar chipStatus;
     uint activePow[PACK_ARRAY_SIZE]; // 有功功率值
     uchar status[PACK_ARRAY_SIZE];
 };

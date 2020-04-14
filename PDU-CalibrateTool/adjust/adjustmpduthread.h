@@ -15,14 +15,16 @@ signals:
 protected:
     bool resActivationCmd();
     bool startActivationCmd();
-    int openSwitch();
+    int openAllSwitch();
 
     bool recvMpduVolCur(uchar *recv, int);
     bool getMpduVolCur();
 
     bool recvMpduEle(uchar *recv, int);
-    void getMpduEle();
+    int getMpduEle();
     bool readPduData();
+
+    void clearPduEle();
 };
 
 #endif // ADJUSTMPDUTHREAD_H

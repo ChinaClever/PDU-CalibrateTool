@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>359</height>
+    <height>341</height>
    </rect>
   </property>
   <property name="font">
@@ -185,6 +185,9 @@
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -234,7 +237,7 @@
      <x>10</x>
      <y>270</y>
      <width>981</width>
-     <height>83</height>
+     <height>71</height>
     </rect>
    </property>
    <property name="title">
@@ -407,11 +410,27 @@
      <x>460</x>
      <y>20</y>
      <width>521</width>
-     <height>231</height>
+     <height>201</height>
     </rect>
    </property>
    <property name="text">
     <string>未开始</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="resLab">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>240</y>
+     <width>521</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string> 总电流：---      总功率：---</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>

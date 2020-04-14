@@ -1,6 +1,6 @@
 #include "serialstatuswid.h"
 #include "ui_serialstatuswid.h"
-#include "configbase.h"
+#include "adjustconfig.h"
 
 SerialStatusWid::SerialStatusWid(QWidget *parent) :
     QWidget(parent),
@@ -51,10 +51,10 @@ void SerialStatusWid::on_comBtn_clicked()
 bool SerialStatusWid::initSerialPort()
 {
     bool ret = false;
-
     mSerialDlg = new SerialPortDlg(this);
-    SerialPort *serial = getSerialPort();
-    QString com = ConfigBase::bulid()->getSerialName();
+    sConfigItem *item = AdjustConfig::bulid()->item;
+    SerialPort *serial = item->serial = getSerialPort();
+    QString com = AdjustConfig::bulid()->getSerialName();
     if(!com.isEmpty())
     {
         ret = serial->isContains(com);
@@ -77,9 +77,8 @@ void SerialStatusWid::updateSerialWid()
     QPalette pe;
     SerialPort *serial = mSerialDlg->getSerialPort();
     QString str = serial->getSerialName();
-
     if(serial->isOpened()) {
-        ConfigBase::bulid()->setSerialName(str);
+        AdjustConfig::bulid()->setSerialName(str);
         str += tr(" 已打开");
         pe.setColor(QPalette::WindowText,Qt::black);
     } else {

@@ -24,14 +24,14 @@ bool AdjustMpduThread::resActivationCmd()
 
 bool AdjustMpduThread::startActivationCmd()
 {
-    sendActivationCmd();
+    sendActivateCmd();
     sendModeCmd();
     sendGainCmd();
 
     return resActivationCmd();
 }
 
-int AdjustMpduThread::openSwitch()
+int AdjustMpduThread::openAllSwitch()
 {
     static uchar buf[256] = {0};
     uchar cmd[] = {0x7B, 0xC1, 0x01, 0x15, 0xA1,
@@ -131,7 +131,7 @@ bool AdjustMpduThread::recvMpduEle(uchar *recv, int)
     return ret;
 }
 
-void AdjustMpduThread::getMpduEle()
+int AdjustMpduThread::getMpduEle()
 {
     static uchar recv[256] = {0};
     static uchar cmd[] = {0x7B, 0xE1, 0x01, 0x10, 0x00,
@@ -147,10 +147,24 @@ void AdjustMpduThread::getMpduEle()
     } else {
         qDebug() << "AdjustCoreThread getMpduVolCur err!";
     }
+    return ret;
 }
 
 bool AdjustMpduThread::readPduData()
 {
     getMpduEle();
     return getMpduVolCur();
+}
+
+void AdjustMpduThread::clearPduEle()
+{
+    static uchar recv[256] = {0};
+    static uchar cmd[] = {0x7B, 0xC1, 0x01, 0x15, 0xD1,
+                          0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
+                          0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+                          0x00, 0x00, 0x00, 0xCC};
+
+    cmd[2] = mItem->addr;
+    cmd[20] = getXorNumber(cmd,sizeof(cmd)-1);
+    transmit(cmd, sizeof(cmd), recv, 1);
 }
