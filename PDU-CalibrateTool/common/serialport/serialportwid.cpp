@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 串口窗口
  *
  *  Created on: 2018年1月1日
@@ -93,18 +93,18 @@ void SerialPortWid::updateBtnSlot()
     InfoMsgBox box(this, tr("串口刷新成功"));
 }
 
-void SerialPortWid::on_loopBtn_clicked()
-{
-    if(mSerialPort->isOpened())
-    {
-        bool ret = mSerialPort->loopTest();
-        if(ret) {
-            InfoMsgBox box(this, tr("串口:%1回环测试成功").arg(mSerialPort->getSerialName()));
-        } else {
-            CriticalMsgBox box(this, tr("串口:%1回环测试失败").arg(mSerialPort->getSerialName()));
-        }
-    } else {
-        CriticalMsgBox box(this, tr("请先打开串口"));
-    }
-}
+//void SerialPortWid::on_loopBtn_clicked()
+//{
+//    if(mSerialPort->isOpened())
+//    {
+//        bool ret = mSerialPort->loopTest();
+//        if(ret) {
+//            InfoMsgBox box(this, tr("串口:%1回环测试成功").arg(mSerialPort->getSerialName()));
+//        } else {
+//            CriticalMsgBox box(this, tr("串口:%1回环测试失败").arg(mSerialPort->getSerialName()));
+//        }
+//    } else {
+//        CriticalMsgBox box(this, tr("请先打开串口"));
+//    }
+//}
 

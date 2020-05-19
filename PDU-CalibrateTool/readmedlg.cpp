@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -25,13 +25,15 @@ ReadMeDLg::~ReadMeDLg()
 void ReadMeDLg::initText()
 {
     QFile file("readme.txt");
-    bool ret = file.open(QIODevice::ReadOnly | QIODevice::Text);
+    bool ret = file.exists();
+    ret = file.open(QIODevice::ReadOnly | QIODevice::Text);
     if(ret) {
         QTextStream in(&file);
         while (!in.atEnd()) {
             QString line = in.readLine();
             ui->textEdit->append(line);
         }
+        file.close();
     } else {
         qDebug() << "open readme.txt err";
     }

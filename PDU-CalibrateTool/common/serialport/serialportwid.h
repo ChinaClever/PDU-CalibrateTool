@@ -1,4 +1,4 @@
-#ifndef SERIALPORTWID_H
+﻿#ifndef SERIALPORTWID_H
 #define SERIALPORTWID_H
 
 #include <QWidget>
@@ -31,8 +31,8 @@ protected slots:
     void updateBtnSlot();
     void openSerialSlot();
 
-private slots:
-    void on_loopBtn_clicked();
+//private slots:
+//    void on_loopBtn_clicked();
 
 private:
     Ui::SerialPortWid *ui;
