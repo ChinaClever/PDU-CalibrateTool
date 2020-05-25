@@ -18,9 +18,9 @@ public:
     bool checkSerial();
     void disEnable() {mEnable=false;}
     SerialPort *getSerialPort(){return mSerialDlg->getSerialPort();}
+    SerialPort *initSerialPort(const QString &str, qint32 baudRate = QSerialPort::Baud19200);
 
 protected:
-    bool initSerialPort();
     void updateSerialWid();
 
 private slots:

@@ -9,6 +9,7 @@ AdjustCoreThread::AdjustCoreThread(QObject *parent) : QThread(parent)
 {
     mPacket =sDataPacket::bulid();
     mItem = AdjustConfig::bulid()->item;
+    mSource = StandardSource::bulid(this);
     mSerial = mItem->serial;
     mData = mPacket->data;
     isRun = false;
@@ -279,6 +280,8 @@ void AdjustCoreThread::workDown()
 {
     mPacket->pass = 0;
     mPacket->status = tr("正在校准");
+    mSource->powerReset();
+
     bool ret = startActivationCmd();
     if(ret) { // 校准成功
         mPacket->status = tr("等待重启!"); delay(1300);
@@ -287,6 +290,7 @@ void AdjustCoreThread::workDown()
     }
 
     workResult(ret);
+    mSource->powerDown();
 }
 
 void AdjustCoreThread::run()

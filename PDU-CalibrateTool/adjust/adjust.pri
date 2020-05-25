@@ -7,6 +7,7 @@ HEADERS +=  \
     $$PWD/adjustmpduthread.h \
     $$PWD/adjustzpduthread.h \
     $$PWD/datatablewid.h \
+    $$PWD/standardsource.h \
     $$PWD/modeselectwid.h
     
 SOURCES +=    \
@@ -15,6 +16,7 @@ SOURCES +=    \
     $$PWD/adjustmpduthread.cpp \
     $$PWD/adjustzpduthread.cpp \
     $$PWD/datatablewid.cpp \
+    $$PWD/standardsource.cpp \
     $$PWD/modeselectwid.cpp
    
 FORMS +=  \

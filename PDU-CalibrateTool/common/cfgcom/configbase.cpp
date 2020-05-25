@@ -24,10 +24,10 @@ ConfigBase *ConfigBase::bulid()
  * @brief 获取串口名称
  * @return 串口名
  */
-QString ConfigBase::getSerialName()
+QString ConfigBase::getSerialName(const QString &com)
 {
     QString prefix = getPrefix();
-    QString str = QString("%1_COM").arg(prefix);
+    QString str = QString("%1_COM_%2").arg(prefix).arg(com);
     return com_cfg_readStr(str, prefix);
 }
 
@@ -35,9 +35,9 @@ QString ConfigBase::getSerialName()
  * @brief 设置串口名
  * @param name
  */
-void ConfigBase::setSerialName(const QString &name)
+void ConfigBase::setSerialName(const QString &name, const QString &com)
 {
     QString prefix = getPrefix();
-    QString str = QString("%1_COM").arg(prefix);
+    QString str = QString("%1_COM_%2").arg(prefix).arg(com);
     com_cfg_write(str, name, prefix);
 }

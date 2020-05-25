@@ -25,5 +25,6 @@ private:
     DataTableWid *mTableWid;
     ModeSelectWid *mModeWid;
     SerialStatusWid *mSerialWid;
+    SerialStatusWid *mSourceWid;
 };
 #endif // MAINWINDOW_H
