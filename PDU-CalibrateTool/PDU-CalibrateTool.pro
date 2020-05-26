@@ -18,12 +18,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 include(common/common.pri)
 include(adjust/adjust.pri)
 
-SOURCES += \
+SOURCES += \    
     main.cpp \
     mainwindow.cpp \
     readmedlg.cpp
 
-HEADERS += \
+HEADERS += \    
     mainwindow.h \
     readmedlg.h
 

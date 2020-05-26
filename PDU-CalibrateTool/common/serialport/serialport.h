@@ -22,6 +22,7 @@ public:
     QString getSerialName();
     bool isContains(const QString &name);
 
+    int send(const QByteArray &array);
     int write(const QByteArray &array);
     int write(uchar *sent, int len);
 

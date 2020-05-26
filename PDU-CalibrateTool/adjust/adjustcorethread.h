@@ -3,7 +3,7 @@
 
 #include "datapacket.h"
 #include "adjustconfig.h"
-
+#include "standardsource.h"
 
 class AdjustCoreThread : public QThread
 {
@@ -52,6 +52,7 @@ protected:
     sConfigItem *mItem;
     SerialPort *mSerial;
     sDataPacket *mPacket;
+    StandardSource *mSource;
 };
 
 #endif // ADJUSTCORETHREAD_H

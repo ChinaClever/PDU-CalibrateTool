@@ -20,6 +20,7 @@ struct sConfigItem
 {
     sConfigItem() {step=0;}
     SerialPort *serial; // 串口对象
+    SerialPort *source; // 标准源
 
     int step; // 步骤
     int devType; // 执行板类型
@@ -37,6 +38,9 @@ class AdjustConfig : public ConfigBase
 public:
     static AdjustConfig *bulid();
      sConfigItem *item;
+
+     double getValue(const QString &name);
+     void setValue(double value, const QString &name);
 };
 
 #endif // ADJUSTCONFIG_H

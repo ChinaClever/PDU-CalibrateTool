@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>PDU校准软件</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="images/image.qrc">
+    <normaloff>:/image/logo.jpg</normaloff>:/image/logo.jpg</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="readmeBtn">
     <property name="geometry">
@@ -36,7 +40,7 @@
    <widget class="QWidget" name="serialWid" native="true">
     <property name="geometry">
      <rect>
-      <x>750</x>
+      <x>640</x>
       <y>10</y>
       <width>270</width>
       <height>60</height>
@@ -85,8 +89,20 @@
      </rect>
     </property>
    </widget>
+   <widget class="QWidget" name="sourceWid" native="true">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>10</y>
+      <width>270</width>
+      <height>60</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="images/image.qrc"/>
+ </resources>
  <connections/>
 </ui>

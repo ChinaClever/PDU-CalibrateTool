@@ -7,7 +7,6 @@ SerialStatusWid::SerialStatusWid(QWidget *parent) :
     ui(new Ui::SerialStatusWid)
 {
     ui->setupUi(this);
-    initSerialPort();
     mEnable = false;
 }
 
@@ -48,23 +47,23 @@ void SerialStatusWid::on_comBtn_clicked()
  * @brief 初始化串口
  * @return
  */
-bool SerialStatusWid::initSerialPort()
+SerialPort *SerialStatusWid::initSerialPort(const QString &str, qint32 baudRate)
 {
     bool ret = false;
+    ui->comBtn->setText(str);
     mSerialDlg = new SerialPortDlg(this);
-    sConfigItem *item = AdjustConfig::bulid()->item;
-    SerialPort *serial = item->serial = getSerialPort();
-    QString com = AdjustConfig::bulid()->getSerialName();
+    SerialPort *serial = getSerialPort();
+    QString com = AdjustConfig::bulid()->getSerialName(str);
     if(!com.isEmpty())
     {
         ret = serial->isContains(com);
         if(ret) {
-            ret = serial->open(com);
+            ret = serial->open(com, baudRate);
             updateSerialWid();
         }
     }
 
-    return ret;
+    return serial;
 }
 
 
@@ -74,11 +73,12 @@ bool SerialStatusWid::initSerialPort()
  */
 void SerialStatusWid::updateSerialWid()
 {
-    QPalette pe;
+    QPalette pe;   
     SerialPort *serial = mSerialDlg->getSerialPort();
     QString str = serial->getSerialName();
     if(serial->isOpened()) {
-        AdjustConfig::bulid()->setSerialName(str);
+        QString com = ui->comBtn->text();
+        AdjustConfig::bulid()->setSerialName(str, com);
         str += tr(" 已打开");
         pe.setColor(QPalette::WindowText,Qt::black);
     } else {

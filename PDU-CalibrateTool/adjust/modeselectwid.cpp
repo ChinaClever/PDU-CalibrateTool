@@ -66,6 +66,8 @@ void ModeSelectWid::setEnablWid(bool en)
 {
     ui->groupBox_1->setEnabled(en);
     ui->groupBox_3->setEnabled(en);
+    ui->downBtn->setEnabled(en);
+    ui->onBtn->setEnabled(en);
     // if(!ui->modeBox->currentIndex())
     //   ui->groupBox_2->setEnabled(en);
 }
@@ -135,3 +137,26 @@ void ModeSelectWid::timeoutDone()
         endFun();
     }
 }
+
+void ModeSelectWid::on_onBtn_clicked()
+{
+    QuMsgBox box(this, tr("是否需要校准上电?"));
+    if(!box.Exec()) return;
+
+    int ret = StandardSource::bulid(this)->powerOn();
+    if(ret <= 0) {
+        CriticalMsgBox box(this, tr("标准源上电失败!"));
+    }
+}
+
+void ModeSelectWid::on_downBtn_clicked()
+{
+    QuMsgBox box(this, tr("是否需要校准下电?"));
+    if(!box.Exec()) return;
+
+    int ret = StandardSource::bulid(this)->powerDown();
+    if(ret <= 0) {
+        CriticalMsgBox box(this, tr("标准源下电失败!"));
+    }
+}
+

@@ -15,7 +15,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     groupBox_background_icon(this);
 
+    sConfigItem *item = AdjustConfig::bulid()->item;
     mSerialWid = new SerialStatusWid(ui->serialWid);
+    item->serial = mSerialWid->initSerialPort(tr("校准源"), 19200);
+
+    mSourceWid = new SerialStatusWid(ui->sourceWid);
+    item->source = mSourceWid->initSerialPort(tr("标准源"), 9600);
+
     mTableWid = new DataTableWid(ui->tableWid);
     mModeWid = new ModeSelectWid(ui->modeWid);
 }

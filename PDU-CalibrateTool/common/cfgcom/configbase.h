@@ -9,9 +9,8 @@ public:
     ConfigBase();
     static ConfigBase *bulid();
 
-    QString getSerialName();
-    void setSerialName(const QString &name);
-
+    QString getSerialName(const QString &com="");
+    void setSerialName(const QString &name, const QString &com="");
 
     virtual QString getPrefix(){return "con";}
 };
