@@ -116,7 +116,7 @@ bool SerialPort::isContains(const QString &name)
 void SerialPort::timeoutDone()
 {
     if(isOpen) {
-    QWriteLocker locker(&mRwLock);
+        QWriteLocker locker(&mRwLock);
         if(mWriteArray.size()) {
             int ret = write();
             QString str = mWriteArray;
@@ -131,18 +131,23 @@ void SerialPort::timeoutDone()
     }
 }
 
-int SerialPort::write()
+int SerialPort::send(const QByteArray &array)
 {
     int len=0;
 
     if(isOpen) {
-        len = mSerial->write(mWriteArray);
+        len = mSerial->write(array);
         if(len > 0) {
             mSerial->flush();
         }
     }
 
     return len;
+}
+
+int SerialPort::write()
+{
+    return send(mWriteArray);
 }
 
 
@@ -250,7 +255,6 @@ void SerialPort::serialReadSlot(void)
  */
 int SerialPort::transmit(const QByteArray &witeArray, QByteArray &readArray, int msecs)
 {
-
     int ret = write(witeArray);
     if(ret > 0) {
         ret = read(readArray, msecs);

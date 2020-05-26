@@ -20,8 +20,8 @@ int StandardSource::write(QByteArray &array)
     if(mSerial) {
         array.append(0x0D);
         if(mSerial->isOpened()) {
-            ret = mSerial->write(array);
-            msleep(350);
+            ret = mSerial->send(array);
+            msleep(450);
         }
     }
 

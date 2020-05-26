@@ -38,6 +38,9 @@ class AdjustConfig : public ConfigBase
 public:
     static AdjustConfig *bulid();
      sConfigItem *item;
+
+     double getValue(const QString &name);
+     void setValue(double value, const QString &name);
 };
 
 #endif // ADJUSTCONFIG_H

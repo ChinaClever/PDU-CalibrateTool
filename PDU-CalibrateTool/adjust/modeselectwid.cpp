@@ -159,3 +159,4 @@ void ModeSelectWid::on_downBtn_clicked()
         CriticalMsgBox box(this, tr("标准源下电失败!"));
     }
 }
+
