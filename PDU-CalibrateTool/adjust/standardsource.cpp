@@ -65,5 +65,6 @@ int StandardSource::powerOn()
 void StandardSource::powerReset()
 {
     powerDown();
+    msleep(500);
     powerOn();
 }
