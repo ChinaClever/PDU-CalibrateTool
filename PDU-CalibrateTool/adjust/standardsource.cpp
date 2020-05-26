@@ -21,37 +21,45 @@ int StandardSource::write(QByteArray &array)
         array.append(0x0D);
         if(mSerial->isOpened()) {
             ret = mSerial->write(array);
-             msleep(350);
+            msleep(350);
         }
     }
 
     return ret;
 }
 
-void StandardSource::setRange()
+int StandardSource::setRange()
 {
     QByteArray array = "I0 220 6 15 1200";
-    write(array);
+    return write(array);
 }
 
-void StandardSource::powerDown()
+int StandardSource::powerDown()
 {
-    setRange();
-    QByteArray array = "V0";
-    write(array);
+    int ret = setRange();
+    if(ret > 0) {
+        QByteArray array = "V0";
+        write(array);
 
-    array = "A0";
-    write(array);
+        array = "A0";
+        write(array);
+    }
+
+    return ret;
 }
 
-void StandardSource::powerOn()
+int StandardSource::powerOn()
 {
-    setRange();
-    QByteArray array = "V100";
-    write(array);
+    int ret = setRange();
+    if(ret > 0) {
+        QByteArray array = "V100";
+        write(array);
 
-    array = "A100";
-    write(array);
+        array = "A100";
+        write(array);
+    }
+
+    return ret;
 }
 
 void StandardSource::powerReset()

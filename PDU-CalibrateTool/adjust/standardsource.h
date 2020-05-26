@@ -10,12 +10,12 @@ class StandardSource : public QThread
 public:
     static StandardSource *bulid(QObject *parent = nullptr);
 
-    void powerOn();  // 上电
-    void powerDown(); // 下电
+    int powerOn();  // 上电
+    int powerDown(); // 下电
     void powerReset(); //
 
 protected:
-    void setRange();
+    int setRange();
     int write(QByteArray &array);
 
 signals:

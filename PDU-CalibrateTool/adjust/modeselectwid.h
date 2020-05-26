@@ -25,6 +25,10 @@ private slots:
     void on_startBtn_clicked();
     void on_modeBox_currentIndexChanged(int index);
 
+    void on_onBtn_clicked();
+
+    void on_downBtn_clicked();
+
 private:
     Ui::ModeSelectWid *ui;
     sDataUnit *mData;

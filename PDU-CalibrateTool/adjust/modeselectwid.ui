@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>341</height>
+    <height>374</height>
    </rect>
   </property>
   <property name="font">
@@ -191,9 +191,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>190</y>
+     <y>200</y>
      <width>401</width>
-     <height>61</height>
+     <height>74</height>
     </rect>
    </property>
    <property name="title">
@@ -234,8 +234,8 @@
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>270</y>
+     <x>0</x>
+     <y>280</y>
      <width>981</width>
      <height>71</height>
     </rect>
@@ -407,10 +407,10 @@
   <widget class="QLabel" name="statusLab">
    <property name="geometry">
     <rect>
-     <x>460</x>
+     <x>490</x>
      <y>20</y>
-     <width>521</width>
-     <height>201</height>
+     <width>451</width>
+     <height>121</height>
     </rect>
    </property>
    <property name="text">
@@ -423,8 +423,8 @@
   <widget class="QLabel" name="resLab">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>240</y>
+     <x>470</x>
+     <y>150</y>
      <width>521</width>
      <height>30</height>
     </rect>
@@ -434,6 +434,32 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="onBtn">
+   <property name="geometry">
+    <rect>
+     <x>619</x>
+     <y>240</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>标准源上电</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="downBtn">
+   <property name="geometry">
+    <rect>
+     <x>799</x>
+     <y>240</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>标准源下电</string>
    </property>
   </widget>
  </widget>
