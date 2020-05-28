@@ -1,4 +1,4 @@
-#ifndef SERIALPORT_H
+﻿#ifndef SERIALPORT_H
 #define SERIALPORT_H
 
 #include <QSerialPort>
@@ -27,7 +27,7 @@ public:
     int write(uchar *sent, int len);
 
     int read(QByteArray &array, int msecs=1);
-    int read(uchar *recv, int msecs=1);
+    int read(uchar *recvstr, int msecs=1);
 
     int transmit(const QByteArray &witeArray, QByteArray &readArray, int msecs=1);
     int transmit(uchar *sent, int len, uchar *recv, int msecs=1);

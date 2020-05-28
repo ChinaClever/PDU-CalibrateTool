@@ -21,7 +21,7 @@ AdjustMpduThread *AdjustMpduThread::bulid(QObject *parent)
 bool AdjustMpduThread::resActivationCmd()
 {
     uchar cmd[128] = {0};
-    int rtn = mSerial->read(cmd, 1); // 清空串口数据
+    int rtn = mSerial->read(cmd); // 清空串口数据
     rtn = readSerial(cmd, 6);
 
     return resActivateVert(cmd, rtn);

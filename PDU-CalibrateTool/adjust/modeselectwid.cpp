@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -44,9 +44,9 @@ bool ModeSelectWid::initData()
     mItem->step = Test_Start;
     sDataPacket::bulid()->clear();
     if(mItem->devType) {
-        mData->rate = 10;
+        mData->rate = 10.0;
     } else {
-        mData->rate = 1;
+        mData->rate = 1.0;
     }
 
     QString str = tr("总电流：---    总功率：---  ");

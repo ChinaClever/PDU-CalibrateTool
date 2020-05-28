@@ -20,14 +20,10 @@ AdjustZpduThread *AdjustZpduThread::bulid(QObject *parent)
 
 bool AdjustZpduThread::startActivationCmd()
 {
-    qDebug()<<"sendModeCmd" <<endl;
     sendModeCmd();
-    qDebug()<<"sendActivateCmd" <<endl;
     sendActivateCmd();
-    qDebug()<<"sendGainCmd" <<endl;
     sendGainCmd();
 
-    qDebug()<<"resActivationCmd" <<endl;
     return resActivationCmd();
 }
 
@@ -101,14 +97,14 @@ bool AdjustZpduThread::recvZpduVolCur(uchar *recv, int len)
             mData->chipStatus = *ptr++; // 01表示执行版计量芯片模块损坏，00表示正常。
             ptr++;
 
-            for(int i=1; i<op-1; ++i) {
+            for(int i=1; i<mData->size-1; ++i) {
                 mData->vol[i] = (*ptr++) << 8;
                 mData->vol[i] += *ptr++;
             }
 
             for(int i=0; i<op; ++i) {
                 mData->pow[i] = mData->vol[i] * mData->cur[i] * mData->pf[i];
-                mData->pow[i] /= (10 * 100);
+                mData->pow[i] /= (10 * 1000);
             }
 
             ret = true;

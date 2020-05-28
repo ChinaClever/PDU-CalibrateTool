@@ -1,4 +1,4 @@
-#ifndef DATAPACKET_H
+﻿#ifndef DATAPACKET_H
 #define DATAPACKET_H
 #include <QtCore>
 #include <QColor>
@@ -6,7 +6,7 @@
 #define PACK_ARRAY_SIZE 16
 
 // 倍率定义
-#define COM_RATE_VOL	10.0    // 电压
+#define COM_RATE_VOL	1.0    // 电压
 #define COM_RATE_CUR	10.0    // 电流
 #define COM_RATE_POW	1000.0  // 功率
 #define COM_RATE_ELE	10.0    // 电能
@@ -21,7 +21,8 @@
 struct sDataUnit
 {
     sDataUnit() {size=0;}
-    int size, rate;
+    int size;
+    double rate;
     uint vol[PACK_ARRAY_SIZE]; // 电压
     uint cur[PACK_ARRAY_SIZE]; // 电流
 

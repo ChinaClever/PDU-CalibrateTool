@@ -95,8 +95,7 @@ bool AdjustCoreThread::resActivateVert(uchar *cmd, int len)
 
     uchar *ptr = cmd;
     bool ret = true;
-    qDebug()<<"resActivateVert len " <<len<<endl;
-    if(len == 7) {
+    if(len == 143) {
         if(*ptr++ == mItem->addr) {
             for(int i=0; i<5; ++i) {
                 if(*ptr++ != recvCmd[i])  {
@@ -198,7 +197,7 @@ bool AdjustCoreThread::curAllAdjust()
 {
     int cur = 0;
     for(int i=0; i<mData->size; ++i) {
-        cur += mData->cur[i];
+        cur += mData->cur[i]/(mData->rate*COM_RATE_CUR);
     }
 
     int min = mItem->cur - mItem->curErr;
@@ -217,7 +216,7 @@ bool AdjustCoreThread::curOneAdjust()
 
     bool ret = true;
     for(int i=0; i<mData->size; ++i) {
-        int cur = mData->cur[i] / mData->rate;
+        int cur = mData->cur[i] / (mData->rate*COM_RATE_CUR);
         if((cur >= min) && (cur <= max)) {
             mData->status[i] = 1;
         } else {
@@ -236,7 +235,7 @@ bool AdjustCoreThread::volAdjust()
 
     bool ret = true;
     for(int i=0; i<mData->size; ++i) {
-        int vol = mData->vol[i] * mData->rate;
+        int vol = mData->vol[i] / mData->rate;
         if((vol >= min) && (vol <= max)) {
             mData->status[i] = 1;
         } else {
@@ -295,7 +294,7 @@ void AdjustCoreThread::workDown()
 
     bool ret = startActivationCmd();
     if(ret) { // 校准成功
-        mPacket->status = tr("等待重启!"); delay(1300);
+        mPacket->status = tr("等待重启!"); delay(5);
         openAllSwitch();
         ret = pduAdjust();
     }

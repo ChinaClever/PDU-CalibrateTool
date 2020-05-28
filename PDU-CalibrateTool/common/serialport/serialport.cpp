@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 对串口的常用操作：打开、读、写、关闭
  *
  *  Created on: 2018年1月1日
@@ -218,13 +218,13 @@ int SerialPort::read(QByteArray &array, int msecs)
     return len;
 }
 
-int SerialPort::read(uchar *recv, int msecs)
+int SerialPort::read(uchar *recvstr, int msecs)
 {
     QByteArray array;
     int ret = read(array, msecs);
     if(ret < SERIAL_LEN) {
         for(int i=0; i<ret; ++i)
-            recv[i] = array.at(i);
+            recvstr[i] = array.at(i);
     } else {
         qDebug() << "SerialPort read too long :" << ret;
         ret = 0;

@@ -27,10 +27,10 @@ void DataTableWid::appendItem(sDataUnit *unit)
         QStringList listStr;
 
         if(unit->sw) listStr << tr("开"); else listStr << tr("关");
-        listStr << QString::number(unit->cur[i]/(unit->rate * COM_RATE_CUR));
-        listStr << QString::number(unit->vol[i]/(unit->rate * COM_RATE_VOL));
-        listStr << QString::number(unit->pow[i]/(unit->rate * COM_RATE_POW));
-        listStr << QString::number(unit->ele[i]/(unit->rate * COM_RATE_ELE));
+        listStr << QString::number(unit->cur[i]/(unit->rate * COM_RATE_CUR),'f',2)+"A";
+        listStr << QString::number(unit->vol[i]/(unit->rate),'f',1)+"V";
+        listStr << QString::number(unit->pow[i]/(unit->rate * COM_RATE_POW),'f',4)+"Kw";
+        listStr << QString::number(unit->ele[i]/(unit->rate * COM_RATE_ELE),'f',2)+"Kwh";
 
         switch (unit->status[i]) {
         case 0: listStr << " "; break;
