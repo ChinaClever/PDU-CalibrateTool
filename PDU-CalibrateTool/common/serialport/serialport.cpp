@@ -117,12 +117,10 @@ void SerialPort::timeoutDone()
 {
     if(isOpen) {
         QWriteLocker locker(&mRwLock);
-        if(mWriteArray.size()) {
+        if(mWriteArrays.size()) {
             int ret = write();
-            QString str = mWriteArray;
-            //qDebug()<<str<<mWriteArray.size()<<mWriteArray.toHex();
             if(ret) {
-                mWriteArray.clear();
+                mWriteArrays.removeFirst();
                 mSerialData.clear();
             }
         } else {
@@ -147,7 +145,7 @@ int SerialPort::send(const QByteArray &array)
 
 int SerialPort::write()
 {
-    return send(mWriteArray);
+    return send(mWriteArrays.first());
 }
 
 
@@ -158,8 +156,15 @@ int SerialPort::write()
  */
 int SerialPort::write(const QByteArray &array)
 {
-    mWriteArray = array;
-    return mWriteArray.size();
+    int ret = array.size();
+    if(isOpen) {
+        mWriteArrays.append(array);
+    } else {
+        ret = 0;
+        mWriteArrays.clear();
+    }
+
+    return ret;
 }
 
 int SerialPort::write(uchar *sent, int len)
@@ -233,7 +238,11 @@ int SerialPort::read(uchar *recvstr, int msecs)
     return ret;
 }
 
-
+void SerialPort::reflush()
+{
+    msleep(100);
+    mSerialData.clear();
+}
 
 /**
  * @brief 串口接收糟函数

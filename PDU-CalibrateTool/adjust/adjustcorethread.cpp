@@ -161,6 +161,71 @@ void AdjustCoreThread::sendGainCmd()
 
 
 
+void AdjustCoreThread::openAllSwitch()
+{
+    uchar on[8], off[8];
+    for(int i=0; i<6; i++)  on[i] = 0xFF;  //打开有效位
+    for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
+
+    funSwitch(on, off);
+}
+
+void AdjustCoreThread::setBitControl(int id, uchar *buf)
+{
+    int index = (mData->size * (mItem->addr-1) +id) / 8;
+    int key = (mData->size * (mItem->addr-1) +id) % 8 ;
+    buf[index] |= 0x80 >> key;
+}
+
+void AdjustCoreThread::openOutputSwitch(int id)
+{
+    uchar on[8], off[8];
+    for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
+    for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
+
+    setBitControl(id, on);
+    funSwitch(on, off);
+}
+
+
+void AdjustCoreThread::closeAllSwitch()
+{
+    uchar on[8], off[8];
+    for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
+    for(int i=0; i<6; i++)  off[i] = 0xff;  //关闭有效位
+
+    funSwitch(on, off);
+}
+
+
+void AdjustCoreThread::closeOutputSwitch(int id)
+{
+    uchar on[8], off[8];
+    for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
+    for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
+
+    setBitControl(id, off);
+    funSwitch(on, off);
+}
+
+
+void AdjustCoreThread::clearAllEle()
+{
+    uchar cmd[8];
+    for(int i=0; i<6; i++) cmd[i] = 0xFF;
+    funClearEle(cmd);
+}
+
+
+
+void AdjustCoreThread::setClearEle(int id)
+{
+    uchar cmd[8];
+    for(int i=0; i<6; i++) cmd[i] = 0;
+
+    setBitControl(id, cmd);
+    funClearEle(cmd);
+}
 
 
 quint8 AdjustCoreThread::getXorNumber(quint8 *data,int len)
@@ -176,15 +241,15 @@ quint8 AdjustCoreThread::getXorNumber(quint8 *data,int len)
 bool AdjustCoreThread::pduAdjust()
 {
     bool ret = true;
-    for(int i=0; i<5; ++i) {
+    for(int i=0; i<4; ++i) {
         mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
         readPduData();
         ret = dataAdjust();
         if(ret) {
-            clearPduEle();
+            clearAllEle();
             break;
         } else {
-            ret = delay(1);
+            ret = delay(2);
             if(!ret) break;
         }
     }
@@ -310,7 +375,7 @@ void AdjustCoreThread::collectData()
 {
     while(mItem->step != Test_Over) {
          readPduData();
-         delay(1);
+         delay(2);
     }
 }
 

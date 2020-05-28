@@ -21,8 +21,8 @@ AdjustMpduThread *AdjustMpduThread::bulid(QObject *parent)
 bool AdjustMpduThread::resActivationCmd()
 {
     uchar cmd[128] = {0};
-    int rtn = mSerial->read(cmd); // 清空串口数据
-    rtn = readSerial(cmd, 6);
+    mSerial->reflush(); // 清空串口数据
+    int rtn = readSerial(cmd, 6);
 
     return resActivateVert(cmd, rtn);
 }
@@ -31,26 +31,27 @@ bool AdjustMpduThread::startActivationCmd()
 {
     sendActivateCmd();
     sendModeCmd();
-    //sendGainCmd();
+    sendGainCmd();
 
     return resActivationCmd();
 }
 
-int AdjustMpduThread::openAllSwitch()
+void AdjustMpduThread::funSwitch(uchar *on, uchar *off)
 {
-    static uchar buf[256] = {0};
     uchar cmd[] = {0x7B, 0xC1, 0x01, 0x15, 0xA1,
                    0xFF, 0xFF, 0xFF, 0xC7, 0xC8, 0xC9,
                    0x00, 0x00, 0x00, 0xD7, 0xD8, 0xD9,
                    0x00, 0x01, 0x00, 0xCC};
 
+    for(int i=0; i<3; ++i) {
+        cmd[5+i] = on[i];
+        cmd[11+i] = off[i];
+    }
+
     cmd[18] = cmd[2] = mItem->addr;
     cmd[20] = getXorNumber(cmd,sizeof(cmd)-1);
-
-    return transmit(cmd, sizeof(cmd), buf, 1);
+    writeSerial(cmd, sizeof(cmd));
 }
-
-
 
 
 bool AdjustMpduThread::recvMpduVolCur(uchar *recv, int)
@@ -161,15 +162,17 @@ bool AdjustMpduThread::readPduData()
     return getMpduVolCur();
 }
 
-void AdjustMpduThread::clearPduEle()
+
+void AdjustMpduThread::funClearEle(uchar *buf)
 {
-    static uchar recv[256] = {0};
     static uchar cmd[] = {0x7B, 0xC1, 0x01, 0x15, 0xD1,
                           0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00,
                           0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
                           0x00, 0x00, 0x00, 0xCC};
 
+    for(int i=0; i<3; i++) cmd[5+i] = buf[i];
     cmd[2] = mItem->addr;
     cmd[20] = getXorNumber(cmd,sizeof(cmd)-1);
-    transmit(cmd, sizeof(cmd), recv, 1);
+    writeSerial(cmd, sizeof(cmd));
 }
+

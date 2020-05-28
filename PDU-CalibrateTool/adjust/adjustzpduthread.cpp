@@ -29,8 +29,9 @@ bool AdjustZpduThread::startActivationCmd()
 
 bool AdjustZpduThread::resActivationCmd()
 {
+    int rtn = 0;
     uchar cmd[128] = {0};
-    int rtn = mSerial->read(cmd, 1); // 清空串口数据
+    mSerial->reflush(); // 清空串口数据
 
     for(int i=0; i<3; ++i) {
         rtn = readSerial(cmd, 6);
@@ -41,14 +42,13 @@ bool AdjustZpduThread::resActivationCmd()
 }
 
 
-int AdjustZpduThread::openAllSwitch()
+void AdjustZpduThread::funSwitch(uchar *on, uchar *off)
 {
     int k = 5;
-    static uchar buf[256] = {0};
     static uchar cmd[68] = {0x7B, 0xC1, 0x00, 0xA2, 0xB2};
 
-    for(int i=0; i<6; i++)  cmd[k++] = 0xFF;  //打开有效位
-    for(int i=0; i<6; i++)  cmd[k++] = 0x00;  //关闭有效位
+    for(int i=0; i<6; i++)  cmd[k++] = on[i];  //打开有效位
+    for(int i=0; i<6; i++)  cmd[k++] = off[i];  //关闭有效位
 
     //预留位
     for(int i=0; i<3; i++)  cmd[k++] = 0xC7 + i;
@@ -59,9 +59,10 @@ int AdjustZpduThread::openAllSwitch()
     for(int i=0; i<3; i++)  cmd[k++] = 0x0E;
     cmd[k++] = 0x44;
     cmd[k] = getXorNumber(cmd,sizeof(cmd)-1);
-
-    return transmit(cmd, sizeof(cmd), buf, 1);
+    writeSerial(cmd, sizeof(cmd));
 }
+
+
 
 bool AdjustZpduThread::recvZpduVolCur(uchar *recv, int len)
 {
@@ -141,16 +142,18 @@ bool AdjustZpduThread::readPduData()
     return getZpduVolCur();
 }
 
-void AdjustZpduThread::clearPduEle()
+
+void AdjustZpduThread::funClearEle(uchar *buf)
 {
     int k = 5;
-    static uchar recv[256] = {0};
     static uchar cmd[68] = {0x7B, 0xC1, 0x00, 0xA4, 0xB4};
 
-    for(int i=0; i<6; i++) cmd[k++] = 0xFF;
+    for(int i=0; i<6; i++) cmd[k++] = buf[i];
     for(int i=0; i<52; i++) cmd[k++] = 0x00;  //预留位
     for(int i=0; i<3; i++) cmd[k++] = 0x0E;
     cmd[k++] = 0x44;
     cmd[k] = getXorNumber(cmd,sizeof(cmd)-1); //异或校验码
-    transmit(cmd, sizeof(cmd), recv, 1);
+    writeSerial(cmd, sizeof(cmd));
 }
+
+

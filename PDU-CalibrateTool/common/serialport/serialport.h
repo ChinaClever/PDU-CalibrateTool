@@ -18,6 +18,7 @@ public:
     bool isOpened(){return isOpen;}
     bool close(void);
 
+    void reflush();
     QStringList getList();
     QString getSerialName();
     bool isContains(const QString &name);
@@ -50,7 +51,8 @@ private:
 
     QTimer *timer;
     QReadWriteLock  mRwLock;
-    QByteArray mWriteArray, mSerialData;
+    QByteArray mSerialData;
+    QList<QByteArray> mWriteArrays;
 };
 
 #endif // SERIALPORT_H
