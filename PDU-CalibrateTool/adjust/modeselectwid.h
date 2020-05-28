@@ -2,6 +2,7 @@
 #define MODESELECTWID_H
 
 #include "datatablewid.h"
+#include "errorrangedlg.h"
 
 namespace Ui {
 class ModeSelectWid;
@@ -26,6 +27,10 @@ private slots:
     void on_modeBox_currentIndexChanged(int index);
     void on_onBtn_clicked();
     void on_downBtn_clicked();
+    void on_errBtn_clicked();
+    void on_deBtn_clicked();
+
+    void on_reBtn_clicked();
 
 private:
     Ui::ModeSelectWid *ui;
@@ -33,6 +38,8 @@ private:
     sConfigItem *mItem;
     QTimer *timer;
 
+    ErrorRangeDlg *mRangeDlg;
+    AdjustCoreThread *mCoreThread;
     AdjustMpduThread *mMpduThread;
     AdjustZpduThread *mZpduThread;
 };

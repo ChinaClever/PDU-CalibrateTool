@@ -11,6 +11,8 @@ enum {
     Test_End, // 完成
     Test_Over, // 终止
 
+    Collect_Start,
+
     Test_Result_Wid,
     Test_Items_Wid,
     Test_Datas_Wid
