@@ -162,6 +162,10 @@ void ModeSelectWid::on_reBtn_clicked()
     if(mItem->step != Collect_Start) {
         mItem->step = Collect_Start;
         mCoreThread->start();
+
+        sDataPacket *packet = sDataPacket::bulid();
+        packet->status = tr("数据采集");
+        packet->pass = 0;
     } else {
         en = true;
         str = tr("开始采集");
