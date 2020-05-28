@@ -16,7 +16,7 @@ protected:
     bool resActivationCmd();
     bool startActivationCmd();
 
-    void funSwitch(uchar *on, uchar *off);
+    void funSwitch(uchar *on, uchar *off, int f);
     bool recvMpduVolCur(uchar *recv, int);
     bool getMpduVolCur();
 

@@ -42,7 +42,7 @@ bool AdjustZpduThread::resActivationCmd()
 }
 
 
-void AdjustZpduThread::funSwitch(uchar *on, uchar *off)
+void AdjustZpduThread::funSwitch(uchar *on, uchar *off, int f)
 {
     int k = 5;
     static uchar cmd[68] = {0x7B, 0xC1, 0x00, 0xA2, 0xB2};
@@ -54,7 +54,7 @@ void AdjustZpduThread::funSwitch(uchar *on, uchar *off)
     for(int i=0; i<3; i++)  cmd[k++] = 0xC7 + i;
     for(int i=0; i<3; i++)  cmd[k++] = 0xD7 + i;
     for(int i=0; i<39; i++)  cmd[k++] = 0x00;
-    cmd[k++] = 0x01;
+    cmd[k++] = f; // 统一开关为1
 
     for(int i=0; i<3; i++)  cmd[k++] = 0x0E;
     cmd[k++] = 0x44;

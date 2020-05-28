@@ -36,7 +36,7 @@ bool AdjustMpduThread::startActivationCmd()
     return resActivationCmd();
 }
 
-void AdjustMpduThread::funSwitch(uchar *on, uchar *off)
+void AdjustMpduThread::funSwitch(uchar *on, uchar *off, int f)
 {
     uchar cmd[] = {0x7B, 0xC1, 0x01, 0x15, 0xA1,
                    0xFF, 0xFF, 0xFF, 0xC7, 0xC8, 0xC9,

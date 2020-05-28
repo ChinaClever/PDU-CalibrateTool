@@ -159,7 +159,7 @@ void AdjustCoreThread::openAllSwitch()
     for(int i=0; i<6; i++)  on[i] = 0xFF;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
-    funSwitch(on, off);
+    funSwitch(on, off, 1);
 }
 
 void AdjustCoreThread::setBitControl(int id, uchar *buf)
@@ -176,7 +176,7 @@ void AdjustCoreThread::openOutputSwitch(int id)
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
     setBitControl(id, on);
-    funSwitch(on, off);
+    funSwitch(on, off, 0);
 }
 
 
@@ -186,7 +186,7 @@ void AdjustCoreThread::closeAllSwitch()
     for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0xff;  //关闭有效位
 
-    funSwitch(on, off);
+    funSwitch(on, off, 1);
 }
 
 
@@ -197,7 +197,7 @@ void AdjustCoreThread::closeOutputSwitch(int id)
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
     setBitControl(id, off);
-    funSwitch(on, off);
+    funSwitch(on, off, 0);
 }
 
 

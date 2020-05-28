@@ -53,8 +53,8 @@ protected:
     void workResult(bool res);
 
     void setBitControl(int id, uchar *buf);
-    virtual void funSwitch(uchar *on, uchar *off)=0;
     virtual void funClearEle(uchar *buf)=0;
+    virtual void funSwitch(uchar *on, uchar *off, int f)=0;
 
 protected:
     bool isRun;
