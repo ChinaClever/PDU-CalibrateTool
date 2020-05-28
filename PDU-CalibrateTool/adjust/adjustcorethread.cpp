@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -57,6 +57,14 @@ int AdjustCoreThread::readSerial(quint8 *cmd, int sec)
 
 bool AdjustCoreThread::writeSerial(quint8 *cmd, int len)
 {
+/////////////////////////////////////////////////////////
+   QByteArray array;
+   for(int i = 0; i<len ; i++)
+   {
+      array.append(*(cmd + i));
+   }
+   qDebug()  << "[" << array.toHex() << "]"<<endl;
+/////////////////////////////////////////////////////////
     bool ret = mSerial->isOpened();
     if(ret) {
         mSerial->write(cmd, len);
@@ -87,6 +95,7 @@ bool AdjustCoreThread::resActivateVert(uchar *cmd, int len)
 
     uchar *ptr = cmd;
     bool ret = true;
+    qDebug()<<"resActivateVert len " <<len<<endl;
     if(len == 7) {
         if(*ptr++ == mItem->addr) {
             for(int i=0; i<5; ++i) {
@@ -111,7 +120,7 @@ void AdjustCoreThread::sendActivateCmd()
     int len = 16;
     static quint8 activationCmd[16]={0x7B, 0xA0, 0x10,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00,  0x00, 0x00, 0x00, 0xCB};
     quint8 *cmd = activationCmd;
-    writeSerial(cmd, len); delay(300);
+    writeSerial(cmd, len); delay(2);
 }
 
 
@@ -134,7 +143,7 @@ void AdjustCoreThread::sendModeCmd()
 
     int addr = mItem->addr - 1;
     quint8 *cmd = modelCmd[mItem->mode][addr];
-    writeSerial(cmd, len); delay(1300);
+    writeSerial(cmd, len); delay(5);
 }
 
 void AdjustCoreThread::sendGainCmd()
@@ -148,7 +157,7 @@ void AdjustCoreThread::sendGainCmd()
                                 };
     int addr = mItem->addr - 1;
     quint8 *cmd = gainCmd[addr];
-    writeSerial(cmd, len); delay(1300);
+    writeSerial(cmd, len); delay(5);
 }
 
 
@@ -280,7 +289,7 @@ void AdjustCoreThread::workDown()
 {
     mPacket->pass = 0;
     mPacket->status = tr("正在校准");
-    mSource->powerReset();
+    //mSource->powerReset();
 
     bool ret = startActivationCmd();
     if(ret) { // 校准成功
@@ -290,7 +299,7 @@ void AdjustCoreThread::workDown()
     }
 
     workResult(ret);
-    mSource->powerDown();
+    //mSource->powerDown();
 }
 
 void AdjustCoreThread::run()

@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -20,20 +20,24 @@ AdjustZpduThread *AdjustZpduThread::bulid(QObject *parent)
 
 bool AdjustZpduThread::startActivationCmd()
 {
+    qDebug()<<"sendModeCmd" <<endl;
     sendModeCmd();
+    qDebug()<<"sendActivateCmd" <<endl;
     sendActivateCmd();
+    qDebug()<<"sendGainCmd" <<endl;
     sendGainCmd();
 
+    qDebug()<<"resActivationCmd" <<endl;
     return resActivationCmd();
 }
 
 bool AdjustZpduThread::resActivationCmd()
 {
     uchar cmd[128] = {0};
-    int rtn = mSerial->read(cmd, 1); // 清空串口数据
+    int rtn = 0;//mSerial->read(cmd, 1); // 清空串口数据
 
     for(int i=0; i<3; ++i) {
-        rtn = readSerial(cmd, 60);
+        rtn = readSerial(cmd, 5);
         if(cmd[0]!=0x7B)  break;//忽略两个底层发送7B开头的两个命令)
     }
 

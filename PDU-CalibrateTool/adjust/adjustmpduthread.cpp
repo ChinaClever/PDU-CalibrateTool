@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -22,7 +22,7 @@ bool AdjustMpduThread::resActivationCmd()
 {
     uchar cmd[128] = {0};
     int rtn = mSerial->read(cmd, 1); // 清空串口数据
-    rtn = readSerial(cmd, 60);
+    rtn = readSerial(cmd, 6);
 
     return resActivateVert(cmd, rtn);
 }
@@ -31,7 +31,7 @@ bool AdjustMpduThread::startActivationCmd()
 {
     sendActivateCmd();
     sendModeCmd();
-    sendGainCmd();
+    //sendGainCmd();
 
     return resActivationCmd();
 }
