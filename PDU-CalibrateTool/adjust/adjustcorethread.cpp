@@ -365,6 +365,10 @@ void AdjustCoreThread::workDown()
  */
 void AdjustCoreThread::collectData()
 {
+    mPacket->clear();
+    mPacket->pass = 0;
+    mPacket->status = tr("数据采集");
+
     while(mItem->step != Test_Over) {
          readPduData();
          delay(2);
