@@ -34,10 +34,10 @@ bool AdjustZpduThread::startActivationCmd()
 bool AdjustZpduThread::resActivationCmd()
 {
     uchar cmd[128] = {0};
-    int rtn = 0;//mSerial->read(cmd, 1); // 清空串口数据
+    int rtn = mSerial->read(cmd, 1); // 清空串口数据
 
     for(int i=0; i<3; ++i) {
-        rtn = readSerial(cmd, 5);
+        rtn = readSerial(cmd, 6);
         if(cmd[0]!=0x7B)  break;//忽略两个底层发送7B开头的两个命令)
     }
 
