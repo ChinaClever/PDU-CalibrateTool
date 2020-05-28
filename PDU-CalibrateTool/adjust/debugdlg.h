@@ -19,9 +19,18 @@ public:
 private slots:
     void on_onAllBtn_clicked();
     void on_eleAllBtn_clicked();
+    void on_closeAllBtn_clicked();
+    void on_openBtn_clicked();
+    void on_closeBtn_clicked();
+    void on_eleBtn_clicked();
+    void on_swAllBtn_clicked();
+    void workDownSlot();
 
 private:
     Ui::DebugDlg *ui;
+    int mId;
+    sDataUnit *mData;
+    sConfigItem *mItem;
     AdjustCoreThread *mCoreThread;
 };
 

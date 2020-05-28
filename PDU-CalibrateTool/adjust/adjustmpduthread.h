@@ -15,8 +15,8 @@ signals:
 protected:
     bool resActivationCmd();
     bool startActivationCmd();
-    int openAllSwitch();
 
+    void funSwitch(uchar *on, uchar *off);
     bool recvMpduVolCur(uchar *recv, int);
     bool getMpduVolCur();
 
@@ -24,7 +24,7 @@ protected:
     int getMpduEle();
     bool readPduData();
 
-    void clearPduEle();
+    void funClearEle(uchar *buf);
 };
 
 #endif // ADJUSTMPDUTHREAD_H

@@ -12,8 +12,13 @@ public:
     explicit AdjustCoreThread(QObject *parent = nullptr);
     ~AdjustCoreThread();
 
-    virtual int openAllSwitch()=0;
-    virtual void clearPduEle()=0;
+    virtual void openAllSwitch();
+    virtual void closeAllSwitch();
+    virtual void openOutputSwitch(int id);
+    virtual void closeOutputSwitch(int id);
+
+    virtual void clearAllEle();
+    virtual void setClearEle(int id);
 
 signals:
 
@@ -47,6 +52,9 @@ protected:
     void resTgData(sTgObjData *tg);
     void workResult(bool res);
 
+    void setBitControl(int id, uchar *buf);
+    virtual void funSwitch(uchar *on, uchar *off)=0;
+    virtual void funClearEle(uchar *buf)=0;
 
 protected:
     bool isRun;
