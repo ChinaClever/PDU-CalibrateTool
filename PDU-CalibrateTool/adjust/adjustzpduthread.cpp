@@ -85,6 +85,9 @@ bool AdjustZpduThread::recvZpduVolCur(uchar *recv, int len)
             for(int i=0; i<op; ++i) {
                 mData->cur[i] = (*ptr++) << 8;
                 mData->cur[i] += *ptr++;
+
+                if(mData->cur[i] > mData->cured[i])
+                    mData->cured[i] = mData->cur[i];
             }
 
             for(int i=0; i<op; ++i) mData->pf[i] = *ptr++;

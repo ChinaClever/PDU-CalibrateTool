@@ -24,6 +24,7 @@ struct sDataUnit
     int size, rate;
     uint vol[PACK_ARRAY_SIZE]; // 电压
     uint cur[PACK_ARRAY_SIZE]; // 电流
+    uint cured[PACK_ARRAY_SIZE]; // 电流
 
     uint pow[PACK_ARRAY_SIZE]; // 功率
     uint ele[PACK_ARRAY_SIZE]; // 电能

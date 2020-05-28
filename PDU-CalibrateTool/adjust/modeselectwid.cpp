@@ -42,7 +42,6 @@ bool ModeSelectWid::initData()
     mItem->mode = ui->modeBox->currentIndex();
 
     mItem->step = Test_Start;
-    sDataPacket::bulid()->clear();
     if(mItem->devType) {
         mData->rate = 10;
     } else {

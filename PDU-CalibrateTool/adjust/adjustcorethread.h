@@ -52,6 +52,7 @@ protected:
     void resTgData(sTgObjData *tg);
     void workResult(bool res);
 
+    void changeSwitch();
     void setBitControl(int id, uchar *buf);
     virtual void funClearEle(uchar *buf)=0;
     virtual void funSwitch(uchar *on, uchar *off, int f)=0;

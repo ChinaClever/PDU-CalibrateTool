@@ -59,7 +59,7 @@ bool AdjustCoreThread::writeSerial(quint8 *cmd, int len)
 {
     bool ret = mSerial->isOpened();
     if(ret) {
-        mSerial->write(cmd, len);
+        mSerial->write(cmd, len); msleep(100);
     } else {
         qDebug() << "AdjustCoreThread writeSerial err !" << ret;
     }
@@ -230,24 +230,6 @@ quint8 AdjustCoreThread::getXorNumber(quint8 *data,int len)
     return xorNumber;
 }
 
-bool AdjustCoreThread::pduAdjust()
-{
-    bool ret = true;
-    for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
-        readPduData();
-        ret = dataAdjust();
-        if(ret) {
-            clearAllEle();
-            break;
-        } else {
-            ret = delay(2);
-            if(!ret) break;
-        }
-    }
-
-    return ret;
-}
 
 
 bool AdjustCoreThread::curAllAdjust()
@@ -273,7 +255,7 @@ bool AdjustCoreThread::curOneAdjust()
 
     bool ret = true;
     for(int i=0; i<mData->size; ++i) {
-        int cur = mData->cur[i] / mData->rate;
+        int cur = mData->cured[i] / mData->rate;
         if((cur >= min) && (cur <= max)) {
             mData->status[i] = 1;
         } else {
@@ -317,15 +299,50 @@ bool AdjustCoreThread::dataAdjust()
     bool ret = volAdjust();
     if(!ret) return ret;
 
-    if(mItem->mode) {
-        ret = curOneAdjust();
-    } else {
+    if(mItem->vert) {
         ret = curAllAdjust();
+    } else {
+        ret = curOneAdjust();
     }
     resTgData(mPacket->tg);
 
     return ret;
 }
+
+void AdjustCoreThread::changeSwitch()
+{
+    for(int k=1; k<=mData->size; ++k) {
+        mPacket->status = tr("校验数据\n 第%1输出位").arg(k);
+        closeOutputSwitch(k); msleep(200);
+        openOutputSwitch(k); delay(4);
+        readPduData(); delay(1);
+    }
+}
+
+bool AdjustCoreThread::pduAdjust()
+{
+    bool ret = true;
+    for(int i=0; i<4; ++i) {
+        if(mItem->mode || mItem->vert) { // 互感器
+            mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
+            readPduData();
+         } else {
+            changeSwitch();
+        }
+
+        ret = dataAdjust();
+        if(ret) {
+            clearAllEle();
+            break;
+        } else {
+            ret = delay(2);
+            if(!ret) break;
+        }
+    }
+
+    return ret;
+}
+
 
 void AdjustCoreThread::workResult(bool res)
 {
@@ -364,8 +381,7 @@ void AdjustCoreThread::workDown()
  * @brief 数据采集工作流程
  */
 void AdjustCoreThread::collectData()
-{
-    mPacket->clear();
+{    
     mPacket->pass = 0;
     mPacket->status = tr("数据采集");
 
@@ -379,6 +395,8 @@ void AdjustCoreThread::run()
 {
     if(!isRun) {
         isRun = true;
+        mPacket->clear();
+
         if(Collect_Start == mItem->step) {
             collectData();
         } else {

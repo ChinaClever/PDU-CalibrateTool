@@ -69,6 +69,9 @@ bool AdjustMpduThread::recvMpduVolCur(uchar *recv, int)
             for(int i=0; i<8; ++i) {
                 mData->cur[i] = (*ptr++) << 8;
                 mData->cur[i] += *ptr++;
+
+                if(mData->cur[i] > mData->cured[i])
+                    mData->cured[i] = mData->cur[i];
             }
 
             ushort vol = (ptr[0] << 8) + ptr[1]; ptr += 2;

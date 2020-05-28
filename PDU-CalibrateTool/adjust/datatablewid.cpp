@@ -16,7 +16,7 @@ void DataTableWid::initWid()
 {
     QString title = tr("输出位状态列表");
     QStringList header;
-    header<<tr("开关") << tr("电流") << tr("电压") << tr("功率") << tr("电能") << tr("结果");
+    header<<tr("开关") << tr("电流") << tr("电压") << tr("功率") << tr("电能") << tr("最终电流")<< tr("结果");
     initTableWid(header, 0, title);
 }
 
@@ -31,6 +31,7 @@ void DataTableWid::appendItem(sDataUnit *unit)
         listStr << QString::number(unit->vol[i]/(unit->rate * COM_RATE_VOL));
         listStr << QString::number(unit->pow[i]/(unit->rate * COM_RATE_POW));
         listStr << QString::number(unit->ele[i]/(unit->rate * COM_RATE_ELE));
+        listStr << QString::number(unit->cured[i]/(unit->rate * COM_RATE_VOL));
 
         switch (unit->status[i]) {
         case 0: listStr << " "; break;
