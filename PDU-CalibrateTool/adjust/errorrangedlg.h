@@ -1,4 +1,4 @@
-#ifndef ERRORRANGEDLG_H
+﻿#ifndef ERRORRANGEDLG_H
 #define ERRORRANGEDLG_H
 
 #include <QDialog>

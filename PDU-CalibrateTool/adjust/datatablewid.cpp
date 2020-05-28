@@ -40,7 +40,10 @@ void DataTableWid::appendItem(sDataUnit *unit)
 
         setTableRow(i, listStr);
         if(unit->status[i] == 2) {
-            setBackgroundColor(i);
+            setAlarmBackgroundColor(i);
+        }
+        else {
+            setNormalBackgroundColor(i);
         }
     }
 }

@@ -1,4 +1,4 @@
-#ifndef COMTABLEWID_H
+﻿#ifndef COMTABLEWID_H
 #define COMTABLEWID_H
 
 #include <QtCore>
@@ -25,13 +25,14 @@ protected:
     void setTableItem(int id, int column, const QString &str);
     void setTableRow(int id, QStringList &listStr);
     void setTableRow(int id, int col, QStringList &listStr);
-    void appendTableRow(QStringList &listStr, bool c=false);
+    //void appendTableRow(QStringList &listStr, bool c=false);
     void checkTableRow(int line);
 
     void clearRow(int row);
     void clearTable();
     void delTable();
-    void setBackgroundColor(int id);
+    void setAlarmBackgroundColor(int id);
+    void setNormalBackgroundColor(int id);
     void setItemColor(int id, int column, int alarm);
     void scrollToBottomTable();
 

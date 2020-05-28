@@ -57,14 +57,14 @@ int AdjustCoreThread::readSerial(quint8 *cmd, int sec)
 
 bool AdjustCoreThread::writeSerial(quint8 *cmd, int len)
 {
-/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////debug
    QByteArray array;
    for(int i = 0; i<len ; i++)
    {
       array.append(*(cmd + i));
    }
    qDebug()  << "[" << array.toHex() << "]"<<endl;
-/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////debug
     bool ret = mSerial->isOpened();
     if(ret) {
         mSerial->write(cmd, len);
@@ -276,12 +276,14 @@ bool AdjustCoreThread::curAllAdjust()
 
 bool AdjustCoreThread::curOneAdjust()
 {
-    int min = mItem->cur - mItem->curErr;
-    int max = mItem->cur + mItem->curErr;
+    double min = mItem->cur - mItem->curErr;
+    double max = mItem->cur + mItem->curErr;
+    min*= mData->rate*COM_RATE_CUR;
+    max*= mData->rate*COM_RATE_CUR;
 
     bool ret = true;
     for(int i=0; i<mData->size; ++i) {
-        int cur = mData->cur[i] / (mData->rate*COM_RATE_CUR);
+        int cur = mData->cur[i];
         if((cur >= min) && (cur <= max)) {
             mData->status[i] = 1;
         } else {
@@ -297,10 +299,12 @@ bool AdjustCoreThread::volAdjust()
 {
     int min = mItem->vol - mItem->volErr;
     int max = mItem->vol + mItem->volErr;
+    min*= mData->rate;
+    max*= mData->rate;
 
     bool ret = true;
     for(int i=0; i<mData->size; ++i) {
-        int vol = mData->vol[i] / mData->rate;
+        int vol = mData->vol[i];
         if((vol >= min) && (vol <= max)) {
             mData->status[i] = 1;
         } else {
@@ -376,6 +380,7 @@ void AdjustCoreThread::collectData()
     while(mItem->step != Test_Over) {
          readPduData();
          delay(2);
+         pduAdjust();
     }
 }
 

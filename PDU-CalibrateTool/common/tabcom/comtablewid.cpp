@@ -1,4 +1,4 @@
-/*
+﻿/*
  * tableWidget公共蕨类
  *     提供接口，protect所有方法
  *
@@ -156,12 +156,12 @@ void ComTableWid::setTableRow(int id, int col, QStringList &listStr)
 }
 
 
-void ComTableWid::appendTableRow(QStringList &listStr, bool c)
-{
-    int row = ui->tableWidget->rowCount();
-    setTableRow(row, listStr);
-    if(c) setBackgroundColor(row);
-}
+//void ComTableWid::appendTableRow(QStringList &listStr, bool c)
+//{
+//    int row = ui->tableWidget->rowCount();
+//    setTableRow(row, listStr);
+//    if(c) setBackgroundColor(row);
+//}
 
 
 void ComTableWid::addTableRows(int line)
@@ -225,12 +225,21 @@ void ComTableWid::delTable()
     ui->tableWidget->setRowCount(0);        //设置行数/
 }
 
-void ComTableWid::setBackgroundColor(int id)
+void ComTableWid::setAlarmBackgroundColor(int id)
 {
     int column = ui->tableWidget->columnCount();
     for(int i=0; i<column; ++i) {
         QTableWidgetItem *item = ui->tableWidget->item(id, i);
-        item->setBackgroundColor(QColor(Qt::red));
+        item->setForeground(QBrush(QColor(255, 0, 0)));
+    }
+}
+
+void ComTableWid::setNormalBackgroundColor(int id)
+{
+    int column = ui->tableWidget->columnCount();
+    for(int i=0; i<column; ++i) {
+        QTableWidgetItem *item = ui->tableWidget->item(id, i);
+        item->setForeground(QBrush(QColor(0, 0, 0)));
     }
 }
 

@@ -1,4 +1,4 @@
-#include "errorrangedlg.h"
+﻿#include "errorrangedlg.h"
 #include "ui_errorrangedlg.h"
 
 ErrorRangeDlg::ErrorRangeDlg(QWidget *parent) :
@@ -16,10 +16,10 @@ ErrorRangeDlg::~ErrorRangeDlg()
 
 void ErrorRangeDlg::initData(sConfigItem *item)
 {
-    item->vol = ui->volBox->value() * 10;
-    item->cur = ui->curBox->value() * 10;
-    item->volErr = ui->volErrBox->value() * 10;
-    item->curErr = ui->curErrBox->value() * 10;
+    item->vol = ui->volBox->value() ;
+    item->cur = ui->curBox->value() ;
+    item->volErr = ui->volErrBox->value() ;
+    item->curErr = ui->curErrBox->value() ;
     if(ui->allRadio->isChecked()) {
         item->vert = 1;
     } else {
