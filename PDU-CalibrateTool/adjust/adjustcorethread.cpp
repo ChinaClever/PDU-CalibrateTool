@@ -168,7 +168,7 @@ quint8 AdjustCoreThread::getXorNumber(quint8 *data,int len)
 bool AdjustCoreThread::pduAdjust()
 {
     bool ret = true;
-    for(int i=0; i<3; ++i) {
+    for(int i=0; i<5; ++i) {
         mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
         readPduData();
         ret = dataAdjust();
@@ -275,7 +275,9 @@ void AdjustCoreThread::workResult(bool res)
     mItem->mode = Test_End;
 }
 
-
+/**
+ * @brief 校准工作流程
+ */
 void AdjustCoreThread::workDown()
 {
     mPacket->pass = 0;
@@ -293,11 +295,26 @@ void AdjustCoreThread::workDown()
     mSource->powerDown();
 }
 
+/**
+ * @brief 数据采集工作流程
+ */
+void AdjustCoreThread::collectData()
+{
+    while(mItem->step != Test_Over) {
+         readPduData();
+         delay(1);
+    }
+}
+
 void AdjustCoreThread::run()
 {
     if(!isRun) {
         isRun = true;
-        workDown();
+        if(Collect_Start == mItem->step) {
+            collectData();
+        } else {
+            workDown();
+        }
         isRun = false;
     } else {
         qDebug() << "AdjustCoreThread run err" << isRun;

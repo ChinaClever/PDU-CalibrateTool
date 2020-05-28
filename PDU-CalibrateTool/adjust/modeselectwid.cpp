@@ -5,6 +5,7 @@
  */
 #include "modeselectwid.h"
 #include "ui_modeselectwid.h"
+#include "debugdlg.h"
 
 ModeSelectWid::ModeSelectWid(QWidget *parent) :
     QWidget(parent),
@@ -14,8 +15,10 @@ ModeSelectWid::ModeSelectWid(QWidget *parent) :
     mData = sDataPacket::bulid()->data;
     mItem = AdjustConfig::bulid()->item;
 
+    mRangeDlg = new ErrorRangeDlg(this);
     mMpduThread = AdjustMpduThread::bulid(this);
     mZpduThread = AdjustZpduThread::bulid(this);
+    on_modeBox_currentIndexChanged(0);
 
     timer = new QTimer(this);
     timer->start(500);
@@ -33,31 +36,22 @@ bool ModeSelectWid::initData()
     bool ret = mItem->serial->isOpened();
     if(!ret){CriticalMsgBox box(this, tr("请先打开串口!")); return ret;}
 
+    mRangeDlg->initData(mItem);
     mItem->devType = ui->devTypeBox->currentIndex();
     mItem->addr = ui->addrBox->currentIndex()+1;
     mItem->mode = ui->modeBox->currentIndex();
-    mItem->vol = ui->volBox->value() * 10;
-    mItem->cur = ui->curBox->value() * 10;
-    mItem->volErr = ui->volErrBox->value() * 10;
-    mItem->curErr = ui->curErrBox->value() * 10;
-    if(ui->allRadio->isChecked()) {
-        mItem->vert = 1;
-    } else {
-        mItem->vert = 0;
-    }
 
     mItem->step = Test_Start;
     sDataPacket::bulid()->clear();
     if(mItem->devType) {
         mData->rate = 10;
-        mZpduThread->start();
     } else {
         mData->rate = 1;
-        mMpduThread->start();
     }
 
     QString str = tr("总电流：---    总功率：---  ");
     ui->resLab->setText(str);
+    mCoreThread->start();
 
     return ret;
 }
@@ -65,11 +59,7 @@ bool ModeSelectWid::initData()
 void ModeSelectWid::setEnablWid(bool en)
 {
     ui->groupBox_1->setEnabled(en);
-    ui->groupBox_3->setEnabled(en);
-    ui->downBtn->setEnabled(en);
-    ui->onBtn->setEnabled(en);
-    // if(!ui->modeBox->currentIndex())
-    //   ui->groupBox_2->setEnabled(en);
+    ui->groupBox_2->setEnabled(en);
 }
 
 void ModeSelectWid::on_startBtn_clicked()
@@ -96,14 +86,12 @@ void ModeSelectWid::on_startBtn_clicked()
 
 void ModeSelectWid::on_modeBox_currentIndexChanged(int index)
 {
+    mRangeDlg->setModel(index);
     if(index) {
-        ui->oneRradio->setChecked(true);
-        ui->groupBox_2->setEnabled(false);
+        mCoreThread = mZpduThread;
     } else {
-        ui->allRadio->setChecked(true);
-        ui->groupBox_2->setEnabled(true);
+        mCoreThread = mMpduThread;
     }
-    ui->groupBox_2->setEnabled(false); // 不允许选择
 }
 
 
@@ -160,3 +148,40 @@ void ModeSelectWid::on_downBtn_clicked()
     }
 }
 
+
+void ModeSelectWid::on_errBtn_clicked()
+{
+    mRangeDlg->exec();
+}
+
+void ModeSelectWid::on_reBtn_clicked()
+{
+    bool en = false;
+    QString str = tr("停止采集");
+
+    if(mItem->step != Collect_Start) {
+        mItem->step = Collect_Start;
+        mCoreThread->start();
+    } else {
+        en = true;
+        str = tr("开始采集");
+        mItem->step = Test_Over;
+    }
+
+    ui->reBtn->setText(str);
+    ui->startBtn->setEnabled(en);
+    ui->groupBox_1->setEnabled(en);
+}
+
+void ModeSelectWid::on_deBtn_clicked()
+{
+    // 开始采集数据
+    if(mItem->step != Collect_Start) {
+        on_reBtn_clicked();
+    }
+
+    DebugDlg dlg(this);
+    dlg.exec();
+
+    on_reBtn_clicked(); // 停止采集数据
+}

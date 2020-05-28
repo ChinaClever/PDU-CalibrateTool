@@ -12,12 +12,16 @@ public:
     explicit AdjustCoreThread(QObject *parent = nullptr);
     ~AdjustCoreThread();
 
+    virtual int openAllSwitch()=0;
+    virtual void clearPduEle()=0;
+
 signals:
 
 protected:
     void run();
     bool delay(int s);
     void workDown();
+    void collectData();
 
     int readSerial(quint8 *cmd, int sec);
     bool writeSerial(quint8 *cmd, int len);
@@ -32,9 +36,7 @@ protected:
     bool resActivateVert(uchar *cmd, int len);
     quint8 getXorNumber(quint8 *data,int len);
 
-    virtual int openAllSwitch()=0;
     virtual bool readPduData()=0;
-    virtual void clearPduEle()=0;
 
     bool curAllAdjust();
     bool curOneAdjust();

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1065</width>
-    <height>374</height>
+    <height>331</height>
    </rect>
   </property>
   <property name="font">
@@ -184,226 +184,6 @@
     <string>开始校准</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox_2">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>200</y>
-     <width>401</width>
-     <height>74</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>电流验证方式</string>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <widget class="QRadioButton" name="oneRradio">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>输出位单独验证</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QRadioButton" name="allRadio">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>输出位总电流验证</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
-  <widget class="QGroupBox" name="groupBox_3">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>280</y>
-     <width>1051</width>
-     <height>79</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>校准值</string>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_3">
-    <item row="0" column="2">
-     <widget class="QLabel" name="label_9">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>电流误差：</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_7">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>电流校准值：</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QDoubleSpinBox" name="curBox">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="prefix">
-       <string/>
-      </property>
-      <property name="suffix">
-       <string>A</string>
-      </property>
-      <property name="decimals">
-       <number>1</number>
-      </property>
-      <property name="maximum">
-       <double>10.000000000000000</double>
-      </property>
-      <property name="singleStep">
-       <double>0.100000000000000</double>
-      </property>
-      <property name="value">
-       <double>6.000000000000000</double>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QDoubleSpinBox" name="curErrBox">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="prefix">
-       <string/>
-      </property>
-      <property name="suffix">
-       <string>A</string>
-      </property>
-      <property name="decimals">
-       <number>1</number>
-      </property>
-      <property name="maximum">
-       <double>0.200000000000000</double>
-      </property>
-      <property name="singleStep">
-       <double>0.100000000000000</double>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="5">
-     <widget class="QDoubleSpinBox" name="volBox">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="suffix">
-       <string>V</string>
-      </property>
-      <property name="decimals">
-       <number>1</number>
-      </property>
-      <property name="maximum">
-       <double>380.000000000000000</double>
-      </property>
-      <property name="value">
-       <double>220.000000000000000</double>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="7">
-     <widget class="QDoubleSpinBox" name="volErrBox">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="suffix">
-       <string>V</string>
-      </property>
-      <property name="decimals">
-       <number>1</number>
-      </property>
-      <property name="maximum">
-       <double>2.000000000000000</double>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="4">
-     <widget class="QLabel" name="label_8">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>电压校准值：</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="6">
-     <widget class="QLabel" name="label_10">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>35</height>
-       </size>
-      </property>
-      <property name="text">
-       <string>电压误差：</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="QLabel" name="statusLab">
    <property name="geometry">
     <rect>
@@ -436,31 +216,85 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QPushButton" name="onBtn">
+  <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>619</x>
-     <y>240</y>
-     <width>141</width>
-     <height>31</height>
+     <x>20</x>
+     <y>230</y>
+     <width>931</width>
+     <height>77</height>
     </rect>
    </property>
-   <property name="text">
-    <string>标准源上电</string>
+   <property name="title">
+    <string>操作区</string>
    </property>
-  </widget>
-  <widget class="QPushButton" name="downBtn">
-   <property name="geometry">
-    <rect>
-     <x>799</x>
-     <y>240</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>标准源下电</string>
-   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QPushButton" name="reBtn">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>数据采集</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QPushButton" name="onBtn">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>标准源上电</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="downBtn">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>标准源下电</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QPushButton" name="errBtn">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>校准误差</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4">
+     <widget class="QPushButton" name="deBtn">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>调试模式</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>
