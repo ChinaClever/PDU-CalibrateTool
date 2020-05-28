@@ -233,7 +233,7 @@ quint8 AdjustCoreThread::getXorNumber(quint8 *data,int len)
 bool AdjustCoreThread::pduAdjust()
 {
     bool ret = true;
-    for(int i=0; i<5; ++i) {
+    for(int i=0; i<4; ++i) {
         mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
         readPduData();
         ret = dataAdjust();
@@ -241,7 +241,7 @@ bool AdjustCoreThread::pduAdjust()
             clearAllEle();
             break;
         } else {
-            ret = delay(1);
+            ret = delay(2);
             if(!ret) break;
         }
     }
@@ -367,7 +367,7 @@ void AdjustCoreThread::collectData()
 {
     while(mItem->step != Test_Over) {
          readPduData();
-         delay(1);
+         delay(2);
     }
 }
 

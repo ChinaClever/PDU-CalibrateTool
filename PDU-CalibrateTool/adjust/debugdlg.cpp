@@ -62,7 +62,7 @@ void DebugDlg::workDownSlot()
     on_closeAllBtn_clicked();
     if(++mId <= mData->size) {
         mCoreThread->openOutputSwitch(mId);
-        QTimer::singleShot(5*1000,this,SLOT(workDownSlot()));
+        QTimer::singleShot(6*1000,this,SLOT(workDownSlot()));
     }
 }
 

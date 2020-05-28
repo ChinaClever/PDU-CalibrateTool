@@ -122,6 +122,7 @@ void SerialPort::timeoutDone()
             if(ret) {
                 mWriteArrays.removeFirst();
                 mSerialData.clear();
+                recv(mSerialData);
             }
         } else {
             recv(mSerialData);
