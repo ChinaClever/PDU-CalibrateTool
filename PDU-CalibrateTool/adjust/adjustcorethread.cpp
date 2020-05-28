@@ -313,7 +313,7 @@ void AdjustCoreThread::changeSwitch()
 {
     for(int k=1; k<=mData->size; ++k) {
         mPacket->status = tr("校验数据\n 第%1输出位").arg(k);
-        closeOutputSwitch(k); msleep(200);
+        closeAllSwitch(); msleep(200);
         openOutputSwitch(k); delay(4);
         readPduData(); delay(1);
     }
