@@ -161,7 +161,7 @@ void ModeSelectWid::on_reBtn_clicked()
 
     if(mItem->step != Collect_Start) {
         mItem->step = Collect_Start;
-        mCoreThread->start();
+        mCoreThread->start();       
     } else {
         en = true;
         str = tr("开始采集");

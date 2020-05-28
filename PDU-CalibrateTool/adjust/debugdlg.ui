@@ -116,7 +116,7 @@
      <number>1</number>
     </property>
     <property name="maximum">
-     <number>43</number>
+     <number>8</number>
     </property>
    </widget>
    <widget class="QPushButton" name="openBtn">

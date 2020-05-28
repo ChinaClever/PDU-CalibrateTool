@@ -1,4 +1,9 @@
-﻿#include "errorrangedlg.h"
+﻿/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
+#include "errorrangedlg.h"
 #include "ui_errorrangedlg.h"
 
 ErrorRangeDlg::ErrorRangeDlg(QWidget *parent) :
