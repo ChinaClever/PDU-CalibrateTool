@@ -1,4 +1,4 @@
-#ifndef ADJUSTCORETHREAD_H
+﻿#ifndef ADJUSTCORETHREAD_H
 #define ADJUSTCORETHREAD_H
 
 #include "datapacket.h"
