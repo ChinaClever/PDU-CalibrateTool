@@ -1,4 +1,4 @@
-﻿/*
+/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -57,14 +57,14 @@ int AdjustCoreThread::readSerial(quint8 *cmd, int sec)
 
 bool AdjustCoreThread::writeSerial(quint8 *cmd, int len)
 {
-/////////////////////////////////////////////////////////debug
-   QByteArray array;
-   for(int i = 0; i<len ; i++)
-   {
-      array.append(*(cmd + i));
-   }
-   qDebug()  << "[" << array.toHex() << "]"<<endl;
-/////////////////////////////////////////////////////////debug
+    /////////////////////////////////////////////////////////debug
+    QByteArray array;
+    for(int i = 0; i<len ; i++)
+    {
+        array.append(*(cmd + i));
+    }
+    qDebug()  << "[" << array.toHex() << "]"<<endl;
+    /////////////////////////////////////////////////////////debug
     bool ret = mSerial->isOpened();
     if(ret) {
         mSerial->write(cmd, len); msleep(100);
@@ -272,8 +272,8 @@ bool AdjustCoreThread::curAllAdjust()
 
     double min = mItem->cur - mItem->curErr;
     double max = mItem->cur + mItem->curErr;
-    min*= mData->rate*COM_RATE_CUR;
-    max*= mData->rate*COM_RATE_CUR;
+    min *= mData->rate * COM_RATE_CUR;
+    max *= mData->rate * COM_RATE_CUR;
     if((cur >= min) && (cur <= max)) {
         return true;
     }
@@ -287,8 +287,8 @@ bool AdjustCoreThread::curErrRange(int i)
     bool ret = true;
     double min = mItem->cur - mItem->curErr;
     double max = mItem->cur + mItem->curErr;
-    min*= mData->rate*COM_RATE_CUR;
-    max*= mData->rate*COM_RATE_CUR;
+    min *= mData->rate * COM_RATE_CUR;
+    max *= mData->rate * COM_RATE_CUR;
 
     int cur = mData->cur[i] ;
     if((cur >= min) && (cur <= max)) {
@@ -307,20 +307,9 @@ bool AdjustCoreThread::curOneAdjust()
     bool ret = true;
 
     for(int i=0; i<mData->size; ++i) {
-        double min = mItem->cur - mItem->curErr;
-        double max = mItem->cur + mItem->curErr;
-        min*= mData->rate*COM_RATE_CUR;
-        max*= mData->rate*COM_RATE_CUR;
-        int cur = mData->cur[i];
-        if((cur >= min) && (cur <= max)) {
-                mData->status[i] = 1;
-        } else {
-                ret = false;
-                mData->status[i] = 2;
-            if(mData->cured[i] < 1) {
-                bool res = curErrRange(i);
-                if(!res)  ret = false;
-            }
+        if(mData->cured[i] < 1) {
+            bool res = curErrRange(i);
+            if(!res)  ret = false;
         }
     }
 
@@ -331,8 +320,8 @@ bool AdjustCoreThread::volAdjust()
 {
     int min = mItem->vol - mItem->volErr;
     int max = mItem->vol + mItem->volErr;
-    min*= mData->rate;
-    max*= mData->rate;
+    min *= mData->rate;
+    max *= mData->rate;
 
     bool ret = true;
     for(int i=0; i<mData->size; ++i) {
@@ -437,10 +426,9 @@ void AdjustCoreThread::workDown()
 
     bool ret = startActivationCmd();
     if(ret) { // 校准成功
-        mPacket->status = tr("等待重启!"); delay(5);
-        openAllSwitch();
+        mPacket->status = tr("等待重启!"); delay(3);
         mSource->powerReset(); delay(1);
-        openAllSwitch(); delay(500);
+        openAllSwitch(); delay(4);
         ret = pduAdjust();
     }
 
@@ -457,9 +445,9 @@ void AdjustCoreThread::collectData()
     mPacket->status = tr("数据采集");
 
     while(mItem->step != Test_Over) {
-         readPduData();
-         delay(2);
-         pduAdjust();
+        readPduData();
+        delay(2);
+        pduAdjust();
     }
 }
 
