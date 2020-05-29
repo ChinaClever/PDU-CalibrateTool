@@ -47,7 +47,7 @@ struct sTgObjData
 
     uint ele; // 电能
     uint pf; // 功率因数
-    uint activePow; // 袖在功率
+    uint activePow; // 视在功率
 };
 
 

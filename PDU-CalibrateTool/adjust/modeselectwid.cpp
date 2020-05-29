@@ -142,10 +142,11 @@ void ModeSelectWid::on_downBtn_clicked()
     QuMsgBox box(this, tr("是否需要校准下电?"));
     if(!box.Exec()) return;
 
-    int ret = StandardSource::bulid(this)->powerDown();
-    if(ret <= 0) {
-        CriticalMsgBox box(this, tr("标准源下电失败!"));
-    }
+    //int ret = StandardSource::bulid(this)->powerDown();
+    StandardSource::bulid(this)->readScreenVal();
+//    if(ret <= 0) {
+//        CriticalMsgBox box(this, tr("标准源下电失败!"));
+//    }
 }
 
 

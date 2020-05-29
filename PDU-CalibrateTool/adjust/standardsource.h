@@ -1,4 +1,4 @@
-#ifndef STANDARDSOURCE_H
+﻿#ifndef STANDARDSOURCE_H
 #define STANDARDSOURCE_H
 
 #include "adjustconfig.h"
@@ -13,10 +13,12 @@ public:
     int powerOn();  // 上电
     int powerDown(); // 下电
     void powerReset(); //
+    void readScreenVal();
 
 protected:
     int setRange();
     int write(QByteArray &array);
+    int read(QByteArray &witeArray, QByteArray &readArray, int msecs);
 
 signals:
 
