@@ -20,6 +20,7 @@ protected:
     bool initData();
     void setEnablWid(bool en);
     void endFun();
+    void upTgWid();
 
 private slots:
     void timeoutDone();
@@ -29,7 +30,6 @@ private slots:
     void on_downBtn_clicked();
     void on_errBtn_clicked();
     void on_deBtn_clicked();
-
     void on_reBtn_clicked();
 
 private:

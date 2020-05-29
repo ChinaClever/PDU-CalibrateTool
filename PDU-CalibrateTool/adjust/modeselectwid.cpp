@@ -1,4 +1,4 @@
-﻿/*
+/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -43,7 +43,6 @@ bool ModeSelectWid::initData()
     mItem->addr = ui->addrBox->currentIndex()+1;
     mItem->mode = ui->modeBox->currentIndex();
 
-    mItem->step = Test_Start;
     if(mItem->devType) {
         mData->rate = 10.0;
     } else {
@@ -52,7 +51,6 @@ bool ModeSelectWid::initData()
 
     QString str = tr("总电流：---    总功率：---  ");
     ui->resLab->setText(str);
-    mCoreThread->start();
 
     return ret;
 }
@@ -69,7 +67,12 @@ void ModeSelectWid::on_startBtn_clicked()
     QString str = tr("停止校准");
     if(mItem->step != Test_Start) {
         bool ret = initData();
-        if(!ret) return;
+        if(ret){
+            mItem->step = Test_Start;
+            mCoreThread->start();
+        } else {
+            return;
+        }
     } else {
         QuMsgBox box(this, tr("是否停止校准?"));
         if(box.Exec()) {
@@ -95,13 +98,17 @@ void ModeSelectWid::on_modeBox_currentIndexChanged(int index)
     }
 }
 
-
-void ModeSelectWid::endFun()
+void ModeSelectWid::upTgWid()
 {
     sDataPacket *packet = sDataPacket::bulid();
     sTgObjData *tg = packet->tg;
     QString str = tr("总电流：%2A    总功率：%3KW").arg(tg->cur).arg(tg->pow);
     ui->resLab->setText(str);
+}
+
+void ModeSelectWid::endFun()
+{
+   upTgWid();
     mItem->step = Test_Over;
     setEnablWid(true);
     ui->startBtn->setText(tr("开始校准"));
@@ -124,6 +131,8 @@ void ModeSelectWid::timeoutDone()
     ui->statusLab->setPalette(pe);
     if(mItem->step == Test_End) {
         endFun();
+    } else if(mItem->step == Collect_Start) {
+         upTgWid();
     }
 }
 
@@ -160,6 +169,7 @@ void ModeSelectWid::on_reBtn_clicked()
 {
     bool en = false;
     QString str = tr("停止采集");
+    if(!initData()) return;
 
     if(mItem->step != Collect_Start) {
         mItem->step = Collect_Start;
