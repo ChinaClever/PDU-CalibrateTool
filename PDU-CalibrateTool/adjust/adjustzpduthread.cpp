@@ -23,7 +23,6 @@ bool AdjustZpduThread::startActivationCmd()
     sendModeCmd();
     sendActivateCmd();
     sendGainCmd();
-
     return resActivationCmd();
 }
 

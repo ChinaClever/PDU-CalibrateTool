@@ -23,7 +23,6 @@ bool AdjustMpduThread::resActivationCmd()
     uchar cmd[128] = {0};
     mSerial->reflush(); // 清空串口数据
     int rtn = readSerial(cmd, 6);
-
     return resActivateVert(cmd, rtn);
 }
 
@@ -73,7 +72,6 @@ bool AdjustMpduThread::recvMpduVolCur(uchar *recv, int)
 
             ushort vol = (ptr[0] << 8) + ptr[1]; ptr += 2;
             for(int i=0; i<4; ++i) mData->vol[i] = vol;
-
             vol = (ptr[0] << 8) + ptr[1]; ptr += 2;
             for(int i=4; i<8; ++i) mData->vol[i] = vol;
 
@@ -104,7 +102,6 @@ bool AdjustMpduThread::getMpduVolCur()
 
     cmd[2] = mItem->addr;
     cmd[20] = getXorNumber(cmd,sizeof(cmd)-1);
-
     int ret = transmit(cmd, sizeof(cmd), recv, 1);
     if(ret > 0) {
         res = recvMpduVolCur(recv, ret);
@@ -146,7 +143,6 @@ int AdjustMpduThread::getMpduEle()
 
     cmd[2] = mItem->addr;
     cmd[15] = getXorNumber(cmd,sizeof(cmd)-1);
-
     int ret = transmit(cmd, sizeof(cmd), recv, 1);
     if(ret > 0) {
         recvMpduEle(recv, ret);

@@ -64,9 +64,8 @@ void DebugDlg::on_eleBtn_clicked()
 
 void DebugDlg::workDownSlot()
 {
-    on_closeAllBtn_clicked();
     if(++mId <= mData->size) {
-        mCoreThread->openOutputSwitch(mId);
+        mCoreThread->openOnlySwitch(mId);
         QTimer::singleShot(6*1000,this,SLOT(workDownSlot()));
     }
 }

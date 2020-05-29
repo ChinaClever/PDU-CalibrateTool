@@ -16,6 +16,8 @@ public:
     virtual void closeAllSwitch();
     virtual void openOutputSwitch(int id);
     virtual void closeOutputSwitch(int id);
+    virtual void openOnlySwitch(int id);
+    virtual void closeOtherSwitch(int id);
 
     virtual void clearAllEle();
     virtual void setClearEle(int id);
@@ -46,12 +48,14 @@ protected:
     bool curAllAdjust();
     bool curOneAdjust();
     bool volAdjust();
+    bool curErrRange(int i);
 
     bool dataAdjust();
     bool pduAdjust();
     void resTgData(sTgObjData *tg);
     void workResult(bool res);
 
+    void changeSwitch();
     void setBitControl(int id, uchar *buf);
     virtual void funClearEle(uchar *buf)=0;
     virtual void funSwitch(uchar *on, uchar *off, int f)=0;

@@ -16,6 +16,8 @@ ModeSelectWid::ModeSelectWid(QWidget *parent) :
     mItem = AdjustConfig::bulid()->item;
 
     mRangeDlg = new ErrorRangeDlg(this);
+    mRangeDlg->initData(mItem);
+
     mMpduThread = AdjustMpduThread::bulid(this);
     mZpduThread = AdjustZpduThread::bulid(this);
     on_modeBox_currentIndexChanged(0);
@@ -42,7 +44,6 @@ bool ModeSelectWid::initData()
     mItem->mode = ui->modeBox->currentIndex();
 
     mItem->step = Test_Start;
-    sDataPacket::bulid()->clear();
     if(mItem->devType) {
         mData->rate = 10.0;
     } else {

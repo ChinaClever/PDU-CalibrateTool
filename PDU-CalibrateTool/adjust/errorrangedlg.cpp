@@ -38,10 +38,9 @@ void ErrorRangeDlg::setModel(int index)
         ui->oneRradio->setChecked(true);
         ui->groupBox_2->setEnabled(false);
     } else {
-        ui->allRadio->setChecked(true);
+        ui->oneRradio->setChecked(true);
         ui->groupBox_2->setEnabled(true);
     }
-    ui->groupBox_2->setEnabled(false); // 不允许选择
 }
 
 void ErrorRangeDlg::on_okBtn_clicked()

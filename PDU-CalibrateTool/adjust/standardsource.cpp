@@ -44,7 +44,9 @@ int StandardSource::read(QByteArray &witeArray, QByteArray &readArray, int msecs
 
 int StandardSource::setRange()
 {
-    QByteArray array = "I0 220 6 15 1200";
+    sConfigItem *item = AdjustConfig::bulid()->item;
+    QString str = QString("I0 %1 %2 15 1200").arg(item->vol).arg(item->cur);
+    QByteArray array = str.toLatin1();
     return write(array);
 }
 
