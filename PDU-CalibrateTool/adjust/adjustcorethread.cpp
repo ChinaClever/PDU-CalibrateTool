@@ -175,10 +175,31 @@ void AdjustCoreThread::openOutputSwitch(int id)
     for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
-    setBitControl(id, on);
-    funSwitch(on, off, 0);
+    if(id > 0) {
+        setBitControl(id, on);
+        funSwitch(on, off, 0);
+    }
 }
 
+void AdjustCoreThread::openOnlySwitch(int id)
+{
+    openOutputSwitch(id);
+    delay(1);
+    closeOtherSwitch(id);
+}
+
+void AdjustCoreThread::closeOtherSwitch(int id)
+{
+    uchar on[8], off[8];
+    for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
+    for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
+
+    if(id > 0) {
+        setBitControl(id, off);
+        for(int i=0; i<6; i++)  off[i] = ~off[i];
+        funSwitch(on, off, 0);
+    }
+}
 
 void AdjustCoreThread::closeAllSwitch()
 {
@@ -196,8 +217,10 @@ void AdjustCoreThread::closeOutputSwitch(int id)
     for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
-    setBitControl(id, off);
-    funSwitch(on, off, 0);
+    if(id > 0) {
+        setBitControl(id, off);
+        funSwitch(on, off, 0);
+    }
 }
 
 
@@ -248,19 +271,33 @@ bool AdjustCoreThread::curAllAdjust()
     return false;
 }
 
-bool AdjustCoreThread::curOneAdjust()
+
+bool AdjustCoreThread::curErrRange(int i)
 {
+    bool ret = true;
     int min = mItem->cur - mItem->curErr;
     int max = mItem->cur + mItem->curErr;
 
+    int cur = mData->cur[i] / mData->rate;
+    if((cur >= min) && (cur <= max)) {
+        mData->cured[i] = mData->cur[i];
+        mData->status[i] = 1;
+    } else {
+        mData->status[i] = 2;
+        ret = false;
+    }
+
+    return ret;
+}
+
+bool AdjustCoreThread::curOneAdjust()
+{
     bool ret = true;
+
     for(int i=0; i<mData->size; ++i) {
-        int cur = mData->cured[i] / mData->rate;
-        if((cur >= min) && (cur <= max)) {
-            mData->status[i] = 1;
-        } else {
-            ret = false;
-            mData->status[i] = 2;
+        if(mData->cured[i] < 1) {
+            bool res = curErrRange(i);
+            if(!res)  ret = false;
         }
     }
 
@@ -313,9 +350,13 @@ void AdjustCoreThread::changeSwitch()
 {
     for(int k=1; k<=mData->size; ++k) {
         mPacket->status = tr("校验数据\n 第%1输出位").arg(k);
-        closeAllSwitch(); msleep(200);
-        openOutputSwitch(k); delay(4);
-        readPduData(); delay(1);
+        openOnlySwitch(k); delay(5);
+
+        for(int i=0; i<5; ++i) {
+            readPduData();
+            if(curErrRange(k)) break;
+            delay(1);
+        }
     }
 }
 
@@ -326,13 +367,15 @@ bool AdjustCoreThread::pduAdjust()
         if(mItem->mode || mItem->vert) { // 互感器
             mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
             readPduData();
-         } else {
+        } else {
             changeSwitch();
+            i = 4; // 不再循环
         }
 
         ret = dataAdjust();
         if(ret) {
             clearAllEle();
+            openAllSwitch();
             break;
         } else {
             ret = delay(2);
@@ -355,6 +398,7 @@ void AdjustCoreThread::workResult(bool res)
     }
     mPacket->status = str;
     mItem->mode = Test_End;
+    delay(1);
 }
 
 /**
@@ -369,7 +413,8 @@ void AdjustCoreThread::workDown()
     bool ret = startActivationCmd();
     if(ret) { // 校准成功
         mPacket->status = tr("等待重启!"); delay(1300);
-        openAllSwitch();
+        mSource->powerReset(); delay(1500);
+        openAllSwitch(); delay(500);
         ret = pduAdjust();
     }
 
@@ -386,8 +431,8 @@ void AdjustCoreThread::collectData()
     mPacket->status = tr("数据采集");
 
     while(mItem->step != Test_Over) {
-         readPduData();
-         delay(2);
+        readPduData();
+        delay(2);
     }
 }
 

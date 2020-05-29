@@ -16,6 +16,8 @@ ModeSelectWid::ModeSelectWid(QWidget *parent) :
     mItem = AdjustConfig::bulid()->item;
 
     mRangeDlg = new ErrorRangeDlg(this);
+    mRangeDlg->initData(mItem);
+
     mMpduThread = AdjustMpduThread::bulid(this);
     mZpduThread = AdjustZpduThread::bulid(this);
     on_modeBox_currentIndexChanged(0);

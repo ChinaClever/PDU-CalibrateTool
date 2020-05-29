@@ -31,7 +31,11 @@ void DataTableWid::appendItem(sDataUnit *unit)
         listStr << QString::number(unit->vol[i]/(unit->rate * COM_RATE_VOL));
         listStr << QString::number(unit->pow[i]/(unit->rate * COM_RATE_POW));
         listStr << QString::number(unit->ele[i]/(unit->rate * COM_RATE_ELE));
-        listStr << QString::number(unit->cured[i]/(unit->rate * COM_RATE_VOL));
+        if(unit->cured[i]) {
+            listStr << QString::number(unit->cured[i]/(unit->rate * COM_RATE_CUR));
+        } else {
+            listStr << "---";
+        }
 
         switch (unit->status[i]) {
         case 0: listStr << " "; break;
