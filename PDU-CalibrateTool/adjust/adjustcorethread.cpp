@@ -426,10 +426,9 @@ void AdjustCoreThread::workDown()
 
     bool ret = startActivationCmd();
     if(ret) { // 校准成功
-        mPacket->status = tr("等待重启!"); delay(5);
-        openAllSwitch();
+        mPacket->status = tr("等待重启!"); delay(3);
         mSource->powerReset(); delay(1);
-        openAllSwitch(); delay(500);
+        openAllSwitch(); delay(4);
         ret = pduAdjust();
     }
 
