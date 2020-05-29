@@ -267,11 +267,13 @@ bool AdjustCoreThread::curAllAdjust()
 {
     int cur = 0;
     for(int i=0; i<mData->size; ++i) {
-        cur += mData->cur[i]/(mData->rate*COM_RATE_CUR);
+        cur += mData->cur[i];
     }
 
-    int min = mItem->cur - mItem->curErr;
-    int max = mItem->cur + mItem->curErr;
+    double min = mItem->cur - mItem->curErr;
+    double max = mItem->cur + mItem->curErr;
+    min*= mData->rate*COM_RATE_CUR;
+    max*= mData->rate*COM_RATE_CUR;
     if((cur >= min) && (cur <= max)) {
         return true;
     }
@@ -305,15 +307,20 @@ bool AdjustCoreThread::curOneAdjust()
     bool ret = true;
 
     for(int i=0; i<mData->size; ++i) {
+        double min = mItem->cur - mItem->curErr;
+        double max = mItem->cur + mItem->curErr;
+        min*= mData->rate*COM_RATE_CUR;
+        max*= mData->rate*COM_RATE_CUR;
         int cur = mData->cur[i];
         if((cur >= min) && (cur <= max)) {
-            mData->status[i] = 1;
+                mData->status[i] = 1;
         } else {
-            ret = false;
-            mData->status[i] = 2;
-        if(mData->cured[i] < 1) {
-            bool res = curErrRange(i);
-            if(!res)  ret = false;
+                ret = false;
+                mData->status[i] = 2;
+            if(mData->cured[i] < 1) {
+                bool res = curErrRange(i);
+                if(!res)  ret = false;
+            }
         }
     }
 
