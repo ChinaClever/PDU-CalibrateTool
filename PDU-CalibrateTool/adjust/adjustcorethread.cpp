@@ -372,6 +372,7 @@ void AdjustCoreThread::changeSwitch()
             delay(1);
         }
     }
+    openAllSwitch();
 }
 
 bool AdjustCoreThread::pduAdjust()
@@ -388,8 +389,7 @@ bool AdjustCoreThread::pduAdjust()
 
         ret = dataAdjust();
         if(ret) {
-            clearAllEle();
-            openAllSwitch();
+            // clearAllEle();
             break;
         } else {
             ret = delay(2);
