@@ -372,6 +372,7 @@ void AdjustCoreThread::changeSwitch()
             delay(1);
         }
     }
+    openAllSwitch();
 }
 
 bool AdjustCoreThread::pduAdjust()
@@ -388,8 +389,7 @@ bool AdjustCoreThread::pduAdjust()
 
         ret = dataAdjust();
         if(ret) {
-            clearAllEle();
-            openAllSwitch();
+            // clearAllEle();
             break;
         } else {
             ret = delay(2);
@@ -420,7 +420,6 @@ void AdjustCoreThread::workResult(bool res)
  */
 void AdjustCoreThread::workDown()
 {
-    mPacket->pass = 0;
     mPacket->status = tr("正在校准");
     //mSource->powerReset();
 
@@ -440,14 +439,13 @@ void AdjustCoreThread::workDown()
  * @brief 数据采集工作流程
  */
 void AdjustCoreThread::collectData()
-{    
-    mPacket->pass = 0;
+{
     mPacket->status = tr("数据采集");
 
     while(mItem->step != Test_Over) {
-        readPduData();
-        delay(2);
-        pduAdjust();
+        readPduData(); delay(1);
+        pduAdjust(); delay(1);
+        resTgData(mPacket->tg);
     }
 }
 
@@ -456,6 +454,7 @@ void AdjustCoreThread::run()
     if(!isRun) {
         isRun = true;
         mPacket->clear();
+        mPacket->pass = 0;
 
         if(Collect_Start == mItem->step) {
             collectData();
