@@ -27,29 +27,29 @@ ModeSelectWid::ModeSelectWid(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(timeoutDone()));
 
 //    unsigned char s[4];
-//     //32位
-//     s[0]=0xCC;
-//     s[1]=0x03;
-//     s[2]=0x5C;
-//     s[3]=0x43;
-//     float f2;
-//     memcpy_s(&f2 , sizeof(float) , s , 4);
-//     qDebug()<<f2<<endl;
-//      //32位
-//      s[0]=0xC8;
-//      s[1]=0x06;
-//      s[2]=0xC0;
-//      s[3]=0x40;
-//      float f3;
-//      memcpy_s(&f3 , sizeof(float) , s , 4);
-//     qDebug()<<f3<<endl;
+//    //32位
+//    s[0]=0xCC;
+//    s[1]=0x03;
+//    s[2]=0x5C;
+//    s[3]=0x43;
+//    float f2;
+//    memcpy_s(&f2 , sizeof(float) , s , 4);
+//    qDebug()<<f2<<endl;
+//    //32位
+//    s[0]=0xC8;
+//    s[1]=0x06;
+//    s[2]=0xC0;
+//    s[3]=0x40;
+//    float f3;
+//    memcpy_s(&f3 , sizeof(float) , s , 4);
+//    qDebug()<<f3<<endl;
 
-//     s[0]=0x6B;
-//     s[1]=0x88;
-//     s[2]=0xC6;
-//     s[3]=0xBC;
-//     float f4;
-//     memcpy_s(&f4 , sizeof(float) , s , 4);
+//    s[0]=0x6B;
+//    s[1]=0x88;
+//    s[2]=0xC6;
+//    s[3]=0xBC;
+//    float f4;
+//    memcpy_s(&f4 , sizeof(float) , s , 4);
 //    qDebug()<<f4<<endl;
 
 //    s[0]=0xE1;
@@ -58,23 +58,23 @@ ModeSelectWid::ModeSelectWid(QWidget *parent) :
 //    s[3]=0x44;
 //    float f5;
 //    memcpy_s(&f5 , sizeof(float) , s , 4);
-//   qDebug()<<f5<<endl;
+//    qDebug()<<f5<<endl;
 
-//   s[0]=0x00;
-//   s[1]=0x00;
-//   s[2]=0x5C;
-//   s[3]=0x43;
-//   float f6;
-//   memcpy_s(&f6 , sizeof(float) , s , 4);
-//  qDebug()<<f6<<endl;
+//    s[0]=0x00;
+//    s[1]=0x00;
+//    s[2]=0x5C;
+//    s[3]=0x43;
+//    float f6;
+//    memcpy_s(&f6 , sizeof(float) , s , 4);
+//    qDebug()<<f6<<endl;
 
-//  s[0]=0x00;
-//  s[1]=0x00;
-//  s[2]=0xC0;
-//  s[3]=0x40;
-//  float f7;
-//  memcpy_s(&f7 , sizeof(float) , s , 4);
-// qDebug()<<f7<<endl;
+//    s[0]=0x00;
+//    s[1]=0x00;
+//    s[2]=0xC0;
+//    s[3]=0x40;
+//    float f7;
+//    memcpy_s(&f7 , sizeof(float) , s , 4);
+//    qDebug()<<f7<<endl;
 }
 
 ModeSelectWid::~ModeSelectWid()
