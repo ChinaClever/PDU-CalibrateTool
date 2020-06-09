@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -274,7 +274,7 @@ bool AdjustCoreThread::curAllAdjust()
     double max = mItem->cur + mItem->curErr;
     min *= mData->rate * COM_RATE_CUR;
     max *= mData->rate * COM_RATE_CUR;
-    if((cur >= min) && (cur <= max)) {
+    if( ((cur > min) || (fabs(cur-min)<1e-6)) && ((cur < max)|| (fabs(cur-max)<1e-6)) ) {
         return true;
     }
 
@@ -291,7 +291,7 @@ bool AdjustCoreThread::curErrRange(int i)
     max *= mData->rate * COM_RATE_CUR;
 
     int cur = mData->cur[i] ;
-    if((cur >= min) && (cur <= max)) {
+    if( ((cur > min) || (fabs(cur-min)<1e-6)) && ((cur < max)|| (fabs(cur-max)<1e-6)) ) {
         mData->cured[i] = mData->cur[i];
         mData->status[i] = 1;
     } else {
