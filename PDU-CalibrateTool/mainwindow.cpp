@@ -5,7 +5,7 @@
  */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "readmedlg.h"
+//#include "readmedlg.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -13,17 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    groupBox_background_icon(this);
 
-    sConfigItem *item = AdjustConfig::bulid()->item;
-    mSerialWid = new SerialStatusWid(ui->serialWid);
-    item->serial = mSerialWid->initSerialPort(tr("校准源"), 19200);
-
-    mSourceWid = new SerialStatusWid(ui->sourceWid);
-    item->source = mSourceWid->initSerialPort(tr("标准源"), 9600);
-
-    mTableWid = new DataTableWid(ui->tableWid);
-    mModeWid = new ModeSelectWid(ui->modeWid);
+    mNavBarWid = new NavBarWid(ui->barWid);
+    QTimer::singleShot(5,this,SLOT(initFunSlot())); //延时初始化
+    connect(mNavBarWid, SIGNAL(navBarSig(int)), this, SLOT(navBarSlot(int)));
 }
 
 MainWindow::~MainWindow()
@@ -32,8 +25,33 @@ MainWindow::~MainWindow()
 }
 
 
+void MainWindow::initFunSlot()
+{
+    initWid();
+}
+
+
+void MainWindow::initWid()
+{
+    mHomeWid = new Home_MainWid(ui->stackedWid);
+    ui->stackedWid->addWidget(mHomeWid);
+
+    mSetupWid = new Setup_MainWid(ui->stackedWid);
+    ui->stackedWid->addWidget(mSetupWid);
+
+    mLog = new LogMainWid(ui->stackedWid);
+    ui->stackedWid->addWidget(mLog);
+}
+
+void MainWindow::navBarSlot(int id)
+{
+    ui->stackedWid->setCurrentIndex(id);
+}
+
+
+
 void MainWindow::on_readmeBtn_clicked()
 {
-    ReadMeDLg dlg(this);
-    dlg.exec();
+//    ReadMeDLg dlg(this);
+//    dlg.exec();
 }

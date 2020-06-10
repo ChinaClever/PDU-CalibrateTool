@@ -2,8 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "serialstatuswid.h"
-#include "modeselectwid.h"
+#include "navbarwid.h"
+#include "home_mainwid.h"
+#include "logmainwid.h"
+#include "setup_mainwid.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,14 +19,22 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void initWid();
+
+protected slots:
+    void initFunSlot();
+    void navBarSlot(int);
+
 private slots:
     void on_readmeBtn_clicked();
 
 private:
     Ui::MainWindow *ui;
-    DataTableWid *mTableWid;
-    ModeSelectWid *mModeWid;
-    SerialStatusWid *mSerialWid;
-    SerialStatusWid *mSourceWid;
+
+    LogMainWid *mLog;
+    NavBarWid *mNavBarWid;
+    Home_MainWid *mHomeWid;
+    Setup_MainWid *mSetupWid;
 };
 #endif // MAINWINDOW_H

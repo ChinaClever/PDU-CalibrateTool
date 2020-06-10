@@ -1,4 +1,4 @@
-﻿/*
+/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -9,7 +9,7 @@ AdjustCoreThread::AdjustCoreThread(QObject *parent) : QThread(parent)
 {
     mPacket =sDataPacket::bulid();
     mItem = AdjustConfig::bulid()->item;
-    mSource = StandardSource::bulid(this);
+    mSource = Ad_StandSource::bulid(this);
     mSerial = mItem->serial;
     mData = mPacket->data;
     isRun = false;
@@ -141,7 +141,7 @@ void AdjustCoreThread::sendModeCmd()
         }};
 
     int addr = mItem->addr - 1;
-    quint8 *cmd = modelCmd[mItem->mode][addr];
+    quint8 *cmd = modelCmd[mItem->adMode][addr];
     writeSerial(cmd, len); delay(5);
 }
 
@@ -379,7 +379,7 @@ bool AdjustCoreThread::pduAdjust()
 {
     bool ret = true;
     for(int i=0; i<4; ++i) {
-        if(mItem->mode || mItem->vert) { // 互感器
+        if(mItem->adMode || mItem->vert) { // 互感器
             mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
             readPduData();
         } else {
@@ -411,7 +411,7 @@ void AdjustCoreThread::workResult(bool res)
         mPacket->pass = 2;
     }
     mPacket->status = str;
-    mItem->mode = Test_End;
+    mItem->adMode = Test_End;
     delay(1);
 }
 

@@ -1,6 +1,10 @@
 
 INCLUDEPATH += $$PWD
 
+include(excel/excel.pri)
+include(dbcom/dbcom.pri)
+include(sqlcom/sqlcom.pri)
+include(logcom/logcom.pri)
 include(cfgcom/cfgcom.pri)
 include(msgcom/msgcom.pri)
 include(tabcom/tabcom.pri)

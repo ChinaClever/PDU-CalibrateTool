@@ -1,9 +1,9 @@
-﻿#ifndef ADJUSTCORETHREAD_H
+#ifndef ADJUSTCORETHREAD_H
 #define ADJUSTCORETHREAD_H
 
 #include "datapacket.h"
 #include "adjustconfig.h"
-#include "standardsource.h"
+#include "ad_standsource.h"
 
 class AdjustCoreThread : public QThread
 {
@@ -66,7 +66,7 @@ protected:
     sConfigItem *mItem;
     SerialPort *mSerial;
     sDataPacket *mPacket;
-    StandardSource *mSource;
+    Ad_StandSource *mSource;
 };
 
 #endif // ADJUSTCORETHREAD_H

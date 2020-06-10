@@ -15,20 +15,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+include(logs/logs.pri)
+include(home/home.pri)
+include(ctrls/ctrls.pri)
 include(common/common.pri)
 include(adjust/adjust.pri)
+include(setups/setups.pri)
+include(collects/collects.pri)
 
-SOURCES += \    
+SOURCES += \
+    navbarwid.cpp \
     main.cpp \
     mainwindow.cpp \
     readmedlg.cpp
 
-HEADERS += \    
+HEADERS += \
+    navbarwid.h \
     mainwindow.h \
     readmedlg.h
 
 FORMS += \
     mainwindow.ui \
+    navbarwid.ui \
     readmedlg.ui
 
 # Default rules for deployment.

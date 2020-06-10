@@ -1,4 +1,4 @@
-﻿#ifndef ADJUSTCONFIG_H
+#ifndef ADJUSTCONFIG_H
 #define ADJUSTCONFIG_H
 
 #include "configbase.h"
@@ -26,11 +26,14 @@ struct sConfigItem
 
     int step; // 步骤
     int devType; // 执行板类型
+    QString dev_type;
+
     int addr; // 地址
-    int mode; // 校准模式
+    int adMode; // 校准模式
     double cur, curErr; // 电流误差
     int vol, volErr; // 电压误差
     int vert; // 电流校验方式  0 每个校验  1 总电流校验
+    int logCount;
 };
 
 
