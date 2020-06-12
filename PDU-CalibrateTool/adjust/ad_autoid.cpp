@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "ad_autoid.h"
 
 Ad_AutoID::Ad_AutoID(QObject *parent) : QThread(parent)

@@ -1,12 +1,16 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "sn_managethread.h"
 
 SN_ManageThread::SN_ManageThread(QObject *parent) : QThread(parent)
 {
+    mPacket = sDataPacket::bulid();
     mModbus = Ad_Modbus::bulid(this);
     mItem = AdjustConfig::bulid()->item;
 }
-
-
 
 SN_ManageThread *SN_ManageThread::bulid(QObject *parent)
 {
@@ -59,7 +63,7 @@ bool SN_ManageThread::analySn(uchar *sn, int len, sSnItem &it)
 
 QString SN_ManageThread::toSnStr(sSnItem &it)
 {
-    QString sn = QString("%1%2%3%4%5%6%7%8")
+    it.sn = QString("%1%2%3%4%5%6%7%8")
             .arg((char)it.devType[0])
             .arg((char)it.devType[1])
             .arg(it.date[0], 2, 10, QLatin1Char('0'))
@@ -69,26 +73,25 @@ QString SN_ManageThread::toSnStr(sSnItem &it)
             .arg((char)it.pc)
             .arg((char)it.exor);
 
-    return sn;
+    return it.sn;
 }
 
-
-QString SN_ManageThread::readSn(sSnItem &itSn)
+bool SN_ManageThread::readSn(sSnItem &itSn)
 {
-    QString sn;
     sRtuItem itRtu;
+    bool ret = false;
 
     initReadCmd(itRtu);
     uchar buf[32] = {0};
     int len = mModbus->rtuRead(&itRtu, buf);
     if(len > 0) {
-        bool ret =  analySn(buf, len, itSn);
+        ret =  analySn(buf, len, itSn);
         if(ret) {
-            sn = toSnStr(itSn);
+            toSnStr(itSn);
         }
     }
 
-    return sn;
+    return ret;
 }
 
 void SN_ManageThread::initWriteCmd(sRtuSetItem &item, uchar *data, int len)
@@ -111,6 +114,7 @@ void SN_ManageThread::createSn(sSnItem &it)
 
     it.num = ++(mItem->currentNum);
     it.pc = mItem->pcNum;
+    toSnStr(it);
 }
 
 int SN_ManageThread::toSnData(sSnItem &it, uchar *data)
@@ -142,6 +146,32 @@ bool SN_ManageThread::writeSn(sSnItem &itSn)
 
     sRtuSetItem itRtu;
     initWriteCmd(itRtu, buf, len);
+    msleep(300);
 
     return mModbus->rtuWrite(&itRtu);
+}
+
+void SN_ManageThread::writeStatus(bool ret)
+{
+    if(ret) {
+        mPacket->status = tr("已写入序列号：\n%1").arg(mSnItem.sn);
+    } else {
+        mPacket->status = tr("序列号写入失败：\n%1").arg(mSnItem.sn);
+        mItem->currentNum -= 1;
+    }
+}
+
+bool SN_ManageThread::snEnter()
+{
+    mSnItem.sn.clear();
+    bool ret = readSn(mSnItem);
+    if(ret) {
+        mPacket->status = tr("已读到序列号：\n%1").arg(mSnItem.sn);
+    } else {
+        ret = writeSn(mSnItem);
+        writeStatus(ret);
+    }
+    mItem->sn = mSnItem.sn;
+
+    return ret;
 }

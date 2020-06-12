@@ -11,6 +11,7 @@ struct sSnItem
     ushort num;
     uchar pc;
     uchar exor;
+    QString sn;
 };
 
 class SN_ManageThread : public QThread
@@ -20,9 +21,7 @@ class SN_ManageThread : public QThread
 public:
     static SN_ManageThread *bulid(QObject *parent = nullptr);
 
-    QString readSn(sSnItem &itSn);
-    bool writeSn(sSnItem &itSn);
-
+    bool snEnter();
 
 protected:
     QString toSnStr(sSnItem &it);
@@ -34,10 +33,15 @@ protected:
     int toSnData(sSnItem &it, uchar *data);
     void initWriteCmd(sRtuSetItem &item, uchar *data, int len);
 
+    bool readSn(sSnItem &itSn);
+    bool writeSn(sSnItem &itSn);
+    void writeStatus(bool ret);
+
 private:
     sSnItem mSnItem;
     Ad_Modbus *mModbus;
     sConfigItem *mItem;
+    sDataPacket *mPacket;
 };
 
 #endif // SN_MANAGETHREAD_H

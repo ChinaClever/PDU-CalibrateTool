@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "ctrl_mpduthread.h"
 
 Ctrl_MpduThread::Ctrl_MpduThread(QObject *parent) : Ctrl_CoreThread(parent)

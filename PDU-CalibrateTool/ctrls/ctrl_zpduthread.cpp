@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "ctrl_zpduthread.h"
 
 Ctrl_ZpduThread::Ctrl_ZpduThread(QObject *parent) : Ctrl_CoreThread(parent)

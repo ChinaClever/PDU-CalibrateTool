@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "col_mpduthread.h"
 
 Col_MPduThread::Col_MPduThread(QObject *parent) : Col_CoreThread(parent)

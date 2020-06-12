@@ -37,6 +37,7 @@ struct sConfigItem
 
     int pcNum;
     int currentNum;
+    QString sn;
 };
 
 

@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "col_corethread.h"
 
 Col_CoreThread::Col_CoreThread(QObject *parent) : QThread(parent)

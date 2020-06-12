@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "ad_standsource.h"
 
 Ad_StandSource::Ad_StandSource(QObject *parent) : QThread(parent)

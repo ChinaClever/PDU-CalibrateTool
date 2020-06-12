@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "ad_adjusting.h"
 
 Ad_Adjusting::Ad_Adjusting(QObject *parent) : QThread(parent)

@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2019年10月1日
+ *      Author: Lzy
+ */
 #include "col_zpduthread.h"
 
 Col_ZPduThread::Col_ZPduThread(QObject *parent) : Col_CoreThread(parent)
