@@ -18,7 +18,6 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
     mSource = Ad_StandSource::bulid(this);
 }
 
-
 Ad_CoreThread *Ad_CoreThread::bulid(QObject *parent)
 {
     static Ad_CoreThread* sington = nullptr;
@@ -43,7 +42,6 @@ void Ad_CoreThread::startCollect()
     }
 }
 
-
 void Ad_CoreThread::collectData()
 {
     mPacket->status = tr("数据采集");
@@ -53,7 +51,6 @@ void Ad_CoreThread::collectData()
         th->readPduData(); delay(2);
     }
 }
-
 
 void Ad_CoreThread::workDown()
 {
