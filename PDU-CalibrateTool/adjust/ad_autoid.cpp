@@ -73,7 +73,7 @@ bool Ad_AutoID::readDevType()
 
     uchar recv[6] = {0};
     mPacket->status = tr("正在识别模块类型！");
-    int len = mModbus->rtuTrans(&it, recv);
+    int len = mModbus->rtuRead(&it, recv);
     bool ret = analysDevType(recv, len);
     if(ret) {
         mPacket->status = tr("识别模块：%1").arg(mItem->dev_type);

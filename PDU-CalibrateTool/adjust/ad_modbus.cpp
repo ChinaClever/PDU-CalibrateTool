@@ -64,24 +64,34 @@ int Ad_Modbus::transmit(uchar *sent, int len, uchar *recv, int sec)
     return rtn;
 }
 
-
-
-bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len, sRtuRecvItem *msg)
+bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len)
 {
     bool ret = true;
     int rtn = len-2; uchar *ptr = buf+rtn;
 
-    msg->crc = (ptr[1]*256) + ptr[0]; // 获取校验码
-    ushort crc = rtu_crc(buf, rtn);
-    if(crc != msg->crc) {
+    ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
+    ushort res = rtu_crc(buf, rtn);
+    if(crc != res) {
         ret = false;
-        qDebug() << "RtuZmRecv rtu recv crc Err!";
+        qDebug() << "Rtu Recv rtu recv crc Err!";
     }
 
     return ret;
 }
 
-int Ad_Modbus::rtuRecvData(uchar *ptr,  sRtuRecvItem *pkt)
+
+bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len, sRtuReplyItem *msg)
+{
+    bool ret = rtuRecvCrc(buf, len);
+    if(ret) {
+        int rtn = len-2; uchar *ptr = buf+rtn;
+        msg->crc = (ptr[1]*256) + ptr[0]; // 获取校验码
+    }
+
+    return ret;
+}
+
+int Ad_Modbus::rtuRecvData(uchar *ptr,  sRtuReplyItem *pkt)
 {
     pkt->addr = *(ptr++);// 从机地址码
     pkt->fn = *(ptr++);  /*功能码*/
@@ -98,9 +108,9 @@ int Ad_Modbus::rtuRecvData(uchar *ptr,  sRtuRecvItem *pkt)
 }
 
 
-int Ad_Modbus::rtuTrans(sRtuItem *pkt, sRtuRecvItem *recv)
+int Ad_Modbus::rtuRead(sRtuItem *pkt, sRtuReplyItem *recv)
 {
-    static uchar sendBuf[32]={0}, recvBuf[256]={0};
+    static uchar sendBuf[64]={0}, recvBuf[256]={0};
     int rtn = rtu_sent_packet(pkt, sendBuf);
     rtn = transmit(sendBuf, rtn, recvBuf, 2);
     if(rtn > 0) {
@@ -113,10 +123,10 @@ int Ad_Modbus::rtuTrans(sRtuItem *pkt, sRtuRecvItem *recv)
     return rtn;
 }
 
-int Ad_Modbus::rtuTrans(sRtuItem *pkt, uchar *recv)
+int Ad_Modbus::rtuRead(sRtuItem *pkt, uchar *recv)
 {
-    static sRtuRecvItem item;
-    int ret = rtuTrans(pkt, &item);
+    static sRtuReplyItem item;
+    int ret = rtuRead(pkt, &item);
     if(ret > 0) {
         for(int i=0; i<ret; ++i) {
             recv[i] = item.data[i];
@@ -125,6 +135,55 @@ int Ad_Modbus::rtuTrans(sRtuItem *pkt, uchar *recv)
 
     return ret;
 }
+
+
+
+bool Ad_Modbus::rtuWrite(sRtuSetItem *pkt)
+{
+    bool ret = false;
+    static uchar sendBuf[256]={0}, recvBuf[128]={0};
+    int rtn = rtu_write_packet(pkt, sendBuf);
+    rtn = transmit(sendBuf, rtn, recvBuf, 2);
+    if(rtn > 0) {
+        bool ret = rtuRecvCrc(recvBuf, rtn);
+        if(ret) {
+            uchar fn = recvBuf[2];
+            if(fn < 0x80) { // 设置正常
+                ret = true;
+            }
+        }
+    }
+
+    return ret;
+}
+
+int Ad_Modbus::rtu_write_packet(sRtuSetItem *pkt, uchar *ptr)
+{
+    uchar *buf = ptr;
+    *(ptr++) = pkt->addr;  /*地址码*/
+    *(ptr++) = pkt->fn; /*功能码*/
+
+    /*填入寄存器首地址*/
+    *(ptr++) = ((pkt->reg) >> 8); /*高8位*/
+    *(ptr++) = (0xff)&(pkt->reg); /*低8位*/
+
+    /*填入数据长度*/
+    *(ptr++) = ((pkt->len) >> 8); /*长度高8位*/
+    *(ptr++) = (0xff)&(pkt->len); /*低8位*/
+
+    for(int i=0; i<pkt->len; ++i) {
+        *(ptr++) = pkt->data[i];
+    }
+
+    /*填入CRC*/
+    pkt->crc = rtu_crc(buf, 6+pkt->len);
+    *(ptr++) = (0xff)&(pkt->crc); /*低8位*/
+    *(ptr++) = ((pkt->crc) >> 8); /*高8位*/
+
+    return 8 + pkt->len;
+}
+
+
 
 /**
   * 功　能：发送数据打包

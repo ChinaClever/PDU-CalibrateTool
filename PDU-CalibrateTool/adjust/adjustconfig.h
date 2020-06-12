@@ -34,6 +34,9 @@ struct sConfigItem
     int vol, volErr; // 电压误差
     int vert; // 电流校验方式  0 每个校验  1 总电流校验
     int logCount;
+
+    int pcNum;
+    int currentNum;
 };
 
 

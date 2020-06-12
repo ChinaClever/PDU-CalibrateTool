@@ -21,6 +21,7 @@ include(ctrls/ctrls.pri)
 include(common/common.pri)
 include(adjust/adjust.pri)
 include(setups/setups.pri)
+include(sernum/sernum.pri)
 include(collects/collects.pri)
 
 SOURCES += \

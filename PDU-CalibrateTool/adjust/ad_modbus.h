@@ -14,8 +14,8 @@ struct sRtuItem {
     ushort crc; // 表示CRC校验
 };
 
-struct sRtuRecvItem {
-    sRtuRecvItem():fn(3),len(0){} // 下位机有问题
+struct sRtuReplyItem {
+    sRtuReplyItem():fn(3),len(0){} // 下位机有问题
     uchar addr; // 表示从机地址码
     uchar fn;  // 表示功能码
     ushort len; // 表示数据长度
@@ -26,9 +26,20 @@ struct sRtuRecvItem {
 
 struct sRtuSetItem
 {
-    int addr;
-    int reg;
-    ushort value;
+    uchar addr;
+    uchar fn;
+    ushort reg;
+    ushort len;
+    uchar data[MODBUS_RTU_SIZE];
+    ushort crc;
+};
+
+struct sRtuSetReplyItem
+{
+    uchar addr;
+    uchar fn;
+    uchar err;
+    ushort crc;
 };
 
 
@@ -46,15 +57,21 @@ public:
     ushort rtu_crc(uchar *buf, int len);
     uchar getXorNumber(uchar *buf, int len);
 
-    int rtuTrans(sRtuItem *pkt, uchar *recv);
-    int rtuTrans(sRtuItem *pkt, sRtuRecvItem *recv);
+    int rtuRead(sRtuItem *pkt, uchar *recv);
+    int rtuRead(sRtuItem *pkt, sRtuReplyItem *recv);
+
+    bool rtuWrite(sRtuSetItem *pkt);
 
 protected:
     void initSerial();
     ushort calccrc (ushort crc, uchar crcbuf);
     int rtu_sent_packet(sRtuItem *pkt, uchar *ptr);
-    int rtuRecvData(uchar *ptr,  sRtuRecvItem *pkt);
-    bool rtuRecvCrc(uchar *buf, int len, sRtuRecvItem *msg);
+    int rtuRecvData(uchar *ptr,  sRtuReplyItem *pkt);
+
+    bool rtuRecvCrc(uchar *buf, int len);
+    bool rtuRecvCrc(uchar *buf, int len, sRtuReplyItem *msg);
+
+    int rtu_write_packet(sRtuSetItem *pkt, uchar *ptr);
 
 private:
     sConfigItem *mItem;

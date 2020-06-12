@@ -29,7 +29,7 @@ void Ctrl_MpduThread::funSwitch(uchar *on, uchar *off, int f)
 
     cmd[18] = cmd[2] = mItem->addr;
     cmd[20] = mModbus->getXorNumber(cmd,sizeof(cmd)-1);
-    writeSerial(cmd, sizeof(cmd));
+    mModbus->writeSerial(cmd, sizeof(cmd));
 }
 
 
@@ -43,5 +43,5 @@ void Ctrl_MpduThread::funClearEle(uchar *buf)
     for(int i=0; i<3; i++) cmd[5+i] = buf[i];
     cmd[2] = mItem->addr;
     cmd[20] = mModbus->getXorNumber(cmd,sizeof(cmd)-1);
-    writeSerial(cmd, sizeof(cmd));
+    mModbus->writeSerial(cmd, sizeof(cmd));
 }

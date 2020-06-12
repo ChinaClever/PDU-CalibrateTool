@@ -20,7 +20,6 @@ public:
     virtual void setClearEle(int id);
 
 protected:
-    bool writeSerial(quint8 *cmd, int len);
     void setBitControl(int id, uchar *buf);
     virtual void funClearEle(uchar *buf)=0;
     virtual void funSwitch(uchar *on, uchar *off, int f)=0;

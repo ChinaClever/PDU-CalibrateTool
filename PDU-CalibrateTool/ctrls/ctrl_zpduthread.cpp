@@ -32,7 +32,7 @@ void Ctrl_ZpduThread::funSwitch(uchar *on, uchar *off, int f)
     for(int i=0; i<3; i++)  cmd[k++] = 0x0E;
     cmd[k++] = 0x44;
     cmd[k] = mModbus->getXorNumber(cmd,sizeof(cmd)-1);
-    writeSerial(cmd, sizeof(cmd));
+    mModbus->writeSerial(cmd, sizeof(cmd));
 }
 
 
@@ -46,5 +46,5 @@ void Ctrl_ZpduThread::funClearEle(uchar *buf)
     for(int i=0; i<3; i++) cmd[k++] = 0x0E;
     cmd[k++] = 0x44;
     cmd[k] = mModbus->getXorNumber(cmd,sizeof(cmd)-1); //异或校验码
-    writeSerial(cmd, sizeof(cmd));
+    mModbus->writeSerial(cmd, sizeof(cmd));
 }

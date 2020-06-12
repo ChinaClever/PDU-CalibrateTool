@@ -97,8 +97,3 @@ void Ctrl_CoreThread::setClearEle(int id)
     funClearEle(cmd);
 }
 
-
-bool Ctrl_CoreThread::writeSerial(quint8 *cmd, int len)
-{
-   return mModbus->writeSerial(cmd, len);
-}
