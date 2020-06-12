@@ -34,7 +34,7 @@ private:
     int mId;
     sDataUnit *mData;
     sConfigItem *mItem;
-    Ctrl_CoreThread *mCoreThread;
+    Ctrl_CoreThread *mThread;
 };
 
 #endif // DEBUGDLG_H

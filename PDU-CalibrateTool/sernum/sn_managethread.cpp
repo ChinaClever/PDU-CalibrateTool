@@ -146,7 +146,7 @@ bool SN_ManageThread::writeSn(sSnItem &itSn)
 
     sRtuSetItem itRtu;
     initWriteCmd(itRtu, buf, len);
-    msleep(300);
+    mModbus->delay(1);
 
     return mModbus->rtuWrite(&itRtu);
 }
@@ -164,6 +164,7 @@ void SN_ManageThread::writeStatus(bool ret)
 bool SN_ManageThread::snEnter()
 {
     mSnItem.sn.clear();
+
     bool ret = readSn(mSnItem);
     if(ret) {
         mPacket->status = tr("已读到序列号：\n%1").arg(mSnItem.sn);
@@ -172,6 +173,7 @@ bool SN_ManageThread::snEnter()
         writeStatus(ret);
     }
     mItem->sn = mSnItem.sn;
+    ret = mModbus->delay(1);
 
     return ret;
 }

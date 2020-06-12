@@ -49,8 +49,7 @@ int Ad_StandSource::read(QByteArray &witeArray, QByteArray &readArray, int msecs
 
 int Ad_StandSource::setRange()
 {
-    sConfigItem *item = AdjustConfig::bulid()->item;
-    QString str = QString("I0 %1 %2 15 1200").arg(item->vol).arg(item->cur);
+    QString str = QString("I0 220 10 15 1200");
     QByteArray array = str.toLatin1();
     return write(array);
 }
@@ -69,14 +68,14 @@ int Ad_StandSource::powerDown()
     return ret;
 }
 
-int Ad_StandSource::powerOn()
+int Ad_StandSource::powerOn(int v)
 {
     int ret = setRange();
     if(ret > 0) {
         QByteArray array = "V100";
         write(array);
 
-        array = "A100";
+        array = "A" + QString::number(v).toUtf8();
         write(array);
     }
 

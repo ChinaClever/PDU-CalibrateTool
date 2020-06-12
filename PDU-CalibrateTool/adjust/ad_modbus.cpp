@@ -20,6 +20,21 @@ Ad_Modbus *Ad_Modbus::bulid(QObject *parent)
     return sington;
 }
 
+bool Ad_Modbus::delay(int s)
+{
+    bool ret = true;
+    for(int i=0; i<10*s; ++i) {
+        if(mItem->step != Test_Over) {
+            msleep(100);
+        } else {
+            ret = false;
+            break;
+        }
+    }
+
+    return ret;
+}
+
 void Ad_Modbus::initSerial()
 {
     if(!mSerial) {
@@ -35,7 +50,7 @@ int Ad_Modbus::readSerial(quint8 *cmd, int sec)
     if(ret) {
         for(int i=0; i<sec*2; ++i) {
             if(mItem->step != Test_Over) {
-                rtn += mSerial->read(cmd, 5);
+                rtn += mSerial->read(cmd+rtn, 5);
             } else {
                 return 0;
             }

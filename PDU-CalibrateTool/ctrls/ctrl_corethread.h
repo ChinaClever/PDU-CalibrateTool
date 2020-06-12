@@ -1,5 +1,5 @@
-#ifndef AD_CORETHREAD_H
-#define AD_CORETHREAD_H
+#ifndef CTRL_CORETHREAD_H
+#define CTRL_CORETHREAD_H
 
 #include "ad_adjusting.h"
 

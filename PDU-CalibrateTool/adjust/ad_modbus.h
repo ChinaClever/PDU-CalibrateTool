@@ -61,6 +61,7 @@ public:
     int rtuRead(sRtuItem *pkt, sRtuReplyItem *recv);
 
     bool rtuWrite(sRtuSetItem *pkt);
+    bool delay(int s);
 
 protected:
     void initSerial();

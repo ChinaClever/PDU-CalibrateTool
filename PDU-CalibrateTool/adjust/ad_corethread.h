@@ -1,0 +1,34 @@
+#ifndef AD_CORETHREAD_H
+#define AD_CORETHREAD_H
+
+#include "ad_adjusting.h"
+#include "ad_resulting.h"
+
+class Ad_CoreThread : public QThread
+{
+    Q_OBJECT
+    explicit Ad_CoreThread(QObject *parent = nullptr);
+public:
+    static Ad_CoreThread *bulid(QObject *parent = nullptr);
+
+    void startAdjust();
+    void startCollect();
+
+protected:
+    void run();
+    void workDown();
+    void collectData();
+    bool delay(int s) {return mModbus->delay(s);}
+
+private:
+    bool isRun;
+    sDataPacket *mPacket;
+    sConfigItem *mItem;
+    Ad_Modbus *mModbus;
+    Ad_AutoID *mAutoID;
+    Ad_Adjusting *mAdjust;
+    Ad_Resulting *mResult;
+    Ad_StandSource *mSource;
+};
+
+#endif // AD_CORETHREAD_H

@@ -10,7 +10,7 @@ class Ad_StandSource : public QThread
 public:
     static Ad_StandSource *bulid(QObject *parent = nullptr);
 
-    int powerOn();  // 上电
+    int powerOn(int v=60);  // 上电
     int powerDown(); // 下电
     void powerReset(); //
     void readScreenVal();

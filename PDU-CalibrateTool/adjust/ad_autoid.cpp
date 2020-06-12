@@ -77,7 +77,7 @@ bool Ad_AutoID::readDevType()
     initReadType(it);
 
     uchar recv[6] = {0};
-    mPacket->status = tr("正在识别模块类型！");
+    mPacket->status = tr("正在识别模块类型！");    
     int len = mModbus->rtuRead(&it, recv);
     bool ret = analysDevType(recv, len);
     if(ret) {
@@ -85,6 +85,7 @@ bool Ad_AutoID::readDevType()
     } else {
         mPacket->status = tr("模块识别错误！");
     }
+    ret = mModbus->delay(1);
 
     return ret;
 }
