@@ -9,7 +9,7 @@ Ad_AutoID::Ad_AutoID(QObject *parent) : QThread(parent)
 {        
     mPacket = sDataPacket::bulid();
     mModbus = Ad_Modbus::bulid(this);
-    mItem = AdjustConfig::bulid()->item;
+    mItem = Ad_Config::bulid()->item;
 }
 
 Ad_AutoID *Ad_AutoID::bulid(QObject *parent)

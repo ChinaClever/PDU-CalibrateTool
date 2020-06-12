@@ -7,7 +7,7 @@
 
 Ad_StandSource::Ad_StandSource(QObject *parent) : QThread(parent)
 {
-    mSerial = AdjustConfig::bulid()->item->source;
+    mSerial = Ad_Config::bulid()->item->source;
 }
 
 

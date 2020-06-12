@@ -45,7 +45,7 @@ void Home_RangeDlg::setModel(int index)
 
 void Home_RangeDlg::on_okBtn_clicked()
 {
-    sConfigItem *item = AdjustConfig::bulid()->item;
+    sConfigItem *item = Ad_Config::bulid()->item;
     initData(item);
     close();
 }

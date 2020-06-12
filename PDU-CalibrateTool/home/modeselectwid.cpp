@@ -15,7 +15,7 @@ ModeSelectWid::ModeSelectWid(QWidget *parent) :
     initSerial();
 
     mData = sDataPacket::bulid()->data;
-    mItem = AdjustConfig::bulid()->item;
+    mItem = Ad_Config::bulid()->item;
 
     mRangeDlg = new Home_RangeDlg(this);
     mRangeDlg->initData(mItem);
@@ -36,7 +36,7 @@ ModeSelectWid::~ModeSelectWid()
 
 void ModeSelectWid::initSerial()
 {
-    sConfigItem *item = AdjustConfig::bulid()->item;
+    sConfigItem *item = Ad_Config::bulid()->item;
     mSerialWid = new SerialStatusWid(ui->serialWid);
     item->serial = mSerialWid->initSerialPort(tr("校准源"), 19200);
 

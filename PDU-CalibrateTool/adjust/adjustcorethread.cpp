@@ -8,7 +8,7 @@
 AdjustCoreThread::AdjustCoreThread(QObject *parent) : QThread(parent)
 {
     mPacket =sDataPacket::bulid();
-    mItem = AdjustConfig::bulid()->item;
+    mItem = Ad_Config::bulid()->item;
     mSource = Ad_StandSource::bulid(this);
     mSerial = mItem->serial;
     mData = mPacket->data;

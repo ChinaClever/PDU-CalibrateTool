@@ -2,7 +2,7 @@
 #define ADJUSTCORETHREAD_H
 
 #include "datapacket.h"
-#include "adjustconfig.h"
+#include "ad_config.h"
 #include "ad_standsource.h"
 
 class AdjustCoreThread : public QThread

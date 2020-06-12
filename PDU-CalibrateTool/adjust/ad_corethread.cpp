@@ -9,7 +9,7 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
 {
     isRun = false;
     mPacket =sDataPacket::bulid();
-    mItem = AdjustConfig::bulid()->item;
+    mItem = Ad_Config::bulid()->item;
 
     mModbus = Ad_Modbus::bulid(this);
     mAutoID = Ad_AutoID::bulid(this);

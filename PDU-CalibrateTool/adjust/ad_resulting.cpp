@@ -9,7 +9,7 @@ Ad_Resulting::Ad_Resulting(QObject *parent) : QThread(parent)
 {
     mPacket =sDataPacket::bulid();
     mModbus = Ad_Modbus::bulid(this);
-    mItem = AdjustConfig::bulid()->item;
+    mItem = Ad_Config::bulid()->item;
     mSource = Ad_StandSource::bulid(this);
     mData = mPacket->data;
 }

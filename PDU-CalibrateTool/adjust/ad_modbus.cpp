@@ -8,7 +8,7 @@
 Ad_Modbus::Ad_Modbus(QObject *parent) : QThread(parent)
 {
     mSerial = nullptr;
-    mItem = AdjustConfig::bulid()->item;
+    mItem = Ad_Config::bulid()->item;
 }
 
 

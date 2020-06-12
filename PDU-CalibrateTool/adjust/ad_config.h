@@ -41,11 +41,11 @@ struct sConfigItem
 };
 
 
-class AdjustConfig : public ConfigBase
+class Ad_Config : public ConfigBase
 {
-    AdjustConfig();
+    Ad_Config();
 public:
-    static AdjustConfig *bulid();
+    static Ad_Config *bulid();
      sConfigItem *item;
 
      double getValue(const QString &name);

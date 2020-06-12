@@ -1,7 +1,7 @@
 #ifndef STANDARDSOURCE_H
 #define STANDARDSOURCE_H
 
-#include "adjustconfig.h"
+#include "ad_config.h"
 
 class Ad_StandSource : public QThread
 {

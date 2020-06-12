@@ -2,7 +2,7 @@
 #define ERRORRANGEDLG_H
 
 #include <QDialog>
-#include "adjustconfig.h"
+#include "ad_config.h"
 
 namespace Ui {
 class Home_RangeDlg;

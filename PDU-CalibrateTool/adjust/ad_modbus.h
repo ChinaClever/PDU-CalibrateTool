@@ -2,7 +2,7 @@
 #define AD_MODBUS_H
 
 #include "datapacket.h"
-#include "adjustconfig.h"
+#include "ad_config.h"
 #define MODBUS_RTU_SIZE 256
 
 struct sRtuItem {

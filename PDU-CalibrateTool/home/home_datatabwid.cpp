@@ -9,7 +9,7 @@ Home_DataTabWid::Home_DataTabWid(QWidget *parent) : ComTableWid(parent)
 {
     initWid();
     mData = sDataPacket::bulid()->data;
-    mItem = AdjustConfig::bulid()->item;
+    mItem = Ad_Config::bulid()->item;
 }
 
 void Home_DataTabWid::initWid()
