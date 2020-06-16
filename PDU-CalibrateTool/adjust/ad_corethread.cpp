@@ -15,7 +15,7 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
     mAutoID = Ad_AutoID::bulid(this);
     mAdjust = Ad_Adjusting::bulid(this);
     mResult = Ad_Resulting::bulid(this);
-    mSource = Ad_StandSource::bulid(this);
+    mSource = YC_StandSource::bulid(this);
 }
 
 Ad_CoreThread *Ad_CoreThread::bulid(QObject *parent)

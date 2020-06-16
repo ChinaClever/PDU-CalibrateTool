@@ -3,31 +3,31 @@
  *  Created on: 2019年10月1日
  *      Author: Lzy
  */
-#include "ad_standsource.h"
+#include "yc_standsource.h"
 
-Ad_StandSource::Ad_StandSource(QObject *parent) : QThread(parent)
+YC_StandSource::YC_StandSource(QObject *parent) : QThread(parent)
 {
     mSerial = nullptr;
     QTimer::singleShot(1000,this,SLOT(initSerialSlot()));
 }
 
 
-Ad_StandSource *Ad_StandSource::bulid(QObject *parent)
+YC_StandSource *YC_StandSource::bulid(QObject *parent)
 {
-    static Ad_StandSource* sington = nullptr;
+    static YC_StandSource* sington = nullptr;
     if(sington == nullptr)
-        sington = new Ad_StandSource(parent);
+        sington = new YC_StandSource(parent);
     return sington;
 }
 
-void Ad_StandSource::initSerialSlot()
+void YC_StandSource::initSerialSlot()
 {
     if(!mSerial) {
         mSerial = Ad_Config::bulid()->item->source;
     }
 }
 
-int Ad_StandSource::write(QByteArray &array)
+int YC_StandSource::write(QByteArray &array)
 {
     int ret = 0;
     if(mSerial) {
@@ -41,7 +41,7 @@ int Ad_StandSource::write(QByteArray &array)
     return ret;
 }
 
-int Ad_StandSource::read(QByteArray &witeArray, QByteArray &readArray, int msecs)
+int YC_StandSource::read(QByteArray &witeArray, QByteArray &readArray, int msecs)
 {
     int ret = 0;
     if(mSerial) {
@@ -55,14 +55,14 @@ int Ad_StandSource::read(QByteArray &witeArray, QByteArray &readArray, int msecs
     return ret;
 }
 
-int Ad_StandSource::setRange()
+int YC_StandSource::setRange()
 {
     QString str = QString("I0 220 10 15 1200");
     QByteArray array = str.toLatin1();
     return write(array);
 }
 
-int Ad_StandSource::powerDown()
+int YC_StandSource::powerDown()
 {
     int ret = setRange();
     if(ret > 0) {
@@ -76,7 +76,7 @@ int Ad_StandSource::powerDown()
     return ret;
 }
 
-int Ad_StandSource::powerOn(int v)
+int YC_StandSource::powerOn(int v)
 {
     int ret = setRange();
     if(ret > 0) {
@@ -90,14 +90,14 @@ int Ad_StandSource::powerOn(int v)
     return ret;
 }
 
-void Ad_StandSource::powerReset()
+void YC_StandSource::powerReset()
 {
     powerDown();
     msleep(500);
     powerOn();
 }
 
-void Ad_StandSource::readScreenVal()
+void YC_StandSource::readScreenVal()
 {
     QByteArray witeArray = "M";
     QByteArray readArray;

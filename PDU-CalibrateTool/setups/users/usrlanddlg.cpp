@@ -1,4 +1,4 @@
-﻿/*
+/*
  * usrlanddlg.cpp
  *  登录
  *
@@ -84,10 +84,6 @@ bool UsrLandDlg::quitWidget(void)
     QuMsgBox box(0,tr("是否退出当前用户:%1").arg(name));
     bool ret = box.Exec();
     if(ret) {
-        sUserLogItem item;
-        item.name = name;
-        item.remarks = tr("用户退出");
-        DbUserLog::bulid()->insertItem(item);
         LandingUser::get()->user.jur = false;
         LandingUser::get()->land = false;
         LandingUser::get()->sig();
@@ -118,12 +114,6 @@ void UsrLandDlg::usrLand()
                     LandingUser::get()->land = true;
                     LandingUser::get()->user = user;
                     LandingUser::get()->sig();
-
-                    sUserLogItem item;
-                    item.name = name;
-                    item.remarks = tr("用户登陆");
-                    DbUserLog::bulid()->insertItem(item);
-
                     this->accept();
                     emit sendUserNameSig(name);
                 }

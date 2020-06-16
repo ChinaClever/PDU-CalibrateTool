@@ -115,7 +115,7 @@ void Home_WorkWid::on_onBtn_clicked()
     QuMsgBox box(this, tr("是否需要校准上电?"));
     if(!box.Exec()) return;
 
-    int ret = Ad_StandSource::bulid(this)->powerOn();
+    int ret = YC_StandSource::bulid(this)->powerOn();
     if(ret <= 0) {
         CriticalMsgBox box(this, tr("标准源上电失败!"));
     }
@@ -126,7 +126,7 @@ void Home_WorkWid::on_downBtn_clicked()
     QuMsgBox box(this, tr("是否需要校准下电?"));
     if(!box.Exec()) return;
 
-    int ret = Ad_StandSource::bulid(this)->powerDown();
+    int ret = YC_StandSource::bulid(this)->powerDown();
     if(ret <= 0) {
         CriticalMsgBox box(this, tr("标准源下电失败!"));
     }

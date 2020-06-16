@@ -5,15 +5,11 @@ INCLUDEPATH += $$PWD
 
 HEADERS += \
     $$PWD/db_user.h \
-    $$PWD/dblogs.h \
-    $$PWD/dbmacs.h \
-    $$PWD/dbuserlog.h
+    $$PWD/dblogs.h
 	
 SOURCES += \
     $$PWD/db_user.cpp \
-    $$PWD/dblogs.cpp \
-    $$PWD/dbmacs.cpp \
-    $$PWD/dbuserlog.cpp
+    $$PWD/dblogs.cpp
 
 FORMS += 
 

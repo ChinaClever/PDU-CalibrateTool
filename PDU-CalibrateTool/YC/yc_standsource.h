@@ -3,12 +3,12 @@
 
 #include "ad_config.h"
 
-class Ad_StandSource : public QThread
+class YC_StandSource : public QThread
 {
     Q_OBJECT
-    explicit Ad_StandSource(QObject *parent = nullptr);
+    explicit YC_StandSource(QObject *parent = nullptr);
 public:
-    static Ad_StandSource *bulid(QObject *parent = nullptr);
+    static YC_StandSource *bulid(QObject *parent = nullptr);
 
     int powerOn(int v=60);  // 上电
     int powerDown(); // 下电

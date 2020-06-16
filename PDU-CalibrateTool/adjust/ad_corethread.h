@@ -28,7 +28,7 @@ private:
     Ad_AutoID *mAutoID;
     Ad_Adjusting *mAdjust;
     Ad_Resulting *mResult;
-    Ad_StandSource *mSource;
+    YC_StandSource *mSource;
 };
 
 #endif // AD_CORETHREAD_H

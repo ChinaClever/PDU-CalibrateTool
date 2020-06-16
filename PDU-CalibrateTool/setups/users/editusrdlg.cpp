@@ -31,13 +31,5 @@ bool EditUsrDlg::saveUsrInfo(sUserItem &user)
 {
     user.id = mId;
     DbUser* db = DbUser::bulid();
-    bool ret = db->updateItem(user);
-    if(ret) {
-        sUserLogItem item;
-        item.name = LandingUser::get()->user.name;
-        item.remarks = tr("修改用户");
-        DbUserLog::bulid()->insertItem(item);
-    }
-
-    return ret;
+    return db->updateItem(user);
 }

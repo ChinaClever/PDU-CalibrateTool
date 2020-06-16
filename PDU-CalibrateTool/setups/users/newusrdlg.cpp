@@ -128,15 +128,7 @@ bool NewUsrDlg::saveUsrInfo(sUserItem &user)
     int rtn = db->contains(user.name);
     if(rtn > 0) return false;
 
-    bool ret = db->insertItem(user);
-    if(ret) {
-        sUserLogItem item;
-        item.name = LandingUser::get()->user.name;
-        item.remarks = tr("新增用户:%1").arg(user.name);;
-        DbUserLog::bulid()->insertItem(item);
-    }
-
-    return ret;
+    return db->insertItem(user);
 }
 
 void NewUsrDlg::on_saveBtn_clicked()

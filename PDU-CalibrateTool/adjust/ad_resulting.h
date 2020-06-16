@@ -2,7 +2,7 @@
 #define AD_RESULTING_H
 
 #include "sn_managethread.h"
-#include "ad_standsource.h"
+#include "yc_standsource.h"
 
 class Ad_Resulting : public QThread
 {
@@ -36,7 +36,7 @@ private:
     Ad_Modbus *mModbus;
     sConfigItem *mItem;
     sDataPacket *mPacket;
-    Ad_StandSource *mSource;
+    YC_StandSource *mSource;
 
     Col_CoreThread *mCollect;
     Ctrl_CoreThread *mCtrl;
