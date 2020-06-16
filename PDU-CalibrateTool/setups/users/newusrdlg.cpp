@@ -114,7 +114,7 @@ bool NewUsrDlg::informationCheck(void)
     str = ui->TelephonelineEdit->text();
     if(str.isEmpty())
     {
-        InfoMsgBox(NULL, tr("请输入电话"));
+        InfoMsgBox(NULL, tr("请输入工号"));
         return false;
     }
 

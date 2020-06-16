@@ -213,7 +213,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>电话：</string>
+    <string>工号：</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -1,6 +1,6 @@
 #ifndef LANDINGUSER_H
 #define LANDINGUSER_H
-#include "dbuserlog.h"
+#include "db_user.h"
 
 bool usr_land_jur();
 QString user_land_name();
