@@ -9,7 +9,7 @@ Home_MainWid::Home_MainWid(QWidget *parent) :
     groupBox_background_icon(this);
 
     mTableWid = new Home_DataTabWid(ui->tableWid);
-    mModeWid = new ModeSelectWid(ui->modeWid);
+    mModeWid = new Home_WorkWid(ui->modeWid);
 }
 
 Home_MainWid::~Home_MainWid()

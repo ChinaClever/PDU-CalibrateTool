@@ -12,6 +12,9 @@ public:
     QString getSerialName(const QString &com="");
     void setSerialName(const QString &name, const QString &com="");
 
+    double getValue(const QString &name);
+    void setValue(double value, const QString &name);
+
     virtual QString getPrefix(){return "con";}
 };
 

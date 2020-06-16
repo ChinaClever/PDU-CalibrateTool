@@ -45,6 +45,7 @@ void Ad_CoreThread::startCollect()
 void Ad_CoreThread::collectData()
 {
     mPacket->status = tr("数据采集");
+    mAutoID->readDevType();
     Col_CoreThread *th = mResult->initThread();
 
     while(mItem->step != Test_Over) {

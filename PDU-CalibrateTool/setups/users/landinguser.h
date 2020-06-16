@@ -2,6 +2,7 @@
 #define LANDINGUSER_H
 #include "dbuserlog.h"
 
+bool usr_land_jur();
 QString user_land_name();
 
 class LandingUser : public QObject

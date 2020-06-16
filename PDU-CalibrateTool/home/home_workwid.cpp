@@ -3,86 +3,57 @@
  *  Created on: 2019年10月1日
  *      Author: Lzy
  */
-#include "modeselectwid.h"
-#include "ui_modeselectwid.h"
+#include "home_workwid.h"
+#include "ui_home_workwid.h"
 #include "home_debugdlg.h"
 
-ModeSelectWid::ModeSelectWid(QWidget *parent) :
+Home_WorkWid::Home_WorkWid(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ModeSelectWid)
+    ui(new Ui::Home_WorkWid)
 {
     ui->setupUi(this);
-    initSerial();
 
     mData = sDataPacket::bulid()->data;
     mItem = Ad_Config::bulid()->item;
-
-    mRangeDlg = new Home_RangeDlg(this);
-    mRangeDlg->initData(mItem);
-
-    mMpduThread = AdjustMpduThread::bulid(this);
-    mZpduThread = AdjustZpduThread::bulid(this);
-    on_modeBox_currentIndexChanged(0);
+    mCore = Ad_CoreThread::bulid(this);
 
     timer = new QTimer(this);
     timer->start(500);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeoutDone()));
 }
 
-ModeSelectWid::~ModeSelectWid()
+Home_WorkWid::~Home_WorkWid()
 {
     delete ui;
 }
 
-void ModeSelectWid::initSerial()
-{
-    sConfigItem *item = Ad_Config::bulid()->item;
-    mSerialWid = new SerialStatusWid(ui->serialWid);
-    item->serial = mSerialWid->initSerialPort(tr("校准源"), 19200);
-
-    mSourceWid = new SerialStatusWid(ui->sourceWid);
-    item->source = mSourceWid->initSerialPort(tr("标准源"), 9600);
-}
-
-
-
-bool ModeSelectWid::initData()
+bool Home_WorkWid::initWid()
 {
     bool ret = mItem->serial->isOpened();
     if(!ret){CriticalMsgBox box(this, tr("请先打开串口!")); return ret;}
 
-    mRangeDlg->initData(mItem);
-    mItem->devType = ui->devTypeBox->currentIndex();
-    mItem->addr = ui->addrBox->currentIndex()+1;
-    mItem->adMode = ui->modeBox->currentIndex();
+    mItem->sn.clear();
+    mItem->dev_type.clear();
+    mItem->addr = ui->addrSpin->value();
 
-    if(mItem->devType) {
-        mData->rate = 10.0;
-    } else {
-        mData->rate = 1.0;
-    }
+    ui->devTypeLab->setText("---");
+    ui->snLab->setText("---");
+    ui->statusLab->setText("---");
 
     QString str = tr("总电流：---    总功率：---  ");
-    ui->resLab->setText(str);
+    ui->tgLab->setText(str);
 
     return ret;
 }
 
-void ModeSelectWid::setEnablWid(bool en)
-{
-    ui->groupBox_1->setEnabled(en);
-    ui->groupBox_2->setEnabled(en);
-}
-
-void ModeSelectWid::on_startBtn_clicked()
+void Home_WorkWid::on_startBtn_clicked()
 {
     bool en = false;
     QString str = tr("停止校准");
     if(mItem->step != Test_Start) {
-        bool ret = initData();
+        bool ret = initWid();
         if(ret){
-            mItem->step = Test_Start;
-            mCoreThread->start();
+            mCore->startAdjust();
         } else {
             return;
         }
@@ -97,37 +68,27 @@ void ModeSelectWid::on_startBtn_clicked()
         }
     }
 
-    setEnablWid(en);
     ui->startBtn->setText(str);
+    ui->groupBox_2->setEnabled(en);
 }
 
-void ModeSelectWid::on_modeBox_currentIndexChanged(int index)
-{
-    mRangeDlg->setModel(index);
-    if(index) {
-        mCoreThread = mZpduThread;
-    } else {
-        mCoreThread = mMpduThread;
-    }
-}
-
-void ModeSelectWid::upTgWid()
+void Home_WorkWid::upTgWid()
 {
     sDataPacket *packet = sDataPacket::bulid();
     sTgObjData *tg = packet->tg;
     QString str = tr("总电流：%2A    总功率：%3KW").arg(tg->cur).arg(tg->pow);
-    ui->resLab->setText(str);
+    ui->tgLab->setText(str);
 }
 
-void ModeSelectWid::endFun()
+void Home_WorkWid::endFun()
 {
     upTgWid();
     mItem->step = Test_Over;
-    setEnablWid(true);
+     ui->groupBox_2->setEnabled(true);
     ui->startBtn->setText(tr("开始校准"));
 }
 
-void ModeSelectWid::timeoutDone()
+void Home_WorkWid::timeoutDone()
 {
     sDataPacket *packet = sDataPacket::bulid();
     if(mItem->step) {
@@ -149,7 +110,7 @@ void ModeSelectWid::timeoutDone()
     }
 }
 
-void ModeSelectWid::on_onBtn_clicked()
+void Home_WorkWid::on_onBtn_clicked()
 {
     QuMsgBox box(this, tr("是否需要校准上电?"));
     if(!box.Exec()) return;
@@ -160,33 +121,25 @@ void ModeSelectWid::on_onBtn_clicked()
     }
 }
 
-void ModeSelectWid::on_downBtn_clicked()
+void Home_WorkWid::on_downBtn_clicked()
 {
     QuMsgBox box(this, tr("是否需要校准下电?"));
     if(!box.Exec()) return;
 
-    //int ret = StandardSource::bulid(this)->powerDown();
-    Ad_StandSource::bulid(this)->readScreenVal();
-    //    if(ret <= 0) {
-    //        CriticalMsgBox box(this, tr("标准源下电失败!"));
-    //    }
+    int ret = Ad_StandSource::bulid(this)->powerDown();
+    if(ret <= 0) {
+        CriticalMsgBox box(this, tr("标准源下电失败!"));
+    }
 }
 
-
-void ModeSelectWid::on_errBtn_clicked()
-{
-    mRangeDlg->exec();
-}
-
-void ModeSelectWid::on_reBtn_clicked()
+void Home_WorkWid::on_reBtn_clicked()
 {
     bool en = false;
     QString str = tr("停止采集");
-    if(!initData()) return;
+    if(!initWid()) return;
 
     if(mItem->step != Collect_Start) {
-        mItem->step = Collect_Start;
-        mCoreThread->start();
+        mCore->startCollect();
     } else {
         en = true;
         str = tr("开始采集");
@@ -195,10 +148,9 @@ void ModeSelectWid::on_reBtn_clicked()
 
     ui->reBtn->setText(str);
     ui->startBtn->setEnabled(en);
-    ui->groupBox_1->setEnabled(en);
 }
 
-void ModeSelectWid::on_deBtn_clicked()
+void Home_WorkWid::on_deBtn_clicked()
 {
     // 开始采集数据
     if(mItem->step != Collect_Start) {

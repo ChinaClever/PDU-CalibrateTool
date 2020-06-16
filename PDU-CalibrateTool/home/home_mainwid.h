@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include "serialstatuswid.h"
-#include "modeselectwid.h"
+#include "home_workwid.h"
 
 namespace Ui {
 class Home_MainWid;
@@ -20,7 +20,7 @@ public:
 private:
     Ui::Home_MainWid *ui;
     Home_DataTabWid *mTableWid;
-    ModeSelectWid *mModeWid;
+    Home_WorkWid *mModeWid;
 };
 
 #endif // HOMEMAINWID_H

@@ -20,23 +20,27 @@ enum {
 
 struct sConfigItem
 {
-    sConfigItem() {step=0;}
+    sConfigItem() {step=0; vol=220;}
     SerialPort *serial; // 串口对象
     SerialPort *source; // 标准源
 
-    int step; // 步骤
-    int devType; // 执行板类型
+    uchar step; // 步骤
+    uchar devType; // 执行板类型
     QString dev_type;
 
-    int addr; // 地址
-    int adMode; // 校准模式
-    double cur, curErr; // 电流误差
-    int vol, volErr; // 电压误差
-    int vert; // 电流校验方式  0 每个校验  1 总电流校验
+    uchar addr; // 地址
+    uchar ac;
+    uchar outputs; // 输出位数量
+    uchar adMode; // 校准模式
+    uchar vert; // 电流校验方式  0 每个校验  1 总电流校验
+    uchar version;
+
+    ushort vol;
+    ushort volErr, curErr; // 电流误差
     int logCount;
 
-    int pcNum;
-    int currentNum;
+    uchar pcNum;
+    ushort currentNum;
     QString sn;
 };
 
@@ -48,8 +52,6 @@ public:
     static Ad_Config *bulid();
      sConfigItem *item;
 
-     double getValue(const QString &name);
-     void setValue(double value, const QString &name);
 };
 
 #endif // ADJUSTCONFIG_H

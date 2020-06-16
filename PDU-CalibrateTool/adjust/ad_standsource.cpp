@@ -7,7 +7,8 @@
 
 Ad_StandSource::Ad_StandSource(QObject *parent) : QThread(parent)
 {
-    mSerial = Ad_Config::bulid()->item->source;
+    mSerial = nullptr;
+    QTimer::singleShot(1000,this,SLOT(initSerialSlot()));
 }
 
 
@@ -17,6 +18,13 @@ Ad_StandSource *Ad_StandSource::bulid(QObject *parent)
     if(sington == nullptr)
         sington = new Ad_StandSource(parent);
     return sington;
+}
+
+void Ad_StandSource::initSerialSlot()
+{
+    if(!mSerial) {
+        mSerial = Ad_Config::bulid()->item->source;
+    }
 }
 
 int Ad_StandSource::write(QByteArray &array)

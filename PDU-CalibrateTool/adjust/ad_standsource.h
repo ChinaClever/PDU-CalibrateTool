@@ -20,7 +20,8 @@ protected:
     int write(QByteArray &array);
     int read(QByteArray &witeArray, QByteArray &readArray, int msecs);
 
-signals:
+protected slots:
+    void initSerialSlot();
 
 private:
     SerialPort *mSerial;

@@ -1,6 +1,7 @@
 #ifndef SETUPMAINWID_H
 #define SETUPMAINWID_H
 
+#include "ad_config.h"
 #include "usermainwid.h"
 
 namespace Ui {
@@ -16,19 +17,25 @@ public:
     ~Setup_MainWid();
 
 protected:
-    void initPdusTable();
-
+    void initSerial();
+    void initErrData();
+    void writeErrData();
+    void updateErrData();
+    void initLogCount();
 
 protected slots:
     void initFunSLot();
 
 private slots:
-    void on_comboBox_currentIndexChanged(int index);
     void on_logCountSpin_valueChanged(int arg1);
+    void on_saveBtn_clicked();
 
 private:
     Ui::Setup_MainWid *ui;
     UserMainWid *mUserWid;
+
+    SerialStatusWid *mSerialWid;
+    SerialStatusWid *mSourceWid;
 };
 
 #endif // SETUPMAINWID_H
