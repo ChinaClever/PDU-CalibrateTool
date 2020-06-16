@@ -1,4 +1,4 @@
-﻿/*
+/*
  *
  *  Created on: 2019年10月1日
  *      Author: Lzy
@@ -41,7 +41,7 @@ void LandingUser::init()
         user.jurisdiction =  QObject::tr("管理员");
         user.name = "admin";
         user.pwd = "admin";
-        user.telephone = "18576689472";
+        user.telephone = "10687";
         user.email = "luozhiyong131@qq.com";
         user.remarks = QObject::tr("默认账号，请修改账号信息");
         db->insertItem(user);

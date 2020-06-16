@@ -13,7 +13,7 @@ DbUser::DbUser()
     tableTile = tr("用户管理");
     hiddens << 1 << 2 << 5 << 9;
     headList << tr("用户") << tr("权限") << tr("密码")
-             << tr("邮箱") << tr("电话") << tr("备注")
+             << tr("邮箱") << tr("工号") << tr("备注")
              <<  tr("标记");
 }
 
