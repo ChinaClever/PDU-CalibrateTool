@@ -33,11 +33,9 @@ private slots:
 
 private:
     Ui::Home_WorkWid *ui;
-    sDataUnit *mData;
+    Ad_CoreThread *mCore;
     sConfigItem *mItem;
     QTimer *timer;
-
-    Ad_CoreThread *mCore;
 };
 
 #endif // MODESELECTWID_H

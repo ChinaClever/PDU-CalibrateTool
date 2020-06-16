@@ -138,7 +138,8 @@ bool Ad_Resulting::workResult(bool res)
         mPacket->pass = 2;
     }
     mPacket->status = str;
-    mItem->adMode = Test_End;
+
+    mItem->step = Test_End;
     resTgData(mPacket->tg);
     delay(1);
 
@@ -151,11 +152,10 @@ bool Ad_Resulting::workResult(bool res)
 bool Ad_Resulting::sumCurCheck(int exValue)
 {
     bool ret = true;
+
     for(int i=0; i<4; ++i) {
-        if(mItem->adMode || mItem->vert) { // 互感器
-            mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
-            mCollect->readPduData();
-        }
+        mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
+        mCollect->readPduData();
 
         ret = curTgCheck(exValue);
         if(ret) {
@@ -181,7 +181,8 @@ bool Ad_Resulting::outputCurCheck(int exValue)
 
 Col_CoreThread *Ad_Resulting::initThread()
 {
-    switch (mItem->devType) {
+    sDevType *dt = mPacket->devType;
+    switch (dt->devType) {
     case 1:
         mCollect = Col_ZPduThread::bulid(this);
         mCtrl = Ctrl_ZpduThread::bulid(this);
@@ -202,7 +203,8 @@ Col_CoreThread *Ad_Resulting::initThread()
 bool Ad_Resulting::workDown(int exValue)
 {
     bool ret = false;
-    switch (mItem->adMode) {
+    sDevType *dt = mPacket->devType;
+    switch (dt->specs) {
     case 1: ret = sumCurCheck(exValue); break; // 输出位  互感器校验
     case 2: ret = outputCurCheck(exValue); break; // 输出位锰铜
     }

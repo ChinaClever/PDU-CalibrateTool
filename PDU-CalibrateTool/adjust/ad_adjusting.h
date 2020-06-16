@@ -16,6 +16,7 @@ protected:
     bool sentCmd();
     bool readData();
     bool recvStatus(uchar *buf, int len);
+    bool updateStatus(uchar status);
 
 private:
     sConfigItem *mItem;

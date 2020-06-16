@@ -13,7 +13,6 @@ Home_DebugDlg::Home_DebugDlg(QWidget *parent) :
     ui->setupUi(this);
     groupBox_background_icon(this);
     mData = sDataPacket::bulid()->data;
-    mItem = Ad_Config::bulid()->item;
     initThread();
 }
 
@@ -25,8 +24,8 @@ Home_DebugDlg::~Home_DebugDlg()
 
 void Home_DebugDlg::initThread()
 {
-    sConfigItem *item = Ad_Config::bulid()->item;
-    switch (item->devType) {
+    sDevType *dt = sDataPacket::bulid()->devType;
+    switch (dt->devType) {
     case 1: mThread = Ctrl_ZpduThread::bulid(this); break;
     case 2: mThread = Ctrl_MpduThread::bulid(this); break;
     default:  break;

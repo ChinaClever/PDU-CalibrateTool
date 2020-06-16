@@ -13,7 +13,6 @@ Home_WorkWid::Home_WorkWid(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mData = sDataPacket::bulid()->data;
     mItem = Ad_Config::bulid()->item;
     mCore = Ad_CoreThread::bulid(this);
 
@@ -32,8 +31,6 @@ bool Home_WorkWid::initWid()
     bool ret = mItem->serial->isOpened();
     if(!ret){CriticalMsgBox box(this, tr("请先打开串口!")); return ret;}
 
-    mItem->sn.clear();
-    mItem->dev_type.clear();
     mItem->addr = ui->addrSpin->value();
 
     ui->devTypeLab->setText("---");
@@ -84,7 +81,7 @@ void Home_WorkWid::endFun()
 {
     upTgWid();
     mItem->step = Test_Over;
-     ui->groupBox_2->setEnabled(true);
+    ui->groupBox_2->setEnabled(true);
     ui->startBtn->setText(tr("开始校准"));
 }
 
@@ -94,6 +91,9 @@ void Home_WorkWid::timeoutDone()
     if(mItem->step) {
         QString str = packet->status;
         ui->statusLab->setText(str);
+
+        ui->devTypeLab->setText(packet->dev_type);
+        ui->snLab->setText(packet->sn);
     }
 
     QPalette pe;

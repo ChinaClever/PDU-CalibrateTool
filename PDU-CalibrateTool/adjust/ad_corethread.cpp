@@ -4,6 +4,8 @@
  *      Author: Lzy
  */
 #include "ad_corethread.h"
+#include "dblogs.h"
+extern QString user_land_name();
 
 Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
 {
@@ -16,6 +18,7 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
     mAdjust = Ad_Adjusting::bulid(this);
     mResult = Ad_Resulting::bulid(this);
     mSource = YC_StandSource::bulid(this);
+    mSn = SN_ManageThread::bulid(this);
 }
 
 Ad_CoreThread *Ad_CoreThread::bulid(QObject *parent)
@@ -53,6 +56,22 @@ void Ad_CoreThread::collectData()
     }
 }
 
+void Ad_CoreThread::writeLog()
+{
+    sLogItem it;
+
+    it.dev =mPacket->dev_type.split(" ").first();
+    it.user = user_land_name();
+    it.sn = mPacket->sn;
+    if(mPacket->pass == 1) {
+        it.status = tr("通过");
+    } else {
+         it.status = tr("失败");
+    }
+    DbLogs::bulid()->insertItem(it);
+}
+
+
 void Ad_CoreThread::workDown()
 {
     mSource->powerReset();
@@ -60,15 +79,17 @@ void Ad_CoreThread::workDown()
 
     ret = mAutoID->readDevType();
     if(!ret) return;
+    mSn->snEnter();
 
     mPacket->status = tr("开始校准");
     ret = mAdjust->startAdjust();
-    if(!ret) return;
-
-    mPacket->status = tr("开始自动验证");
-    ret = mResult->resEnter();
+    if(ret){
+        mPacket->status = tr("开始自动验证");
+        ret = mResult->resEnter();
+    }
 
     mSource->powerDown();
+    writeLog();
 }
 
 void Ad_CoreThread::run()

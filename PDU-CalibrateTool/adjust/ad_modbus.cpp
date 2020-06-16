@@ -88,6 +88,7 @@ bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len)
 {
     bool ret = true;
     int rtn = len-2; uchar *ptr = buf+rtn;
+    if(rtn < 0) return false;
 
     ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
     ushort res = rtu_crc(buf, rtn);
@@ -187,9 +188,9 @@ int Ad_Modbus::rtu_write_packet(sRtuSetItem *pkt, uchar *ptr)
     *(ptr++) = ((pkt->reg) >> 8); /*高8位*/
     *(ptr++) = (0xff)&(pkt->reg); /*低8位*/
 
-    /*填入数据长度*/
-    *(ptr++) = ((pkt->len) >> 8); /*长度高8位*/
-    *(ptr++) = (0xff)&(pkt->len); /*低8位*/
+    *(ptr++) = ((pkt->num) >> 8); /*长度高8位*/
+    *(ptr++) = (0xff)&(pkt->num); /*低8位*/
+    *(ptr++) = pkt->len;
 
     for(int i=0; i<pkt->len; ++i) {
         *(ptr++) = pkt->data[i];
@@ -222,8 +223,8 @@ int Ad_Modbus::rtu_sent_packet(sRtuItem *pkt, uchar *ptr)
     *(ptr++) = (0xff)&(pkt->reg); /*低8位*/
 
     /*填入数据长度*/
-    *(ptr++) = ((pkt->len) >> 8); /*长度高8位*/
-    *(ptr++) = (0xff)&(pkt->len); /*低8位*/
+    *(ptr++) = ((pkt->num) >> 8); /*长度高8位*/
+    *(ptr++) = (0xff)&(pkt->num); /*低8位*/
 
     /*填入CRC*/
     pkt->crc = rtu_crc(buf, 6);

@@ -1,4 +1,4 @@
-﻿#ifndef DATAPACKET_H
+#ifndef DATAPACKET_H
 #define DATAPACKET_H
 #include <QtCore>
 #include <QColor>
@@ -52,6 +52,20 @@ struct sTgObjData
 };
 
 
+struct sDevType
+{
+    sDevType() {}
+
+    uchar devType; // 执行板类型
+    uchar ac; // 交直流
+    uchar series; // 系列
+    uchar lines;
+    uchar outputs;
+
+    uchar specs;
+    uchar version;
+};
+
 /**
  * 数据包
  */
@@ -66,6 +80,11 @@ public:
 
     sTgObjData *tg; // 统计数据
     sDataUnit *data;
+    sDevType *devType;
+
+    QString dev_type;
+    QString sn;
+
     QString status;
     int pass;
 };

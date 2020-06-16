@@ -33,7 +33,6 @@ private:
     Ui::Home_DebugDlg *ui;
     int mId;
     sDataUnit *mData;
-    sConfigItem *mItem;
     Ctrl_CoreThread *mThread;
 };
 

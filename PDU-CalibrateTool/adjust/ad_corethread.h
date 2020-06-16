@@ -16,6 +16,7 @@ public:
 
 protected:
     void run();
+    void writeLog();
     void workDown();
     void collectData();
     bool delay(int s) {return mModbus->delay(s);}
@@ -29,6 +30,7 @@ private:
     Ad_Adjusting *mAdjust;
     Ad_Resulting *mResult;
     YC_StandSource *mSource;
+    SN_ManageThread *mSn;
 };
 
 #endif // AD_CORETHREAD_H

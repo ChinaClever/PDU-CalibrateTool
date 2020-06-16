@@ -14,12 +14,14 @@ public:
 
 protected:
     void initReadType(sRtuItem &it);
-    bool analysDevType(uchar *buf, int len);
+    bool analysDevType(uchar *buf, int len, sDevType *dt);
+    QString devTypeToStr(sDevType *dt);
 
 private:
     sConfigItem *mItem;
     Ad_Modbus *mModbus;
     sDataPacket *mPacket;
+    sDevType *mDevType;
 };
 
 #endif // AD_AUTOID_H

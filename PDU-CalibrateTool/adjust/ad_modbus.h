@@ -6,11 +6,11 @@
 #define MODBUS_RTU_SIZE 256
 
 struct sRtuItem {
-    sRtuItem():fn(3),reg(0),len(0){} // 下位机有问题
+    sRtuItem():fn(3),reg(0),num(0){} // 下位机有问题
     uchar addr; // 表示从机地址码
     uchar fn;  // 表示功能码
     ushort reg; // 表示寄存器首地址
-    ushort len; // 表示数据长度
+    ushort num; // 表示数据长度
     ushort crc; // 表示CRC校验
 };
 
@@ -18,7 +18,7 @@ struct sRtuReplyItem {
     sRtuReplyItem():fn(3),len(0){} // 下位机有问题
     uchar addr; // 表示从机地址码
     uchar fn;  // 表示功能码
-    ushort len; // 表示数据长度
+    uchar len; // 表示数据长度
     uchar data[MODBUS_RTU_SIZE]; // 表示寄存器首地址
     ushort crc; // 表示CRC校验
 };
@@ -29,7 +29,8 @@ struct sRtuSetItem
     uchar addr;
     uchar fn;
     ushort reg;
-    ushort len;
+    ushort num;
+    uchar len;
     uchar data[MODBUS_RTU_SIZE];
     ushort crc;
 };
