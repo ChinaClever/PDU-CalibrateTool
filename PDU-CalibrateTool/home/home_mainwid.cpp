@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2020年10月1日
+ *      Author: Lzy
+ */
 #include "home_mainwid.h"
 #include "ui_home_mainwid.h"
 

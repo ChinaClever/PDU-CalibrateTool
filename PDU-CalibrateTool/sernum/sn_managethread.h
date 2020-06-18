@@ -24,7 +24,7 @@ public:
     bool snEnter();
 
 protected:
-    QString toSnStr(sSnItem &it);
+    void toSnStr(sSnItem &it);
     bool analySn(uchar *sn, int len, sSnItem &it);
     bool checkSn(uchar *sn, int len);
     void initReadCmd(sRtuItem &item);
