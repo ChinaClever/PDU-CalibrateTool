@@ -39,18 +39,32 @@ void Setup_MainWid::initFunSLot()
     mUserWid = new UserMainWid(ui->stackedWid);
     ui->stackedWid->addWidget(mUserWid);
 
+    initPcNum();
     initLogCount();
     initErrData();
 }
+
+void Setup_MainWid::initPcNum()
+{
+    Ad_Config *con = Ad_Config::bulid();
+    int value = (int)con->getValue("pc_num");
+    if(value < 1) value = 1;
+
+    sConfigItem *item = con->item;
+    item->pcNum = value;
+    ui->logCountSpin->setValue(value);
+}
+
 
 void Setup_MainWid::initLogCount()
 {
     Ad_Config *con = Ad_Config::bulid();
     int value = (int)con->getValue("log_count");
-    if(value < 0) value = 10*10000;
+    if(value < 1) value = 10*10000;
 
     sConfigItem *item = con->item;
-    ui->logCountSpin->setValue(item->logCount/10000);
+    item->logCount = value;
+    ui->logCountSpin->setValue(value/10000);
 }
 
 
@@ -116,4 +130,11 @@ void Setup_MainWid::on_saveBtn_clicked()
     ui->saveBtn->setText(str);
     ui->volErrBox->setEnabled(ret);
     ui->curErrBox->setEnabled(ret);
+}
+
+void Setup_MainWid::on_pcNumSpin_valueChanged(int arg1)
+{
+    Ad_Config *con = Ad_Config::bulid();
+    con->item->pcNum = arg1;
+    con->setValue(arg1, "pc_num");
 }

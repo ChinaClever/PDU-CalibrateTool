@@ -122,8 +122,8 @@
             <rect>
              <x>10</x>
              <y>410</y>
-             <width>202</width>
-             <height>131</height>
+             <width>211</width>
+             <height>171</height>
             </rect>
            </property>
            <property name="font">
@@ -138,10 +138,10 @@
            <widget class="QLabel" name="label_15">
             <property name="geometry">
              <rect>
-              <x>11</x>
-              <y>38</y>
-              <width>60</width>
-              <height>16</height>
+              <x>13</x>
+              <y>120</y>
+              <width>81</width>
+              <height>31</height>
              </rect>
             </property>
             <property name="text">
@@ -151,10 +151,10 @@
            <widget class="QSpinBox" name="logCountSpin">
             <property name="geometry">
              <rect>
-              <x>77</x>
-              <y>38</y>
-              <width>74</width>
-              <height>19</height>
+              <x>100</x>
+              <y>120</y>
+              <width>101</width>
+              <height>31</height>
              </rect>
             </property>
             <property name="suffix">
@@ -162,6 +162,29 @@
             </property>
             <property name="minimum">
              <number>10</number>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_16">
+            <property name="geometry">
+             <rect>
+              <x>20</x>
+              <y>50</y>
+              <width>81</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>电脑号：</string>
+            </property>
+           </widget>
+           <widget class="QSpinBox" name="pcNumSpin">
+            <property name="geometry">
+             <rect>
+              <x>110</x>
+              <y>51</y>
+              <width>91</width>
+              <height>31</height>
+             </rect>
             </property>
            </widget>
           </widget>

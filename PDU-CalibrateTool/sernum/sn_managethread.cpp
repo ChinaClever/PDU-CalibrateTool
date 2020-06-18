@@ -120,6 +120,8 @@ void SN_ManageThread::createSn(sSnItem &it)
     it.num = ++(mItem->currentNum);
     it.pc = mItem->pcNum;
     toSnStr(it);
+
+    Ad_Config::bulid()->setCurrentNum();
 }
 
 int SN_ManageThread::toSnData(sSnItem &it, uchar *data)
