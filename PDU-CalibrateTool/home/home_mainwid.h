@@ -17,9 +17,6 @@ public:
     explicit Home_MainWid(QWidget *parent = nullptr);
     ~Home_MainWid();
 
-protected slots:
-    void initFunSlot();
-
 private:
     Ui::Home_MainWid *ui;
     Home_DataTabWid *mTableWid;

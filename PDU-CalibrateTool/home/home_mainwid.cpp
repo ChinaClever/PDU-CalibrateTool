@@ -12,18 +12,13 @@ Home_MainWid::Home_MainWid(QWidget *parent) :
 {
     ui->setupUi(this);
     groupBox_background_icon(this);
-    QTimer::singleShot(50,this,SLOT(initFunSlot()));
+    mModeWid = new Home_WorkWid(ui->modeWid);
+    mTableWid = new Home_DataTabWid(ui->tableWid);
 }
 
 Home_MainWid::~Home_MainWid()
 {
     delete ui;
-}
-
-void Home_MainWid::initFunSlot()
-{
-    mTableWid = new Home_DataTabWid(ui->tableWid);
-    mModeWid = new Home_WorkWid(ui->modeWid);
 }
 
 

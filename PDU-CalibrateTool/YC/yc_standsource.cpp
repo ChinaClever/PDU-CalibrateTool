@@ -30,6 +30,8 @@ void YC_StandSource::initSerialSlot()
 int YC_StandSource::write(QByteArray &array)
 {
     int ret = 0;
+    initSerialSlot();
+
     if(mSerial) {
         array.append(0x0D);
         if(mSerial->isOpened()) {
