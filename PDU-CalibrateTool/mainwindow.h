@@ -26,9 +26,6 @@ protected slots:
     void initFunSlot();
     void navBarSlot(int);
 
-private slots:
-    void on_readmeBtn_clicked();
-
 private:
     Ui::MainWindow *ui;
 
