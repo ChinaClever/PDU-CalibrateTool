@@ -50,7 +50,7 @@ QString Ad_AutoID::devTypeToStr(sDevType *dt)
     str += ch + tr("系列 ");
 
     str += tr("相数 %1").arg(dt->lines);
-    str += tr("输出位\回路 %1").arg(dt->outputs);
+    str += tr("输出位/回路 %1").arg(dt->outputs);
 
     if(1 == dt->specs) {
         str += tr("互感器 ");
