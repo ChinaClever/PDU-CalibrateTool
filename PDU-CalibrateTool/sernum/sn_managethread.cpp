@@ -1,6 +1,6 @@
 /*
  *
- *  Created on: 2019年10月1日
+ *  Created on: 2020年10月1日
  *      Author: Lzy
  */
 #include "sn_managethread.h"
@@ -62,9 +62,9 @@ bool SN_ManageThread::analySn(uchar *sn, int len, sSnItem &it)
     return ret;
 }
 
-QString SN_ManageThread::toSnStr(sSnItem &it)
+void SN_ManageThread::toSnStr(sSnItem &it)
 {
-    it.sn = QString("%1%2%3%4%5%6%7%8%9%10")
+    QString sn  = QString("%1%2%3%4%5%6%7%8%9%10")
             .arg(it.devType[0], 2, 16, QLatin1Char('0'))
             .arg(it.devType[1], 2, 16, QLatin1Char('0'))
             .arg(it.devType[2], 2, 16, QLatin1Char('0'))
@@ -76,7 +76,7 @@ QString SN_ManageThread::toSnStr(sSnItem &it)
             .arg(it.pc, 2, 16, QLatin1Char('0'))
             .arg(it.exor, 2, 16, QLatin1Char('0'));
 
-    return it.sn;
+    it.sn = sn.toUpper();
 }
 
 bool SN_ManageThread::readSn(sSnItem &itSn)
@@ -120,6 +120,8 @@ void SN_ManageThread::createSn(sSnItem &it)
     it.num = ++(mItem->currentNum);
     it.pc = mItem->pcNum;
     toSnStr(it);
+
+    Ad_Config::bulid()->setCurrentNum();
 }
 
 int SN_ManageThread::toSnData(sSnItem &it, uchar *data)

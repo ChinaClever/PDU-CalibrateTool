@@ -1,6 +1,6 @@
 /*
  *
- *  Created on: 2019年10月1日
+ *  Created on: 2020年10月1日
  *      Author: Lzy
  */
 #include "usermainwid.h"
@@ -14,7 +14,7 @@ UserMainWid::UserMainWid(QWidget *parent) :
 
     LandingUser::get();
     mBtnBar = new UserBtnBar;
-    mDbTable = new SqlTableWid(ui->widget);
+    mDbTable = new SqlTableWid(ui->groupBox);
     mDbTable->initWid(DbUser::bulid(), mBtnBar);
 }
 

@@ -1,11 +1,10 @@
 /*
  *
- *  Created on: 2019年10月1日
+ *  Created on: 2020年10月1日
  *      Author: Lzy
  */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-//#include "readmedlg.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -49,9 +48,3 @@ void MainWindow::navBarSlot(int id)
 }
 
 
-
-void MainWindow::on_readmeBtn_clicked()
-{
-//    ReadMeDLg dlg(this);
-//    dlg.exec();
-}

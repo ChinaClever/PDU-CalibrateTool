@@ -78,6 +78,19 @@
     <string>日志纪录</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="readMeBtn">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>30</y>
+     <width>93</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>操作说明</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -1,6 +1,7 @@
 #include "navbarwid.h"
 #include "ui_navbarwid.h"
 #include "backcolourcom.h"
+#include "readmedlg.h"
 
 NavBarWid::NavBarWid(QWidget *parent) :
     QWidget(parent),
@@ -37,4 +38,10 @@ void NavBarWid::on_logBtn_clicked()
 void NavBarWid::on_loginBtn_clicked()
 {
 
+}
+
+void NavBarWid::on_readMeBtn_clicked()
+{
+    ReadMeDLg dlg(this);
+    dlg.exec();
 }

@@ -22,7 +22,7 @@ enum {
 
 struct sConfigItem
 {
-    sConfigItem() {step=0; vol=220;}
+    sConfigItem() {step=0; vol=220; currentNum=0;}
     SerialPort *serial; // 串口对象
     SerialPort *source; // 标准源
 
@@ -45,6 +45,12 @@ public:
     static Ad_Config *bulid();
     sConfigItem *item;
 
+    void setCurrentNum();
+protected:
+    bool getDate();
+    void setDate();
+
+    void initCurrentNum();
 };
 
 #endif // ADJUSTCONFIG_H

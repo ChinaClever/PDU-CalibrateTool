@@ -1,6 +1,6 @@
 /*
  *
- *  Created on: 2019年10月1日
+ *  Created on: 2020年10月1日
  *      Author: Lzy
  */
 #include "yc_standsource.h"
@@ -30,6 +30,8 @@ void YC_StandSource::initSerialSlot()
 int YC_StandSource::write(QByteArray &array)
 {
     int ret = 0;
+    initSerialSlot();
+
     if(mSerial) {
         array.append(0x0D);
         if(mSerial->isOpened()) {
