@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>571</width>
+    <width>561</width>
     <height>222</height>
    </rect>
   </property>
@@ -107,26 +107,6 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
-   <property name="geometry">
-    <rect>
-     <x>540</x>
-     <y>0</y>
-     <width>31</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(140,140,140);</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>:/images/other/icon_close.png</normaloff>:/images/other/icon_close.png</iconset>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -182,7 +162,7 @@
     <rect>
      <x>0</x>
      <y>10</y>
-     <width>511</width>
+     <width>551</width>
      <height>71</height>
     </rect>
    </property>

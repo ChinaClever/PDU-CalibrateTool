@@ -1,4 +1,4 @@
-﻿#ifndef USRLANDDLG_H
+#ifndef USRLANDDLG_H
 #define USRLANDDLG_H
 
 #include <QDialog>
@@ -26,7 +26,7 @@ public slots:
     void on_landBtn_clicked();
 
 private slots:
-    void on_pushButton_clicked();
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::UsrLandDlg *ui;

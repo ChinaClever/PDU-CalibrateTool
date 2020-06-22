@@ -74,6 +74,7 @@ bool UsrLandDlg::quitWidget(void)
         LandingUser::get()->user.jur = false;
         LandingUser::get()->land = false;
         LandingUser::get()->sig();
+        emit sendUserNameSig(tr("未登陆"));
     }
 
     return ret;
@@ -128,10 +129,14 @@ void UsrLandDlg::on_landBtn_clicked()
     usrLand();
 }
 
-void UsrLandDlg::on_pushButton_clicked()
+void UsrLandDlg::closeEvent(QCloseEvent *event)
 {
-    InfoMsgBox box(0,tr("程序即将退出！"));
-    exit(0);
+    QuMsgBox box(0,tr("确定关闭程序？"));
+    if (box.Exec()) {   //允许关闭
+        event->accept();
+        exit(0);
+    }  else  {  //拒绝关闭
+        event->ignore();
+    }
 }
-
 
