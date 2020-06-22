@@ -5,6 +5,7 @@
  */
 #include "home_debugdlg.h"
 #include "ui_home_debugdlg.h"
+#include "yc_standsource.h"
 
 Home_DebugDlg::Home_DebugDlg(QWidget *parent) :
     QDialog(parent),
@@ -90,3 +91,27 @@ void Home_DebugDlg::on_swAllBtn_clicked()
         QTimer::singleShot(50,this,SLOT(workDownSlot()));
     }
 }
+
+
+void Home_DebugDlg::on_onBtn_clicked()
+{
+    QuMsgBox box(this, tr("是否需要校准上电?"));
+    if(!box.Exec()) return;
+
+    int ret = YC_StandSource::bulid(this)->powerOn();
+    if(ret <= 0) {
+        CriticalMsgBox box(this, tr("标准源上电失败!"));
+    }
+}
+
+void Home_DebugDlg::on_downBtn_clicked()
+{
+    QuMsgBox box(this, tr("是否需要校准下电?"));
+    if(!box.Exec()) return;
+
+    int ret = YC_StandSource::bulid(this)->powerDown();
+    if(ret <= 0) {
+        CriticalMsgBox box(this, tr("标准源下电失败!"));
+    }
+}
+

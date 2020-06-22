@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>585</width>
-    <height>256</height>
+    <height>287</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -156,6 +156,45 @@
     </property>
     <property name="text">
      <string>清除电能</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>200</y>
+     <width>481</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>标准源操作</string>
+   </property>
+   <widget class="QPushButton" name="onBtn">
+    <property name="geometry">
+     <rect>
+      <x>60</x>
+      <y>30</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>标准源上电</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="downBtn">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>30</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>标准源下电</string>
     </property>
    </widget>
   </widget>

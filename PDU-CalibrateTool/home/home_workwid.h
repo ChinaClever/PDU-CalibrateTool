@@ -25,11 +25,9 @@ protected:
 private slots:
     void timeoutDone();
     void on_startBtn_clicked();
-
-    void on_onBtn_clicked();
-    void on_downBtn_clicked();
     void on_deBtn_clicked();
-    void on_reBtn_clicked();
+    void on_resBtn_clicked();
+    void on_updateBtn_clicked();
 
 private:
     Ui::Home_WorkWid *ui;

@@ -32,9 +32,9 @@ UsrLandDlg::~UsrLandDlg()
  */
 int UsrLandDlg::selectWork(void)
 {
-    QMessageBox msgBox;
+    QMessageBox msgBox(this);
+    groupBox_background_icon(&msgBox);
     msgBox.setWindowTitle(tr("操作选择"));
-    //    com_setBackColour(tr("信息提示"),&msgBox);
     msgBox.setText(tr("信息提示"));
     msgBox.setText(tr("\n您是想切换用户，还是想退出？\n"));
     msgBox.setStandardButtons (QMessageBox::Ok|QMessageBox::Cancel | QMessageBox::Open);

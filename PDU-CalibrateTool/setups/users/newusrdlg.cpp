@@ -9,13 +9,11 @@
 #include "newusrdlg.h"
 #include "ui_newusrdlg.h"
 
-
 NewUsrDlg::NewUsrDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::NewUsrDlg)
 {
     ui->setupUi(this);
-
     groupBox_background_icon(this);
 
     QRegExp regx("[0-9]+$");

@@ -27,6 +27,8 @@ private slots:
     void on_closeBtn_clicked();
     void on_eleBtn_clicked();
     void on_swAllBtn_clicked();
+    void on_onBtn_clicked();
+    void on_downBtn_clicked();
     void workDownSlot();
 
 private:

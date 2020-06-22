@@ -12,13 +12,15 @@ Home_WorkWid::Home_WorkWid(QWidget *parent) :
     ui(new Ui::Home_WorkWid)
 {
     ui->setupUi(this);
-
     mItem = Ad_Config::bulid()->item;
     mCore = Ad_CoreThread::bulid(this);
 
     timer = new QTimer(this);
     timer->start(500);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeoutDone()));
+    QGridLayout *gridLayout = new QGridLayout(parent);
+    gridLayout->setContentsMargins(0, 10, 0, 0);
+    gridLayout->addWidget(this);
 }
 
 Home_WorkWid::~Home_WorkWid()
@@ -110,29 +112,26 @@ void Home_WorkWid::timeoutDone()
     }
 }
 
-void Home_WorkWid::on_onBtn_clicked()
-{
-    QuMsgBox box(this, tr("是否需要校准上电?"));
-    if(!box.Exec()) return;
 
-    int ret = YC_StandSource::bulid(this)->powerOn();
-    if(ret <= 0) {
-        CriticalMsgBox box(this, tr("标准源上电失败!"));
-    }
+void Home_WorkWid::on_resBtn_clicked()
+{
+
 }
 
-void Home_WorkWid::on_downBtn_clicked()
+void Home_WorkWid::on_deBtn_clicked()
 {
-    QuMsgBox box(this, tr("是否需要校准下电?"));
-    if(!box.Exec()) return;
-
-    int ret = YC_StandSource::bulid(this)->powerDown();
-    if(ret <= 0) {
-        CriticalMsgBox box(this, tr("标准源下电失败!"));
+    // 开始采集数据
+    if(mItem->step != Collect_Start) {
+        on_updateBtn_clicked();
     }
+
+    Home_DebugDlg dlg(this);
+    dlg.exec();
+
+    on_updateBtn_clicked(); // 停止采集数据
 }
 
-void Home_WorkWid::on_reBtn_clicked()
+void Home_WorkWid::on_updateBtn_clicked()
 {
     bool en = false;
     QString str = tr("停止采集");
@@ -146,19 +145,6 @@ void Home_WorkWid::on_reBtn_clicked()
         mItem->step = Test_Over;
     }
 
-    ui->reBtn->setText(str);
+    ui->updateBtn->setText(str);
     ui->startBtn->setEnabled(en);
-}
-
-void Home_WorkWid::on_deBtn_clicked()
-{
-    // 开始采集数据
-    if(mItem->step != Collect_Start) {
-        on_reBtn_clicked();
-    }
-
-    Home_DebugDlg dlg(this);
-    dlg.exec();
-
-    on_reBtn_clicked(); // 停止采集数据
 }
