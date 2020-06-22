@@ -2,6 +2,7 @@
 #define NAVBARWID_H
 
 #include <QWidget>
+#include "usrlanddlg.h"
 
 namespace Ui {
 class NavBarWid;
@@ -23,11 +24,11 @@ private slots:
     void on_setBtn_clicked();
     void on_logBtn_clicked();
     void on_loginBtn_clicked();
-
     void on_readMeBtn_clicked();
 
 private:
     Ui::NavBarWid *ui;
+    UsrLandDlg* mUserLand;
 };
 
 #endif // NAVBARWID_H

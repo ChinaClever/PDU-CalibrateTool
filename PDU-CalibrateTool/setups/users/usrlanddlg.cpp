@@ -15,21 +15,8 @@ UsrLandDlg::UsrLandDlg(QWidget *parent) :
 {
 
     ui->setupUi(this);
-    //    this->setWindowTitle(tr("用户登录"));
-    //    setWindowIcon(QIcon(":/images/logo.jpg"));
-
-    QPixmap map1(":/image/usr_land.jpg");
-    QPixmap map=map1.scaled(800,600);
-    QPalette palette;
-    // palette.setBrush(QPalette::Background, QBrush(QPixmap(":/images/usr_land.jpg")));
-    palette.setBrush(QPalette::Background, QBrush(map));
-    this->setPalette(palette);
-    this->setAutoFillBackground(true);
-    setWindowFlags(Qt::FramelessWindowHint);
-
-    ui->landBtn->setFlat(true);
-    QFont font=ui->label_5->font();
-    font.setLetterSpacing(QFont::AbsoluteSpacing,100);
+    this->setWindowTitle(tr("用户登录"));
+    groupBox_background_icon(this);
 }
 
 UsrLandDlg::~UsrLandDlg()

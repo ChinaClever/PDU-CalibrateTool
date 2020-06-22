@@ -9,7 +9,8 @@ NavBarWid::NavBarWid(QWidget *parent) :
 {
     ui->setupUi(this);
     set_background_icon(this,":/image/title_back.jpg");
-
+    mUserLand = new UsrLandDlg(this);
+    on_loginBtn_clicked();
 }
 
 NavBarWid::~NavBarWid()
@@ -37,7 +38,17 @@ void NavBarWid::on_logBtn_clicked()
 
 void NavBarWid::on_loginBtn_clicked()
 {
-
+    bool lang = LandingUser::get()->land;
+    if(lang) {
+        int ret = mUserLand->selectWork();
+        if(ret == 1) { // 用户切换
+            mUserLand->exec();
+        }  else if(ret == 2) { // 用户退出
+            mUserLand->quitWidget();
+        }
+    } else {
+        mUserLand->exec();
+    }
 }
 
 void NavBarWid::on_readMeBtn_clicked()

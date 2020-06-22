@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>571</width>
+    <height>222</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
   <widget class="QLabel" name="stateLabel">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>410</y>
+     <x>385</x>
+     <y>225</y>
      <width>181</width>
      <height>31</height>
     </rect>
@@ -41,8 +41,8 @@
   <widget class="QLineEdit" name="nameLineEdit">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>301</y>
+     <x>185</x>
+     <y>112</y>
      <width>195</width>
      <height>30</height>
     </rect>
@@ -55,12 +55,6 @@
      <bold>false</bold>
     </font>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color:transparent;   
-color: rgb(0, 0, 0);
-border-color: rgb(0, 170, 255);  
-border-style: solid;</string>
-   </property>
    <property name="text">
     <string>admin</string>
    </property>
@@ -68,8 +62,8 @@ border-style: solid;</string>
   <widget class="QLineEdit" name="pwdLineEdit">
    <property name="geometry">
     <rect>
-     <x>290</x>
-     <y>339</y>
+     <x>185</x>
+     <y>150</y>
      <width>195</width>
      <height>30</height>
     </rect>
@@ -80,12 +74,6 @@ border-style: solid;</string>
      <weight>50</weight>
      <bold>false</bold>
     </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: transparent;   
-color: rgb(0, 0, 0);
-border-color: rgb(0, 170, 255);  
-border-style: solid;</string>
    </property>
    <property name="text">
     <string>admin</string>
@@ -97,10 +85,10 @@ border-style: solid;</string>
   <widget class="QPushButton" name="landBtn">
    <property name="geometry">
     <rect>
-     <x>509</x>
-     <y>310</y>
-     <width>65</width>
-     <height>45</height>
+     <x>400</x>
+     <y>140</y>
+     <width>71</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
@@ -112,20 +100,17 @@ border-style: solid;</string>
    <property name="cursor">
     <cursorShape>PointingHandCursor</cursorShape>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: transparent;   
-border-color: rgb(0, 170, 255);  
-border-style: solid;
-color: rgb(0，0，0);</string>
-   </property>
    <property name="text">
     <string>登录</string>
+   </property>
+   <property name="autoDefault">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>770</x>
+     <x>540</x>
      <y>0</y>
      <width>31</width>
      <height>23</height>
@@ -145,8 +130,8 @@ color: rgb(0，0，0);</string>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>165</x>
-     <y>301</y>
+     <x>60</x>
+     <y>112</y>
      <width>111</width>
      <height>30</height>
     </rect>
@@ -158,7 +143,7 @@ color: rgb(0，0，0);</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>账号</string>
@@ -170,8 +155,8 @@ color: rgb(0，0，0);</string>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>165</x>
-     <y>335</y>
+     <x>60</x>
+     <y>146</y>
      <width>111</width>
      <height>30</height>
     </rect>
@@ -183,7 +168,7 @@ color: rgb(0，0，0);</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
     <string>密码</string>
@@ -196,84 +181,24 @@ color: rgb(0，0，0);</string>
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>79</y>
-     <width>800</width>
-     <height>81</height>
+     <y>10</y>
+     <width>511</width>
+     <height>71</height>
     </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>48</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>Clever Manager</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>160</y>
-     <width>800</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
    </property>
    <property name="font">
     <font>
      <family>微软雅黑</family>
-     <pointsize>11</pointsize>
+     <pointsize>24</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
+    <string notr="true"/>
    </property>
    <property name="text">
-    <string>克莱沃电子有限公司智能管理软件</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>530</y>
-     <width>800</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>9</pointsize>
-     <weight>50</weight>
-     <bold>false</bold>
-    </font>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>Copyright © Clever Electronic Co.,Ltd. all rights reserved</string>
+    <string>校准系统平台</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
