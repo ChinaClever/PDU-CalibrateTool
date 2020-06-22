@@ -1,4 +1,4 @@
-/*
+﻿/*
  *
  *  Created on: 2020年10月1日
  *      Author: Lzy
@@ -17,6 +17,8 @@ SqlTableView::SqlTableView(QWidget *parent) : QWidget(parent)
     // tableView->setAlternatingRowColors(true);
     // tableView->setStyleSheet("QTableView{ background-color: rgb(202, 232, 234); alternate-background-color: rgb(245, 245, 245); }");
     // connect(tableView,SIGNAL(doubleClicked(QModelIndex)),this,SLOT(doubleSlot(QModelIndex)));
+    tableView->horizontalHeader()->setStyleSheet("font: 12pt \"微软雅黑\";");
+    tableView->setStyleSheet("font: 12pt \"微软雅黑\";");
 
     mDb = nullptr;
     QGridLayout *gridLayout = new QGridLayout(parent);

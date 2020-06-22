@@ -51,6 +51,7 @@ void ComTableWid::initTableWidget(QStringList &header)
 
     // ui->tableWidget->setColumnHidden(0, true);
     // ui->tableWidget->setColumnWidth(0,200);
+    ui->tableWidget->horizontalHeader()->setStyleSheet("font: 12pt \"微软雅黑\";");
 }
 
 
