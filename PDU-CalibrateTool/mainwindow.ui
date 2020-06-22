@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1087</width>
-    <height>601</height>
+    <width>1146</width>
+    <height>793</height>
    </rect>
   </property>
   <property name="font">
@@ -24,38 +24,33 @@
     <normaloff>:/image/logo.jpg</normaloff>:/image/logo.jpg</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QStackedWidget" name="stackedWid">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>80</y>
-      <width>1073</width>
-      <height>496</height>
-     </rect>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
     </property>
-   </widget>
-   <widget class="QWidget" name="barWid" native="true">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>1073</width>
-      <height>80</height>
-     </rect>
+    <property name="topMargin">
+     <number>0</number>
     </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>80</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>16777215</width>
-      <height>80</height>
-     </size>
-    </property>
-   </widget>
+    <item>
+     <widget class="QWidget" name="barWid" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>80</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>80</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QStackedWidget" name="stackedWid"/>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources>
