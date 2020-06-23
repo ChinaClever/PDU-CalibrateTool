@@ -45,6 +45,15 @@ void Ad_CoreThread::startCollect()
     }
 }
 
+void Ad_CoreThread::startResult()
+{
+    if(!isRun) {
+        mItem->step = Test_vert;
+        start();
+    }
+}
+
+
 void Ad_CoreThread::collectData()
 {
     mPacket->status = tr("数据采集");
@@ -55,6 +64,7 @@ void Ad_CoreThread::collectData()
         th->readPduData(); delay(2);
     }
 }
+
 
 void Ad_CoreThread::writeLog()
 {
@@ -99,11 +109,12 @@ void Ad_CoreThread::run()
         mPacket->clear();
         mPacket->pass = 0;
 
-        if(Collect_Start == mItem->step) {
-            collectData();
-        } else {
-            workDown();
+        switch (mItem->step) {
+        case Test_Start: workDown(); break;
+        case Collect_Start: collectData(); break;
+        case Test_vert: mResult->resEnter(); break;
         }
+
         isRun = false;
     } else {
         qDebug() << "AdjustCoreThread run err" << isRun;

@@ -298,7 +298,7 @@
          </size>
         </property>
         <property name="text">
-         <string>误差验证</string>
+         <string>开始较验</string>
         </property>
        </widget>
       </item>

@@ -217,6 +217,7 @@ bool Ad_Resulting::resEnter()
     bool ret = true;
     initThread();
 
+    mItem->step = Test_vert;
     for(int i=0; i<3; ++i) {
         int exCur = (i*2 + 1) * 10;
         mSource->powerOn(exCur);

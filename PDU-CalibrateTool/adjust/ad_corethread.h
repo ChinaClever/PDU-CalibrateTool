@@ -13,6 +13,7 @@ public:
 
     void startAdjust();
     void startCollect();
+    void startResult();
 
 protected:
     void run();

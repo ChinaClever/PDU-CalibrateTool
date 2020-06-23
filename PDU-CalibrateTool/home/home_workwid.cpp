@@ -115,7 +115,21 @@ void Home_WorkWid::timeoutDone()
 
 void Home_WorkWid::on_resBtn_clicked()
 {
+    bool en = false;
+    QString str = tr("停止较验");
+    if(!initWid()) return;
 
+    if(mItem->step != Test_vert) {
+        mCore->startResult();
+    } else {
+        en = true;
+        str = tr("开始较验");
+        mItem->step = Test_Over;
+    }
+
+    ui->resBtn->setText(str);
+    ui->startBtn->setEnabled(en);
+    ui->updateBtn->setEnabled(en);
 }
 
 void Home_WorkWid::on_deBtn_clicked()
@@ -146,5 +160,6 @@ void Home_WorkWid::on_updateBtn_clicked()
     }
 
     ui->updateBtn->setText(str);
+    ui->resBtn->setEnabled(en);
     ui->startBtn->setEnabled(en);
 }
