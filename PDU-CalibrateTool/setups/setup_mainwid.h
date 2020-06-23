@@ -23,15 +23,14 @@ protected:
     void updateErrData();
     void initLogCount();
     void initPcNum();
+    void writeLogCount();
+    void writePcNum();
 
 protected slots:
-    void initFunSLot();
-
-private slots:
-    void on_logCountSpin_valueChanged(int arg1);
+    void initFunSlot();
+    void checkPcNumSlot();
     void on_saveBtn_clicked();
-
-    void on_pcNumSpin_valueChanged(int arg1);
+    void on_pcBtn_clicked();
 
 private:
     Ui::Setup_MainWid *ui;

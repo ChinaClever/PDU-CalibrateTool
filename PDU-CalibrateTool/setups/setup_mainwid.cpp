@@ -13,7 +13,7 @@ Setup_MainWid::Setup_MainWid(QWidget *parent) :
 {
     ui->setupUi(this);
     groupBox_background_icon(this);
-    QTimer::singleShot(rand()%13,this,SLOT(initFunSLot()));
+    QTimer::singleShot(rand()%13,this,SLOT(initFunSlot()));
     initSerial();
 }
 
@@ -32,9 +32,18 @@ void Setup_MainWid::initSerial()
     item->source = mSourceWid->initSerialPort(tr("标准源"), 9600);
 }
 
+void Setup_MainWid::checkPcNumSlot()
+{
+    sConfigItem *item = Ad_Config::bulid()->item;
+    int num = item->pcNum;
 
+    if(num < 1) {
+        CriticalMsgBox box(this, tr("请设定电脑号！\n 服务设置 -> 设置功能 \n 需要管理员权限!"));
+        QTimer::singleShot(20*1000,this,SLOT(checkPcNumSlot()));
+    }
+}
 
-void Setup_MainWid::initFunSLot()
+void Setup_MainWid::initFunSlot()
 {
     mUserWid = new UserMainWid(ui->stackedWid);
     ui->stackedWid->addWidget(mUserWid);
@@ -42,17 +51,19 @@ void Setup_MainWid::initFunSLot()
     initPcNum();
     initLogCount();
     initErrData();
+
+    QTimer::singleShot(2*1000,this,SLOT(checkPcNumSlot()));
 }
 
 void Setup_MainWid::initPcNum()
 {
     Ad_Config *con = Ad_Config::bulid();
     int value = (int)con->getValue("pc_num");
-    if(value < 1) value = 1;
+    if(value < 1) value = 0;
 
     sConfigItem *item = con->item;
     item->pcNum = value;
-    ui->logCountSpin->setValue(value);
+    ui->pcNumSpin->setValue(value);
 }
 
 
@@ -68,9 +79,10 @@ void Setup_MainWid::initLogCount()
 }
 
 
-void Setup_MainWid::on_logCountSpin_valueChanged(int arg1)
+void Setup_MainWid::writeLogCount()
 {
     Ad_Config *con = Ad_Config::bulid();
+    int arg1 = ui->logCountSpin->value();
     con->item->logCount = arg1*10000;
     con->setValue(arg1*10000, "log_count");
 }
@@ -108,22 +120,23 @@ void Setup_MainWid::writeErrData()
     updateErrData();
 }
 
+
 void Setup_MainWid::on_saveBtn_clicked()
 {
     static int flg = 0;
-    bool ret = false;
     QString str = tr("修改");
 
-    if(!usr_land_jur()) {
+    bool ret = usr_land_jur();
+    if(!ret) {
         CriticalMsgBox box(this, tr("你无权进行此操作"));
         return;
     }
 
     if(flg++ %2) {
+        ret = false;
         writeErrData();
         updateErrData();
     } else {
-        ret = true;
         str = tr("保存");
     }
 
@@ -132,9 +145,34 @@ void Setup_MainWid::on_saveBtn_clicked()
     ui->curErrBox->setEnabled(ret);
 }
 
-void Setup_MainWid::on_pcNumSpin_valueChanged(int arg1)
+void Setup_MainWid::writePcNum()
 {
     Ad_Config *con = Ad_Config::bulid();
+    int arg1 = ui->pcNumSpin->value();
     con->item->pcNum = arg1;
     con->setValue(arg1, "pc_num");
+}
+
+void Setup_MainWid::on_pcBtn_clicked()
+{
+    static int flg = 0;
+    QString str = tr("修改");
+
+    bool ret = usr_land_jur();
+    if(!ret) {
+        CriticalMsgBox box(this, tr("你无权进行此操作"));
+        return;
+    }
+
+    if(flg++ %2) {
+        ret = false;
+        writePcNum();
+        writeLogCount();
+    } else {
+        str = tr("保存");
+    }
+
+    ui->pcBtn->setText(str);
+    ui->pcNumSpin->setEnabled(ret);
+    ui->logCountSpin->setEnabled(ret);
 }

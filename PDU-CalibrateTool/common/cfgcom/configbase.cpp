@@ -61,6 +61,6 @@ double ConfigBase::getValue(const QString &name)
 void ConfigBase::setValue(double value, const QString &name)
 {
     QString prefix = getPrefix();
-    QString str = QString("%1_COM_%2").arg(prefix).arg(name);
+    QString str = QString("%1_value_%2").arg(prefix).arg(name);
     com_cfg_write(str, QString::number(value), prefix);
 }
