@@ -8,6 +8,7 @@
 LogBtnBar::LogBtnBar(QWidget *parent) : SqlBtnBar(parent)
 {
     setNoEdit();
+    clearHidden();
     mQueryDlg = nullptr;
 }
 

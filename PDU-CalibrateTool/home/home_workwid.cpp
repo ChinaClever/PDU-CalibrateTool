@@ -6,6 +6,7 @@
 #include "home_workwid.h"
 #include "ui_home_workwid.h"
 #include "home_debugdlg.h"
+extern bool usr_land_jur();
 
 Home_WorkWid::Home_WorkWid(QWidget *parent) :
     QWidget(parent),
@@ -134,8 +135,12 @@ void Home_WorkWid::on_resBtn_clicked()
 
 void Home_WorkWid::on_deBtn_clicked()
 {
-    // 开始采集数据
-    if(mItem->step != Collect_Start) {
+    if(usr_land_jur()) {
+        CriticalMsgBox box(this, tr("您没有权限进行此操作"));
+        return;
+    }
+
+    if(mItem->step != Collect_Start) { // 开始采集数据
         on_updateBtn_clicked();
     }
 
