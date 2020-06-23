@@ -22,6 +22,12 @@
   <layout class="QGridLayout" name="gridLayout_4">
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox_3">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>160</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>200</width>
@@ -38,11 +44,40 @@
       <string>串口操作</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <property name="horizontalSpacing">
+       <number>6</number>
+      </property>
       <item row="0" column="0">
-       <widget class="QWidget" name="serialWid" native="true"/>
+       <widget class="QWidget" name="serialWid" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>80</height>
+         </size>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QWidget" name="sourceWid" native="true"/>
+       <widget class="QWidget" name="sourceWid" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>80</height>
+         </size>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -184,7 +219,7 @@
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>200</height>
+       <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
@@ -283,6 +318,9 @@
         <property name="text">
          <string>版本号：</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
@@ -297,12 +335,15 @@
         <property name="text">
          <string>更新日期：</string>
         </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
        </widget>
       </item>
       <item row="1" column="1">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>20200612</string>
+         <string>2020-06-12</string>
         </property>
        </widget>
       </item>
@@ -322,7 +363,7 @@
       <item row="2" column="1">
        <widget class="QPushButton" name="readMeBtn">
         <property name="text">
-         <string>说明</string>
+         <string>操作说明</string>
         </property>
        </widget>
       </item>

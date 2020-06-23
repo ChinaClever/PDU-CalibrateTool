@@ -8,6 +8,10 @@ SerialStatusWid::SerialStatusWid(QWidget *parent) :
 {
     ui->setupUi(this);
     mEnable = false;
+
+    QGridLayout *gridLayout = new QGridLayout(parent);
+    gridLayout->setContentsMargins(0, 10, 0, 0);
+    gridLayout->addWidget(this);
 }
 
 SerialStatusWid::~SerialStatusWid()

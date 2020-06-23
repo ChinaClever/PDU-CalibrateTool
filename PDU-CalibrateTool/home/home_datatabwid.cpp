@@ -47,8 +47,7 @@ void Home_DataTabWid::appendItem(sDataUnit *unit)
         setTableRow(i, listStr);
         if(unit->status[i] == 2) {
             setAlarmBackgroundColor(i);
-        }
-        else {
+        } else {
             setNormalBackgroundColor(i);
         }
     }
