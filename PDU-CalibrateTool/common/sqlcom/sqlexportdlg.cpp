@@ -12,7 +12,6 @@ SqlExportDlg::SqlExportDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::SqlExportDlg)
 {
-
     ui->setupUi(this);
     groupBox_background_icon(this);
     this->setWindowTitle(tr("日志导出"));

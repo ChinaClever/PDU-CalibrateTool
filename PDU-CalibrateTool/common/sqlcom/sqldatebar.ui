@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>463</width>
+    <width>443</width>
     <height>150</height>
    </rect>
   </property>
@@ -75,7 +75,7 @@
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QRadioButton" name="weekRadio">
+       <widget class="QRadioButton" name="currentMonthRadio">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -83,7 +83,7 @@
          </size>
         </property>
         <property name="text">
-         <string>近一周</string>
+         <string>当月</string>
         </property>
        </widget>
       </item>
@@ -120,7 +120,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QRadioButton" name="currentMonthRadio">
+       <widget class="QRadioButton" name="weekRadio">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -128,7 +128,10 @@
          </size>
         </property>
         <property name="text">
-         <string>当月</string>
+         <string>自定义</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
