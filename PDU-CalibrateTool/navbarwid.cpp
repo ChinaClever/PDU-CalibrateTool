@@ -59,8 +59,3 @@ void NavBarWid::recvUserNameSlot(QString str)
     ui->userLab->setText(str);
 }
 
-void NavBarWid::on_readMeBtn_clicked()
-{
-    ReadMeDLg dlg(this);
-    dlg.exec();
-}

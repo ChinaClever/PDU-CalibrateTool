@@ -6,6 +6,7 @@
 #include "setup_mainwid.h"
 #include "ui_setup_mainwid.h"
 #include "logmainwid.h"
+#include "readmedlg.h"
 
 Setup_MainWid::Setup_MainWid(QWidget *parent) :
     QWidget(parent),
@@ -175,4 +176,10 @@ void Setup_MainWid::on_pcBtn_clicked()
     ui->pcBtn->setText(str);
     ui->pcNumSpin->setEnabled(ret);
     ui->logCountSpin->setEnabled(ret);
+}
+
+void Setup_MainWid::on_readMeBtn_clicked()
+{
+    ReadMeDLg dlg(this);
+    dlg.exec();
 }

@@ -24,7 +24,6 @@ private slots:
     void on_setBtn_clicked();
     void on_logBtn_clicked();
     void on_loginBtn_clicked();
-    void on_readMeBtn_clicked();
     void recvUserNameSlot(QString str);
 
 private:
