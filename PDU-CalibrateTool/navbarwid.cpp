@@ -2,6 +2,7 @@
 #include "ui_navbarwid.h"
 #include "backcolourcom.h"
 #include "readmedlg.h"
+#include "ad_config.h"
 
 NavBarWid::NavBarWid(QWidget *parent) :
     QWidget(parent),
@@ -13,7 +14,14 @@ NavBarWid::NavBarWid(QWidget *parent) :
     gridLayout->setContentsMargins(0, 0, 0, 6);
     gridLayout->addWidget(this);
 
-    mUserLand = new UsrLandDlg(this);
+    Ad_Config *con = Ad_Config::bulid();
+    QString name = con->initName();
+    mUserLand = new UsrLandDlg(name,this);
+
+    timer = new QTimer(this);
+    timer->start(500);
+    connect(timer, SIGNAL(timeout()), this, SLOT(timeoutDone()));
+
     QTimer::singleShot(5,this,SLOT(on_loginBtn_clicked()));
     connect(mUserLand,SIGNAL(sendUserNameSig(QString)),this,SLOT(recvUserNameSlot(QString)));
 }
@@ -59,3 +67,17 @@ void NavBarWid::recvUserNameSlot(QString str)
     ui->userLab->setText(str);
 }
 
+void NavBarWid::timeoutDone()
+{
+    if(usr_land_jur())
+        ui->setBtn->show();
+    else
+        ui->setBtn->hide();
+
+}
+
+void NavBarWid::on_readmeBtn_clicked()
+{
+    ReadMeDLg dlg(this);
+    dlg.exec();
+}

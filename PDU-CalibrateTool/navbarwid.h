@@ -25,10 +25,14 @@ private slots:
     void on_logBtn_clicked();
     void on_loginBtn_clicked();
     void recvUserNameSlot(QString str);
+    void timeoutDone();
+
+    void on_readmeBtn_clicked();
 
 private:
     Ui::NavBarWid *ui;
     UsrLandDlg* mUserLand;
+    QTimer* timer;
 };
 
 #endif // NAVBARWID_H
