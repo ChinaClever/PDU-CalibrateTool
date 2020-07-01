@@ -148,12 +148,17 @@ bool Json_Recv::analyticalData(QJsonObject &object ,QVector<QString>& mProduct)
         for (int i = 0; i < nSize; ++i)
         {
             QJsonObject obj = array.at(i).toObject();
-            int id = getData(obj, "id");
+            uint id = getData(obj, "id");
             QString strNo = getString(obj, "SN_NO");
             QString strDevType = getString(obj, "dev_type");
-            qDebug()<<"id:"<<id<<"SN_NO:"<<strNo<<"dev_type:"<<strDevType<<endl;
+            mIdToDevType.insert(id,strDevType);
         }
     }
 
     return true;
+}
+
+QString Json_Recv::getDevTypeByID(uint id)
+{
+    return mIdToDevType[id];
 }
