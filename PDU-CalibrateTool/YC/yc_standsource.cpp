@@ -105,11 +105,11 @@ void YC_StandSource::powerReset()
     powerOn();
 }
 
-int YC_StandSource::readScreenVal(float targetCur,int delay)
+int YC_StandSource::readScreenVal(float targetCur)
 {
     QByteArray witeArray = "M";
     QByteArray readArray;
-    int ret = read(witeArray,readArray,delay);
+    int ret = read(witeArray,readArray,5);
     if(ret == 0)
         return -1;//没有读取到数据
 
@@ -187,3 +187,26 @@ int YC_StandSource::readScreenVal(float targetCur,int delay)
     return -2;//读取到不相等的数据
 }
 
+bool YC_StandSource::readScreenStableVal(float targetCur,int time)
+{
+    int readRet = -1;
+    static int count = time;
+    int readTimes = 0;//读取三次成功，才认为电流稳定
+    while(readRet != 1 && readTimes != 2)
+    {
+        readRet = readScreenVal(targetCur);
+        if(readRet == 1)
+        {
+            readRet = -1;
+            readTimes++;
+        }
+        delay(1);
+        count--;
+        if(count == 0)
+        {
+            count = time;
+            return false;
+        }
+    }
+    return true;
+}

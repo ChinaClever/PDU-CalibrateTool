@@ -92,22 +92,9 @@ void Ad_CoreThread::workDown()
     ret = mSn->snEnter();//写入序列号
     if(!ret) return;
 
-    //显示 已经存在序列号，写入序列号成功，写入序列号失败
-
     //读取标准源数据，达到稳定后才开始校准 10s钟还是达不到则退出校准
-    int readRet = -1;
-    static int count = 0;
-    while(readRet != 1)
-    {
-        readRet = mSource->readScreenVal(6.0);
-        delay(1);
-        count++;
-        if(count == 10)
-        {
-            count = 0;
-            return ;
-        }
-    }
+    ret = mSource->readScreenStableVal(6.0);
+    if(!ret) return;
 
     mPacket->status = tr("开始校准");
     ret = mAdjust->startAdjust();

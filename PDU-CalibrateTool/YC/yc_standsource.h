@@ -14,6 +14,7 @@ public:
     int powerDown(); // 下电
     void powerReset(); //
     int readScreenVal(float targetCur);
+    bool readScreenStableVal(float targetCur, int time=10);
 
 protected:
     int setRange();
