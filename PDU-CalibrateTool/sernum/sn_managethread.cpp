@@ -167,19 +167,30 @@ void SN_ManageThread::writeStatus(bool ret)
     }
 }
 
-bool SN_ManageThread::snEnter()
+/**
+ * @brief 读取序列号和写入序列号业务逻辑函数
+ * @param
+ * @return ans 0:序列号写入失败 1:序列号写入成功 2:序列号读取成功
+ */
+int SN_ManageThread::snEnter()
 {
     mSnItem.sn.clear();
 
     bool ret = readSn(mSnItem);
+    int ans = 0;
     if(ret) {
         mPacket->status = tr("已读到序列号：\n%1").arg(mSnItem.sn);
+        ans = 2;
     } else {
         ret = writeSn(mSnItem);
         writeStatus(ret);
+        if(ret)
+            ans = 1;
+        else
+            ans = 0;
     }
     mPacket->sn = mSnItem.sn;
-    ret = mModbus->delay(1);
+    mModbus->delay(1);
 
-    return ret;
+    return ans;
 }

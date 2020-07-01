@@ -99,13 +99,13 @@ void YC_StandSource::powerReset()
     powerOn();
 }
 
-int YC_StandSource::readScreenVal(float targetCur,int delay)
+int YC_StandSource::readScreenVal(float targetCur)
 {
     QByteArray witeArray = "M";
     QByteArray readArray;
-    int ret = read(witeArray,readArray,delay);
+    int ret = read(witeArray,readArray,5);
     if(ret == 0)
-        return -1;//没有读取到数据
+        return 0;//没有读取到数据
 
     /////////////////////////////////////////////////////////debug
     qDebug()  << "[" << readArray.toHex() << "]"<<endl;
@@ -178,6 +178,6 @@ int YC_StandSource::readScreenVal(float targetCur,int delay)
     //  memcpy_s(&f7 , sizeof(float) , s , 4);
     // qDebug()<<f7<<endl;
     /////////////////////////////////////////////////////////debug
-    return -2;//读取到不相等的数据
+    return -1;//读取到不相等的数据
 }
 
