@@ -65,3 +65,20 @@ void Ad_Config::initCurrentNum()
         item->currentNum = value;
     }
 }
+
+QString Ad_Config::initName()
+{
+    QString name= getCurrentName();
+    if(name.isEmpty()) {
+        item->currentName = "admin";
+        setCurrentName(item->currentName);
+    } else {
+        item->currentName = name;
+    }
+    return item->currentName;
+}
+
+void Ad_Config::setName(QString str)
+{
+    setCurrentName(str);
+}

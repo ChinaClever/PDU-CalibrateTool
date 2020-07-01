@@ -99,14 +99,85 @@ void YC_StandSource::powerReset()
     powerOn();
 }
 
-void YC_StandSource::readScreenVal()
+int YC_StandSource::readScreenVal(float targetCur,int delay)
 {
     QByteArray witeArray = "M";
     QByteArray readArray;
-    read(witeArray,readArray,5);
+    int ret = read(witeArray,readArray,delay);
+    if(ret == 0)
+        return -1;//没有读取到数据
 
     /////////////////////////////////////////////////////////debug
     qDebug()  << "[" << readArray.toHex() << "]"<<endl;
+
+    qDebug()<<"readArray len"<<readArray.length()<<endl;
+    for(int i = 0 ; i < readArray.length();i+=4)
+    {
+        unsigned char s[4];
+        //32位
+        s[0]=readArray.at(i);
+        s[1]=readArray.at(i+1);
+        s[2]=readArray.at(i+2);
+        s[3]=readArray.at(i+3);
+        float f2;
+        memcpy_s(&f2 , sizeof(float) , s , 4);
+        qDebug()<<f2<<endl;
+        if(i == 2)
+        {
+            if(fabs(targetCur-f2)<1e-6)
+                return 1;//刚好相等
+        }
+    }
+    //    unsigned char s[4];
+    //     //32位
+    //     s[0]=0xCC;
+    //     s[1]=0x03;
+    //     s[2]=0x5C;
+    //     s[3]=0x43;
+    //     float f2;
+    //     memcpy_s(&f2 , sizeof(float) , s , 4);
+    //     qDebug()<<f2<<endl;
+    //      //32位
+    //      s[0]=0xC8;
+    //      s[1]=0x06;
+    //      s[2]=0xC0;
+    //      s[3]=0x40;
+    //      float f3;
+    //      memcpy_s(&f3 , sizeof(float) , s , 4);
+    //     qDebug()<<f3<<endl;
+
+    //     s[0]=0x6B;
+    //     s[1]=0x88;
+    //     s[2]=0xC6;
+    //     s[3]=0xBC;
+    //     float f4;
+    //     memcpy_s(&f4 , sizeof(float) , s , 4);
+    //    qDebug()<<f4<<endl;
+
+    //    s[0]=0xE1;
+    //    s[1]=0x07;
+    //    s[2]=0xA5;
+    //    s[3]=0x44;
+    //    float f5;
+    //    memcpy_s(&f5 , sizeof(float) , s , 4);
+    //   qDebug()<<f5<<endl;
+
+    //   s[0]=0x00;
+    //   s[1]=0x00;
+    //   s[2]=0x5C;
+    //   s[3]=0x43;
+    //   float f6;
+    //   memcpy_s(&f6 , sizeof(float) , s , 4);
+    //  qDebug()<<f6<<endl;
+
+    //  s[0]=0x00;
+    //  s[1]=0x00;
+    //  s[2]=0xC0;
+    //  s[3]=0x40;
+    //  float f7;
+    //  memcpy_s(&f7 , sizeof(float) , s , 4);
+    // qDebug()<<f7<<endl;
     /////////////////////////////////////////////////////////debug
+    return -2;//读取到不相等的数据
 }
 

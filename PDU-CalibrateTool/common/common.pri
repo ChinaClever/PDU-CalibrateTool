@@ -12,6 +12,7 @@ include(datapacket/datapacket.pri)
 include(serialport/serialport.pri)
 include(backcolour/backcolour.pri)
 include(qtsingleapplication/qtsingleapplication.pri)
+include(json/json.pri)
 
 HEADERS += \	
     $$PWD/common.h

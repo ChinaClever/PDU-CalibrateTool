@@ -25,6 +25,8 @@ public:
 
 protected:
     bool informationCheck(void);
+    bool IsValidChar(QChar ch);
+    bool IsValidEmail(QString strEmail);
 
 private slots:
     void on_saveBtn_clicked();

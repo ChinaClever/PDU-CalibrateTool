@@ -32,8 +32,6 @@ protected slots:
     void on_saveBtn_clicked();
     void on_pcBtn_clicked();
 
-private slots:
-    void on_readMeBtn_clicked();
 
 private:
     Ui::Setup_MainWid *ui;

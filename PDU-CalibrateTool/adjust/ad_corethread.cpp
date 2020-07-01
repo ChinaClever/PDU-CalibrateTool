@@ -76,7 +76,7 @@ void Ad_CoreThread::writeLog()
     if(mPacket->pass == 1) {
         it.status = tr("通过");
     } else {
-         it.status = tr("失败");
+        it.status = tr("失败");
     }
     DbLogs::bulid()->insertItem(it);
 }

@@ -15,6 +15,9 @@ public:
     double getValue(const QString &name);
     void setValue(double value, const QString &name);
 
+    QString getCurrentName();
+    void setCurrentName(const QString &name);
+
 
 
     virtual QString getPrefix(){return "con";}

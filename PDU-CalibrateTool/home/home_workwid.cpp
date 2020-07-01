@@ -90,6 +90,10 @@ void Home_WorkWid::endFun()
 
 void Home_WorkWid::timeoutDone()
 {
+    if(usr_land_jur())
+        ui->deBtn->show();
+    else
+        ui->deBtn->hide();
     sDataPacket *packet = sDataPacket::bulid();
     if(mItem->step) {
         QString str = packet->status;
@@ -135,7 +139,7 @@ void Home_WorkWid::on_resBtn_clicked()
 
 void Home_WorkWid::on_deBtn_clicked()
 {
-    if(usr_land_jur()) {
+    if(!usr_land_jur()) {
         CriticalMsgBox box(this, tr("您没有权限进行此操作"));
         return;
     }

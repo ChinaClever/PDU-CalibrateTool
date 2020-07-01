@@ -161,7 +161,7 @@ void SqlTableView::clearTableSlot()
 }
 
 /**
- * @brief 删除一条纪录
+ * @brief 删除一条记录
  */
 void SqlTableView::delSlot()
 {
@@ -177,7 +177,7 @@ void SqlTableView::delSlot(int)
 
 void SqlTableView::doubleSlot(QModelIndex)
 {
-    QString str = tr("是否删除这条纪录?");
+    QString str = tr("是否删除这条记录?");
     QuMsgBox box(this, str);
     bool ret = box.Exec();
     if(ret) {

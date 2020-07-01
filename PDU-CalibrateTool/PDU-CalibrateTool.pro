@@ -28,15 +28,18 @@ include(collects/collects.pri)
 SOURCES += \
     navbarwid.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    readmedlg.cpp
 
 HEADERS += \
     navbarwid.h \
-    mainwindow.h
+    mainwindow.h \
+    readmedlg.h
 
 FORMS += \
     mainwindow.ui \
-    navbarwid.ui
+    navbarwid.ui \
+    readmedlg.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

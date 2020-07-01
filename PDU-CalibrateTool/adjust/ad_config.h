@@ -35,6 +35,7 @@ struct sConfigItem
 
     uchar pcNum;
     ushort currentNum; // 当天序号
+    QString currentName; // 当前用户名称
 };
 
 
@@ -46,6 +47,8 @@ public:
     sConfigItem *item;
 
     void setCurrentNum();
+    QString initName();
+    void setName(QString str);
 protected:
     bool getDate();
     void setDate();

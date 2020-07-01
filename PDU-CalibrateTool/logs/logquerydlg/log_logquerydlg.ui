@@ -107,10 +107,10 @@
   <widget class="QWidget" name="dateWid" native="true">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>59</y>
      <width>450</width>
-     <height>120</height>
+     <height>151</height>
     </rect>
    </property>
    <property name="font">
