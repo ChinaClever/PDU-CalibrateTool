@@ -21,36 +21,62 @@ Ad_Adjusting *Ad_Adjusting::bulid(QObject *parent)
     return sington;
 }
 
-bool Ad_Adjusting::sentCmd()
+bool Ad_Adjusting::transmit(uchar *buf, int len)
 {
-    uchar cmd[] = {0x7B, 0x00, 0xA1, 0x00, 0x66, 0xBB, 0xBB};
+    uchar recv[64] = {0};
+    len = mModbus->transmit(buf, len, recv, 1);
+
+    return recvStatus(recv, len);
+}
+
+bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
+{
+    uchar cmd[] = {0x7B, 0x00, 0xA0, 0x00, 0x66, 0xBB, 0xBB};
     int len = sizeof(cmd);
 
     cmd[1] = mItem->addr;
+    cmd[2] = fn;
+    cmd[3] = line;
+
     ushort crc = mModbus->rtu_crc(cmd, len-2);
     cmd[len-2] = ((0xff) & crc);
     cmd[len-1] = (crc >> 8);
 
-    bool ret = mModbus->writeSerial(cmd, len);
-    if(ret) {
-        mPacket->status = tr("发送校准命令！");
-    } else {
-        mPacket->status = tr("校准发送命令失败！");
-    }
-
-    return ret;
+    return transmit(cmd, len);
 }
 
-bool Ad_Adjusting::updateStatus(uchar status)
+bool Ad_Adjusting::sentCmd()
+{
+    bool ret = writeCmd(0xA0, 0);
+    if(!ret) return ret;
+
+    sDevType *dt = mPacket->devType;
+    if(2 == dt->ac) {
+        ret = writeCmd(0xA1, 0);
+    }
+
+    return writeCmd(0xA2, 0);
+}
+
+bool Ad_Adjusting::updateStatus(ushort status)
 {
     bool ret = true;
-    if(0x10 == status) {
+
+    if(0x1100 == status) {
         mPacket->status = tr("校准返回正常！");
-    } else if(status > 0x20) {
+    } else if(0x1101 == status) {
+        mPacket->status = tr("校准解锁成功");
+    } else if(status <= 0x1104) {
+        mPacket->status = tr("正在校准，%1相 ").arg(status-0x1101);
+    } else if(status <= 0x1117) {
+        mPacket->status = tr("校准失败：%1相 ").arg(status-0x1114);
         mItem->step = Test_End;
-        mPacket->status = tr("校准失败，相/输出位 %1 出错").arg(status-0x20);
-    } else if(status > 0x10) {
-        mPacket->status = tr("正在校准，相/输出位 %1 ").arg(status-0x10);
+        ret = false;
+    } else if(status <= 0x112F) {
+        mPacket->status = tr("正在校准，输出位%1 ").arg(status-0x1120);
+    } else if(status <= 0x114F) {
+        mPacket->status = tr("校准失败：输出位%1 ").arg(status-0x1140);
+        mItem->step = Test_End;
         ret = false;
     } else {
         ret = false;
@@ -60,18 +86,18 @@ bool Ad_Adjusting::updateStatus(uchar status)
     return ret;
 }
 
-bool Ad_Adjusting::recvStatus(uchar *buf, int len)
+bool Ad_Adjusting::recvStatus(uchar *recv, int len)
 {
     bool ret = true;
-    if(len == 7) {
-        ret = updateStatus(buf[4]);
+    if(len == 8) {
+        ushort status = recv[4]*256 + recv[5];
+        ret = updateStatus(status);
     } else {
         ret = false;
         qDebug() << "Adjust res len err";
     }
 
     return ret;
-
 }
 
 bool Ad_Adjusting::readData()

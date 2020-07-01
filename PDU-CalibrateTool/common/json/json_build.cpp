@@ -172,9 +172,8 @@ void Json_Build::createDevType( QVector<QString>& devtype)
 
         "ZPDU_磁保持_互感器_C系列_三相_14位",//0x0000 005F
         "ZPDU_磁保持_互感器_D系列_三相_14位",//0x0000 0060
-
-
     };
+
     int len = SN_TOTAL_NUM;
     for(int i = 0 ; i < len ; i++)
     {

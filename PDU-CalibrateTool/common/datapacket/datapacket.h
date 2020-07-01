@@ -56,14 +56,16 @@ struct sDevType
 {
     sDevType() {}
 
-    uchar devType; // 执行板类型
-    uchar ac; // 交直流
-    uchar series; // 系列
+    uchar devType; // 1 ZPDU执行板类型  2 MPDU执行板类型   3 RPDU执行板类型
+                   // 4 SI-PDU  5 IP-PDU  6 BM-PDU
+
+    uchar ac; // 1 交流 2 直流
+    uchar series; // 1 A系列  2 B系列  3 C系列  4 D系列1
     uchar lines;
     uchar outputs;
 
-    uchar specs;
-    uchar version;
+    uchar specs; // 1 互感器  2锰铜
+    uchar version; // 版本号
 };
 
 /**
