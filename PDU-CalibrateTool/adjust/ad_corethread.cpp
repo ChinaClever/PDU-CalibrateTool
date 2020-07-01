@@ -84,12 +84,30 @@ void Ad_CoreThread::writeLog()
 
 void Ad_CoreThread::workDown()
 {
-    mSource->powerReset();
+    mSource->powerReset();//控制标准源下电到上电
     bool ret = delay(3); if(!ret) return;
 
-    ret = mAutoID->readDevType();
+    ret = mAutoID->readDevType();//读取设备类型
     if(!ret) return;
-    mSn->snEnter();
+    int ans = mSn->snEnter();//写入序列号
+    qDebug()<<"SN_NO status 0:序列号写入失败 1:序列号写入成功 2:序列号读取成功"<<ans<<endl;
+
+    //显示 已经存在序列号，写入序列号成功，写入序列号失败
+
+    //读取标准源数据，达到稳定后才开始校准 10s钟还是达不到则退出校准
+    int readRet = -1;
+    static int count = 0;
+    while(readRet != 1)
+    {
+        readRet = mSource->readScreenVal(6.0);
+        delay(1);
+        count++;
+        if(count == 10)
+        {
+            count = 0;
+            return ;
+        }
+    }
 
     mPacket->status = tr("开始校准");
     ret = mAdjust->startAdjust();
@@ -97,6 +115,9 @@ void Ad_CoreThread::workDown()
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
     }
+
+    //记录校准设备校准成功还是校准失败
+
 
     mSource->powerDown();
     writeLog();

@@ -13,7 +13,7 @@ public:
     int powerOn(int v=60);  // 上电
     int powerDown(); // 下电
     void powerReset(); //
-    int readScreenVal(float targetCur, int delay=5);
+    int readScreenVal(float targetCur);
 
 protected:
     int setRange();

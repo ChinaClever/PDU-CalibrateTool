@@ -21,7 +21,7 @@ class SN_ManageThread : public QThread
 public:
     static SN_ManageThread *bulid(QObject *parent = nullptr);
 
-    bool snEnter();
+    int snEnter();//return 0:序列号写入失败 1:序列号写入成功 2:序列号读取成功
 
 protected:
     void toSnStr(sSnItem &it);
