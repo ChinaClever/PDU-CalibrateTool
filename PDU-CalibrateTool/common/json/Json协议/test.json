@@ -1,0 +1,121 @@
+
+
+{
+	"company": "lzy_test", 
+ 	"version": 1,
+
+	"uut_info": {
+		"url": "www.lzy_test.com",
+		"idc": "lzy_idc",
+		"room": "lzy_room",		
+		"module": "lzy_module",		
+		"cabinet": "lzy_cabinet"
+	},
+    "ate_info": {
+    	"pdu_ip": "192.168.1.163",
+        "pdu_num": 0,
+        "pdu_name": "Mpdu",
+        "pdu_type": "MPDU",
+        "pdu_spec": 2,
+		"pdu_status": 0
+    },
+	
+	"line_item_list": [
+        {
+            "PF": 0,
+            "cur": 0,
+            "ele": 7.2,
+            "id": 1,
+            "name": "Line 1",
+            "pow": 0,
+            "switch": 2,
+            "vol": 231
+        },
+        {
+            "PF": 0,
+            "cur": 0,
+            "ele": 0,
+            "id": 2,
+            "name": "Line 2",
+            "pow": 0,
+            "switch": 2,
+            "vol": 231
+        }
+    ],
+	
+	"output_item_list": [
+        {
+            "PF": 0,
+            "cur": 0,
+            "ele": 7.2,
+            "id": 1,
+            "name": "Line 1",
+            "pow": 0,
+            "switch": 2,
+            "vol": 231
+        },
+        {
+            "PF": 0,
+            "cur": 0,
+            "ele": 0,
+            "id": 2,
+            "name": "Line 2",
+            "pow": 0,
+            "switch": 2,
+            "vol": 231
+        }
+    ],
+	
+	"threshold_item_list": [
+        {
+			"id": 1,
+			"type_index":1,
+            "max": 32,
+            "min": 0,
+            "cr_min": 0,
+            "cr_max": 231
+        },
+        {
+           
+            "id": 2,
+			"type_index":2,
+             "max": 32,
+            "min": 0,
+            "cr_min": 0,
+            "cr_max": 231
+        }
+    ],
+	
+	 "env_item_list": [
+		{
+			"status": 0,
+			"id": 1,
+			"type_index": 1,
+			"sensor": "hum 1"
+		},
+		{
+			"status": 0,
+			"id": 1,
+			"type_index": 2,
+			"sensor": "tem 1"
+		}
+	],
+	
+	 "alarm_item_list": [
+		{
+			"item": "相电流报警",
+			"contents": "L1 电流：12A，最小值0A, 最大值10A"
+		},
+		{
+			"item": "相电流报警",
+			"contents": "L2 电流：12A，最小值0A, 最大值10A"
+		}
+	]
+}
+
+
+
+
+
+
+

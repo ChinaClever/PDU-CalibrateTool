@@ -106,7 +106,7 @@ void SqlBtnBar::delSlot(int id)
     bool ret = delBtn(id);
     if(!ret) return;
 
-    QString str = tr("是否删除这条纪录?");
+    QString str = tr("是否删除这条记录?");
     QuMsgBox box(this, str);
     ret = box.Exec();
     if(ret) {
@@ -125,7 +125,7 @@ void SqlBtnBar::on_delBtn_clicked()
 void SqlBtnBar::on_clearBtn_clicked()
 {
     if(!checkJur()) return;
-    QString str = tr("是否清空纪录?");
+    QString str = tr("是否清空记录?");
     QuMsgBox box(this, str);
     bool ret = box.Exec();
     if(ret) {
