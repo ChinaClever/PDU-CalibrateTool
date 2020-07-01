@@ -19,6 +19,7 @@ protected:
     int setRange();
     int write(QByteArray &array);
     int read(QByteArray &witeArray, QByteArray &readArray, int msecs);
+    bool delay(int s);
 
 protected slots:
     void initSerialSlot();

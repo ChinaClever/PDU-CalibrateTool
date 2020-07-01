@@ -4,6 +4,7 @@
  *      Author: Lzy
  */
 #include "yc_standsource.h"
+#include "ad_modbus.h"
 
 YC_StandSource::YC_StandSource(QObject *parent) : QThread(parent)
 {
@@ -25,6 +26,11 @@ void YC_StandSource::initSerialSlot()
     if(!mSerial) {
         mSerial = Ad_Config::bulid()->item->source;
     }
+}
+
+bool YC_StandSource::delay(int s)
+{
+    return Ad_Modbus::bulid(this)->delay(s);
 }
 
 int YC_StandSource::write(QByteArray &array)
