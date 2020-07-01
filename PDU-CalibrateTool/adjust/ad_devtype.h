@@ -10,7 +10,16 @@ public:
 
     bool analysDevType(uint id);
 
+    QStringList zpduListStrs();
+
 protected:
+    QString getDevStr(uint id);
+    int getDevType(const QString &str);
+    int getAcType(const QString &str);
+    int getColMode(const QString &str);
+    int getLineNum(const QString &str);
+
+
     QString zpduStrs(uint id);
     void zpduDevType(uint id, sDevType *dt);
 

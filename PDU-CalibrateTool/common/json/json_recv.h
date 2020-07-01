@@ -13,6 +13,7 @@ public:
     static Json_Recv *bulid(QObject *parent = nullptr);
     bool recv(const QString &name);
 
+    QString getByID(uint id);
 
 protected:
     QJsonValue getValue(QJsonObject &object, const QString &key);
