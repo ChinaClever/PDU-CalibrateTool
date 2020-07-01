@@ -89,8 +89,8 @@ void Ad_CoreThread::workDown()
 
     ret = mAutoID->readDevType();//读取设备类型
     if(!ret) return;
-    int ans = mSn->snEnter();//写入序列号
-    qDebug()<<"SN_NO status 0:序列号写入失败 1:序列号写入成功 2:序列号读取成功"<<ans<<endl;
+    ret = mSn->snEnter();//写入序列号
+    if(!ret) return;
 
     //显示 已经存在序列号，写入序列号成功，写入序列号失败
 
