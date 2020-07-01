@@ -4,6 +4,7 @@
  *      Author: Lzy
  */
 #include "ad_devtype.h"
+#include "json_recv.h"
 
 Ad_DevType::Ad_DevType()
 {
@@ -23,6 +24,7 @@ Ad_DevType * Ad_DevType::bulid()
 QString Ad_DevType::getDevStr(uint id)
 {
     QString str = "ZPDU_磁保持_互感器_C系列_三相_14位";
+    //str = Json_Recv::bulid()->getDevTypeByID(id);
 
     return str;
 }
