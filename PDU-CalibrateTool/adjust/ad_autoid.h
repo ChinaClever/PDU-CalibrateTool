@@ -1,7 +1,7 @@
 #ifndef AD_AUTOID_H
 #define AD_AUTOID_H
 
-#include "ad_modbus.h"
+#include "ad_devtype.h"
 
 class Ad_AutoID : public QThread
 {
@@ -14,14 +14,13 @@ public:
 
 protected:
     void initReadType(sRtuItem &it);
-    bool analysDevType(uchar *buf, int len, sDevType *dt);
-    QString devTypeToStr(sDevType *dt);
+    bool analysDevType(uchar *buf, int len);
 
 private:
     sConfigItem *mItem;
     Ad_Modbus *mModbus;
     sDataPacket *mPacket;
-    sDevType *mDevType;
+    Ad_DevType *mDevType;
 };
 
 #endif // AD_AUTOID_H

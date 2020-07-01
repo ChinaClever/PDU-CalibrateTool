@@ -14,9 +14,12 @@ public:
 
 protected:
     bool sentCmd();
+    bool writeCmd(uchar fn, uchar line);
+    bool transmit(uchar *buf, int len);
+
     bool readData();
-    bool recvStatus(uchar *buf, int len);
-    bool updateStatus(uchar status);
+    bool recvStatus(uchar *recv, int len);
+    bool updateStatus(ushort status);
 
 private:
     sConfigItem *mItem;
