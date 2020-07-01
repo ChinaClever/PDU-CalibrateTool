@@ -36,6 +36,7 @@ protected:
     bool readSn(sSnItem &itSn);
     bool writeSn(sSnItem &itSn);
     void writeStatus(bool ret);
+    bool delay(int s) {return mModbus->delay(s);}
 
 private:
     sSnItem mSnItem;
