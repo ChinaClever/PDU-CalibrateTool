@@ -54,6 +54,7 @@ bool Ad_AutoID::readDevType()
     if(ret) {
         mPacket->status = tr("识别模块成功！");
     } else {
+        mPacket->pass = 2;
         mItem->step = Test_End;
         mPacket->status = tr("识别模块错误！");
     }

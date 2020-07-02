@@ -164,6 +164,8 @@ void SN_ManageThread::writeStatus(bool ret)
     } else {
         mPacket->status = tr("序列号写入失败：\n%1").arg(mSnItem.sn);
         mItem->currentNum -= 1;
+        mItem->step = Test_End;
+        mPacket->pass = 2;
     }
 }
 
