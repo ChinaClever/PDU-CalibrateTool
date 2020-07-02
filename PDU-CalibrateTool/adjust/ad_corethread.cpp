@@ -103,10 +103,8 @@ void Ad_CoreThread::workDown()
         ret = mResult->resEnter();
     }
 
-    //记录校准设备校准成功还是校准失败
-
-
     mSource->powerDown();
+    //记录校准设备校准成功还是校准失败
     writeLog();
 }
 
