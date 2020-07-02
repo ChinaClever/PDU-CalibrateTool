@@ -105,7 +105,6 @@ void Ad_CoreThread::workDown()
 
     //记录校准设备校准成功还是校准失败
 
-
     mSource->powerDown();
     writeLog();
 }
