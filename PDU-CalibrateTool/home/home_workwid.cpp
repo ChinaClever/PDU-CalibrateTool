@@ -76,7 +76,9 @@ void Home_WorkWid::upTgWid()
 {
     sDataPacket *packet = sDataPacket::bulid();
     sTgObjData *tg = packet->tg;
-    QString str = tr("总电流：%2A    总功率：%3KW").arg(tg->cur).arg(tg->pow);
+    float curRate = packet->data->rate * COM_RATE_CUR;
+    float powRate = packet->data->rate * COM_RATE_POW;
+    QString str = tr("总电流：%2A    总功率：%3Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
     ui->tgLab->setText(str);
 }
 
@@ -106,7 +108,7 @@ void Home_WorkWid::timeoutDone()
     QPalette pe;
     switch (packet->pass) {
     case 0:  pe.setColor(QPalette::WindowText, Qt::black); break;
-    case 1:  pe.setColor(QPalette::WindowText, Qt::green); break;
+    case 1:  pe.setColor(QPalette::WindowText, Qt::darkGreen); break;
     case 2:  pe.setColor(QPalette::WindowText, Qt::red); break;
     }
     ui->statusLab->setPalette(pe);
