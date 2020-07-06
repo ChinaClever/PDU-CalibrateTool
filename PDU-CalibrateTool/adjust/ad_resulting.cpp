@@ -117,7 +117,7 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
 {
     bool ret = false;
     for(int k=1; k<=mData->size; ++k) {
-        mPacket->status = tr("校验数据\n 第%1输出位").arg(k);
+        mPacket->status = tr("校验数据 第%1输出位").arg(k);
         mCtrl->openOnlySwitch(k); delay(5);
 
         ret = outputCurById(k, exValue);
@@ -154,7 +154,7 @@ bool Ad_Resulting::sumCurCheck(int exValue)
     bool ret = true;
 
     for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据\n 第%1次").arg(i+1);
+        mPacket->status = tr("校验数据: 第%1次").arg(i+1);
         mCollect->readPduData();
 
         ret = curTgCheck(exValue);
@@ -207,6 +207,8 @@ bool Ad_Resulting::workDown(int exValue)
     switch (dt->specs) {
     case 1: ret = sumCurCheck(exValue); break; // 输出位  互感器校验
     case 2: ret = outputCurCheck(exValue); break; // 输出位锰铜
+
+    case 3: ret = sumCurCheck(exValue); break;
     }
 
     return ret;
@@ -222,7 +224,7 @@ bool Ad_Resulting::resEnter()
         int exCur = (i*2 + 1) * 10;
         mSource->powerOn(exCur);
         mPacket->status = tr("验证电流：%1A").arg(exCur/10);
-        ret = delay(5); return false;
+        ret = delay(5); if(!ret) return false;
 
         ret = workDown(exCur);
         if(!ret) break;

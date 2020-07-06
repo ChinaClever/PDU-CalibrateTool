@@ -117,6 +117,7 @@ int Col_MPduThread::getMpduEle()
 
 bool Col_MPduThread::readPduData()
 {
+    mData->rate = 1;
     getMpduEle();
     return getMpduVolCur();
 }

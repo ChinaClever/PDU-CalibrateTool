@@ -11,7 +11,6 @@ public:
      static Ad_AutoID *bulid(QObject *parent = nullptr);
 
     bool readDevType();
-
 protected:
     void initReadType(sRtuItem &it);
     bool analysDevType(uchar *buf, int len);

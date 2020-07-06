@@ -57,11 +57,14 @@ void Ad_CoreThread::startResult()
 void Ad_CoreThread::collectData()
 {
     mPacket->status = tr("数据采集");
-    mAutoID->readDevType();
-    Col_CoreThread *th = mResult->initThread();
+    bool ret = readDevInfo();
+    if(!ret) return;
 
+    Col_CoreThread *th = mResult->initThread();
     while(mItem->step != Test_Over) {
-        th->readPduData(); delay(2);
+        th->readPduData();
+        mResult->resTgData();
+        delay(2);
     }
 }
 
@@ -70,7 +73,7 @@ void Ad_CoreThread::writeLog()
 {
     sLogItem it;
 
-    it.dev =mPacket->dev_type.split(" ").first();
+    it.dev =mPacket->dev_type.split("_").first();
     it.user = user_land_name();
     it.sn = mPacket->sn;
     if(mPacket->pass == 1) {
@@ -81,33 +84,43 @@ void Ad_CoreThread::writeLog()
     DbLogs::bulid()->insertItem(it);
 }
 
+bool Ad_CoreThread::readDevInfo()
+{
+    mSource->powerReset();//控制标准源下电到上电
+    bool ret = delay(3); if(!ret) return ret;
+
+
+    //////////////===================
+//    ret = mAutoID->readDevType();//读取设备类型
+//    if(ret) {
+//        ret = mSn->snEnter();//写入序列号
+//    }
+
+
+    //////////////===================
+    sDevType *mDt = mPacket->devType;
+    mDt->devType = 1;
+    mDt->ac = 1;
+    mDt->specs = 1;
+    mDt->lines = 1;
+
+    return ret;
+}
 
 void Ad_CoreThread::workDown()
 {
-    mSource->powerReset();//控制标准源下电到上电
-    bool ret = delay(3); if(!ret) return;
-
-    ret = mAutoID->readDevType();//读取设备类型
-    if(!ret) return;
-    ret = mSn->snEnter();//写入序列号
-    if(!ret) return;
-
-    //读取标准源数据，达到稳定后才开始校准 10s钟还是达不到则退出校准
-    ret = mSource->readScreenStableVal(6.0);
-    if(!ret) return;
+    mPacket->status = tr("已启动校准！");
+    bool ret = readDevInfo(); if(!ret) return;
 
     mPacket->status = tr("开始校准");
-    ret = mAdjust->startAdjust();
+//    ret = mAdjust->startAdjust();   ////====
     if(ret){
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
     }
 
-    //记录校准设备校准成功还是校准失败
-
-
     mSource->powerDown();
-    writeLog();
+    //writeLog();   //记录校准设备校准成功还是校准失败
 }
 
 void Ad_CoreThread::run()
