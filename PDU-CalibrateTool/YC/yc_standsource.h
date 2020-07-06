@@ -10,20 +10,15 @@ class YC_StandSource : public QThread
 public:
     static YC_StandSource *bulid(QObject *parent = nullptr);
 
-    int powerOn(int v=60);  // 上电
-    int powerDown(); // 下电
-    void powerReset(); //
+    bool powerOn(int v=60);  // 上电
+    void powerDown(); // 下电
+    bool powerReset(); //
 
 protected:
-    int setRange();
+    bool setRange();
     bool delay(int s);
     int write(QByteArray &array);
     int read(QByteArray &witeArray, QByteArray &readArray, int msecs);
-
-#if 0
-    int readScreenVal(float targetCur);
-    bool readScreenStableVal(int targetCur, int time=10);
-#endif
 
 protected slots:
     void initSerialSlot();
