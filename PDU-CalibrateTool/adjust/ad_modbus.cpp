@@ -90,12 +90,12 @@ bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len)
     int rtn = len-2; uchar *ptr = buf+rtn;
     if(rtn < 0) return false;
 
-    ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
-    ushort res = rtu_crc(buf, rtn);
-    if(crc != res) {
-        ret = false;
-        qDebug() << "Rtu Recv rtu recv crc Err!";
-    }
+//    ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
+//    ushort res = rtu_crc(buf, rtn);
+//    if(crc != res) {
+//        ret = false;
+//        qDebug() << "Rtu Recv rtu recv crc Err!";
+//    }
 
     return ret;
 }
@@ -116,7 +116,7 @@ int Ad_Modbus::rtuRecvData(uchar *ptr,  sRtuReplyItem *pkt)
 {
     pkt->addr = *(ptr++);// 从机地址码
     pkt->fn = *(ptr++);  /*功能码*/
-    pkt->len = (*ptr); /*数据长度*/
+    pkt->len = *(ptr++); /*数据长度*/
     if(pkt->len < MODBUS_RTU_SIZE) {
         for(int i=0; i<pkt->len; ++i) {
             pkt->data[i] = *(ptr++);
@@ -197,11 +197,11 @@ int Ad_Modbus::rtu_write_packet(sRtuSetItem *pkt, uchar *ptr)
     }
 
     /*填入CRC*/
-    pkt->crc = rtu_crc(buf, 6+pkt->len);
+    pkt->crc = rtu_crc(buf, 7+pkt->len);
     *(ptr++) = (0xff)&(pkt->crc); /*低8位*/
     *(ptr++) = ((pkt->crc) >> 8); /*高8位*/
 
-    return 8 + pkt->len;
+    return 9 + pkt->len;
 }
 
 

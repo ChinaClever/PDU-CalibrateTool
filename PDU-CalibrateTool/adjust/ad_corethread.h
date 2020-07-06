@@ -20,6 +20,7 @@ protected:
     void writeLog();
     void workDown();
     void collectData();
+    bool readDevInfo();
     bool delay(int s) {return mModbus->delay(s);}
 
 private:

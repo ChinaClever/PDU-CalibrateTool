@@ -72,14 +72,15 @@ int YC_StandSource::setRange()
 
 int YC_StandSource::powerDown()
 {
-    int ret = setRange();
-    if(ret > 0) {
+    bool ret = true;
+    //int ret = setRange();
+    //if(ret > 0) {
         QByteArray array = "V0";
         write(array);
 
         array = "A0";
         write(array);
-    }
+    //}
 
     return ret;
 }
@@ -93,6 +94,8 @@ int YC_StandSource::powerOn(int v)
 
         array = "A" + QString::number(v).toUtf8();
         write(array);
+    } else {
+        return ret;
     }
 
     return ret;
@@ -101,15 +104,17 @@ int YC_StandSource::powerOn(int v)
 void YC_StandSource::powerReset()
 {
     powerDown();
-    msleep(500);
-    powerOn();
+    delay(3);
+    //powerOn();
 }
 
+#if 0  ////
 int YC_StandSource::readScreenVal(float targetCur)
 {
     QByteArray witeArray = "M";
     QByteArray readArray;
     int ret = read(witeArray,readArray,5);
+    qDebug()<<"read ret"<<ret<<endl;
     if(ret == 0)
         return -1;//没有读取到数据
 
@@ -117,7 +122,7 @@ int YC_StandSource::readScreenVal(float targetCur)
     qDebug()  << "[" << readArray.toHex() << "]"<<endl;
 
     qDebug()<<"readArray len"<<readArray.length()<<endl;
-    for(int i = 0 ; i < readArray.length();i+=4)
+    for(int i = 1 ; i < readArray.length();i+=4)
     {
         unsigned char s[4];
         //32位
@@ -187,20 +192,22 @@ int YC_StandSource::readScreenVal(float targetCur)
     return -2;//读取到不相等的数据
 }
 
-bool YC_StandSource::readScreenStableVal(float targetCur,int time)
+bool YC_StandSource::readScreenStableVal(int targetCur,int time)
 {
     int readRet = -1;
     static int count = time;
     int readTimes = 0;//读取三次成功，才认为电流稳定
+
     while(readRet != 1 && readTimes != 2)
     {
-        readRet = readScreenVal(targetCur);
+        readRet = readScreenVal(targetCur/10.0);
         if(readRet == 1)
         {
             readRet = -1;
             readTimes++;
         }
-        delay(1);
+        if(!delay(1)) return false;
+
         count--;
         if(count == 0)
         {
@@ -210,3 +217,4 @@ bool YC_StandSource::readScreenStableVal(float targetCur,int time)
     }
     return true;
 }
+#endif

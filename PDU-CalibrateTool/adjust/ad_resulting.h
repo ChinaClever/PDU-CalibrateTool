@@ -13,6 +13,7 @@ public:
 
     bool resEnter();
     Col_CoreThread *initThread();
+    void resTgData() {resTgData(mPacket->tg);}
 
 protected:
     bool curErrRange(int exValue, int cur);

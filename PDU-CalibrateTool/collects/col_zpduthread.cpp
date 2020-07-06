@@ -94,5 +94,6 @@ bool Col_ZPduThread::getZpduVolCur()
 
 bool Col_ZPduThread::readPduData()
 {
+    mData->rate = 10;
     return getZpduVolCur();
 }

@@ -56,6 +56,7 @@ struct sDevType
 {
     sDevType() {}
 
+    uint devId;
     uchar devType; // 1 ZPDU执行板类型  2 MPDU执行板类型   3 RPDU执行板类型
                    // 4 SI-PDU  5 IP-PDU  6 BM-PDU
 

@@ -34,7 +34,7 @@ bool Ad_AutoID::analysDevType(uchar *buf, int len)
     if(len != 4) return false;
 
     uint id = 0;
-    for(int i=0; i<4; ++i) {
+    for(int i=0; i<len; ++i) {
         id *= 256;
         id += buf[i];
     }
@@ -48,8 +48,9 @@ bool Ad_AutoID::readDevType()
     initReadType(it);
 
     uchar recv[8] = {0};
-    mPacket->status = tr("正在识别模块类型！");    
+    mPacket->status = tr("正在识别模块类型！");
     int len = mModbus->rtuRead(&it, recv);
+
     bool ret = analysDevType(recv, len);
     if(ret) {
         mPacket->status = tr("识别模块成功！");

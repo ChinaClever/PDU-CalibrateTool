@@ -10,16 +10,15 @@
 #include <QApplication>
 #include "ad_config.h"
 
-UsrLandDlg::UsrLandDlg(QString name,QWidget *parent) :
+UsrLandDlg::UsrLandDlg(const QString &name, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::UsrLandDlg)
 {
-
     ui->setupUi(this);
     this->setWindowTitle(tr("用户登录"));
     groupBox_background_icon(this);
     ui->nameLineEdit->setText(name);
-    ui->pwdLineEdit->setText("");
+    ui->pwdLineEdit->setText("admin");
 }
 
 UsrLandDlg::~UsrLandDlg()

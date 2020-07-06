@@ -24,18 +24,19 @@ void SN_ManageThread::initReadCmd(sRtuItem &item)
 {
     item.addr = mItem->addr;
     item.fn = 0x03;
-    item.reg = 0xA001;
-    item.num = 6;
+    item.reg = 0xA003;
+    item.num = 4;
 }
 
 bool SN_ManageThread::checkSn(uchar *sn, int len)
 {
-    bool ret = false;
+    //bool ret = false;
+    bool ret = true;
     if(len == 9) {
-        uchar exor = mModbus->getXorNumber(sn, len-1);
-        if(exor == sn[len-1]) {
-            ret = false;
-        }
+//        uchar exor = mModbus->getXorNumber(sn, len-1);//暂时注释下面的异或和校验不对
+//        if(exor == sn[len-1]) {
+//            ret = false;
+//        }
     }
     return ret;
 }
@@ -43,8 +44,9 @@ bool SN_ManageThread::checkSn(uchar *sn, int len)
 bool SN_ManageThread::analySn(uchar *sn, int len, sSnItem &it)
 {
     uchar *ptr = sn;
-    for(int i=0; i<4; ++i) {
-        it.devType[i] = *ptr++;
+    uint id = mPacket->devType->devId;
+    for(int i=3; i>=0; --i) {
+        it.devType[i] = (0xFF) & (id >> ((3-i)*8));
     }
 
     bool ret = checkSn(sn, len);
@@ -64,9 +66,11 @@ bool SN_ManageThread::analySn(uchar *sn, int len, sSnItem &it)
 
 void SN_ManageThread::toSnStr(sSnItem &it)
 {
-    QString sn  = QString("%1%2%3%4%5%6%7%8%9%10")
-            .arg(it.devType[0], 2, 16, QLatin1Char('0'))
-            .arg(it.devType[1], 2, 16, QLatin1Char('0'))
+    QString cmd;
+    for(int i=0; i<8; ++i) cmd += "%" + QString::number(i+1);
+    QString sn  = QString(cmd)
+//            .arg(it.devType[0], 2, 16, QLatin1Char('0'))
+//            .arg(it.devType[1], 2, 16, QLatin1Char('0'))
             .arg(it.devType[2], 2, 16, QLatin1Char('0'))
             .arg(it.devType[3], 2, 16, QLatin1Char('0'))
             .arg(it.date[1], 2, 10, QLatin1Char('0'))
@@ -84,6 +88,7 @@ bool SN_ManageThread::readSn(sSnItem &itSn)
     sRtuItem itRtu;
     bool ret = false;
 
+    mSnItem.sn.clear();
     initReadCmd(itRtu);
     uchar buf[32] = {0};
     int len = mModbus->rtuRead(&itRtu, buf);
@@ -104,9 +109,10 @@ void SN_ManageThread::initWriteCmd(sRtuSetItem &item, uchar *data, int len)
     item.reg = 0xA003;
     item.num = 4;
     item.len = len;
+
     for(int i=0; i<len; ++i) {
         item.data[i] = data[i];
-    }
+    }    
 }
 
 void SN_ManageThread::createSn(sSnItem &it)
@@ -119,35 +125,34 @@ void SN_ManageThread::createSn(sSnItem &it)
 
     it.num = ++(mItem->currentNum);
     it.pc = mItem->pcNum;
-    toSnStr(it);
 
-    Ad_Config::bulid()->setCurrentNum();
 }
 
 int SN_ManageThread::toSnData(sSnItem &it, uchar *data)
 {
     int k = 0;
-    for(int i=0; i<4; ++i)
-        data[k++] = it.devType[i];
 
-    for(int i=0; i<4; ++i)
+    for(int i=0; i<4; ++i) {
         data[k++] = it.date[i];
+    }
 
     data[k++] = it.num / 256;
     data[k++] = it.num % 256;
 
     data[k++] = it.pc;
 
-    uchar exor = mModbus->getXorNumber(data, 11);
+    uchar exor = mModbus->getXorNumber(data, k);
     data[k++] = it.exor = exor;
+    toSnStr(it);
 
-    return 12;
+    return 8;
 }
 
 bool SN_ManageThread::writeSn(sSnItem &itSn)
 {
     createSn(itSn);
     uchar buf[32] = {0};
+    toSnData(itSn, buf);
     int len = toSnData(itSn, buf);
 
     sRtuSetItem itRtu;
@@ -160,6 +165,7 @@ bool SN_ManageThread::writeSn(sSnItem &itSn)
 void SN_ManageThread::writeStatus(bool ret)
 {
     if(ret) {
+        Ad_Config::bulid()->setCurrentNum();
         mPacket->status = tr("已写入序列号：\n%1").arg(mSnItem.sn);
     } else {
         mPacket->status = tr("序列号写入失败：\n%1").arg(mSnItem.sn);
@@ -176,11 +182,9 @@ void SN_ManageThread::writeStatus(bool ret)
  */
 bool SN_ManageThread::snEnter()
 {
-    mSnItem.sn.clear();
-
     bool ret = readSn(mSnItem);
     if(ret) {
-        mPacket->status = tr("已读到序列号：\n%1").arg(mSnItem.sn);
+        mPacket->status = tr("已读到序列号");
     } else {
         ret = writeSn(mSnItem);
         writeStatus(ret);
