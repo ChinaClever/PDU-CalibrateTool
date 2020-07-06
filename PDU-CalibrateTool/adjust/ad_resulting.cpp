@@ -169,6 +169,36 @@ bool Ad_Resulting::sumCurCheck(int exValue)
     return ret;
 }
 
+bool Ad_Resulting::outputAllCheck(int exValue)
+{
+    bool ret = false;
+    for(int k=1; k<=mData->size; ++k) {
+        mPacket->status = tr("校验数据 第%1输出位").arg(k);
+        ret = curRangeByID(k, exValue);
+        if(!ret) break;
+    }
+    return ret;
+}
+
+bool Ad_Resulting::outputAllCurCheck(int exValue)
+{
+    bool ret = true;
+
+    for(int i=0; i<4; ++i) {
+        mPacket->status = tr("校验数据: 第%1次").arg(i+1);
+        mCollect->readPduData();
+        ret = outputAllCheck(exValue);
+        if(ret) {
+            break;
+        } else {
+            ret = delay(2);
+            if(!ret) break;
+        }
+    }
+
+    return ret;
+}
+
 bool Ad_Resulting::outputCurCheck(int exValue)
 {
     bool ret = outputSwCtrl(exValue);
@@ -205,9 +235,8 @@ bool Ad_Resulting::workDown(int exValue)
     bool ret = false;
     sDevType *dt = mPacket->devType;
     switch (dt->specs) {
-    case 1: ret = sumCurCheck(exValue); break; // 输出位  互感器校验
+    case 1: ret = outputAllCurCheck(exValue); break; // 输出位  互感器校验
     case 2: ret = outputCurCheck(exValue); break; // 输出位锰铜
-
     case 3: ret = sumCurCheck(exValue); break;
     }
 

@@ -32,6 +32,9 @@ protected:
     bool delay(int s) {return mModbus->delay(s);}
     bool outputCurCheck(int exValue);
 
+    bool outputAllCheck(int exValue);
+    bool outputAllCurCheck(int exValue);
+
 private:
     sDataUnit *mData;
     Ad_Modbus *mModbus;
