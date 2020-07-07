@@ -113,14 +113,14 @@ void Ad_CoreThread::workDown()
     bool ret = readDevInfo(); if(!ret) return;
 
     mPacket->status = tr("开始校准");
-    ret = mAdjust->startAdjust();   ////====
-    if(ret){
+    ret = mAdjust->startAdjust();
+    if(ret) {
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
     }
 
     mSource->powerDown();
-    //writeLog();   //记录校准设备校准成功还是校准失败
+    writeLog();   //记录校准设备校准成功还是校准失败
 }
 
 void Ad_CoreThread::run()

@@ -13,8 +13,9 @@ public:
     virtual void closeAllSwitch();
     virtual void openOutputSwitch(int id);
     virtual void closeOutputSwitch(int id);
-    virtual void openOnlySwitch(int id);
+    virtual void openOnlySwSlot(int id);
     virtual void closeOtherSwitch(int id);
+    virtual void openOnlySwitch(int id);
 
     virtual void clearAllEle();
     virtual void setClearEle(int id);

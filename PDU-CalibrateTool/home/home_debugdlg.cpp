@@ -90,8 +90,8 @@ void Home_DebugDlg::on_eleBtn_clicked()
 void Home_DebugDlg::workDownSlot()
 {
     if(mId < mData->size) {
-        mThread->openOnlySwitch(mId++);
-        QTimer::singleShot(6*1000,this,SLOT(workDownSlot()));
+        mThread->openOnlySwSlot(mId++);
+        QTimer::singleShot(10*1000,this,SLOT(workDownSlot()));
     }
 }
 
