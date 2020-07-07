@@ -68,6 +68,14 @@ void Ad_CoreThread::collectData()
     }
 }
 
+void Ad_CoreThread::verifyResult()
+{
+    mPacket->status = tr("数据采集");
+    bool ret = readDevInfo();
+    if(ret) {
+         mResult->resEnter();
+    }
+}
 
 void Ad_CoreThread::writeLog()
 {
@@ -133,7 +141,7 @@ void Ad_CoreThread::run()
         switch (mItem->step) {
         case Test_Start: workDown(); break;
         case Collect_Start: collectData(); break;
-        case Test_vert: mResult->resEnter(); break;
+        case Test_vert: verifyResult(); break;
         }
 
         isRun = false;
