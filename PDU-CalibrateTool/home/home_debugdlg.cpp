@@ -64,31 +64,33 @@ void Home_DebugDlg::on_closeAllBtn_clicked()
 
 void Home_DebugDlg::on_openBtn_clicked()
 {
-
-    int id = ui->spinBox->value();
-    if(mThread)
-        mThread->openOutputSwitch(id);
+    if(mThread) {
+        int id = ui->spinBox->value();
+        mThread->openOutputSwitch(id-1);
+    }
 }
 
 void Home_DebugDlg::on_closeBtn_clicked()
 {
-    int id = ui->spinBox->value();
-    if(mThread)
-        mThread->closeOutputSwitch(id);
+    if(mThread) {
+        int id = ui->spinBox->value();
+        mThread->closeOutputSwitch(id-1);
+    }
 }
 
 void Home_DebugDlg::on_eleBtn_clicked()
 {
-    int id = ui->spinBox->value();
-    if(mThread)
-        mThread->setClearEle(id);
+    if(mThread) {
+        int id = ui->spinBox->value();
+        mThread->setClearEle(id-1);
+    }
 }
 
 
 void Home_DebugDlg::workDownSlot()
 {
-    if(++mId <= mData->size) {
-        mThread->openOnlySwitch(mId);
+    if(mId < mData->size) {
+        mThread->openOnlySwitch(mId++);
         QTimer::singleShot(6*1000,this,SLOT(workDownSlot()));
     }
 }
@@ -99,7 +101,7 @@ void Home_DebugDlg::on_swAllBtn_clicked()
     QuMsgBox box(this, tr("确认是否开启自动切换功能?"));
     if(box.Exec()) {
         mId = 0;
-        QTimer::singleShot(50,this,SLOT(workDownSlot()));
+        QTimer::singleShot(2*1000,this,SLOT(workDownSlot()));
     }
 }
 

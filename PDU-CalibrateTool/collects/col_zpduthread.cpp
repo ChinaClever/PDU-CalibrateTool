@@ -34,7 +34,7 @@ bool Col_ZPduThread::recvZpduVolCur(uchar *recv, int len)
             mData->vol[mData->size-1] = (ptr[0] << 8) + ptr[1]; ptr += 2;
             ushort sw = (ptr[0] << 8) + ptr[1]; ptr += 2; // 开关状态 1表示开，0表示关
             for(int i=0; i<op; ++i) {
-                mData->sw[i] = (sw >> (op-i)) & 1;
+                mData->sw[i] = (sw >> (15-i)) & 1;
             }
 
             for(int i=0; i<op; ++i) {

@@ -83,10 +83,11 @@ bool Ad_Modbus::sentSerial(quint8 *cmd, int len)
 int Ad_Modbus::transmit(uchar *sent, int len, uchar *recv, int sec)
 {
     int rtn = 0;
-    QWriteLocker locker(mLock); msleep(300);
+    QWriteLocker locker(mLock); msleep(1300);
     bool ret = sentSerial(sent, len);
     if(ret) {
         rtn = readSerial(recv, sec);
+         msleep(1450);
     }
 
     return rtn;

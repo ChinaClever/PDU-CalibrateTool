@@ -21,13 +21,19 @@ public:
 
 protected:
     void setBitControl(int id, uchar *buf);
+    bool delay(int s) {return  mModbus->delay(s);}
+
     virtual void funClearEle(uchar *buf)=0;
     virtual void funSwitch(uchar *on, uchar *off, int f)=0;
 
+protected slots:
+    void closeOtherSwitchSlot();
+
 protected:
-     sDataUnit *mData;
-     sConfigItem *mItem;
-     Ad_Modbus *mModbus;
+    int mIdClosed;
+    sDataUnit *mData;
+    sConfigItem *mItem;
+    Ad_Modbus *mModbus;
 };
 
 #endif // AD_CORETHREAD_H
