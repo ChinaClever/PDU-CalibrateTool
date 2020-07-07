@@ -123,8 +123,7 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
     mCollect->readPduData();
     for(int k=0; k<mData->size; ++k) {
         mPacket->status = tr("校验数据 第%1输出位").arg(k+1);
-        mCtrl->openOnlySwitch(k+1); delay(10);
-
+        mCtrl->openOnlySwitch(k); delay(10);
         ret = outputCurById(k, exValue);
         if(!ret) break;
     }

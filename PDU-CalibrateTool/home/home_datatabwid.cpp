@@ -26,7 +26,7 @@ void Home_DataTabWid::appendItem(sDataUnit *unit)
     for(int i=0; i<unit->size; ++i) {
         QStringList listStr;
 
-        if(unit->sw) listStr << tr("开"); else listStr << tr("关");
+        if(unit->sw[i]) listStr << tr("开"); else listStr << tr("关");
 
         listStr << QString::number(unit->cur[i]/(unit->rate * COM_RATE_CUR),'f',2)+"A";
         listStr << QString::number(unit->vol[i]/(unit->rate),'f',1)+"V";

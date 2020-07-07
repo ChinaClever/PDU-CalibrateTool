@@ -35,17 +35,20 @@ void Ctrl_CoreThread::openOutputSwitch(int id)
     for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
-    if(id > 0) {
-        setBitControl(id, on);
-        funSwitch(on, off, 0);
-    }
+    setBitControl(id, on);
+    funSwitch(on, off, 0);
+}
+
+void Ctrl_CoreThread::closeOtherSwitchSlot()
+{
+     closeOtherSwitch(mIdClosed);
 }
 
 void Ctrl_CoreThread::openOnlySwitch(int id)
 {
+    mIdClosed = id;
     openOutputSwitch(id);
-    sleep(1);  // delay(1);
-    closeOtherSwitch(id);
+    QTimer::singleShot(1500,this,SLOT(closeOtherSwitchSlot()));
 }
 
 void Ctrl_CoreThread::closeOtherSwitch(int id)
@@ -54,11 +57,9 @@ void Ctrl_CoreThread::closeOtherSwitch(int id)
     for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
-    if(id > 0) {
-        setBitControl(id, off);
-        for(int i=0; i<6; i++)  off[i] = ~off[i];
-        funSwitch(on, off, 0);
-    }
+    setBitControl(id, off);
+    for(int i=0; i<6; i++)  off[i] = ~off[i];
+    funSwitch(on, off, 0);
 }
 
 void Ctrl_CoreThread::closeAllSwitch()
@@ -77,10 +78,8 @@ void Ctrl_CoreThread::closeOutputSwitch(int id)
     for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
-    if(id > 0) {
-        setBitControl(id, off);
-        funSwitch(on, off, 0);
-    }
+    setBitControl(id, off);
+    funSwitch(on, off, 0);
 }
 
 
