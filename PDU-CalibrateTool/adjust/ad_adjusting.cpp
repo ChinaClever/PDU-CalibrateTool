@@ -25,7 +25,7 @@ bool Ad_Adjusting::transmit(uchar *buf, int len)
 {
     bool ret = true;
     uchar recv[64] = {0};
-    len = mModbus->transmit(buf, len, recv, 2);
+    len = mModbus->transmit(buf, len, recv, 1);
     if(len > 0) {
         ret = recvStatus(recv, len);
     }
