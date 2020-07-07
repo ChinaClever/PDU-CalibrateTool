@@ -31,7 +31,7 @@ struct sDataUnit
     uint ele[PACK_ARRAY_SIZE]; // 电能
 
     ushort pf[PACK_ARRAY_SIZE]; // 功率因数
-    uchar sw[PACK_ARRAY_SIZE]; // 开关状态 0 表示未启用
+    uchar sw[PACK_ARRAY_SIZE]; // 开关状态  0 表示未启用 1 表示开
 
     uchar hz; // 电压频率
     uchar version;

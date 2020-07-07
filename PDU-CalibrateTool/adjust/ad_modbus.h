@@ -3,7 +3,7 @@
 
 #include "datapacket.h"
 #include "ad_config.h"
-#define MODBUS_RTU_SIZE 256
+#define MODBUS_RTU_SIZE 255
 
 struct sRtuItem {
     sRtuItem():fn(3),reg(0),num(0){} // 下位机有问题
@@ -66,7 +66,6 @@ public:
 
 protected:
     void initSerial();
-    bool sentSerial(quint8 *cmd, int len);
     ushort calccrc (ushort crc, uchar crcbuf);
     int rtu_sent_packet(sRtuItem *pkt, uchar *ptr);
     int rtuRecvData(uchar *ptr,  sRtuReplyItem *pkt);
@@ -79,7 +78,6 @@ protected:
 private:
     sConfigItem *mItem;
     SerialPort *mSerial;
-    QReadWriteLock *mLock;
 };
 
 #endif // AD_MODBUS_H

@@ -26,7 +26,7 @@ Home_DebugDlg::~Home_DebugDlg()
 void Home_DebugDlg::initFunSlot()
 {
     sDevType *dt = sDataPacket::bulid()->devType;
-    if(dt->devType) {
+    if(dt->devType && mData->size) {
         initThread();
         this->setEnabled(true);
     } else {
