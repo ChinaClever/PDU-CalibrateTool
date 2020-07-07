@@ -12,9 +12,9 @@ Home_DebugDlg::Home_DebugDlg(QWidget *parent) :
     ui(new Ui::Home_DebugDlg)
 {
     ui->setupUi(this);
+    this->setEnabled(false);
     groupBox_background_icon(this);
     mData = sDataPacket::bulid()->data;
-    this->setEnabled(false);
     QTimer::singleShot(1*1000,this,SLOT(initFunSlot()));
 }
 
