@@ -91,18 +91,18 @@ bool Ad_CoreThread::readDevInfo()
 
 
     //////////////===================
-//    ret = mAutoID->readDevType();//读取设备类型
-//    if(ret) {
-//        ret = mSn->snEnter();//写入序列号
-//    }
+    ret = mAutoID->readDevType();//读取设备类型
+    if(ret) {
+        ret = mSn->snEnter();//写入序列号
+    }
 
 
     //////////////===================
-    sDevType *mDt = mPacket->devType;
-    mDt->devType = ZPDU;
-    mDt->ac = AC;
-    mDt->specs = Mn;
-    mDt->lines = 1;
+//    sDevType *mDt = mPacket->devType;
+//    mDt->devType = ZPDU;
+//    mDt->ac = AC;
+//    mDt->specs = Mn;
+//    mDt->lines = 1;
 
     return ret;
 }
@@ -113,7 +113,7 @@ void Ad_CoreThread::workDown()
     bool ret = readDevInfo(); if(!ret) return;
 
     mPacket->status = tr("开始校准");
-//    ret = mAdjust->startAdjust();   ////====
+    ret = mAdjust->startAdjust();   ////====
     if(ret){
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
