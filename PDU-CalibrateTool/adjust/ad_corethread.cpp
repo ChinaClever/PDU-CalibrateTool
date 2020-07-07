@@ -53,7 +53,6 @@ void Ad_CoreThread::startResult()
     }
 }
 
-
 void Ad_CoreThread::collectData()
 {
     mPacket->status = tr("数据采集");
@@ -70,7 +69,7 @@ void Ad_CoreThread::collectData()
 
 void Ad_CoreThread::verifyResult()
 {
-    mPacket->status = tr("数据采集");
+    mPacket->status = tr("采集自动验证");
     bool ret = readDevInfo();
     if(ret) {
          mResult->resEnter();
