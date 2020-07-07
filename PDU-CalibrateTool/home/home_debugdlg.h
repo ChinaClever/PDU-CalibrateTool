@@ -30,6 +30,7 @@ private slots:
     void on_onBtn_clicked();
     void on_downBtn_clicked();
     void workDownSlot();
+    void initFunSlot();
 
 private:
     Ui::Home_DebugDlg *ui;
