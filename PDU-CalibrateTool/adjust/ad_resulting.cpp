@@ -49,6 +49,7 @@ bool Ad_Resulting::curTgCheck(int exValue)
         cur += mData->cur[i];
     }
 
+    cur /=  mData->rate;
     return curErrRange(exValue, cur);
 }
 
@@ -234,9 +235,9 @@ bool Ad_Resulting::workDown(int exValue)
     bool ret = false;
     sDevType *dt = mPacket->devType;
     switch (dt->specs) {
-    case Transformer: ret = outputAllCurCheck(exValue); break; // 输出位  互感器校验
+    case Sum: ret = sumCurCheck(exValue); break;
     case Mn: ret = outputCurCheck(exValue); break; // 输出位锰铜
-    case 3: ret = sumCurCheck(exValue); break;
+    case Transformer: ret = outputAllCurCheck(exValue); break; // 输出位  互感器校验
     }
 
     return ret;

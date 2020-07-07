@@ -99,9 +99,9 @@ bool Ad_CoreThread::readDevInfo()
 
     //////////////===================
     sDevType *mDt = mPacket->devType;
-    mDt->devType = 1;
-    mDt->ac = 1;
-    mDt->specs = 2;
+    mDt->devType = ZPDU;
+    mDt->ac = AC;
+    mDt->specs = Mn;
     mDt->lines = 1;
 
     return ret;
