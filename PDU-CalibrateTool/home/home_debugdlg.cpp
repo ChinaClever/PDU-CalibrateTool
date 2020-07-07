@@ -120,9 +120,6 @@ void Home_DebugDlg::on_downBtn_clicked()
     QuMsgBox box(this, tr("是否需要校准下电?"));
     if(!box.Exec()) return;
 
-    int ret = YC_StandSource::bulid(this)->powerDown();
-    if(ret <= 0) {
-        CriticalMsgBox box(this, tr("标准源下电失败!"));
-    }
+    YC_StandSource::bulid(this)->powerDown();
 }
 

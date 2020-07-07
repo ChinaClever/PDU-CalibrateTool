@@ -14,12 +14,10 @@ sDataPacket::sDataPacket()
 
 void sDataPacket::clear()
 {
-    uchar dt = devType->devType;
     memset(tg, 0, sizeof(sTgObjData));
     memset(data, 0, sizeof(sDataUnit));
     memset(devType, 0, sizeof(sDevType));
 
-    devType->devType = dt;
     dev_type.clear();
     status.clear();
     sn.clear();

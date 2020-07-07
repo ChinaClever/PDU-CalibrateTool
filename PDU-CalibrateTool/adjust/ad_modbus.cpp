@@ -9,6 +9,7 @@ Ad_Modbus::Ad_Modbus(QObject *parent) : QThread(parent)
 {
     mSerial = nullptr;
     mItem = Ad_Config::bulid()->item;
+    mLock = new QReadWriteLock();
 }
 
 
@@ -62,6 +63,12 @@ int Ad_Modbus::readSerial(quint8 *cmd, int sec)
 
 bool Ad_Modbus::writeSerial(quint8 *cmd, int len)
 {
+    QWriteLocker locker(mLock);
+    return sentSerial(cmd, len);
+}
+
+bool Ad_Modbus::sentSerial(quint8 *cmd, int len)
+{
     initSerial();
     bool ret = mSerial->isOpened();
     if(ret) {
@@ -76,7 +83,8 @@ bool Ad_Modbus::writeSerial(quint8 *cmd, int len)
 int Ad_Modbus::transmit(uchar *sent, int len, uchar *recv, int sec)
 {
     int rtn = 0;
-    bool ret = writeSerial(sent, len);
+    QWriteLocker locker(mLock); msleep(300);
+    bool ret = sentSerial(sent, len);
     if(ret) {
         rtn = readSerial(recv, sec);
     }
@@ -90,12 +98,12 @@ bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len)
     int rtn = len-2; uchar *ptr = buf+rtn;
     if(rtn < 0) return false;
 
-//    ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
-//    ushort res = rtu_crc(buf, rtn);
-//    if(crc != res) {
-//        ret = false;
-//        qDebug() << "Rtu Recv rtu recv crc Err!";
-//    }
+    //    ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
+    //    ushort res = rtu_crc(buf, rtn);
+    //    if(crc != res) {
+    //        ret = false;
+    //        qDebug() << "Rtu Recv rtu recv crc Err!";
+    //    }
 
     return ret;
 }
@@ -233,10 +241,6 @@ int Ad_Modbus::rtu_sent_packet(sRtuItem *pkt, uchar *ptr)
 
     return 8;
 }
-
-
-
-
 
 ushort Ad_Modbus::calccrc (ushort crc, uchar crcbuf)
 {
