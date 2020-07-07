@@ -98,7 +98,7 @@ void Ad_Resulting::resTgData(sTgObjData *tg)
     for(int i=0; i<mData->size; ++i) {
         tg->cur += mData->cur[i];
         tg->pow += mData->pow[i];
-    }    
+    }
 }
 
 
@@ -108,8 +108,11 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
     for(int i=0; i<5; ++i) {
         mCollect->readPduData();
         ret = curRangeByID(k, exValue);
-        if(ret)  break;
-        delay(1);
+        if(ret) {
+            break;
+        } else {
+            delay(2);
+        }
     }
 
     return ret;
@@ -118,12 +121,13 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
 bool Ad_Resulting::outputSwCtrl(int exValue)
 {
     bool ret = false;
-    mCollect->readPduData();
+    mCollect->readPduData(); delay(1);
+
     for(int k=0; k<mData->size; ++k) {
-        mPacket->status = tr("校验数据 第%1输出位").arg(k+1);
-        mCtrl->openOnlySwitch(k); delay(10);
+        mPacket->status = tr("校验数据 期望电流%1A 第%2输出位").arg(exValue/10).arg(k+1);
+        mCtrl->openOnlySwitch(k); delay(7);
         ret = outputCurById(k, exValue);
-        if(!ret) break;
+        if(ret) delay(3); else break;
     }
 
     return ret;
@@ -156,7 +160,7 @@ bool Ad_Resulting::sumCurCheck(int exValue)
     bool ret = true;
 
     for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据: 第%1次").arg(i+1);
+        mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/10).arg(i+1);
         mCollect->readPduData();
 
         ret = curTgCheck(exValue);
@@ -186,7 +190,7 @@ bool Ad_Resulting::outputAllCurCheck(int exValue)
     bool ret = true;
 
     for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据: 电流%1A 第%2次").arg(exValue/10).arg(i+1);
+        mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/10).arg(i+1);
         mCollect->readPduData();
         ret = outputAllCheck(exValue);
         if(ret) {
@@ -252,7 +256,7 @@ bool Ad_Resulting::resEnter()
     for(int i=0; i<3; ++i) {
         int exCur = (i*2 + 1) * 10;
         mSource->powerOn(exCur);
-        mPacket->status = tr("验证电流：%1A").arg(exCur/10);
+        mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/10);
         ret = delay(10); if(!ret) return false;
 
         ret = workDown(exCur);

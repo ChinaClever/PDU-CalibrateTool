@@ -41,14 +41,22 @@ void Ctrl_CoreThread::openOutputSwitch(int id)
 
 void Ctrl_CoreThread::closeOtherSwitchSlot()
 {
-     closeOtherSwitch(mIdClosed);
+    closeOtherSwitch(mIdClosed);
 }
 
-void Ctrl_CoreThread::openOnlySwitch(int id)
+void Ctrl_CoreThread::openOnlySwSlot(int id)
 {
     mIdClosed = id;
     openOutputSwitch(id);
     QTimer::singleShot(1500,this,SLOT(closeOtherSwitchSlot()));
+}
+
+void Ctrl_CoreThread::openOnlySwitch(int id)
+{
+    openOutputSwitch(id);
+    if(delay(2)) {
+        closeOtherSwitch(id);
+    }
 }
 
 void Ctrl_CoreThread::closeOtherSwitch(int id)

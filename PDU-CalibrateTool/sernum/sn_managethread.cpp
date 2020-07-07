@@ -33,10 +33,11 @@ bool SN_ManageThread::checkSn(uchar *sn, int len)
     //bool ret = false;
     bool ret = true;
     if(len == 9) {
-//        uchar exor = mModbus->getXorNumber(sn, len-1);//暂时注释下面的异或和校验不对
-//        if(exor == sn[len-1]) {
-//            ret = false;
-//        }
+        if(*sn == 0xFF) return false;
+        uchar exor = mModbus->getXorNumber(sn, len-1);//暂时注释下面的异或和校验不对
+        if(exor == sn[len-1]) {
+            ret = false;
+        }
     }
     return ret;
 }
@@ -67,12 +68,13 @@ bool SN_ManageThread::analySn(uchar *sn, int len, sSnItem &it)
 void SN_ManageThread::toSnStr(sSnItem &it)
 {
     QString cmd;
-    for(int i=0; i<8; ++i) cmd += "%" + QString::number(i+1);
+    for(int i=0; i<11; ++i) cmd += "%" + QString::number(i+1);
     QString sn  = QString(cmd)
-//            .arg(it.devType[0], 2, 16, QLatin1Char('0'))
-//            .arg(it.devType[1], 2, 16, QLatin1Char('0'))
+            .arg(it.devType[0], 2, 16, QLatin1Char('0'))
+            .arg(it.devType[1], 2, 16, QLatin1Char('0'))
             .arg(it.devType[2], 2, 16, QLatin1Char('0'))
             .arg(it.devType[3], 2, 16, QLatin1Char('0'))
+            .arg(it.date[0], 2, 10, QLatin1Char('0'))
             .arg(it.date[1], 2, 10, QLatin1Char('0'))
             .arg(it.date[2], 2, 10, QLatin1Char('0'))
             .arg(it.date[3], 2, 10, QLatin1Char('0'))

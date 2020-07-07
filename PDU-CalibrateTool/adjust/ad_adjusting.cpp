@@ -23,10 +23,14 @@ Ad_Adjusting *Ad_Adjusting::bulid(QObject *parent)
 
 bool Ad_Adjusting::transmit(uchar *buf, int len)
 {
+    bool ret = true;
     uchar recv[64] = {0};
     len = mModbus->transmit(buf, len, recv, 2);
+    if(len > 0) {
+        ret = recvStatus(recv, len);
+    }
 
-    return recvStatus(recv, len);
+    return ret;
 }
 
 bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
@@ -65,6 +69,10 @@ bool Ad_Adjusting::updateStatus(ushort status)
     if(0x1100 == status) {
         mPacket->status = tr("校准返回正常！");
     } else if(0x1101 == status) {
+        mPacket->status = tr("校准失败");
+        mItem->step = Test_End;
+        ret = false;
+    } else if(0x1102 == status) {
         mPacket->status = tr("校准解锁成功");
     } else if(status <= 0x1104) {
         mPacket->status = tr("正在校准，%1相 ").arg(status-0x1101);
@@ -80,7 +88,7 @@ bool Ad_Adjusting::updateStatus(ushort status)
         ret = false;
     } else {
         ret = false;
-        qDebug() << "Adjust res status err";
+        qDebug() << "Adjust res status err" << status;
     }
 
     return ret;
@@ -94,7 +102,7 @@ bool Ad_Adjusting::recvStatus(uchar *recv, int len)
         ret = updateStatus(status);
     } else {
         ret = false;
-        qDebug() << "Adjust res len err";
+        qDebug() << "Adjust res len err" << len;
     }
 
     return ret;
@@ -103,15 +111,21 @@ bool Ad_Adjusting::recvStatus(uchar *recv, int len)
 bool Ad_Adjusting::readData()
 {
     int count = 1;
-    uchar buf[32] = {0};
-    int len = mModbus->readSerial(buf, 1);
     bool ret = false;
+    uchar *ptr = nullptr;
+    uchar buf[MODBUS_RTU_SIZE] = {0};
 
     do {
         mPacket->status = tr("正在校准：%1秒").arg(count++);
-        len = mModbus->readSerial(buf, 10);
+        int len = mModbus->readSerial(buf, 15);
         if(len > 0){
-            ret = recvStatus(buf, len);
+            if(len > 8) {
+                ptr = &(buf[len-8]);
+                len = 8;
+            } else {
+                ptr = buf;
+            }
+            ret = recvStatus(ptr, len);
         } else {
             mItem->step = Test_End;
             mPacket->status = tr("校准超时！");
@@ -121,7 +135,7 @@ bool Ad_Adjusting::readData()
             mPacket->pass = Test_Fail;
             break;
         }
-
+        qDebug()<<"while(false == ret);"<<ret<<endl;
     } while(false == ret);
 
     return ret;
@@ -133,6 +147,5 @@ bool Ad_Adjusting::startAdjust()
     if(ret) {
         ret = readData();
     }
-
     return ret;
 }
