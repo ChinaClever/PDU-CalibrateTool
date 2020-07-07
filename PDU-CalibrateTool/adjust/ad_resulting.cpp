@@ -55,7 +55,7 @@ bool Ad_Resulting::curTgCheck(int exValue)
 
 bool Ad_Resulting::curRangeByID(int i, int exValue)
 {
-    int cur = mData->cur[i];
+    int cur = mData->cur[i] / mData->rate;
     bool ret = curErrRange(exValue, cur);
     if(ret) {
         mData->cured[i] = mData->cur[i];
@@ -96,7 +96,7 @@ void Ad_Resulting::resTgData(sTgObjData *tg)
     for(int i=0; i<mData->size; ++i) {
         tg->cur += mData->cur[i];
         tg->pow += mData->pow[i];
-    }
+    }    
 }
 
 
@@ -116,9 +116,10 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
 bool Ad_Resulting::outputSwCtrl(int exValue)
 {
     bool ret = false;
-    for(int k=1; k<=mData->size; ++k) {
-        mPacket->status = tr("校验数据 第%1输出位").arg(k);
-        mCtrl->openOnlySwitch(k); delay(5);
+    mCollect->readPduData();
+    for(int k=0; k<mData->size; ++k) {
+        mPacket->status = tr("校验数据 第%1输出位").arg(k+1);
+        mCtrl->openOnlySwitch(k+1); delay(10);
 
         ret = outputCurById(k, exValue);
         if(!ret) break;
@@ -171,13 +172,12 @@ bool Ad_Resulting::sumCurCheck(int exValue)
 
 bool Ad_Resulting::outputAllCheck(int exValue)
 {
-    bool ret = false;
-    for(int k=1; k<=mData->size; ++k) {
-        mPacket->status = tr("校验数据 第%1输出位").arg(k);
-        ret = curRangeByID(k, exValue);
-        if(!ret) break;
+    bool res = true;
+    for(int k=0; k<mData->size; ++k) {
+        bool ret = curRangeByID(k, exValue);
+        if(!ret) res = false;
     }
-    return ret;
+    return res;
 }
 
 bool Ad_Resulting::outputAllCurCheck(int exValue)
@@ -185,14 +185,13 @@ bool Ad_Resulting::outputAllCurCheck(int exValue)
     bool ret = true;
 
     for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据: 第%1次").arg(i+1);
+        mPacket->status = tr("校验数据: 电流%1A 第%2次").arg(exValue/10).arg(i+1);
         mCollect->readPduData();
         ret = outputAllCheck(exValue);
         if(ret) {
             break;
         } else {
-            ret = delay(2);
-            if(!ret) break;
+            if(!delay(2)) break;
         }
     }
 
@@ -253,7 +252,7 @@ bool Ad_Resulting::resEnter()
         int exCur = (i*2 + 1) * 10;
         mSource->powerOn(exCur);
         mPacket->status = tr("验证电流：%1A").arg(exCur/10);
-        ret = delay(5); if(!ret) return false;
+        ret = delay(10); if(!ret) return false;
 
         ret = workDown(exCur);
         if(!ret) break;
