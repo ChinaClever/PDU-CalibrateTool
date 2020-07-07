@@ -93,6 +93,9 @@ bool Ad_Resulting::volErrRange()
 
 void Ad_Resulting::resTgData(sTgObjData *tg)
 {
+    tg->cur = 0;
+    tg->pow = 0;
+
     for(int i=0; i<mData->size; ++i) {
         tg->cur += mData->cur[i];
         tg->pow += mData->pow[i];
