@@ -3,7 +3,7 @@
 
 #include "datapacket.h"
 #include "ad_config.h"
-#define MODBUS_RTU_SIZE 256
+#define MODBUS_RTU_SIZE 255
 
 struct sRtuItem {
     sRtuItem():fn(3),reg(0),num(0){} // 下位机有问题
