@@ -66,7 +66,6 @@ public:
 
 protected:
     void initSerial();
-    bool sentSerial(quint8 *cmd, int len);
     ushort calccrc (ushort crc, uchar crcbuf);
     int rtu_sent_packet(sRtuItem *pkt, uchar *ptr);
     int rtuRecvData(uchar *ptr,  sRtuReplyItem *pkt);
@@ -79,7 +78,6 @@ protected:
 private:
     sConfigItem *mItem;
     SerialPort *mSerial;
-    QReadWriteLock *mLock;
 };
 
 #endif // AD_MODBUS_H

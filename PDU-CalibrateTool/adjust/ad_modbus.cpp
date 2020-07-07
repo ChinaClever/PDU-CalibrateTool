@@ -9,7 +9,6 @@ Ad_Modbus::Ad_Modbus(QObject *parent) : QThread(parent)
 {
     mSerial = nullptr;
     mItem = Ad_Config::bulid()->item;
-    mLock = new QReadWriteLock();
 }
 
 
@@ -63,16 +62,10 @@ int Ad_Modbus::readSerial(quint8 *cmd, int sec)
 
 bool Ad_Modbus::writeSerial(quint8 *cmd, int len)
 {
-    QWriteLocker locker(mLock);
-    return sentSerial(cmd, len);
-}
-
-bool Ad_Modbus::sentSerial(quint8 *cmd, int len)
-{
     initSerial();
     bool ret = mSerial->isOpened();
     if(ret) {
-        mSerial->write(cmd, len); msleep(100);
+        mSerial->write(cmd, len);
     } else {
         qDebug() << "AdjustCoreThread writeSerial err !" << ret;
     }
@@ -83,11 +76,9 @@ bool Ad_Modbus::sentSerial(quint8 *cmd, int len)
 int Ad_Modbus::transmit(uchar *sent, int len, uchar *recv, int sec)
 {
     int rtn = 0;
-    QWriteLocker locker(mLock); msleep(1300);
-    bool ret = sentSerial(sent, len);
+    bool ret = writeSerial(sent, len);
     if(ret) {
         rtn = readSerial(recv, sec);
-         msleep(1450);
     }
 
     return rtn;
