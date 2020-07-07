@@ -23,20 +23,21 @@ struct sDataUnit
     sDataUnit() {size=0;}
     int size;
     double rate;
-    uint vol[PACK_ARRAY_SIZE]; // 电压
-    uint cur[PACK_ARRAY_SIZE]; // 电流
-    uint cured[PACK_ARRAY_SIZE]; // 电流
+    ushort vol[PACK_ARRAY_SIZE]; // 电压
+    ushort cur[PACK_ARRAY_SIZE]; // 电流
+    ushort cured[PACK_ARRAY_SIZE]; // 电流
 
-    uint pow[PACK_ARRAY_SIZE]; // 功率
+    ushort pow[PACK_ARRAY_SIZE]; // 功率
     uint ele[PACK_ARRAY_SIZE]; // 电能
 
-    ushort pf[PACK_ARRAY_SIZE]; // 功率因数
+    uchar pf[PACK_ARRAY_SIZE]; // 功率因数
     uchar sw[PACK_ARRAY_SIZE]; // 开关状态  0 表示未启用 1 表示开
 
     uchar hz; // 电压频率
+    uchar br; // 波特率
     uchar version;
     uchar chipStatus;
-    uint activePow[PACK_ARRAY_SIZE]; // 有功功率值
+    ushort activePow[PACK_ARRAY_SIZE]; // 有功功率值
     uchar status[PACK_ARRAY_SIZE];
 };
 

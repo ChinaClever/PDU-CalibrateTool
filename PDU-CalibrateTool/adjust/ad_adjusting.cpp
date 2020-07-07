@@ -24,7 +24,7 @@ Ad_Adjusting *Ad_Adjusting::bulid(QObject *parent)
 bool Ad_Adjusting::transmit(uchar *buf, int len)
 {
     uchar recv[64] = {0};
-    len = mModbus->transmit(buf, len, recv, 1);
+    len = mModbus->transmit(buf, len, recv, 2);
 
     return recvStatus(recv, len);
 }
