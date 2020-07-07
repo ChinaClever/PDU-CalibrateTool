@@ -3,7 +3,7 @@
 #include "ad_modbus.h"
 
 enum eDevTypes {
-    PDU = 0,
+    PDU=0,
     ZPDU,
     MPDU,
     RPDU,
@@ -14,8 +14,9 @@ enum eDevTypes {
     AC = 1, // 交流
     DC,     // 直流
 
-    Transformer = 1, // 互感器
-    Mn = 2    // 锰铜
+    Sum=0,
+    Transformer, // 互感器
+    Mn    // 锰铜
 };
 
 
