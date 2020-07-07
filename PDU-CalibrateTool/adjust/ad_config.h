@@ -13,9 +13,8 @@ enum {
 
     Collect_Start,
 
-    Test_Result_Wid,
-    Test_Items_Wid,
-    Test_Datas_Wid
+    Test_Success=1,
+    Test_Fail,
 };
 
 

@@ -23,8 +23,7 @@ Ad_DevType * Ad_DevType::bulid()
 
 QString Ad_DevType::getDevStr(uint id)
 {
-    QString str = "ZPDU_磁保持_互感器_C系列_三相_14位";
-    str = Json_Recv::bulid()->getDevTypeByID(id);
+    QString  str = Json_Recv::bulid()->getDevTypeByID(id);
 
     return str;
 }
@@ -33,29 +32,29 @@ QString Ad_DevType::getDevStr(uint id)
 int Ad_DevType::getDevType(const QString &str)
 {
     int ret = 0;
-    if(str.contains("ZPDU")) ret = 1;
-    if(str.contains("MPDU")) ret = 2;
-    if(str.contains("RPDU")) ret = 3;
+    if(str.contains("ZPDU")) ret = ZPDU;
+    if(str.contains("MPDU")) ret = MPDU;
+    if(str.contains("RPDU")) ret = RPDU;
 
-    if(str.contains("SI-PDU")) ret = 4;
-    if(str.contains("IP-PDU")) ret = 5;
-    if(str.contains("BM-PDU")) ret = 6;
+    if(str.contains("SI-PDU")) ret = SI_PDU;
+    if(str.contains("IP-PDU")) ret = IP_PDU;
+    if(str.contains("BM-PDU")) ret = BM_PDU;
 
     return ret;
 }
 
 int Ad_DevType::getAcType(const QString &str)
 {
-    int ret = 1;
-    if(str.contains("直流")) ret = 2;
+    int ret = AC;
+    if(str.contains("直流")) ret = DC;
 
     return ret;
 }
 
 int Ad_DevType::getColMode(const QString &str)
 {
-    int ret = 1;
-    if(str.contains("锰铜")) ret = 2;
+    int ret = Transformer;
+    if(str.contains("锰铜")) ret = Mn;
 
     return ret;
 }

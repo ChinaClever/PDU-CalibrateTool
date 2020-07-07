@@ -51,7 +51,7 @@ bool Ad_Adjusting::sentCmd()
     if(!ret) return ret;
 
     sDevType *dt = mPacket->devType;
-    if(2 == dt->ac) {
+    if(DC == dt->ac) {
         ret = writeCmd(0xA1, 0);
     }
 
@@ -118,7 +118,7 @@ bool Ad_Adjusting::readData()
             break;
         }
         if(mItem->step > Test_vert) {
-            mPacket->pass = 2;
+            mPacket->pass = Test_Fail;
             break;
         }
 

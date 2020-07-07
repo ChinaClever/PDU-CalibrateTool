@@ -27,8 +27,8 @@ void Home_DebugDlg::initThread()
 {
     sDevType *dt = sDataPacket::bulid()->devType;
     switch (dt->devType) {
-    case 1: mThread = Ctrl_ZpduThread::bulid(this); break;
-    case 2: mThread = Ctrl_MpduThread::bulid(this); break;
+    case ZPDU: mThread = Ctrl_ZpduThread::bulid(this); break;
+    case MPDU: mThread = Ctrl_MpduThread::bulid(this); break;
     default:  break;
     }
 }

@@ -59,9 +59,9 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
     bool ret = curErrRange(exValue, cur);
     if(ret) {
         mData->cured[i] = mData->cur[i];
-        mData->status[i] = 1;
+        mData->status[i] = Test_Success;
     } else {
-        mData->status[i] = 2;
+        mData->status[i] = Test_Fail;
         ret = false;
     }
 
@@ -80,10 +80,10 @@ bool Ad_Resulting::volErrRange()
     for(int i=0; i<mData->size; ++i) {
         int vol = mData->vol[i];
         if((vol >= min) && (vol <= max)) {
-            mData->status[i] = 1;
+            mData->status[i] = Test_Success;
         } else {
             ret = false;
-            mData->status[i] = 2;
+            mData->status[i] = Test_Fail;
         }
     }
 
@@ -132,10 +132,10 @@ bool Ad_Resulting::workResult(bool res)
     if(res) res = volErrRange();
     QString str = tr("校准失败!");
     if(res) {
-        mPacket->pass = 1;
+        mPacket->pass = Test_Success;
         str = tr("校准成功!");
     } else {
-        mPacket->pass = 2;
+        mPacket->pass = Test_Fail;
     }
     mPacket->status = str;
 
@@ -213,12 +213,12 @@ Col_CoreThread *Ad_Resulting::initThread()
 {
     sDevType *dt = mPacket->devType;
     switch (dt->devType) {
-    case 1:
+    case ZPDU:
         mCollect = Col_ZPduThread::bulid(this);
         mCtrl = Ctrl_ZpduThread::bulid(this);
         break;
 
-    case 2:
+    case MPDU:
         mCollect = Col_MPduThread::bulid(this);
         mCtrl = Ctrl_MpduThread::bulid(this);
         break;
@@ -235,8 +235,8 @@ bool Ad_Resulting::workDown(int exValue)
     bool ret = false;
     sDevType *dt = mPacket->devType;
     switch (dt->specs) {
-    case 1: ret = outputAllCurCheck(exValue); break; // 输出位  互感器校验
-    case 2: ret = outputCurCheck(exValue); break; // 输出位锰铜
+    case Transformer: ret = outputAllCurCheck(exValue); break; // 输出位  互感器校验
+    case Mn: ret = outputCurCheck(exValue); break; // 输出位锰铜
     case 3: ret = sumCurCheck(exValue); break;
     }
 

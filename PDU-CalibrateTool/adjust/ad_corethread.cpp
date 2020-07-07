@@ -76,7 +76,7 @@ void Ad_CoreThread::writeLog()
     it.dev =mPacket->dev_type.split("_").first();
     it.user = user_land_name();
     it.sn = mPacket->sn;
-    if(mPacket->pass == 1) {
+    if(mPacket->pass == Test_Success) {
         it.status = tr("通过");
     } else {
         it.status = tr("失败");
