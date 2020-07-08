@@ -17,8 +17,19 @@ uchar *Col_CoreThread::toInt(uchar *ptr, int line, uint *value)
 {
     for(int i=0; i<line; ++i) {
         value[i] =  (*ptr) * 256 + *(ptr+1);  ptr += 2; // 读取电能高8位
-        value[i] <<= 8; // 左移8位
+        value[i] <<= 16; // 左移8位
         value[i] +=  (*ptr) * 256 + *(ptr+1);  ptr += 2; // 读取电能底8位
+    }
+
+    return ptr;
+}
+
+uchar *Col_CoreThread::toOutputEle(uchar *ptr, int line, uint *value)
+{
+    for(int i=0; i<line; ++i) {
+        value[i] = (*ptr++) << 16;
+        value[i] += (*ptr++) << 8;
+        value[i] += *ptr++;
     }
 
     return ptr;
