@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2020年10月1日
+ *      Author: Lzy
+ */
 #include "col_mcrpduthread.h"
 
 Col_McRpduThread::Col_McRpduThread(QObject *parent) : Col_CoreThread(parent)
@@ -13,8 +18,6 @@ Col_McRpduThread *Col_McRpduThread::bulid(QObject *parent)
     return sington;
 }
 
-
-
 void Col_McRpduThread::initRtuItem(sRtuItem &it)
 {
     it.addr = mItem->addr;
@@ -23,7 +26,6 @@ void Col_McRpduThread::initRtuItem(sRtuItem &it)
     it.num = 6;
 }
 
-
 bool Col_McRpduThread::recvPacket(uchar *ptr, int len)
 {
     int line = 3;
@@ -31,6 +33,10 @@ bool Col_McRpduThread::recvPacket(uchar *ptr, int len)
     if(len == 12) {
         ptr = toShort(ptr, line, mData->cur);
         ptr = toShort(ptr, line, mData->vol);
+
+        for(int i=0; i<line; ++i) {
+            mData->pow[i] = mData->cur[i] * mData->vol[i];
+        }
     } else {
         ret = false;
     }
