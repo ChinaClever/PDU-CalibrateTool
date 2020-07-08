@@ -81,8 +81,7 @@ bool Col_ZPduThread::getZpduVolCur()
     for(int i=1; i<61; i++) cmd[k++] = 0x00;
     cmd[k++] = 0x44;  //长度
     cmd[k] = mModbus->getXorNumber(cmd,sizeof(cmd)-1);
-
-    int ret = mModbus->transmit(cmd, sizeof(cmd), recv, 1);
+    int ret = mModbus->transmit(cmd, sizeof(cmd), recv, 2);
     if(ret > 0) {
         res = recvZpduVolCur(recv, ret);
     } else {

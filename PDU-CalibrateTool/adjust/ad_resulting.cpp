@@ -108,11 +108,7 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
     for(int i=0; i<5; ++i) {
         mCollect->readPduData();
         ret = curRangeByID(k, exValue);
-        if(ret) {
-            break;
-        } else {
-            delay(2);
-        }
+        if(!ret) delay(2); else break;
     }
 
     return ret;
@@ -162,14 +158,8 @@ bool Ad_Resulting::sumCurCheck(int exValue)
     for(int i=0; i<4; ++i) {
         mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/10).arg(i+1);
         mCollect->readPduData();
-
         ret = curTgCheck(exValue);
-        if(ret) {
-            break;
-        } else {
-            ret = delay(2);
-            if(!ret) break;
-        }
+        if(ret) break; else if(!delay(2)) break;
     }
 
     return ret;
@@ -193,11 +183,7 @@ bool Ad_Resulting::outputAllCurCheck(int exValue)
         mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/10).arg(i+1);
         mCollect->readPduData();
         ret = outputAllCheck(exValue);
-        if(ret) {
-            break;
-        } else {
-            if(!delay(2)) break;
-        }
+        if(ret) break; else if(!delay(2)) break;
     }
 
     return ret;
@@ -257,7 +243,7 @@ bool Ad_Resulting::resEnter()
         int exCur = (i*2 + 1) * 10;
         mSource->powerOn(exCur);
         mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/10);
-        ret = delay(10); if(!ret) return false;
+        if(!delay(10)) return false;
 
         ret = workDown(exCur);
         if(!ret) break;

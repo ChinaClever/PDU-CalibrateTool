@@ -67,7 +67,7 @@ bool Col_MPduThread::getMpduVolCur()
 
     cmd[2] = mItem->addr;
     cmd[20] = mModbus->getXorNumber(cmd,sizeof(cmd)-1);
-    int ret = mModbus->transmit(cmd, sizeof(cmd), recv, 1);
+    int ret = mModbus->transmit(cmd, sizeof(cmd), recv, 2);
     if(ret > 0) {
         res = recvMpduVolCur(recv, ret);
     } else {
@@ -106,7 +106,7 @@ int Col_MPduThread::getMpduEle()
 
     cmd[2] = mItem->addr;
     cmd[15] = mModbus->getXorNumber(cmd,sizeof(cmd)-1);
-    int ret = mModbus->transmit(cmd, sizeof(cmd), recv, 1);
+    int ret = mModbus->transmit(cmd, sizeof(cmd), recv, 2);
     if(ret > 0) {
         recvMpduEle(recv, ret);
     } else {
