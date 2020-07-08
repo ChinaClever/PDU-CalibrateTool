@@ -88,7 +88,7 @@ bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len)
 {
     bool ret = true;
     int rtn = len-2; uchar *ptr = buf+rtn;
-    if(rtn < 0) return false;
+//    if(rtn < 0) return false;
 
     //    ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
     //    ushort res = rtu_crc(buf, rtn);
@@ -166,15 +166,14 @@ bool Ad_Modbus::rtuWrite(sRtuSetItem *pkt)
     int rtn = rtu_write_packet(pkt, sendBuf);
     rtn = transmit(sendBuf, rtn, recvBuf, 2);
     if(rtn > 0) {
-        bool ret = rtuRecvCrc(recvBuf, rtn);
+        ret = rtuRecvCrc(recvBuf, rtn);
         if(ret) {
-            uchar fn = recvBuf[2];
+            uchar fn = recvBuf[1];
             if(fn < 0x80) { // 设置正常
                 ret = true;
             }
         }
     }
-
     return ret;
 }
 
