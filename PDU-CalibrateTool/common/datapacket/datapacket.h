@@ -39,6 +39,8 @@ struct sDataUnit
     uchar chipStatus;
     ushort activePow[PACK_ARRAY_SIZE]; // 有功功率值
     uchar status[PACK_ARRAY_SIZE];
+    ushort reserve;
+    uchar ip[18];
 };
 
 struct sTgObjData

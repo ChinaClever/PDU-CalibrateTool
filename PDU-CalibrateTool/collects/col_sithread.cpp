@@ -76,22 +76,10 @@ uchar *Col_SiThread::toThreshold(uchar *ptr, int line, sThreshold &unit)
 int Col_SiThread::recvLine(int len)
 {
     int ret = 0;
-
-    if(len < SI_RTU_ONE_LEN) {
-        ret = -1;
-        qDebug() << "SI rtu recv Err: len too short!!" << len;
-    } else if(len > SI_RTU_THREE_LEN + 7) {
-        ret = -2;
-        qDebug() << "SI rtu recv Err: len too long!!" << len;
-    } else {
-        if(len == SI_RTU_ONE_LEN) {
-            ret = 1;
-        } else if (len == SI_RTU_THREE_LEN) {
-            ret = 3;
-        } else  {
-            ret = -3;
-            qDebug() << "SI rtu recv len Err!!" << len;
-        }
+    switch (len) {
+    case SI_RTU_ONE_LEN: ret = 1; break;
+    case SI_RTU_THREE_LEN: ret = 3; break;
+    default: qDebug() << "SI rtu recv len Err!!" << len; break;
     }
 
     return ret;
@@ -161,8 +149,8 @@ bool Col_SiThread::recvPacket(uchar *buf, int len)
 
 bool Col_SiThread::readPduData()
 {
-    static sRtuItem it;
-    static uchar recv[MODBUS_RTU_SIZE] = {0};
+    sRtuItem it;
+    uchar recv[MODBUS_RTU_SIZE] = {0};
 
     mData->rate = 1;
     initRtuItem(it);
