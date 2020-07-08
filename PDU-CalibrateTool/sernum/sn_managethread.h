@@ -28,6 +28,7 @@ protected:
     bool analySn(uchar *sn, int len, sSnItem &it);
     bool checkSn(uchar *sn, int len);
     void initReadCmd(sRtuItem &item);
+    void initDevType(sSnItem &it);
 
     void createSn(sSnItem &it);
     int toSnData(sSnItem &it, uchar *data);
