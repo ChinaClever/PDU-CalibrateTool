@@ -32,7 +32,7 @@ bool SN_ManageThread::checkSn(uchar *sn, int len)
 {
     //bool ret = false;
     bool ret = true;
-    if(len == 9) {
+    if(len == 8) {
         if(*sn == 0xFF) return false;
         uchar exor = mModbus->getXorNumber(sn, len-1);//暂时注释下面的异或和校验不对
         if(exor == sn[len-1]) {
