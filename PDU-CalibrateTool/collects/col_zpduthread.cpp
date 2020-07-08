@@ -33,13 +33,12 @@ bool Col_ZPduThread::recvZpduVolCur(uchar *recv, int len)
             mData->vol[0] = getShort(ptr); ptr += 2;
             mData->vol[mData->size-1] = getShort(ptr); ptr += 2;
             ushort sw = getShort(ptr); ptr += 2; // 开关状态 1表示开，0表示关
-            for(int i=0; i<op; ++i) {
-                mData->sw[i] = (sw >> (15-i)) & 1;
-            }
+            for(int i=0; i<op; ++i)  mData->sw[i] = (sw >> (15-i)) & 1;
 
             ptr = toShort(ptr, op, mData->cur);
             ptr = toChar(ptr, op, mData->pf);
             ptr = toOutputEle(ptr, op, mData->ele);
+
             ptr += 3; //忽略三位97
             mData->version = *ptr++;
             mData->chipStatus = *ptr++; // 01表示执行版计量芯片模块损坏，00表示正常。
