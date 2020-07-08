@@ -3,12 +3,13 @@
 
 #include "col_sithread.h"
 
-class Col_IpThread : public Col_SiThread
+class Col_IpThread : public Col_CoreThread
 {
     Q_OBJECT
     explicit Col_IpThread(QObject *parent = nullptr);
 public:
     static Col_IpThread *bulid(QObject *parent = nullptr);
+    bool readPduData();
 
 protected:
     int recvLine(int len);
@@ -17,8 +18,6 @@ protected:
 
     int recvData(uchar *ptr, sDataUnit *msg);
     int recvDataV3(uchar *ptr, sDataUnit *msg);
-    ushort getShort(uchar *ptr);
-    uchar *getShort(uchar *ptr, int line, uchar *value);
     uchar *getSwitch(uchar *ptr, int line, uchar *value);
 };
 

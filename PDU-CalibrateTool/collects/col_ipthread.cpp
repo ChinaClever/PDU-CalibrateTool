@@ -9,7 +9,7 @@
 #define IP_RTU_ONE_LEN 49  // 单相数据长度
 #define IP_RTU_THREE_LEN 58  // 三相数据长度
 
-Col_IpThread::Col_IpThread(QObject *parent) : Col_SiThread(parent)
+Col_IpThread::Col_IpThread(QObject *parent) : Col_CoreThread(parent)
 {
 
 }
@@ -45,20 +45,6 @@ void Col_IpThread::initRtuItem(sRtuItem &it)
     //    } else {
     //        it.num = IP_RTU_THREE_LEN;
     //    }
-}
-
-ushort Col_IpThread::getShort(uchar *ptr)
-{
-    return  (*ptr) * 256 + *(ptr+1);
-}
-
-uchar *Col_IpThread::getShort(uchar *ptr, int line, uchar *value)
-{
-    for(int i=0; i<line; ++i) {
-        value[i] = getShort(ptr); ptr += 2;
-    }
-
-    return  ptr;
 }
 
 
@@ -158,4 +144,16 @@ bool Col_IpThread::recvPacket(uchar *buf, int len)
     }
 
     return ret;
+}
+
+bool Col_IpThread::readPduData()
+{
+    static sRtuItem it;
+    static uchar recv[MODBUS_RTU_SIZE] = {0};
+
+    mData->rate = 1;
+    initRtuItem(it);
+
+    int len = mModbus->rtuRead(&it, recv);
+    return recvPacket(recv, len);
 }

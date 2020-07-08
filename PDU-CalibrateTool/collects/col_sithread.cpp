@@ -29,45 +29,6 @@ void Col_SiThread::initRtuItem(sRtuItem &it)
     it.num = SI_RTU_THREE_LEN;
 }
 
-uchar *Col_SiThread::toInt(uchar *ptr, int line, uint *value)
-{
-    for(int i=0; i<line; ++i) {
-        value[i] =  (*ptr) * 256 + *(ptr+1);  ptr += 2; // 读取电能高8位
-        value[i] <<= 8; // 左移8位
-        value[i] +=  (*ptr) * 256 + *(ptr+1);  ptr += 2; // 读取电能底8位
-    }
-
-    return ptr;
-}
-
-uchar *Col_SiThread::toShort(uchar *ptr, int line, ushort *value)
-{
-    for(int i=0; i<line; ++i) {
-        value[i] =  (*ptr) * 256 + *(ptr+1);  ptr += 2;
-    }
-
-    return ptr;
-}
-
-uchar *Col_SiThread::toChar(uchar *ptr, int line, uchar *value)
-{
-    for(int i=0; i<line; ++i) {
-        value[i] =  *(ptr++); // 读取电压
-    }
-
-    return ptr;
-}
-
-uchar *Col_SiThread::toThreshold(uchar *ptr, int line, sThreshold &unit)
-{
-    for(int i=0; i<line; ++i) {
-        ptr = toChar(ptr, 1, &unit.min[i]);
-        ptr = toChar(ptr, 1, &unit.max[i]);
-    }
-
-    return ptr;
-}
-
 /**
   * 功　能：长度 校验
   * 入口参数：buf -> 缓冲区  len -> 长度
@@ -149,8 +110,8 @@ bool Col_SiThread::recvPacket(uchar *buf, int len)
 
 bool Col_SiThread::readPduData()
 {
-    sRtuItem it;
-    uchar recv[MODBUS_RTU_SIZE] = {0};
+    static sRtuItem it;
+    static uchar recv[MODBUS_RTU_SIZE] = {0};
 
     mData->rate = 1;
     initRtuItem(it);
