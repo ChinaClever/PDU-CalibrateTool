@@ -157,8 +157,6 @@ int Ad_Modbus::rtuRead(sRtuItem *pkt, uchar *recv)
     return ret;
 }
 
-
-
 bool Ad_Modbus::rtuWrite(sRtuSetItem *pkt)
 {
     bool ret = false;
