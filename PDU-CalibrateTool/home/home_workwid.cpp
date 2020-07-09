@@ -19,6 +19,7 @@ Home_WorkWid::Home_WorkWid(QWidget *parent) :
     timer = new QTimer(this);
     timer->start(500);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeoutDone()));
+
     QGridLayout *gridLayout = new QGridLayout(parent);
     gridLayout->setContentsMargins(0, 10, 0, 0);
     gridLayout->addWidget(this);
@@ -34,6 +35,7 @@ bool Home_WorkWid::initWid()
     bool ret = mItem->serial->isOpened();
     if(!ret){CriticalMsgBox box(this, tr("请先打开串口!")); return ret;}
 
+    mItem->startTime = QTime::currentTime();
     mItem->addr = ui->addrSpin->value();
 
     ui->devTypeLab->setText("---");
@@ -92,10 +94,6 @@ void Home_WorkWid::endFun()
 
 void Home_WorkWid::timeoutDone()
 {
-    if(usr_land_jur())
-        ui->deBtn->show();
-    else
-        ui->deBtn->hide();
     sDataPacket *packet = sDataPacket::bulid();
     if(mItem->step) {
         QString str = packet->status;
@@ -103,6 +101,10 @@ void Home_WorkWid::timeoutDone()
 
         ui->devTypeLab->setText(packet->dev_type);
         ui->snLab->setText(packet->sn);
+
+        QTime t(0,0,0,0);
+        t = t.addSecs(mItem->startTime.secsTo(QTime::currentTime()));
+        ui->timeLab->setText(tr("%1").arg(t.toString("hh:mm:ss")));
     }
 
     QPalette pe;
@@ -117,6 +119,8 @@ void Home_WorkWid::timeoutDone()
     } else if(mItem->step == Collect_Start) {
         upTgWid();
     }
+
+    if(usr_land_jur()) ui->deBtn->show(); else ui->deBtn->hide();
 }
 
 

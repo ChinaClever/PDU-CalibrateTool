@@ -135,7 +135,6 @@ bool Ad_Adjusting::readData()
             mPacket->pass = Test_Fail;
             break;
         }
-        qDebug()<<"while(false == ret);"<<ret<<endl;
     } while(false == ret);
 
     return ret;

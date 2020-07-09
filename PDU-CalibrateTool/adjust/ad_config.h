@@ -5,11 +5,11 @@
 #include "serialstatuswid.h"
 
 enum {
-    Test_Function, // 功能测试
+    Test_Over, // 功能测试
     Test_Start, // 开始
     Test_vert, // 验证
     Test_End, // 完成
-    Test_Over, // 终止
+    //Test_Over, // 终止
     Collect_Start, // 数据采集
 
     Test_Success=1,
@@ -34,6 +34,7 @@ struct sConfigItem
     uchar pcNum;
     ushort currentNum; // 当天序号
     QString currentName; // 当前用户名称
+    QTime startTime;
 };
 
 

@@ -109,7 +109,7 @@ int Col_SiThread::recvData(uchar *ptr, int line, sDataUnit *msg)
 
     ptr = toShort(ptr, line, msg->vol);
     ptr = toShort(ptr, line, msg->cur);
-    ptr = toShort(ptr, line, msg->pow);
+    ptr = toShort(ptr, line,(ushort *) msg->pow);
     ptr = toInt(ptr, line, msg->ele);
 
     sThreshold th; // 无实际意义 为了解释数据 占位置
