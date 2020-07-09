@@ -26,26 +26,18 @@ bool Col_MPduThread::recvMpduVolCur(uchar *recv, int)
         if(*ptr++ == mItem->addr) {
             mData->size = 8; ptr++;
             uchar sw = *ptr++; // 开关状态 1表示开，0表示关
-            for(int i=0; i<8; ++i) {
+            for(int i=0; i<mData->size; ++i) {
                 mData->sw[i] =  (sw >> (7-i)) & 1;
             }
 
-            for(int i=0; i<8; ++i) {
-                mData->cur[i] = (*ptr++) << 8;
-                mData->cur[i] += *ptr++;
-            }
+            ptr = toShort(ptr, mData->size, mData->cur);
+            ushort vol = getShort(ptr); ptr += 2;
+            for(int i=0; i<mData->size/2; ++i) mData->vol[i] = vol;
+            vol = getShort(ptr); ptr += 2;
+            for(int i=mData->size/2; i<mData->size; ++i) mData->vol[i] = vol;
+            ptr = toShort(ptr, mData->size, mData->pow);
 
-            ushort vol = (ptr[0] << 8) + ptr[1]; ptr += 2;
-            for(int i=0; i<4; ++i) mData->vol[i] = vol;
-            vol = (ptr[0] << 8) + ptr[1]; ptr += 2;
-            for(int i=4; i<8; ++i) mData->vol[i] = vol;
-
-            for(int i=0; i<8; ++i) {
-                mData->pow[i] = (*ptr++) << 8;
-                mData->pow[i] += *ptr++;
-            }
             ret = true;
-
         } else {
             qDebug() << "AdjustCoreThread recvMpduVolCur addr err!";
         }
@@ -83,11 +75,7 @@ bool Col_MPduThread::recvMpduEle(uchar *recv, int)
     uchar *ptr = recv;
     if(*ptr++ == 0xE1){
         if(*ptr++ == mItem->addr) {
-            for(int i=0; i<8; ++i) {
-                mData->ele[i] = (*ptr++) << 16;
-                mData->ele[i] += (*ptr++) << 8;
-                mData->ele[i] += *ptr++;
-            }
+            ptr = toOutputEle(ptr, mData->size, mData->ele);
         } else {
             ret = false;
         }

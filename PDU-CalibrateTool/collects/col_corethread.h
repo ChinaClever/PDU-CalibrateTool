@@ -12,6 +12,18 @@ public:
     virtual bool readPduData()=0;
 
 protected:
+    uchar *toInt(uchar *ptr, int line, uint *value);
+    uchar *toChar(uchar *ptr, int line, uchar *value);
+    uchar *toShort(uchar *ptr, int line, ushort *value);
+
+    ushort getShort(uchar *ptr);
+    uchar *getShort(uchar *ptr, int line, uchar *value);
+    uchar *toOutputEle(uchar *ptr, int line, uint *value);
+
+    struct sThreshold { uchar min[3], max[3];};
+    uchar *toThreshold(uchar *ptr, int line, sThreshold &unit);
+
+protected:
     sDataUnit *mData;
     Ad_Modbus *mModbus;
     sConfigItem *mItem;

@@ -29,45 +29,6 @@ void Col_SiThread::initRtuItem(sRtuItem &it)
     it.num = SI_RTU_THREE_LEN;
 }
 
-uchar *Col_SiThread::toInt(uchar *ptr, int line, uint *value)
-{
-    for(int i=0; i<line; ++i) {
-        value[i] =  (*ptr) * 256 + *(ptr+1);  ptr += 2; // 读取电能高8位
-        value[i] <<= 8; // 左移8位
-        value[i] +=  (*ptr) * 256 + *(ptr+1);  ptr += 2; // 读取电能底8位
-    }
-
-    return ptr;
-}
-
-uchar *Col_SiThread::toShort(uchar *ptr, int line, ushort *value)
-{
-    for(int i=0; i<line; ++i) {
-        value[i] =  (*ptr) * 256 + *(ptr+1);  ptr += 2;
-    }
-
-    return ptr;
-}
-
-uchar *Col_SiThread::toChar(uchar *ptr, int line, uchar *value)
-{
-    for(int i=0; i<line; ++i) {
-        value[i] =  *(ptr++); // 读取电压
-    }
-
-    return ptr;
-}
-
-uchar *Col_SiThread::toThreshold(uchar *ptr, int line, sThreshold &unit)
-{
-    for(int i=0; i<line; ++i) {
-        ptr = toChar(ptr, 1, &unit.min[i]);
-        ptr = toChar(ptr, 1, &unit.max[i]);
-    }
-
-    return ptr;
-}
-
 /**
   * 功　能：长度 校验
   * 入口参数：buf -> 缓冲区  len -> 长度
@@ -76,22 +37,10 @@ uchar *Col_SiThread::toThreshold(uchar *ptr, int line, sThreshold &unit)
 int Col_SiThread::recvLine(int len)
 {
     int ret = 0;
-
-    if(len < SI_RTU_ONE_LEN) {
-        ret = -1;
-        qDebug() << "SI rtu recv Err: len too short!!" << len;
-    } else if(len > SI_RTU_THREE_LEN + 7) {
-        ret = -2;
-        qDebug() << "SI rtu recv Err: len too long!!" << len;
-    } else {
-        if(len == SI_RTU_ONE_LEN) {
-            ret = 1;
-        } else if (len == SI_RTU_THREE_LEN) {
-            ret = 3;
-        } else  {
-            ret = -3;
-            qDebug() << "SI rtu recv len Err!!" << len;
-        }
+    switch (len) {
+    case SI_RTU_ONE_LEN: ret = 1; break;
+    case SI_RTU_THREE_LEN: ret = 3; break;
+    default: qDebug() << "SI rtu recv len Err!!" << len; break;
     }
 
     return ret;
