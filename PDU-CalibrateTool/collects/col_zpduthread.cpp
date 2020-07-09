@@ -49,8 +49,8 @@ bool Col_ZPduThread::recvZpduVolCur(uchar *recv, int len)
             }
 
             for(int i=0; i<op; ++i) {
-                mData->pow[i] = mData->vol[i] * mData->cur[i] * mData->pf[i];
-                mData->pow[i] /= (10 * 1000);
+                uint pow = mData->vol[i] * mData->cur[i] * mData->pf[i];
+                mData->pow[i] = pow / (10*100*100);
             }
 
             ret = true;
