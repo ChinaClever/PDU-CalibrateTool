@@ -84,6 +84,15 @@ bool YC_StandSource::powerOn(int v)
     return ret;
 }
 
+bool YC_StandSource::setCur(int v)
+{
+    bool ret = setValue("A", v);
+    if(ret) {
+        ret = delay(10);
+    }
+    return ret;
+}
+
 bool YC_StandSource::powerReset()
 {
     powerDown();

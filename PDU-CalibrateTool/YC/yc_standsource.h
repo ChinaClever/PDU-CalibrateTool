@@ -13,7 +13,7 @@ public:
     bool powerOn(int v=60);  // 上电
     void powerDown(); // 下电
     bool powerReset(); //
-    bool setCur(int v) {return setValue("A", v);}
+    bool setCur(int v);
 
 protected:
     bool setRange();
