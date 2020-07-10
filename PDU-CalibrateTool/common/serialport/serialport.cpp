@@ -15,7 +15,7 @@ SerialPort::SerialPort(QObject *parent) : QThread(parent)
     mSerial = NULL;
 
     timer = new QTimer(this);
-    timer->start(300);
+    timer->start(200);
     connect(timer, SIGNAL(timeout()),this, SLOT(timeoutDone()));
 }
 

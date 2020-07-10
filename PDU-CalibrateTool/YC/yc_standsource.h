@@ -13,11 +13,13 @@ public:
     bool powerOn(int v=60);  // 上电
     void powerDown(); // 下电
     bool powerReset(); //
+    bool setCur(int v) {return setValue("A", v);}
 
 protected:
     bool setRange();
     bool delay(int s);
-    int write(QByteArray &array);
+    bool write(QByteArray &array);
+    bool setValue(const QString &str, int v);
     int read(QByteArray &witeArray, QByteArray &readArray, int msecs);
 
 protected slots:

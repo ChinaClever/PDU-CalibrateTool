@@ -33,16 +33,19 @@ bool YC_StandSource::delay(int s)
     return Ad_Modbus::bulid(this)->delay(s);
 }
 
-int YC_StandSource::write(QByteArray &array)
+bool YC_StandSource::write(QByteArray &array)
 {
-    int ret = 0;
+    bool ret = false;
     initSerialSlot();
 
     if(mSerial) {
         array.append(0x0D);
         if(mSerial->isOpened()) {
-            ret = mSerial->send(array);
-            msleep(450);
+            int rtn = mSerial->send(array);
+            if(rtn > 0) {
+                msleep(450);
+                ret = true;
+            }
         }
     }
 
@@ -65,36 +68,32 @@ int YC_StandSource::read(QByteArray &witeArray, QByteArray &readArray, int msecs
 
 bool YC_StandSource::setRange()
 {
-    bool ret = false;
-
     QString str = QString("I0 220 10 15 1200");
     QByteArray array = str.toLatin1();
-    int rtn = write(array);
-    if(rtn > 0) {
-        ret = true;
-    }
 
-    return ret;
+    return write(array);
 }
+
+bool YC_StandSource::setValue(const QString &str, int v)
+{
+    QByteArray array;
+    array =  str.toLatin1() + QString::number(v).toUtf8();
+
+    return write(array);
+}
+
 
 void YC_StandSource::powerDown()
 {
-    QByteArray array = "V0";
-    write(array);
-
-    array = "A0";
-    write(array);
+    setValue("V", 0);
+    setValue("A", 0);
 }
 
 bool YC_StandSource::powerOn(int v)
 {
-    bool ret = setRange();
-    if(ret) {
-        QByteArray array = "V100";
-        write(array);
-
-        array = "A" + QString::number(v).toUtf8();
-        write(array);
+    bool ret = setValue("V", 100);
+    if(delay(10)) {
+        ret = setValue("A", v);
     }
 
     return ret;
@@ -103,7 +102,13 @@ bool YC_StandSource::powerOn(int v)
 bool YC_StandSource::powerReset()
 {
     powerDown();
-    delay(5);
-    return powerOn();
+    setRange();
+
+    bool ret = delay(5);
+    if(ret) {
+        powerOn(60);
+    }
+
+    return ret;
 }
 

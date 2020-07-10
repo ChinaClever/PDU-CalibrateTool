@@ -138,6 +138,8 @@ int Ad_Modbus::rtuRead(sRtuItem *pkt, sRtuReplyItem *recv)
         bool ret = rtuRecvCrc(recvBuf, rtn, recv);
         if(ret) {
             rtn = rtuRecvData(recvBuf, recv);
+        } else {
+            rtn = 0;
         }
     }
 

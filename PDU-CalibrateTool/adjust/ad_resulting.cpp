@@ -246,7 +246,7 @@ bool Ad_Resulting::resEnter()
     mItem->step = Test_vert;
     for(int i=0; i<3; ++i) {
         int exCur = (i*2 + 1) * 10;
-        mSource->powerOn(exCur);
+        mSource->setCur(exCur);
         mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/10);
         if(!delay(10)) return false;
 

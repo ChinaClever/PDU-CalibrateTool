@@ -29,7 +29,7 @@ void Home_DataTabWid::appendItem(sDataUnit *unit)
         if(1 == unit->sw[i]) listStr << tr("开"); else listStr << tr("关");
         listStr << QString::number(unit->cur[i]/(unit->rate * COM_RATE_CUR),'f',2)+"A";
         listStr << QString::number(unit->vol[i]/(unit->rate),'f',1)+"V";
-        listStr << QString::number(unit->pow[i]/(unit->rate * COM_RATE_POW),'f',4)+"Kw";
+        listStr << QString::number(unit->pow[i]/(unit->rate * COM_RATE_POW),'f',3)+"Kw";
         listStr << QString::number(unit->ele[i]/(unit->rate * COM_RATE_ELE),'f',2)+"Kwh";
         if(unit->cured[i]) {
             listStr << QString::number(unit->cured[i]/(unit->rate * COM_RATE_CUR),'f',2)+"A";

@@ -72,7 +72,7 @@ void Ad_CoreThread::verifyResult()
     mPacket->status = tr("采集自动验证");
     bool ret = readDevInfo();
     if(ret) {
-         mResult->resEnter();
+        mResult->resEnter();
     }
 }
 
@@ -94,22 +94,18 @@ void Ad_CoreThread::writeLog()
 bool Ad_CoreThread::readDevInfo()
 {
     mSource->powerReset();//控制标准源下电到上电
-    bool ret = delay(3); if(!ret) return ret;
-
-
-    //////////////===================
-    ret = mAutoID->readDevType();//读取设备类型
+    bool ret = mAutoID->readDevType();//读取设备类型
     if(ret) {
         ret = mSn->snEnter();//写入序列号
     }
 
 
     //////////////===================
-//    sDevType *mDt = mPacket->devType;
-//    mDt->devType = ZPDU;
-//    mDt->ac = AC;
-//    mDt->specs = Mn;
-//    mDt->lines = 1;
+    //    sDevType *mDt = mPacket->devType;
+    //    mDt->devType = ZPDU;
+    //    mDt->ac = AC;
+    //    mDt->specs = Mn;
+    //    mDt->lines = 1;
 
     return ret;
 }
@@ -126,7 +122,6 @@ void Ad_CoreThread::workDown()
         ret = mResult->resEnter();
     }
 
-    mSource->powerDown();
     writeLog();   //记录校准设备校准成功还是校准失败
 }
 
@@ -143,6 +138,7 @@ void Ad_CoreThread::run()
         case Test_vert: verifyResult(); break;
         }
 
+        mSource->powerDown();
         isRun = false;
     } else {
         qDebug() << "AdjustCoreThread run err" << isRun;
