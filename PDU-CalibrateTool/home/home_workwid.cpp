@@ -52,7 +52,7 @@ void Home_WorkWid::on_startBtn_clicked()
 {
     bool en = false;
     QString str = tr("停止校准");
-    if(mItem->step != Test_Start) {
+    if(mItem->step != Test_Over) {
         bool ret = initWid();
         if(ret){
             mCore->startAdjust();

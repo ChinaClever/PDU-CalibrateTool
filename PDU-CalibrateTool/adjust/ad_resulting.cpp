@@ -117,13 +117,18 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
 bool Ad_Resulting::outputSwCtrl(int exValue)
 {
     bool ret = false;
-    mCollect->readPduData(); delay(1);
+    mCollect->readPduData();
+    if(!delay(1)) return ret;
 
     for(int k=0; k<mData->size; ++k) {
         mPacket->status = tr("校验数据 期望电流%1A 第%2输出位").arg(exValue/10).arg(k+1);
-        mCtrl->openOnlySwitch(k); delay(7);
+        mCtrl->openOnlySwitch(k); if(!delay(7)) break;
         ret = outputCurById(k, exValue);
-        if(ret) delay(3); else break;
+        if(ret) {
+            ret = delay(3); if(!ret) break;
+        } else {
+            break;
+        }
     }
 
     return ret;

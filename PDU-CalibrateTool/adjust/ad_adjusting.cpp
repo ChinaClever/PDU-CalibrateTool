@@ -116,7 +116,7 @@ bool Ad_Adjusting::readData()
     uchar buf[MODBUS_RTU_SIZE] = {0};
 
     do {
-        mPacket->status = tr("正在校准：%1秒").arg(count++);
+        mPacket->status = tr("正在校准：请等待 %1...").arg(count++);
         int len = mModbus->readSerial(buf, 15);
         if(len > 0){
             if(len > 8) {
