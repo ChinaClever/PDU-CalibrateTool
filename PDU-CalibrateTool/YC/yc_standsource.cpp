@@ -84,11 +84,22 @@ bool YC_StandSource::powerOn(int v)
     return ret;
 }
 
+bool YC_StandSource::setVol()
+{
+    setRange();
+    bool ret = setValue("V", 100);
+    if(ret) {
+         ret = delay(6);
+    }
+
+    return ret;
+}
+
 bool YC_StandSource::setCur(int v)
 {
     bool ret = setValue("A", v);
     if(ret) {
-        ret = delay(10);
+        ret = delay(8);
     }
     return ret;
 }
@@ -96,12 +107,10 @@ bool YC_StandSource::setCur(int v)
 bool YC_StandSource::powerReset()
 {
     powerDown();
-    setRange();
-
-    bool ret = delay(5);
+    bool ret = delay(6);
     if(ret) {
-        ret = setValue("V", 100);
-        if(delay(10)) {
+        ret = setVol();
+        if(ret) {
             ret = setCur(60);
         }
     }
