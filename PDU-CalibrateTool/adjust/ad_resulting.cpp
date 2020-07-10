@@ -4,6 +4,7 @@
  *      Author: Lzy
  */
 #include "ad_resulting.h"
+#define AD_CUR_RATE 100
 
 Ad_Resulting::Ad_Resulting(QObject *parent) : QThread(parent)
 {
@@ -30,7 +31,7 @@ bool Ad_Resulting::curErrRange(int exValue, int cur)
     int min = exValue - mItem->curErr * 10;
     int max = exValue + mItem->curErr * 10;
 
-    if((cur > min) && (cur < max )) {
+    if((cur >= min) && (cur <= max )) {
         ret =  true;
     }
 
@@ -49,14 +50,16 @@ bool Ad_Resulting::curTgCheck(int exValue)
         cur += mData->cur[i];
     }
 
-    cur /=  mData->rate;
+    if(mData->rate < 10) cur *= 10;
     return curErrRange(exValue, cur);
 }
 
 
 bool Ad_Resulting::curRangeByID(int i, int exValue)
 {
-    int cur = mData->cur[i] / mData->rate;
+    int cur = mData->cur[i];
+    if(mData->rate < 10) cur *= 10;
+
     bool ret = curErrRange(exValue, cur);
     if(ret) {
         mData->cured[i] = mData->cur[i];
@@ -121,8 +124,8 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
     if(!delay(1)) return ret;
 
     for(int k=0; k<mData->size; ++k) {
-        mPacket->status = tr("校验数据 期望电流%1A 第%2输出位").arg(exValue/10).arg(k+1);
-        mCtrl->openOnlySwitch(k); if(!delay(7)) break;
+        mPacket->status = tr("校验数据 期望电流%1A 第%2输出位").arg(exValue/AD_CUR_RATE).arg(k+1);
+        mCtrl->openOnlySwitch(k); if(!delay(10)) break;
         ret = outputCurById(k, exValue);
         if(ret) {
             ret = delay(3); if(!ret) break;
@@ -161,7 +164,7 @@ bool Ad_Resulting::sumCurCheck(int exValue)
     bool ret = true;
 
     for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/10).arg(i+1);
+        mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/AD_CUR_RATE).arg(i+1);
         mCollect->readPduData();
         ret = curTgCheck(exValue);
         if(ret) break; else if(!delay(2)) break;
@@ -185,7 +188,7 @@ bool Ad_Resulting::outputAllCurCheck(int exValue)
     bool ret = true;
 
     for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/10).arg(i+1);
+        mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/AD_CUR_RATE).arg(i+1);
         mCollect->readPduData();
         ret = outputAllCheck(exValue);
         if(ret) break; else if(!delay(2)) break;
