@@ -235,8 +235,8 @@ bool Ad_Resulting::workDown(int exValue)
 
 bool Ad_Resulting::resEnter()
 {
-    initThread();
-    mItem->step = Test_vert;
+    initThread(); delay(4);
+    mItem->step = Test_vert;    
     mCollect->readPduData();
     bool ret = volErrRange();
     if(ret) {

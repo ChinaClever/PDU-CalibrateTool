@@ -92,7 +92,7 @@ void Home_WorkWid::endFun()
     ui->startBtn->setText(tr("开始校准"));
     ui->startBtn->setEnabled(true);
 
-    ui->updateBtn->setText(tr("停止采集"));
+    ui->updateBtn->setText(tr("开始采集"));
     ui->updateBtn->setEnabled(true);
 
     ui->resBtn->setText(tr("开始较验"));

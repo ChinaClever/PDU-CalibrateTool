@@ -104,7 +104,7 @@ bool Ad_CoreThread::readDevInfo()
     //    sDevType *mDt = mPacket->devType;
     //    mDt->devType = ZPDU;
     //    mDt->ac = AC;
-    //    mDt->specs = Mn;
+    //    mDt->specs = Transformer;
     //    mDt->lines = 1;
 
     return ret;
