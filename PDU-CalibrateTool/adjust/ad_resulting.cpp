@@ -59,6 +59,7 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
 {
     int cur = mData->cur[i];
     if(mData->rate < 10) cur *= 10;
+    qDebug()<<"mData->cur[i]"<<mData->cur[i]<<"cur"<<cur<<"exValue"<<exValue;
 
     bool ret = curErrRange(exValue, cur);
     if(ret) {
@@ -248,9 +249,9 @@ bool Ad_Resulting::resEnter()
 
     mItem->step = Test_vert;
     for(int i=0; i<3; ++i) {
-        int exCur = (i*2 + 1) * 10;        
-        mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/10);
-        ret = mSource->setCur(exCur);
+        int exCur = (i*2 + 1) * AD_CUR_RATE;
+        mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/AD_CUR_RATE);
+        ret = mSource->setCur(exCur/10);
         if(ret) {
             ret = workDown(exCur);
         }

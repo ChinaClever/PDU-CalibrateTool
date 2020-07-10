@@ -48,11 +48,12 @@ int Ad_Modbus::readSerial(quint8 *cmd, int sec)
     initSerial();
     bool ret = mSerial->isOpened();
     if(ret) {
-        for(int i=0; i<sec*2; ++i) {
-            if(mItem->step != Test_Over) {
-                rtn += mSerial->read(cmd+rtn, 5);
+        for(int i=0; i<sec*2; ++i) {            
+            if(mItem->step) {
+                 rtn = mSerial->read(cmd, 5);
+                 if(rtn > 0) break;
             } else {
-                return 0;
+                 return 0;
             }
         }
     }

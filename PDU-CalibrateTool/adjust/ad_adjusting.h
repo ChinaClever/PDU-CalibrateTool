@@ -18,8 +18,10 @@ protected:
     bool transmit(uchar *buf, int len);
 
     bool readData();
+    int readSerial(uchar *recv);
     bool recvStatus(uchar *recv, int len);
     bool updateStatus(ushort status);
+    bool overWork(const QString &str);
 
 private:
     sConfigItem *mItem;

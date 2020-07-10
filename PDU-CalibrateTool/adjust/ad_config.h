@@ -5,11 +5,10 @@
 #include "serialstatuswid.h"
 
 enum {
-    Test_Over, // 功能测试
+    Test_Over, // 功能 终止
     Test_Start, // 开始
     Test_vert, // 验证
     Test_End, // 完成
-    //Test_Over, // 终止
     Collect_Start, // 数据采集
 
     Test_Success=1,

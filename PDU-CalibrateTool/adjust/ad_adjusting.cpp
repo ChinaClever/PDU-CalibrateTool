@@ -65,30 +65,29 @@ bool Ad_Adjusting::sentCmd()
 bool Ad_Adjusting::updateStatus(ushort status)
 {
     bool ret = true;
+    QString str;
 
     if(0x1100 == status) {
+        mItem->step = Test_vert;
         mPacket->status = tr("校准返回正常！");
     } else if(0x1101 == status) {
-        mPacket->status = tr("校准失败");
-        mItem->step = Test_End;
-        ret = false;
+        str = tr("校准失败");
     } else if(0x1102 == status) {
         mPacket->status = tr("校准解锁成功");
     } else if(status <= 0x1104) {
         mPacket->status = tr("正在校准，%1相 ").arg(status-0x1101);
     } else if(status <= 0x1117) {
-        mPacket->status = tr("校准失败：%1相 ").arg(status-0x1114);
-        mItem->step = Test_End;
-        ret = false;
+        str = tr("校准失败：%1相 ").arg(status-0x1114);
     } else if(status <= 0x112F) {
         mPacket->status = tr("正在校准，输出位%1 ").arg(status-0x1120);
     } else if(status <= 0x114F) {
-        mPacket->status = tr("校准失败：输出位%1 ").arg(status-0x1140);
-        mItem->step = Test_End;
-        ret = false;
+        str = tr("校准失败：输出位%1 ").arg(status-0x1140);
     } else {
-        ret = false;
-        qDebug() << "Adjust res status err" << status;
+        str = tr("校准失败：状态返回错误%1 ").arg(QString::number(status, 16));
+    }
+
+    if(str.size()) {
+        ret = overWork(str);
     }
 
     return ret;
@@ -108,34 +107,52 @@ bool Ad_Adjusting::recvStatus(uchar *recv, int len)
     return ret;
 }
 
-bool Ad_Adjusting::readData()
+int Ad_Adjusting::readSerial(uchar *recv)
 {
-    int count = 1;
-    bool ret = false;
     uchar *ptr = nullptr;
     uchar buf[MODBUS_RTU_SIZE] = {0};
 
-    do {
-        mPacket->status = tr("正在校准：请等待 %1...").arg(count++);
-        int len = mModbus->readSerial(buf, 15);
-        if(len > 0){
-            if(len > 8) {
-                ptr = &(buf[len-8]);
-                len = 8;
-            } else {
-                ptr = buf;
-            }
-            ret = recvStatus(ptr, len);
+    int len = mModbus->readSerial(buf, 15);
+    if(len > 0){
+        if(len > 8) {
+            ptr = &(buf[len-8]);
+            len = 8;
         } else {
-            mItem->step = Test_End;
-            mPacket->status = tr("校准超时！");
+            ptr = buf;
+        }
+
+        for(int i=0; i<len; ++i) {
+            recv[i] = ptr[i];
+        }
+    }
+
+    return len;
+}
+
+bool Ad_Adjusting::overWork(const QString &str)
+{
+    mItem->step = Test_End;
+    mPacket->pass = Test_Fail;
+    mPacket->status = str;
+    return false;
+}
+
+bool Ad_Adjusting::readData()
+{
+    bool ret = false;
+    uchar buf[MODBUS_RTU_SIZE] = {0};
+    mPacket->status = tr("正在校准：请等待...");
+
+    do {
+        int len = readSerial(buf);
+        if(len > 0){
+            ret = recvStatus(buf, len);
+        } else {
+            ret = overWork(tr("校准超时！"));
             break;
         }
-        if(mItem->step > Test_vert) {
-            mPacket->pass = Test_Fail;
-            break;
-        }
-    } while(false == ret);
+        if(mItem->step >= Test_vert) break;
+    } while(true == ret);
 
     return ret;
 }
