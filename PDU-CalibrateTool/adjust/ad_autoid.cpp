@@ -42,16 +42,25 @@ bool Ad_AutoID::analysDevType(uchar *buf, int len)
     return mDevType->analysDevType(id);
 }
 
-bool Ad_AutoID::readDevType()
-{    
+bool Ad_AutoID::readDevId()
+{
     sRtuItem it;
     initReadType(it);
 
     uchar recv[8] = {0};
-    mPacket->status = tr("正在识别模块类型！");
     int len = mModbus->rtuRead(&it, recv);
+    if(0 == len){
+        mModbus->delay(1);
+        len = mModbus->rtuRead(&it, recv);
+    }
 
-    bool ret = analysDevType(recv, len);
+    return analysDevType(recv, len);
+}
+
+bool Ad_AutoID::readDevType()
+{        
+    mPacket->status = tr("正在识别模块类型！");
+    bool ret = readDevId();
     if(ret) {
         mPacket->status = tr("识别模块成功！");
     } else {

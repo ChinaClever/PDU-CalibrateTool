@@ -20,7 +20,6 @@ protected:
     bool delay(int s);
     bool write(QByteArray &array);
     bool setValue(const QString &str, int v);
-    int read(QByteArray &witeArray, QByteArray &readArray, int msecs);
 
 protected slots:
     void initSerialSlot();

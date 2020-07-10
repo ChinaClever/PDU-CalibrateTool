@@ -42,29 +42,14 @@ bool YC_StandSource::write(QByteArray &array)
         array.append(0x0D);
         if(mSerial->isOpened()) {
             int rtn = mSerial->send(array);
-            if(rtn > 0) {
-                msleep(450);
-                ret = true;
-            }
+            if(rtn > 0) ret = true;
         }
     }
 
     return ret;
 }
 
-int YC_StandSource::read(QByteArray &witeArray, QByteArray &readArray, int msecs)
-{
-    int ret = 0;
-    if(mSerial) {
-        witeArray.append(0x0D);
-        if(mSerial->isOpened()) {
-            ret = mSerial->transmit(witeArray,readArray,msecs);
-            msleep(450);
-        }
-    }
 
-    return ret;
-}
 
 bool YC_StandSource::setRange()
 {
@@ -92,7 +77,7 @@ void YC_StandSource::powerDown()
 bool YC_StandSource::powerOn(int v)
 {
     bool ret = setValue("V", 100);
-    if(delay(10)) {
+    if(ret) {
         ret = setValue("A", v);
     }
 
@@ -106,7 +91,10 @@ bool YC_StandSource::powerReset()
 
     bool ret = delay(5);
     if(ret) {
-        powerOn(60);
+        ret = setValue("V", 100);
+        if(delay(10)) {
+            ret = setCur(60);
+        }
     }
 
     return ret;

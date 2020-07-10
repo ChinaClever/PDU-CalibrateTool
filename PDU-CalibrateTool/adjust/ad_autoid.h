@@ -12,6 +12,7 @@ public:
 
     bool readDevType();
 protected:
+    bool readDevId();
     void initReadType(sRtuItem &it);
     bool analysDevType(uchar *buf, int len);
 
