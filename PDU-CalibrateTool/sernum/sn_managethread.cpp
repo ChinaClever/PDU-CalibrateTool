@@ -31,7 +31,7 @@ void SN_ManageThread::initReadCmd(sRtuItem &item)
 bool SN_ManageThread::checkSn(uchar *sn, int len)
 {
     bool ret = false;
-    if((len == 8) && (*sn != 0xFF)){
+    if((len == 8) && (sn[0] == 0)){
         uchar exor = mModbus->getXorNumber(sn, len-1);//暂时注释下面的异或和校验不对
         if(exor == sn[len-1]) {
             ret = true;

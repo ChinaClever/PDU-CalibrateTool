@@ -88,14 +88,14 @@ bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len)
 {
     bool ret = true;
     int rtn = len-2; uchar *ptr = buf+rtn;
-//    if(rtn < 0) return false;
+    if(rtn < 0) return false;
 
-    //    ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
-    //    ushort res = rtu_crc(buf, rtn);
-    //    if(crc != res) {
-    //        ret = false;
-    //        qDebug() << "Rtu Recv rtu recv crc Err!";
-    //    }
+        ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
+        ushort res = rtu_crc(buf, rtn);
+        if(crc != res) {
+            ret = false;
+            qDebug() << "Rtu Recv rtu recv crc Err!";
+        }
 
     return ret;
 }
