@@ -90,6 +90,13 @@ void Home_WorkWid::endFun()
     mItem->step = Test_Over;
     ui->groupBox_2->setEnabled(true);
     ui->startBtn->setText(tr("开始校准"));
+    ui->startBtn->setEnabled(true);
+
+    ui->updateBtn->setText(tr("停止采集"));
+    ui->updateBtn->setEnabled(true);
+
+    ui->resBtn->setText(tr("开始较验"));
+    ui->resBtn->setEnabled(true);
 }
 
 void Home_WorkWid::timeoutDone()

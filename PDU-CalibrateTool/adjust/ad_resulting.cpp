@@ -59,8 +59,6 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
 {
     int cur = mData->cur[i];
     if(mData->rate < 10) cur *= 10;
-    qDebug()<<"mData->cur[i]"<<mData->cur[i]<<"cur"<<cur<<"exValue"<<exValue;
-
     bool ret = curErrRange(exValue, cur);
     if(ret) {
         mData->cured[i] = mData->cur[i];
@@ -121,9 +119,6 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
 bool Ad_Resulting::outputSwCtrl(int exValue)
 {
     bool ret = false;
-    mCollect->readPduData();
-    if(!delay(1)) return ret;
-
     for(int k=0; k<mData->size; ++k) {
         mPacket->status = tr("校验数据 期望电流%1A 第%2输出位").arg(exValue/AD_CUR_RATE).arg(k+1);
         mCtrl->openOnlySwitch(k); if(!delay(10)) break;
@@ -140,7 +135,6 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
 
 bool Ad_Resulting::workResult(bool res)
 {
-    if(res) res = volErrRange();
     QString str = tr("校准失败!");
     if(res) {
         mPacket->pass = Test_Success;
@@ -149,10 +143,8 @@ bool Ad_Resulting::workResult(bool res)
         mPacket->pass = Test_Fail;
     }
     mPacket->status = str;
-
     mItem->step = Test_End;
     resTgData(mPacket->tg);
-    delay(1);
 
     return res;
 }
@@ -187,7 +179,6 @@ bool Ad_Resulting::outputAllCheck(int exValue)
 bool Ad_Resulting::outputAllCurCheck(int exValue)
 {
     bool ret = true;
-
     for(int i=0; i<4; ++i) {
         mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/AD_CUR_RATE).arg(i+1);
         mCollect->readPduData();
@@ -244,18 +235,18 @@ bool Ad_Resulting::workDown(int exValue)
 
 bool Ad_Resulting::resEnter()
 {
-    bool ret = true;
     initThread();
-
     mItem->step = Test_vert;
-    for(int i=0; i<3; ++i) {
-        int exCur = (i*2 + 1) * AD_CUR_RATE;
-        mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/AD_CUR_RATE);
-        ret = mSource->setCur(exCur/10);
-        if(ret) {
-            ret = workDown(exCur);
+    mCollect->readPduData();
+    bool ret = volErrRange();
+    if(ret) {
+        for(int i=0; i<3; ++i) {
+            int exCur = (i*2 + 1) * AD_CUR_RATE;
+            mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/AD_CUR_RATE);
+            ret = mSource->setCur(exCur/10);
+            if(ret) ret = workDown(exCur);
+            if(!ret) break;
         }
-        if(!ret) break;
     }
 
     return workResult(ret);
