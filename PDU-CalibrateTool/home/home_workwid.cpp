@@ -65,6 +65,7 @@ void Home_WorkWid::on_startBtn_clicked()
             en = true;
             str = tr("开始校准");
             mItem->step = Test_Over;
+            ui->lab->setText(tr("已停止"));
         } else {
             return;
         }
