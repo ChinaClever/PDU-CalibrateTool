@@ -115,7 +115,7 @@ void Ad_CoreThread::workDown()
     mPacket->status = tr("已启动校准！");
     bool ret = readDevInfo(); if(!ret) return;
 
-    mPacket->status = tr("开始校准");
+    mPacket->status = tr("复位单片机");
     mSource->powerReset();//控制标准源下电到上电
     ret = mAdjust->startAdjust();
     if(ret) {

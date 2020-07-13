@@ -21,6 +21,8 @@ protected:
     bool initWid();
     void endFun();
     void upTgWid();
+    void upStatusLab();
+    void upLabColor();
 
 private slots:
     void timeoutDone();

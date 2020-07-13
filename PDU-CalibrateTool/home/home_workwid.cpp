@@ -76,17 +76,20 @@ void Home_WorkWid::on_startBtn_clicked()
 
 void Home_WorkWid::upTgWid()
 {
+    QString str = tr("总电流：---    总功率：---");
     sDataPacket *packet = sDataPacket::bulid();
     sTgObjData *tg = packet->tg;
-    float curRate = packet->data->rate * COM_RATE_CUR;
-    float powRate = packet->data->rate * COM_RATE_POW;
-    QString str = tr("总电流：%2A    总功率：%3Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
+    if(tg->cur > 0) {
+        float curRate = packet->data->rate * COM_RATE_CUR;
+        float powRate = packet->data->rate * COM_RATE_POW;
+        str = tr("总电流：%2A    总功率：%3Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
+    }
+
     ui->tgLab->setText(str);
 }
 
 void Home_WorkWid::endFun()
 {
-    upTgWid();
     mItem->step = Test_Over;
     ui->groupBox_2->setEnabled(true);
     ui->startBtn->setText(tr("开始校准"));
@@ -99,7 +102,7 @@ void Home_WorkWid::endFun()
     ui->resBtn->setEnabled(true);
 }
 
-void Home_WorkWid::timeoutDone()
+void Home_WorkWid::upStatusLab()
 {
     sDataPacket *packet = sDataPacket::bulid();
     if(mItem->step) {
@@ -121,10 +124,47 @@ void Home_WorkWid::timeoutDone()
     case 2:  pe.setColor(QPalette::WindowText, Qt::red); break;
     }
     ui->statusLab->setPalette(pe);
+}
+
+void Home_WorkWid::upLabColor()
+{
+    QString str = tr("成功");
+    QPalette palette(this->palette());
+    sDataPacket *packet = sDataPacket::bulid();
+    if(mItem->step) {
+        switch (mItem->step) {
+        case Test_Start:  str = tr("识别设备"); break;
+        case Test_Ading:  str = tr("校准设备"); break;
+        case Test_vert:  str = tr("校验结果"); break;
+        case Collect_Start:  str = tr("采集数据"); break;
+            //case Test_End:  str = tr("完成"); break;
+        }
+        palette.setColor(QPalette::Background, Qt::yellow);
+    } else {
+        switch (packet->pass) {
+        case Test_Success:
+            str = tr("成功");
+            palette.setColor(QPalette::Background, Qt::green);
+            break;
+        case Test_Fail:
+            str = tr("失败");
+            palette.setColor(QPalette::Background, Qt::red);
+            break;
+        }
+    }
+
+    ui->lab->setText(str);
+    ui->lab->setPalette(palette);
+}
+
+void Home_WorkWid::timeoutDone()
+{
+    upTgWid();
+    upLabColor();
+    upStatusLab();
+
     if(mItem->step == Test_End) {
         endFun();
-    } else if(mItem->step == Collect_Start) {
-        upTgWid();
     }
 
     if(usr_land_jur()) ui->deBtn->show(); else ui->deBtn->hide();
