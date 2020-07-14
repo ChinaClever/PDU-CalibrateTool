@@ -14,6 +14,7 @@ public:
     void powerDown(); // 下电
     bool powerReset(); //
     bool setCur(int v);
+    bool setVol();
 
 protected:
     bool setRange();

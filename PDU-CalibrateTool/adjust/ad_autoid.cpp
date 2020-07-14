@@ -63,12 +63,12 @@ bool Ad_AutoID::readDevType()
     bool ret = readDevId();
     if(ret) {
         mPacket->status = tr("识别模块成功！");
+        ret = mModbus->delay(1);
     } else {
         mItem->step = Test_End;
         mPacket->pass = Test_Fail;
         mPacket->status = tr("识别模块错误！");
     }
-    ret = mModbus->delay(1);
 
     return ret;
 }

@@ -93,7 +93,7 @@ void Ad_CoreThread::writeLog()
 
 bool Ad_CoreThread::readDevInfo()
 {
-    mSource->powerReset();//控制标准源下电到上电
+    mSource->setVol();
     bool ret = mAutoID->readDevType();//读取设备类型
     if(ret) {
         ret = mSn->snEnter();//写入序列号
@@ -115,7 +115,8 @@ void Ad_CoreThread::workDown()
     mPacket->status = tr("已启动校准！");
     bool ret = readDevInfo(); if(!ret) return;
 
-    mPacket->status = tr("开始校准");
+    mPacket->status = tr("复位单片机");
+    mSource->powerReset();//控制标准源下电到上电
     ret = mAdjust->startAdjust();
     if(ret) {
         mPacket->status = tr("开始自动验证");

@@ -7,6 +7,7 @@
 enum {
     Test_Over, // 功能 终止
     Test_Start, // 开始
+    Test_Ading,
     Test_vert, // 验证
     Test_End, // 完成
     Collect_Start, // 数据采集

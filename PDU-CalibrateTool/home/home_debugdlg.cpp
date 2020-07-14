@@ -12,7 +12,8 @@ Home_DebugDlg::Home_DebugDlg(QWidget *parent) :
     ui(new Ui::Home_DebugDlg)
 {
     ui->setupUi(this);
-    this->setEnabled(false);
+    ui->groupBox_1->setEnabled(false);
+    ui->groupBox_2->setEnabled(false);
     groupBox_background_icon(this);
     mData = sDataPacket::bulid()->data;
     QTimer::singleShot(1*1000,this,SLOT(initFunSlot()));
@@ -28,7 +29,8 @@ void Home_DebugDlg::initFunSlot()
     sDevType *dt = sDataPacket::bulid()->devType;
     if(dt->devType && mData->size) {
         initThread();
-        this->setEnabled(true);
+        ui->groupBox_1->setEnabled(true);
+        ui->groupBox_2->setEnabled(true);
     } else {
         QTimer::singleShot(1*1000,this,SLOT(initFunSlot()));
     }

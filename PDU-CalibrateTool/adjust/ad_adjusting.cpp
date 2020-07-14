@@ -51,6 +51,7 @@ bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
 
 bool Ad_Adjusting::sentCmd()
 {
+    mPacket->status = tr("发送校准解锁命令！");
     bool ret = writeCmd(0xA0, 0);
     if(!ret) return ret;
 
@@ -59,6 +60,7 @@ bool Ad_Adjusting::sentCmd()
         ret = writeCmd(0xA1, 0);
     }
 
+    mPacket->status = tr("发送启动校准命令！");
     return writeCmd(0xA2, 0);
 }
 
@@ -159,6 +161,7 @@ bool Ad_Adjusting::readData()
 
 bool Ad_Adjusting::startAdjust()
 {
+    mItem->step = Test_Ading;
     bool ret = sentCmd();
     if(ret) {
         ret = readData();
