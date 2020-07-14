@@ -129,9 +129,10 @@ void Home_WorkWid::upStatusLab()
 
 void Home_WorkWid::upLabColor()
 {
-    QString str = tr("成功");
-    QPalette palette(this->palette());
+    QString str = tr("---");
     sDataPacket *packet = sDataPacket::bulid();
+    QString strColor;
+
     if(mItem->step) {
         switch (mItem->step) {
         case Test_Start:  str = tr("识别设备"); break;
@@ -140,22 +141,27 @@ void Home_WorkWid::upLabColor()
         case Collect_Start:  str = tr("采集数据"); break;
             //case Test_End:  str = tr("完成"); break;
         }
-        palette.setColor(QPalette::Background, Qt::yellow);
+        strColor = "background-color:yellow;";
     } else {
         switch (packet->pass) {
         case Test_Success:
             str = tr("成功");
-            palette.setColor(QPalette::Background, Qt::green);
+            strColor = "background-color:green;";
             break;
         case Test_Fail:
             str = tr("失败");
-            palette.setColor(QPalette::Background, Qt::red);
+            strColor = "background-color:red;";
             break;
         }
     }
 
     ui->lab->setText(str);
-    ui->lab->setPalette(palette);
+    if(strColor.size()) {
+        strColor+="font:75 13pt \"微软雅黑\";";
+        ui->lab->setStyleSheet(strColor);
+    } else {
+        ui->lab->setStyleSheet("");
+    }
 }
 
 void Home_WorkWid::timeoutDone()
