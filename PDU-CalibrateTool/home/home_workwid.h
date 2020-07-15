@@ -23,6 +23,7 @@ protected:
     void upTgWid();
     void upStatusLab();
     void upLabColor();
+    QString getTime();
 
 private slots:
     void timeoutDone();

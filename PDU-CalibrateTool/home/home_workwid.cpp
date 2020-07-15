@@ -65,7 +65,7 @@ void Home_WorkWid::on_startBtn_clicked()
             en = true;
             str = tr("开始校准");
             mItem->step = Test_Over;
-            ui->lab->setText(tr("已停止"));
+            ui->timeLab->setText(tr("已停止"));
         } else {
             return;
         }
@@ -84,7 +84,7 @@ void Home_WorkWid::upTgWid()
         float curRate = packet->data->rate * COM_RATE_CUR;
         float powRate = packet->data->rate * COM_RATE_POW;
         if(curRate!=0&&powRate!=0)
-        str = tr("总电流：%1A    总功率：%2Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
+            str = tr("总电流：%1A    总功率：%2Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
     }
 
     ui->tgLab->setText(str);
@@ -113,10 +113,6 @@ void Home_WorkWid::upStatusLab()
 
         ui->devTypeLab->setText(packet->dev_type);
         ui->snLab->setText(packet->sn);
-
-        QTime t(0,0,0,0);
-        t = t.addSecs(mItem->startTime.secsTo(QTime::currentTime()));
-        ui->timeLab->setText(tr("%1").arg(t.toString("hh:mm:ss")));
     }
 
     QPalette pe;
@@ -128,6 +124,13 @@ void Home_WorkWid::upStatusLab()
     ui->statusLab->setPalette(pe);
 }
 
+QString Home_WorkWid::getTime()
+{
+    QTime t(0,0,0,0);
+    t = t.addSecs(mItem->startTime.secsTo(QTime::currentTime()));
+    return  tr("%1").arg(t.toString("mm:ss"));
+}
+
 void Home_WorkWid::upLabColor()
 {
     QString str = tr("---");
@@ -135,13 +138,7 @@ void Home_WorkWid::upLabColor()
     QString strColor;
 
     if(mItem->step) {
-        switch (mItem->step) {
-        case Test_Start:  str = tr("识别设备"); break;
-        case Test_Ading:  str = tr("校准设备"); break;
-        case Test_vert:  str = tr("校验结果"); break;
-        case Collect_Start:  str = tr("采集数据"); break;
-            //case Test_End:  str = tr("完成"); break;
-        }
+        str = getTime();
         strColor = "background-color:yellow;";
     } else {
         switch (packet->pass) {
@@ -156,13 +153,12 @@ void Home_WorkWid::upLabColor()
         }
     }
 
-    ui->lab->setText(str);
     if(strColor.size()) {
-        strColor+="font:75 13pt \"微软雅黑\";";
-        ui->lab->setStyleSheet(strColor);
-    } else {
-        ui->lab->setStyleSheet("");
+        strColor += "font:75 20pt \"微软雅黑\";";
     }
+
+    ui->timeLab->setText(str);
+    ui->timeLab->setStyleSheet(strColor);
 }
 
 void Home_WorkWid::timeoutDone()
