@@ -83,7 +83,8 @@ void Home_WorkWid::upTgWid()
     if(tg->cur > 0) {
         float curRate = packet->data->rate * COM_RATE_CUR;
         float powRate = packet->data->rate * COM_RATE_POW;
-        str = tr("总电流：%2A    总功率：%3Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
+        if(curRate!=0&&powRate!=0)
+        str = tr("总电流：%1A    总功率：%2Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
     }
 
     ui->tgLab->setText(str);
