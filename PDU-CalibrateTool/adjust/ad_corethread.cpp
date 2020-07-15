@@ -124,6 +124,7 @@ void Ad_CoreThread::workDown()
     }
 
     writeLog();   //记录校准设备校准成功还是校准失败
+    mItem->step = Test_End;
 }
 
 void Ad_CoreThread::run()

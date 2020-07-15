@@ -25,7 +25,7 @@ bool Ad_Adjusting::transmit(uchar *buf, int len)
 {
     bool ret = true;
     uchar recv[64] = {0};
-    len = mModbus->transmit(buf, len, recv, 1);
+    len = mModbus->transmit(buf, len, recv, 2);
     if(len > 0) {
         ret = recvStatus(recv, len);
     }
@@ -53,7 +53,10 @@ bool Ad_Adjusting::sentCmd()
 {
     mPacket->status = tr("发送校准解锁命令！");
     bool ret = writeCmd(0xA0, 0);
-    if(!ret) return ret;
+    if(!ret){
+        ret = writeCmd(0xA0, 0);  // 重复发一次命令
+        if(!ret) return ret;
+    }
 
     sDevType *dt = mPacket->devType;
     if(DC == dt->ac) {
@@ -166,5 +169,6 @@ bool Ad_Adjusting::startAdjust()
     if(ret) {
         ret = readData();
     }
+
     return ret;
 }
