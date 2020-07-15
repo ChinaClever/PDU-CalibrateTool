@@ -139,22 +139,22 @@ void Home_WorkWid::upLabColor()
 
     if(mItem->step) {
         str = getTime();
-        strColor = "background-color:yellow;";
+        strColor = "background-color:yellow; color:rgb(0, 0, 0);";
     } else {
         switch (packet->pass) {
         case Test_Success:
             str = tr("成功");
-            strColor = "background-color:green;";
+            strColor = "background-color:green; color:rgb(255, 255, 255);";
             break;
         case Test_Fail:
             str = tr("失败");
-            strColor = "background-color:red;";
+            strColor = "background-color:red; color:rgb(255, 255, 255);";
             break;
         }
     }
 
     if(strColor.size()) {
-        strColor += "font:75 20pt \"微软雅黑\";";
+        strColor += "font:100 34pt \"微软雅黑\";";
     }
 
     ui->timeLab->setText(str);
