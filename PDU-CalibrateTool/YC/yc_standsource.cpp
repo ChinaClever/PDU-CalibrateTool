@@ -40,10 +40,8 @@ bool YC_StandSource::write(QByteArray &array)
 
     if(mSerial) {
         array.append(0x0D);
-        if(mSerial->isOpened()) {
-            int rtn = mSerial->send(array);
-            if(rtn > 0) ret = true;
-        }
+        int rtn = mSerial->write(array);
+        if(rtn > 0) ret = true;
     }
 
     return ret;
@@ -70,15 +68,15 @@ bool YC_StandSource::setValue(const QString &str, int v)
 
 void YC_StandSource::powerDown()
 {
-    setValue("V", 0);
     setValue("A", 0);
+    setValue("V", 0);
 }
 
 bool YC_StandSource::powerOn(int v)
 {
     bool ret = setValue("V", 100);
     if(ret) {
-        ret = setValue("A", v);
+        // ret = setValue("A", v);
     }
 
     return ret;
@@ -86,9 +84,10 @@ bool YC_StandSource::powerOn(int v)
 
 bool YC_StandSource::setVol()
 {
+    setRange(); delay(1);
     bool ret = setValue("V", 100);
     if(ret) {
-         ret = delay(6);
+        ret = delay(6);
     }
 
     return ret;
@@ -98,7 +97,7 @@ bool YC_StandSource::setCur(int v)
 {
     bool ret = setValue("A", v);
     if(ret) {
-        ret = delay(8);
+        ret = delay(10);
     }
     return ret;
 }
@@ -106,7 +105,6 @@ bool YC_StandSource::setCur(int v)
 bool YC_StandSource::powerReset()
 {
     powerDown();
-    setRange();
     bool ret = delay(6);
     if(ret) {
         ret = setVol();

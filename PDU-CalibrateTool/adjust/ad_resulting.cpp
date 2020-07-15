@@ -34,6 +34,7 @@ bool Ad_Resulting::curErrRange(int exValue, int cur)
     if((cur >= min) && (cur <= max )) {
         ret =  true;
     }
+    resTgData();
 
     return ret;
 }
@@ -235,7 +236,7 @@ bool Ad_Resulting::workDown(int exValue)
 
 bool Ad_Resulting::resEnter()
 {
-    initThread(); delay(4);
+    initThread(); delay(5);
     mItem->step = Test_vert;    
     mCollect->readPduData();
     bool ret = volErrRange();
