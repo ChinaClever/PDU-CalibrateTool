@@ -7,7 +7,6 @@
 #include "serialport.h"
 #include <QSerialPortInfo>
 #include <QApplication>
-#define SERIAL_READ_TIMEOUT  100  // 100MS
 
 SerialPort::SerialPort(QObject *parent) : QThread(parent)
 {
@@ -15,7 +14,7 @@ SerialPort::SerialPort(QObject *parent) : QThread(parent)
     mSerial = NULL;
 
     timer = new QTimer(this);
-    timer->start(260);
+    timer->start(500);
     connect(timer, SIGNAL(timeout()),this, SLOT(timeoutDone()));
 }
 
@@ -118,10 +117,10 @@ void SerialPort::timeoutDone()
     static uint wf = 0;
 
     if(isOpen) {
-        QWriteLocker locker(&mRwLock);
         if(mWriteArrays.size() && ++wf%2) {
             int ret = write();
             if(ret) {
+                QWriteLocker locker(&mRwLock);
                 mWriteArrays.removeFirst();
                 mSerialData.clear();
             }
@@ -160,6 +159,7 @@ int SerialPort::write(const QByteArray &array)
 {
     int ret = array.size();
     if(isOpen) {
+        QWriteLocker locker(&mRwLock);
         mWriteArrays.append(array);
     } else {
         ret = 0;
@@ -192,9 +192,17 @@ int SerialPort::recv(QByteArray &array)
         while (mSerial->waitForReadyRead(1)); // 等待窗口接收完全
         while (!mSerial->atEnd()) {
             dataTemp += mSerial->readAll();     //因为串口是不稳定的，也许读到的是部分数据而已，但也可能是全部数据
-        }
+
+            if(dataTemp.size() == 1)  {
+                dataTemp.clear();
+                qDebug() << "Serial recv Read Err!!! len = 1";
+            } else if(dataTemp.size() < 5) {
+                qDebug() << "Serial recv Read Err!!! len " << dataTemp.size();
+            }
+        }        
         if(!mSerial->isReadable()) qDebug() << "Serial not Read Err!!! ###########";
 
+        QWriteLocker locker(&mRwLock);
         array += dataTemp;
     }
 
@@ -202,33 +210,28 @@ int SerialPort::recv(QByteArray &array)
 }
 
 
-int SerialPort::read(QByteArray &array, int msecs)
+int SerialPort::read(QByteArray &array, int secs)
 {
-    int len=0, count=0;
-
-    do
-    {
-        msleep(SERIAL_READ_TIMEOUT + 50);
-        if(!isOpen) return len;
-        QWriteLocker locker(&mRwLock);
-        array += mSerialData;
-        int rtn = mSerialData.size();
-        if(rtn > 0) {
-            mSerialData.clear();
-            len += rtn;
-            count = msecs-1;
-        } else {
-            count++;
+    if(isOpen) {
+        for(int i=0; i<secs; ++i) {
+            if(mSerialData.size()) {
+                QWriteLocker locker(&mRwLock);
+                array += mSerialData;
+                mSerialData.clear();
+                 break;
+            } else {
+                sleep(1);
+            }
         }
-    } while (count < msecs) ;
+    }
 
-    return len;
+    return array.size();
 }
 
-int SerialPort::read(uchar *recvstr, int msecs)
+int SerialPort::read(uchar *recvstr, int secs)
 {
     QByteArray array;
-    int ret = read(array, msecs);
+    int ret = read(array, secs);
     if(ret < SERIAL_LEN) {
         for(int i=0; i<ret; ++i)
             recvstr[i] = array.at(i);

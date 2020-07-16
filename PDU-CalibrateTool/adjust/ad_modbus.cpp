@@ -42,19 +42,14 @@ void Ad_Modbus::initSerial()
     }
 }
 
-int Ad_Modbus::readSerial(quint8 *cmd, int sec)
+int Ad_Modbus::readSerial(quint8 *cmd, int secs)
 {
     int rtn = 0;
     initSerial();
-    bool ret = mSerial->isOpened();
-    if(ret) {
-        for(int i=0; i<sec*2; ++i) {            
-            if(mItem->step) {
-                 rtn = mSerial->read(cmd, 5);
-                 if(rtn > 0) break;
-            } else {
-                 return 0;
-            }
+    for(int i=0; i<=secs; ++i) {
+        if(mItem->step) {
+            rtn = mSerial->read(cmd, 1);
+            if(rtn > 0) break;
         }
     }
 
@@ -74,12 +69,12 @@ bool Ad_Modbus::writeSerial(quint8 *cmd, int len)
     return ret;
 }
 
-int Ad_Modbus::transmit(uchar *sent, int len, uchar *recv, int sec)
+int Ad_Modbus::transmit(uchar *sent, int len, uchar *recv, int secs)
 {
     int rtn = 0;
     bool ret = writeSerial(sent, len);
     if(ret) {
-        rtn = readSerial(recv, sec);
+        rtn = readSerial(recv, secs);
     }
 
     return rtn;
@@ -91,12 +86,12 @@ bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len)
     int rtn = len-2; uchar *ptr = buf+rtn;
     if(rtn < 0) return false;
 
-        ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
-        ushort res = rtu_crc(buf, rtn);
-        if(crc != res) {
-            ret = false;
-            qDebug() << "Rtu Recv rtu recv crc Err!";
-        }
+    ushort crc = (ptr[1]*256) + ptr[0]; // 获取校验码
+    ushort res = rtu_crc(buf, rtn);
+    if(crc != res) {
+        ret = false;
+        qDebug() << "Rtu Recv rtu recv crc Err!";
+    }
 
     return ret;
 }
