@@ -36,6 +36,8 @@ bool SN_ManageThread::checkSn(uchar *sn, int len)
         if(exor == sn[len-1]) {
             ret = true;
         }
+    } else {
+        qDebug() << "SN check err" << len << sn[0];
     }
     return ret;
 }

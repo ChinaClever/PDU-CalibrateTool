@@ -14,7 +14,7 @@ SerialPort::SerialPort(QObject *parent) : QThread(parent)
     mSerial = NULL;
 
     timer = new QTimer(this);
-    timer->start(260);
+    timer->start(500);
     connect(timer, SIGNAL(timeout()),this, SLOT(timeoutDone()));
 }
 
@@ -192,8 +192,14 @@ int SerialPort::recv(QByteArray &array)
         while (mSerial->waitForReadyRead(1)); // 等待窗口接收完全
         while (!mSerial->atEnd()) {
             dataTemp += mSerial->readAll();     //因为串口是不稳定的，也许读到的是部分数据而已，但也可能是全部数据
-            if(dataTemp.size()) mSerial->waitForReadyRead(1);
-        }
+
+            if(dataTemp.size() == 1)  {
+                dataTemp.clear();
+                qDebug() << "Serial recv Read Err!!! len = 1";
+            } else if(dataTemp.size() < 5) {
+                qDebug() << "Serial recv Read Err!!! len " << dataTemp.size();
+            }
+        }        
         if(!mSerial->isReadable()) qDebug() << "Serial not Read Err!!! ###########";
 
         QWriteLocker locker(&mRwLock);
