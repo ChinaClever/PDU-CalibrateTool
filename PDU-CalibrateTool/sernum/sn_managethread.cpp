@@ -165,9 +165,9 @@ void SN_ManageThread::writeStatus(bool ret)
 {
     if(ret) {
         Ad_Config::bulid()->setCurrentNum();
-        mPacket->status = tr("已写入序列号：%1").arg(mSnItem.sn);
+        mPacket->status = tr("已写入序列号");
     } else {
-        mPacket->status = tr("序列号写入失败：%1").arg(mSnItem.sn);
+        mPacket->status = tr("序列号写入失败");
         mItem->currentNum -= 1;
         mItem->step = Test_End;
         mPacket->pass = Test_Fail;
