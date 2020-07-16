@@ -86,7 +86,7 @@ void Ad_CoreThread::writeLog()
     if(mPacket->pass == Test_Success) {
         it.status = tr("通过");
     } else {
-        it.status = tr("失败");
+        it.status = tr("失败：%1").arg(mPacket->status);
     }
     DbLogs::bulid()->insertItem(it);
 }
