@@ -51,9 +51,9 @@ class Ad_Modbus : public QThread
 public:
      static Ad_Modbus *bulid(QObject *parent = nullptr);
 
-    int readSerial(quint8 *cmd, int sec);
+    int readSerial(quint8 *cmd, int secs);
     bool writeSerial(quint8 *cmd, int len);
-    int transmit(uchar *sent, int len, uchar *recv, int sec);
+    int transmit(uchar *sent, int len, uchar *recv, int secs);
 
     ushort rtu_crc(uchar *buf, int len);
     uchar getXorNumber(uchar *buf, int len);

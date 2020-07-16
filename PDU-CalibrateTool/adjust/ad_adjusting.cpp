@@ -105,7 +105,7 @@ bool Ad_Adjusting::recvStatus(uchar *recv, int len)
         ushort status = recv[4]*256 + recv[5];
         ret = updateStatus(status);
     } else {
-        // ret = false;
+         ret = false;
         qDebug() << "Adjust res len err" << len;
     }
 
