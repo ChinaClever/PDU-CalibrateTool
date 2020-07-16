@@ -88,6 +88,7 @@ bool Ad_Resulting::volErrRange()
         } else {
             ret = false;
             mData->status[i] = Test_Fail;
+            mPacket->status = tr("电压 %1 错误").arg(i+1);
         }
     }
 
@@ -121,12 +122,13 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
 {
     bool ret = false;
     for(int k=0; k<mData->size; ++k) {
-        mPacket->status = tr("校验数据 期望电流%1A 第%2输出位").arg(exValue/AD_CUR_RATE).arg(k+1);
+        mPacket->status = tr("校验数据 期望电流%1A 第%2输出位 ").arg(exValue/AD_CUR_RATE).arg(k+1);
         mCtrl->openOnlySwitch(k); if(!delay(10)) break;
         ret = outputCurById(k, exValue);
         if(ret) {
             ret = delay(3); if(!ret) break;
         } else {
+            mPacket->status += tr("电流错误");
             break;
         }
     }
@@ -136,16 +138,12 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
 
 bool Ad_Resulting::workResult(bool res)
 {
-    QString str = tr("校准失败!");
     if(res) {
         mPacket->pass = Test_Success;
-        str = tr("校准成功!");
+        mPacket->status = tr("校准成功!");
     } else {
         mPacket->pass = Test_Fail;
     }
-    mPacket->status = str;
-    mItem->step = Test_End;
-    resTgData(mPacket->tg);
 
     return res;
 }
@@ -172,7 +170,10 @@ bool Ad_Resulting::outputAllCheck(int exValue)
     bool res = true;
     for(int k=0; k<mData->size; ++k) {
         bool ret = curRangeByID(k, exValue);
-        if(!ret) res = false;
+        if(!ret) {
+            res = false;
+            mPacket->status = tr("校验数据: 期望电流%1A 第%2位 电流错误").arg(exValue/AD_CUR_RATE).arg(k+1);
+        }
     }
     return res;
 }
@@ -181,7 +182,7 @@ bool Ad_Resulting::outputAllCurCheck(int exValue)
 {
     bool ret = true;
     for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据: 期望电流%1A 第%2次").arg(exValue/AD_CUR_RATE).arg(i+1);
+        mPacket->status = tr("校验数据: 期望电流%1A %2次").arg(exValue/AD_CUR_RATE).arg(i+1);
         mCollect->readPduData();
         ret = outputAllCheck(exValue);
         if(ret) break; else if(!delay(2)) break;
