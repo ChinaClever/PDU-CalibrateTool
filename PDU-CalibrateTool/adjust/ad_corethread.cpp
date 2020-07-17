@@ -93,21 +93,23 @@ void Ad_CoreThread::writeLog()
 
 bool Ad_CoreThread::readDevInfo()
 {
-    mSource->setVol();
-    bool ret = mAutoID->readDevType();//读取设备类型
-    if(ret) {
-        ret = mSn->snEnter();//写入序列号
-    }
+//    mSource->setVol();
+//    bool ret = mAutoID->readDevType();//读取设备类型
+//    if(ret) {
+//        ret = mSn->snEnter();//写入序列号
+//    }
 
 
     //////////////===================
-    //    sDevType *mDt = mPacket->devType;
-    //    mDt->devType = ZPDU;
-    //    mDt->ac = AC;
-    //    mDt->specs = Transformer;
-    //    mDt->lines = 1;
+        sDevType *mDt = mPacket->devType;
+        mDt->devType = MPDU;
+        mDt->ac = AC;
+        mDt->specs = Transformer;
+        mDt->lines = 1;
 
-    return ret;
+        return true;
+
+//    return ret;
 }
 
 void Ad_CoreThread::workDown()
