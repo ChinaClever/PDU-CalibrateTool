@@ -72,6 +72,7 @@ void Ad_CoreThread::verifyResult()
     mPacket->status = tr("采集自动验证");
     bool ret = readDevInfo();
     if(ret) {
+        Db_Tran db; // 事务操作
         mResult->resEnter();
     }
 }
@@ -96,7 +97,6 @@ bool Ad_CoreThread::readDevInfo()
     mSource->setVol();
     bool ret = mAutoID->readDevType();//读取设备类型
     if(ret) {
-        Db_Tran db; // 事务操作
         ret = mSn->snEnter();//写入序列号
     }
 
