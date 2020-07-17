@@ -51,8 +51,10 @@ bool Ad_Modbus::writeLog(bool pass)
         it.status = tr("失败：");
     }
     it.status += packet->status;
+    bool ret = DbStatus::bulid()->insertItem(it);
+    if(ret) msleep(50);
 
-    return DbStatus::bulid()->insertItem(it);
+    return ret;
 }
 
 void Ad_Modbus::initSerial()
