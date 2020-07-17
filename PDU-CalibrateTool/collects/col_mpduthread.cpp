@@ -105,7 +105,7 @@ int Col_MPduThread::getMpduEle()
 
 bool Col_MPduThread::readPduData()
 {
-    mData->rate = 1;
+    mData->rate = 10;
     bool ret = getMpduVolCur();
     if(ret) {
         ret = getMpduEle();
