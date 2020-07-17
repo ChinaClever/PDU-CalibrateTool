@@ -195,9 +195,12 @@ void SerialPort::recvSlot()
             dataTemp += mSerial->readAll();     //因为串口是不稳定的，也许读到的是部分数据而已，但也可能是全部数据
         }
 
-        if(dataTemp.size() > 1)  {
-            mSerialData += dataTemp;
+        // 过滤单片机开机发出0xff无效数据
+        if(dataTemp.size() == 1)  {
+           if(dataTemp.at(0) == (char)0xFF) dataTemp.clear();
         }
+
+        mSerialData += dataTemp;
     }
 }
 
