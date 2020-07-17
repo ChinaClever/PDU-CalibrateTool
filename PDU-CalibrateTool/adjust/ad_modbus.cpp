@@ -55,9 +55,6 @@ bool Ad_Modbus::writeLog(bool pass)
     return DbStatus::bulid()->insertItem(it);
 }
 
-
-
-
 void Ad_Modbus::initSerial()
 {
     if(!mSerial) {
