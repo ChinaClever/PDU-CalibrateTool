@@ -96,6 +96,7 @@ bool Ad_CoreThread::readDevInfo()
     mSource->setVol();
     bool ret = mAutoID->readDevType();//读取设备类型
     if(ret) {
+        Db_Tran db; // 事务操作
         ret = mSn->snEnter();//写入序列号
     }
 
