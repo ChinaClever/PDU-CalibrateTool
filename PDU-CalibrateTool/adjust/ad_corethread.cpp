@@ -115,6 +115,7 @@ bool Ad_CoreThread::readDevInfo()
 
 void Ad_CoreThread::workDown()
 {
+    Db_Tran db; // 事务操作
     mPacket->status = tr("已启动校准！");
     bool ret = readDevInfo();
     mModbus->writeLog(ret);
