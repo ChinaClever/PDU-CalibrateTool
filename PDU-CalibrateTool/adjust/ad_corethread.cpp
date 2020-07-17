@@ -116,7 +116,9 @@ bool Ad_CoreThread::readDevInfo()
 void Ad_CoreThread::workDown()
 {
     mPacket->status = tr("已启动校准！");
-    bool ret = readDevInfo(); if(!ret) return;
+    bool ret = readDevInfo();
+    mModbus->writeLog(ret);
+    if(!ret) return;
 
     mPacket->status = tr("复位单片机");
     mSource->powerReset();//控制标准源下电到上电
