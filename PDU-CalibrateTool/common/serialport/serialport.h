@@ -37,18 +37,16 @@ public:
 
 signals:
 
-protected:
-    int recv(QByteArray &array);
-    int write();
-
 private slots:
-    void serialReadSlot(void);
+    void recvSlot();
+    void writeSlot();
     void timeoutDone();
 
 private:
     bool isOpen;
     QSerialPort  *mSerial;
 
+    int mCount;
     QTimer *timer;
     QReadWriteLock  mRwLock;
     QByteArray mSerialData;
