@@ -4,6 +4,8 @@
  *      Author: Lzy
  */
 #include "ad_modbus.h"
+#include "dbstatus.h"
+extern QString user_land_name();
 
 Ad_Modbus::Ad_Modbus(QObject *parent) : QThread(parent)
 {
@@ -34,6 +36,27 @@ bool Ad_Modbus::delay(int s)
 
     return ret;
 }
+
+bool Ad_Modbus::writeLog(bool pass)
+{
+    sLogItem it;
+
+    sDataPacket *packet = sDataPacket::bulid();
+    it.dev = packet->dev_type.split("_").first();
+    it.user = user_land_name();
+    it.sn = packet->sn;
+    if(pass) {
+        it.status = tr("通过：");
+    } else {
+        it.status = tr("失败：");
+    }
+    it.status += packet->status;
+
+    return DbStatus::bulid()->insertItem(it);
+}
+
+
+
 
 void Ad_Modbus::initSerial()
 {

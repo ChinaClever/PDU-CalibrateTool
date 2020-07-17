@@ -63,6 +63,7 @@ public:
 
     bool rtuWrite(sRtuSetItem *pkt);
     bool delay(int s);
+    bool writeLog(bool pass);
 
 protected:
     void initSerial();

@@ -9,6 +9,7 @@ struct sLogItem : public DbBasicItem{
 
 class DbLogs : public SqlBasic<sLogItem>
 {
+protected:
     DbLogs();
 public:
     static DbLogs* bulid();
