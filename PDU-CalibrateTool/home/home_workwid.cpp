@@ -101,7 +101,7 @@ void Home_WorkWid::endFun()
     ui->updateBtn->setEnabled(true);
 
     ui->resBtn->setText(tr("开始较验"));
-    ui->resBtn->setEnabled(true);
+    ui->resBtn->setEnabled(true);    
 }
 
 void Home_WorkWid::upStatusLab()
