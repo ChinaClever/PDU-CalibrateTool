@@ -189,7 +189,7 @@ int SerialPort::recv(QByteArray &array)
     {
         /* 处理所有还没有被处理的各类事件，主要是不用用户感觉到ka */
         QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-        while (mSerial->waitForReadyRead(1)); // 等待窗口接收完全
+        //while (mSerial->waitForReadyRead(100)); // 等待窗口接收完全
         while (!mSerial->atEnd()) {
             dataTemp += mSerial->readAll();     //因为串口是不稳定的，也许读到的是部分数据而已，但也可能是全部数据
 
@@ -197,6 +197,7 @@ int SerialPort::recv(QByteArray &array)
                 dataTemp.clear();
                 qDebug() << "Serial recv Read Err!!! len = 1";
             } else if(dataTemp.size() < 5) {
+                mSerial->waitForReadyRead(350);  // 等待窗口接收完全
                 qDebug() << "Serial recv Read Err!!! len " << dataTemp.size();
             }
         }        
