@@ -118,9 +118,8 @@ void Ad_CoreThread::workDown()
 {
     Db_Tran db; // 事务操作
     mPacket->status = tr("已启动校准！");
-    bool ret = readDevInfo();
-    mModbus->writeLog(ret);
-    if(!ret) return;
+    bool ret = readDevInfo(); if(!ret) return;
+    mModbus->writeLog(ret);  // 序列号操作成功，才能记录日志
 
     mPacket->status = tr("复位单片机");
     mSource->powerReset();//控制标准源下电到上电
