@@ -1,6 +1,6 @@
 #ifndef LOGMAINWID_H
 #define LOGMAINWID_H
-
+#include "dbstatus.h"
 #include "logquerydlg/log_logquerydlg.h"
 
 namespace Ui {
@@ -22,7 +22,8 @@ private slots:
 
 private:
     Ui::LogMainWid *ui;
-    LogComWid *mMacLog;
+    LogComWid *mLogWid;
+    LogComWid *mStatusWid;
 };
 
 #endif // LOGMAINWID_H

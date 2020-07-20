@@ -11,7 +11,7 @@ LogMainWid::LogMainWid(QWidget *parent) :
     ui(new Ui::LogMainWid)
 {
     ui->setupUi(this);
-    groupBox_background_icon(this);
+    // groupBox_background_icon(this);
     QTimer::singleShot(rand()%50,this,SLOT(initFunSLot()));
 }
 
@@ -23,8 +23,12 @@ LogMainWid::~LogMainWid()
 
 void LogMainWid::initFunSLot()
 {
-    mMacLog = new LogComWid(ui->stackedWid);
-    mMacLog->initWid(DbLogs::bulid(),new LogBtnBar(),  new Log_LogQueryDlg(this));
-    ui->stackedWid->addWidget(mMacLog);
+    mLogWid = new LogComWid(ui->tabWidget);
+    mLogWid->initWid(DbLogs::bulid(),new LogBtnBar(),  new Log_LogQueryDlg(this));
+    ui->tabWidget->addTab(mLogWid, tr("校准结果日志"));
+
+    mStatusWid = new LogComWid(ui->tabWidget);
+    mStatusWid->initWid(DbStatus::bulid(),new LogBtnBar(),  new Log_LogQueryDlg(this));
+    ui->tabWidget->addTab(mStatusWid, tr("校准过程日志"));
 }
 
