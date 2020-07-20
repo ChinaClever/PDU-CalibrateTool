@@ -2,7 +2,7 @@
  * db_usr.cpp
  * 用户数据库表
  *
- *  Created on: 2016年10月11日
+ *  Created on: 2020年10月11日
  *      Author: Lzy
  */
 #include "db_user.h"

@@ -1,3 +1,9 @@
+/*
+ *
+ *
+ *  Created on: 2020年10月11日
+ *      Author: Lzy
+ */
 #include "dbstatus.h"
 
 DbStatus::DbStatus()

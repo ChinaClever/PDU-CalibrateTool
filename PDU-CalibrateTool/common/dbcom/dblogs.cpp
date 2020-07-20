@@ -1,3 +1,9 @@
+/*
+ *
+ *
+ *  Created on: 2020年10月11日
+ *      Author: Lzy
+ */
 #include "dblogs.h"
 
 DbLogs::DbLogs()
@@ -5,7 +11,7 @@ DbLogs::DbLogs()
     createTable();
     tableTile = tr("校准操作日志");
     //hiddens <<  9;
-    headList << tr("设备类型") << tr("操作员") << tr("序列码") << tr("校准状态") ;
+    headList << tr("设备类型") << tr("操作员") << tr("设备序列号") << tr("校准状态") ;
 }
 
 
