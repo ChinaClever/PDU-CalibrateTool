@@ -5,7 +5,7 @@ DbLogs::DbLogs()
     createTable();
     tableTile = tr("校准操作日志");
     //hiddens <<  9;
-    headList << tr("设备类型") << tr("操作员") << tr("校准结果") << tr("序列码");
+    headList << tr("设备类型") << tr("操作员") << tr("序列码") << tr("校准状态") ;
 }
 
 
@@ -18,8 +18,8 @@ void DbLogs::createTable()
             "time           VCHAR,"
             "dev            VCHAR,"
             "user           VCHAR,"
-            "status         VCHAR,"
-            "sn             VCHAR not null);";
+            "sn             VCHAR not null,"
+            "status         VCHAR);";
     QSqlQuery query(mDb);
     if(!query.exec(cmd.arg(tableName()))) {
         throwError(query.lastError());
@@ -37,8 +37,8 @@ DbLogs *DbLogs::bulid()
 
 bool DbLogs::insertItem(sLogItem &item)
 {
-    QString cmd = "insert into %1 (date,time,dev,user,status,sn) "
-                  "values(:date,:time,:dev,:user,:status,:sn)";
+    QString cmd = "insert into %1 (date,time,dev,user,sn,status) "
+                  "values(:date,:time,:dev,:user,:sn,:status)";
     bool ret = modifyItem(item,cmd.arg(tableName()));
     if(ret) emit itemChanged(item.id,Insert);
     return ret;
@@ -54,8 +54,8 @@ bool DbLogs::modifyItem(const sLogItem &item, const QString &cmd)
     query.bindValue(":time",item.time);
     query.bindValue(":dev",item.dev);
     query.bindValue(":user",item.user);
-    query.bindValue(":status",item.status);
     query.bindValue(":sn",item.sn);
+    query.bindValue(":status",item.status);
     bool ret = query.exec();
     if(!ret)  throwError(query.lastError());
     return ret;
