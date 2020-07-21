@@ -4,7 +4,7 @@
  *      Author: Lzy
  */
 #include "ad_modbus.h"
-#include "dbstatus.h"
+#include "dbstates.h"
 extern QString user_land_name();
 
 Ad_Modbus::Ad_Modbus(QObject *parent) : QThread(parent)
@@ -39,20 +39,20 @@ bool Ad_Modbus::delay(int s)
 
 bool Ad_Modbus::writeLog(bool pass)
 {
-    sLogItem it;
+    sStateItem it;
 
     sDataPacket *packet = sDataPacket::bulid();
     it.dev = packet->dev_type.split("_").first();
     it.user = user_land_name();
     it.sn = packet->sn;
     if(pass) {
-        it.status = tr("通过：");
+        it.result = tr("通过");
     } else {
-        it.status = tr("失败：");
+        it.result = tr("失败");
     }
-    it.status += packet->status;
+    it.memo = packet->status;
 
-    return DbStatus::bulid()->insertItem(it);
+    return DbStates::bulid()->insertItem(it);
 }
 
 void Ad_Modbus::initSerial()

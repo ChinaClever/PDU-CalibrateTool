@@ -4,12 +4,11 @@
 
 struct sLogItem : public DbBasicItem{
     sLogItem(){}
-    QString dev, user, status, sn;
+    QString dev, user, result, sn;
 };
 
 class DbLogs : public SqlBasic<sLogItem>
 {
-protected:
     DbLogs();
 public:
     static DbLogs* bulid();
