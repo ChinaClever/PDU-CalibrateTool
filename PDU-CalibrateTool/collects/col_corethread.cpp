@@ -47,7 +47,7 @@ uchar *Col_CoreThread::toShort(uchar *ptr, int line, ushort *value)
 uchar *Col_CoreThread::toChar(uchar *ptr, int line, uchar *value)
 {
     for(int i=0; i<line; ++i) {
-        value[i] =  *(ptr++); // 读取电压
+        value[i] = *(ptr++); // 读取电压
     }
 
     return ptr;

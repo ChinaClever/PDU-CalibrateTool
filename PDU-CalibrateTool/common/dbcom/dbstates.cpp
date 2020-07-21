@@ -4,18 +4,17 @@
  *  Created on: 2020年10月11日
  *      Author: Lzy
  */
-#include "dblogs.h"
+#include "dbstates.h"
 
-DbLogs::DbLogs()
+DbStates::DbStates()
 {
     createTable();
-    tableTile = tr("校准状态日志");
+    tableTile = tr("校准过程日志");
     //hiddens <<  9;
-    headList << tr("设备类型") << tr("操作员") << tr("校准状态") << tr("设备序列号");
+    headList << tr("设备类型") << tr("操作员") << tr("设备序列号") << tr("状态") << tr("内容");
 }
 
-
-void DbLogs::createTable()
+void DbStates::createTable()
 {
     QString cmd =
             "create table if not exists %1("
@@ -24,8 +23,9 @@ void DbLogs::createTable()
             "time           VCHAR,"
             "dev            VCHAR,"
             "user           VCHAR,"
+            "sn             VCHAR not null,"
             "result         VCHAR,"
-            "sn             VCHAR not null);";
+            "memo           VCHAR);";
     QSqlQuery query(mDb);
     if(!query.exec(cmd.arg(tableName()))) {
         throwError(query.lastError());
@@ -33,25 +33,25 @@ void DbLogs::createTable()
 }
 
 
-DbLogs *DbLogs::bulid()
+DbStates *DbStates::bulid()
 {
-    static DbLogs* sington = nullptr;
+    static DbStates* sington = nullptr;
     if(sington == nullptr)
-        sington = new DbLogs();
+        sington = new DbStates();
     return sington;
 }
 
-bool DbLogs::insertItem(sLogItem &item)
+bool DbStates::insertItem(sStateItem &item)
 {
-    QString cmd = "insert into %1 (date,time,dev,user,result,sn) "
-                  "values(:date,:time,:dev,:user,:result,:sn)";
+    QString cmd = "insert into %1 (date,time,dev,user,sn,result,memo) "
+                  "values(:date,:time,:dev,:user,:sn,:result,:memo)";
     bool ret = modifyItem(item,cmd.arg(tableName()));
     if(ret) emit itemChanged(item.id,Insert);
     return ret;
 }
 
 
-bool DbLogs::modifyItem(const sLogItem &item, const QString &cmd)
+bool DbStates::modifyItem(const sStateItem &item, const QString &cmd)
 {
     QSqlQuery query(mDb);
     query.prepare(cmd);
@@ -60,8 +60,9 @@ bool DbLogs::modifyItem(const sLogItem &item, const QString &cmd)
     query.bindValue(":time",item.time);
     query.bindValue(":dev",item.dev);
     query.bindValue(":user",item.user);
-    query.bindValue(":result",item.result);
     query.bindValue(":sn",item.sn);
+    query.bindValue(":result",item.result);
+    query.bindValue(":memo",item.memo);
     bool ret = query.exec();
     if(!ret)  throwError(query.lastError());
     return ret;

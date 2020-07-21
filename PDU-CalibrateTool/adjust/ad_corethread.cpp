@@ -85,9 +85,9 @@ void Ad_CoreThread::writeLog()
     it.user = user_land_name();
     it.sn = mPacket->sn;
     if(mPacket->pass == Test_Success) {
-        it.status = tr("通过");
+        it.result = tr("通过");
     } else {
-        it.status = tr("失败：%1").arg(mPacket->status);
+        it.result = tr("失败：%1").arg(mPacket->status);
     }
     DbLogs::bulid()->insertItem(it);
 }

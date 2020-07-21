@@ -1,6 +1,6 @@
 #ifndef LOGMAINWID_H
 #define LOGMAINWID_H
-#include "dbstatus.h"
+#include "dbstates.h"
 #include "logquerydlg/log_logquerydlg.h"
 
 namespace Ui {

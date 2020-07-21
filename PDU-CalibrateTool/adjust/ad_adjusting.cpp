@@ -12,7 +12,6 @@ Ad_Adjusting::Ad_Adjusting(QObject *parent) : QThread(parent)
     mItem = Ad_Config::bulid()->item;
 }
 
-
 Ad_Adjusting *Ad_Adjusting::bulid(QObject *parent)
 {
     static Ad_Adjusting* sington = nullptr;
