@@ -103,8 +103,7 @@ bool NewUsrDlg::informationCheck(void)
         InfoMsgBox(NULL,  tr("请输入Email地址"));
         return false;
     }
-    //if(!str.contains("@"))
-    if(!IsValidEmail(str))
+    if(!str.contains("@"))
     {
         InfoMsgBox(NULL,  tr("请输入合法Email地址"));
         return false;
@@ -118,66 +117,6 @@ bool NewUsrDlg::informationCheck(void)
     }
 
    return true;
-}
-
-bool NewUsrDlg::IsValidChar(QChar ch)
-{
-    if( (ch>=97) && (ch<=122) ) //26个小写字母
-        return true;
-    if( (ch>=65) && (ch<=90) ) //26个大写字母
-        return true;
-    if((ch>=48) && (ch<=57)) //0~9
-        return true;
-    if( ch==95 || ch==45 || ch==46 || ch==64 ) //_-.@
-        return true;
-    return false;
-}
-
-bool NewUsrDlg::IsValidEmail(QString strEmail)
-{
-    if( strEmail.length()<5 ) //26个小写字母
-        return false;
-
-    QChar ch = strEmail[0];
-    if( ((ch>=97) && (ch<=122)) || ((ch>=65) && (ch<=90)) )
-    {
-        int atCount =0;
-        int atPos = 0;
-        int dotCount = 0;
-        for(int i=1;i<strEmail.length();i++) //0已经判断过了，从1开始
-        {
-            ch = strEmail[i];
-            if(IsValidChar(ch))
-            {
-                if(ch==64) //"@"
-                {
-                    atCount ++;
-                    atPos = i;
-                }
-                else if( (atCount>0) && (ch==46) )//@符号后的"."号
-                    dotCount ++;
-            }
-            else
-                return false;
-        }
-        //1. 结尾不得是字符“@”或者“.”
-        if( ch == 46 )
-            return false;
-        //2. 必须包含一个并且只有一个符号“@”
-        //3. @后必须包含至少一个和至多三个符号“.”
-        if( (atCount!=1) || (dotCount<1) || (dotCount>3) )
-            return false;
-        //4. 不允许出现“@.”或者.@
-        int x,y;
-        x=strEmail.indexOf("@.");
-        y=strEmail.indexOf(".@");
-        if( x>0 || y>0 )
-        {
-            return false;
-        }
-        return true;
-    }
-    return false;
 }
 
 bool NewUsrDlg::saveUsrInfo(sUserItem &user)
