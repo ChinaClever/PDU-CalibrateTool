@@ -14,7 +14,6 @@ DbLogs::DbLogs()
     headList << tr("设备类型") << tr("操作员") << tr("校准状态") << tr("设备序列号");
 }
 
-
 void DbLogs::createTable()
 {
     QString cmd =
