@@ -3,22 +3,22 @@
  *  Created on: 2020年10月1日
  *      Author: Lzy
  */
-#include "col_mcrpduthread.h"
+#include "col_rpdumcthread.h"
 
-Col_McRpduThread::Col_McRpduThread(QObject *parent) : Col_CoreThread(parent)
+Col_RpduMcThread::Col_RpduMcThread(QObject *parent) : Col_CoreThread(parent)
 {
 
 }
 
-Col_McRpduThread *Col_McRpduThread::bulid(QObject *parent)
+Col_RpduMcThread *Col_RpduMcThread::bulid(QObject *parent)
 {
-    Col_McRpduThread* sington = nullptr;
+    Col_RpduMcThread* sington = nullptr;
     if(sington == nullptr)
-        sington = new Col_McRpduThread(parent);
+        sington = new Col_RpduMcThread(parent);
     return sington;
 }
 
-void Col_McRpduThread::initRtuItem(sRtuItem &it)
+void Col_RpduMcThread::initRtuItem(sRtuItem &it)
 {
     it.addr = mItem->addr;
     it.fn = 0x03;
@@ -26,7 +26,7 @@ void Col_McRpduThread::initRtuItem(sRtuItem &it)
     it.num = 6;
 }
 
-bool Col_McRpduThread::recvPacket(uchar *ptr, int len)
+bool Col_RpduMcThread::recvPacket(uchar *ptr, int len)
 {
     int line = 3;
     bool ret = true;
@@ -44,7 +44,7 @@ bool Col_McRpduThread::recvPacket(uchar *ptr, int len)
     return ret;
 }
 
-bool Col_McRpduThread::readPduData()
+bool Col_RpduMcThread::readPduData()
 {
     sRtuItem it;
     uchar recv[MODBUS_RTU_SIZE] = {0};
