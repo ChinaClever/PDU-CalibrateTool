@@ -6,7 +6,8 @@ enum eDevTypes {
     PDU=0,
     ZPDU,
     MPDU,
-    RPDU,
+    RPDU,     // RPDU 执行板
+    RPDU_Mc, // RPDU 主控
     SI_PDU,
     IP_PDU,
     BM_PDU,

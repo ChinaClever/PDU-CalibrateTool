@@ -1,7 +1,7 @@
 #ifndef SN_MANAGETHREAD_H
 #define SN_MANAGETHREAD_H
 
-#include "col_mpduthread.h"
+#include "col_rpduthread.h"
 
 struct sSnItem
 {

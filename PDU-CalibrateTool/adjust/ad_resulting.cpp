@@ -219,6 +219,11 @@ Col_CoreThread *Ad_Resulting::initThread()
         mCtrl = Ctrl_MpduThread::bulid(this);
         break;
 
+    case RPDU:
+        mCollect = Col_RpduThread::bulid(this);
+        mCtrl = Ctrl_RpduThread::bulid(this);
+        break;
+
     default:
         break;
     }
