@@ -5,21 +5,21 @@
  */
 #include "col_zpduthread.h"
 
-Col_ZPduThread::Col_ZPduThread(QObject *parent) : Col_CoreThread(parent)
+Col_ZpduThread::Col_ZpduThread(QObject *parent) : Col_CoreThread(parent)
 {
 
 }
 
 
-Col_ZPduThread *Col_ZPduThread::bulid(QObject *parent)
+Col_ZpduThread *Col_ZpduThread::bulid(QObject *parent)
 {
-    Col_ZPduThread* sington = nullptr;
+    Col_ZpduThread* sington = nullptr;
     if(sington == nullptr)
-        sington = new Col_ZPduThread(parent);
+        sington = new Col_ZpduThread(parent);
     return sington;
 }
 
-bool Col_ZPduThread::recvZpduVolCur(uchar *recv, int len)
+bool Col_ZpduThread::recvZpduVolCur(uchar *recv, int len)
 {
     int op = 14;
     bool ret = false;
@@ -60,7 +60,7 @@ bool Col_ZPduThread::recvZpduVolCur(uchar *recv, int len)
     return ret;
 }
 
-bool Col_ZPduThread::getZpduVolCur()
+bool Col_ZpduThread::getZpduVolCur()
 {
     bool res = false;
     int k = 6;
@@ -81,7 +81,7 @@ bool Col_ZPduThread::getZpduVolCur()
     return res;
 }
 
-bool Col_ZPduThread::readPduData()
+bool Col_ZpduThread::readPduData()
 {
     mData->rate = 10;
     return getZpduVolCur();

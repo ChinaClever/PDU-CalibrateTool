@@ -210,12 +210,12 @@ Col_CoreThread *Ad_Resulting::initThread()
     sDevType *dt = mPacket->devType;
     switch (dt->devType) {
     case ZPDU:
-        mCollect = Col_ZPduThread::bulid(this);
+        mCollect = Col_ZpduThread::bulid(this);
         mCtrl = Ctrl_ZpduThread::bulid(this);
         break;
 
     case MPDU:
-        mCollect = Col_MPduThread::bulid(this);
+        mCollect = Col_MpduThread::bulid(this);
         mCtrl = Ctrl_MpduThread::bulid(this);
         break;
 

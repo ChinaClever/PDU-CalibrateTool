@@ -3,12 +3,12 @@
 
 #include "col_zpduthread.h"
 
-class Col_MPduThread : public Col_CoreThread
+class Col_MpduThread : public Col_CoreThread
 {
     Q_OBJECT
-    explicit Col_MPduThread(QObject *parent = nullptr);
+    explicit Col_MpduThread(QObject *parent = nullptr);
 public:
-    static Col_MPduThread *bulid(QObject *parent = nullptr);
+    static Col_MpduThread *bulid(QObject *parent = nullptr);
 
     bool readPduData();
 protected:
