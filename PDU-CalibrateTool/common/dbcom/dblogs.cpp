@@ -62,6 +62,9 @@ bool DbLogs::modifyItem(const sLogItem &item, const QString &cmd)
     query.bindValue(":result",item.result);
     query.bindValue(":sn",item.sn);
     bool ret = query.exec();
-    if(!ret)  throwError(query.lastError());
+    if(!ret)  {
+        query.finish();
+        throwError(query.lastError());
+    }
     return ret;
 }
