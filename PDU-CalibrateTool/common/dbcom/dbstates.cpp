@@ -64,9 +64,6 @@ bool DbStates::modifyItem(const sStateItem &item, const QString &cmd)
     query.bindValue(":result",item.result);
     query.bindValue(":memo",item.memo);
     bool ret = query.exec();
-    if(!ret)  {
-        query.finish();
-        throwError(query.lastError());
-    }
+    if(!ret) throwError(query);
     return ret;
 }

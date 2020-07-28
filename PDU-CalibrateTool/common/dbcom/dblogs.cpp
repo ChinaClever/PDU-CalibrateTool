@@ -49,7 +49,6 @@ bool DbLogs::insertItem(sLogItem &item)
     return ret;
 }
 
-
 bool DbLogs::modifyItem(const sLogItem &item, const QString &cmd)
 {
     QSqlQuery query(mDb);
@@ -62,9 +61,6 @@ bool DbLogs::modifyItem(const sLogItem &item, const QString &cmd)
     query.bindValue(":result",item.result);
     query.bindValue(":sn",item.sn);
     bool ret = query.exec();
-    if(!ret)  {
-        query.finish();
-        throwError(query.lastError());
-    }
+    if(!ret) throwError(query);
     return ret;
 }
