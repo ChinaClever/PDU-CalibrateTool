@@ -74,8 +74,8 @@ public:
 signals:
     void itemChanged(int id,int type);
 protected:
-    void throwError(QSqlQuery &query); /// inline static
     QString tableMarking();
+    void throwError(const QSqlQuery &query); /// inline static
     void setTableMarking(const QString& marking);
 };
 
