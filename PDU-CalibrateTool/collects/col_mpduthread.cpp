@@ -37,6 +37,8 @@ bool Col_MpduThread::recvMpduVolCur(uchar *recv, int)
             for(int i=mData->size/2; i<mData->size; ++i) mData->vol[i] = vol;
             ptr = toShort(ptr, mData->size, mData->pow);
 
+            for(int i=0; i<mData->size; ++i) mData->pow[i] *= mData->rate; //功率乘以倍率10
+
             ret = true;
         } else {
             qDebug() << "AdjustCoreThread recvMpduVolCur addr err!";

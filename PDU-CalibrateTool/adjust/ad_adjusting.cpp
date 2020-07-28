@@ -83,7 +83,7 @@ bool Ad_Adjusting::updateStatus(ushort status)
     } else if(status <= 0x1119) {
         str = tr("校准失败：%1相 ").arg(status-0x1115);
     } else if(status <= 0x112F) {
-        mPacket->status = tr("正在校准，输出位%1 ").arg(status-0x1120);
+        mPacket->status = tr("校准完成，输出位%1 ").arg(status-0x1120);
     } else if(status <= 0x114F) {
         str = tr("电流校准失败：输出位%1").arg(status-0x1140);
     } else if(status <= 0x116F) {

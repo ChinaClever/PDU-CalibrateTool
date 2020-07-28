@@ -74,6 +74,7 @@ void Ad_CoreThread::verifyResult()
     if(ret) {
         Db_Tran db; // 事务操作
         mResult->resEnter();
+        mItem->step = Test_End;  // 结束验证
     }
 }
 
