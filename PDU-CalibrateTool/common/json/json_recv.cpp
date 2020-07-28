@@ -151,6 +151,7 @@ bool Json_Recv::analyticalData(QJsonObject &object ,QVector<QString>& mProduct)
             uint id = getData(obj, "id");
             QString strNo = getString(obj, "SN_NO");
             QString strDevType = getString(obj, "dev_type");
+            //qDebug()<<"id----"<<id<<"strNo----"<<strNo<<"strDevType----"<<strDevType<<endl;
             mIdToDevType.insert(id,strDevType);
         }
     }
