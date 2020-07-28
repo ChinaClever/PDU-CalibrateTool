@@ -5,20 +5,20 @@
  */
 #include "col_mpduthread.h"
 
-Col_MPduThread::Col_MPduThread(QObject *parent) : Col_CoreThread(parent)
+Col_MpduThread::Col_MpduThread(QObject *parent) : Col_CoreThread(parent)
 {
 
 }
 
-Col_MPduThread *Col_MPduThread::bulid(QObject *parent)
+Col_MpduThread *Col_MpduThread::bulid(QObject *parent)
 {
-    Col_MPduThread* sington = nullptr;
+    Col_MpduThread* sington = nullptr;
     if(sington == nullptr)
-        sington = new Col_MPduThread(parent);
+        sington = new Col_MpduThread(parent);
     return sington;
 }
 
-bool Col_MPduThread::recvMpduVolCur(uchar *recv, int)
+bool Col_MpduThread::recvMpduVolCur(uchar *recv, int)
 {
     bool ret = false;
     uchar *ptr = recv;
@@ -48,7 +48,7 @@ bool Col_MPduThread::recvMpduVolCur(uchar *recv, int)
     return ret;
 }
 
-bool Col_MPduThread::getMpduVolCur()
+bool Col_MpduThread::getMpduVolCur()
 {
     bool res = false;
     static uchar recv[256] = {0};
@@ -69,7 +69,7 @@ bool Col_MPduThread::getMpduVolCur()
     return res;
 }
 
-bool Col_MPduThread::recvMpduEle(uchar *recv, int)
+bool Col_MpduThread::recvMpduEle(uchar *recv, int)
 {
     bool ret = true;
     uchar *ptr = recv;
@@ -85,7 +85,7 @@ bool Col_MPduThread::recvMpduEle(uchar *recv, int)
     return ret;
 }
 
-int Col_MPduThread::getMpduEle()
+int Col_MpduThread::getMpduEle()
 {
     static uchar recv[256] = {0};
     static uchar cmd[] = {0x7B, 0xE1, 0x01, 0x10, 0x00,
@@ -103,7 +103,7 @@ int Col_MPduThread::getMpduEle()
     return ret;
 }
 
-bool Col_MPduThread::readPduData()
+bool Col_MpduThread::readPduData()
 {
     mData->rate = 10;
     bool ret = getMpduVolCur();

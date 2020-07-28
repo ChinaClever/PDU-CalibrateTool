@@ -78,14 +78,16 @@ bool Ad_Adjusting::updateStatus(ushort status)
         str = tr("校准失败");
     } else if(0x1102 == status) {
         mPacket->status = tr("校准解锁成功");
-    } else if(status <= 0x1104) {
-        mPacket->status = tr("正在校准，%1相 ").arg(status-0x1101);
-    } else if(status <= 0x1117) {
-        str = tr("校准失败：%1相 ").arg(status-0x1114);
+    } else if(status <= 0x1114) {
+        mPacket->status = tr("正在校准，%1相 ").arg(status-0x1110);
+    } else if(status <= 0x1119) {
+        str = tr("校准失败：%1相 ").arg(status-0x1115);
     } else if(status <= 0x112F) {
         mPacket->status = tr("正在校准，输出位%1 ").arg(status-0x1120);
     } else if(status <= 0x114F) {
-        str = tr("校准失败：输出位%1 ").arg(status-0x1140);
+        str = tr("电流校准失败：输出位%1").arg(status-0x1140);
+    } else if(status <= 0x116F) {
+        str = tr("电压校准失败：输出位%1").arg(status-0x1160);
     } else {
         str = tr("校准失败：状态返回错误%1 ").arg(QString::number(status, 16));
     }

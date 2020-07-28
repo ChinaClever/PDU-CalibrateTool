@@ -1,7 +1,7 @@
 #ifndef COL_CORETHREAD_H
 #define COL_CORETHREAD_H
 
-#include "ctrl_mpduthread.h"
+#include "ctrl_rpduthread.h"
 
 class Col_CoreThread : public QThread
 {
