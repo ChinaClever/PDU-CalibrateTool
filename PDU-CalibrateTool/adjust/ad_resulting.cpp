@@ -250,6 +250,7 @@ bool Ad_Resulting::checkNoLoad()
     bool ret = volErrRange();
     if(ret) {
         mPacket->status = tr("验证电流：空载电流检查");
+        mCtrl->openAllSwitch();
         ret = mSource->setCur(0);
         if(ret) ret = outputAllCurCheck(0);
     }
