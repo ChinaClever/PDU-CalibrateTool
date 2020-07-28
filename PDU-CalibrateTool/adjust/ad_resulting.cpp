@@ -244,12 +244,24 @@ bool Ad_Resulting::workDown(int exValue)
     return ret;
 }
 
+bool Ad_Resulting::checkNoLoad()
+{
+    mCollect->readPduData();
+    bool ret = volErrRange();
+    if(ret) {
+        mPacket->status = tr("验证电流：空载电流检查");
+        ret = mSource->setCur(0);
+        if(ret) ret = outputAllCurCheck(0);
+    }
+
+    return ret;
+}
+
 bool Ad_Resulting::resEnter()
 {
     initThread(); delay(5);
-    mItem->step = Test_vert;    
-    mCollect->readPduData();
-    bool ret = volErrRange();
+    mItem->step = Test_vert;
+    bool ret = checkNoLoad();
     if(ret) {
         for(int i=0; i<3; ++i) {
             int exCur = (i*2 + 1) * AD_CUR_RATE;

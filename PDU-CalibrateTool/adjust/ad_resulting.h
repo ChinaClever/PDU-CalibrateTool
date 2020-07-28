@@ -35,6 +35,8 @@ protected:
     bool outputAllCheck(int exValue);
     bool outputAllCurCheck(int exValue);
 
+    bool checkNoLoad();
+
 private:
     sDataUnit *mData;
     Ad_Modbus *mModbus;
