@@ -264,8 +264,8 @@ bool Ad_Resulting::resEnter()
     mItem->step = Test_vert;
     bool ret = checkNoLoad();
     if(ret) {
-        for(int i=0; i<3; ++i) {
-            int exCur = (i*2 + 1) * AD_CUR_RATE;
+        for(int i=1; i<3; ++i) {
+            int exCur = (i*2) * AD_CUR_RATE;
             mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/AD_CUR_RATE);
             ret = mSource->setCur(exCur/10);
             if(ret) ret = workDown(exCur);
