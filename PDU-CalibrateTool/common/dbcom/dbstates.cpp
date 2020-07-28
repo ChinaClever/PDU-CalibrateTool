@@ -28,7 +28,7 @@ void DbStates::createTable()
             "memo           VCHAR);";
     QSqlQuery query(mDb);
     if(!query.exec(cmd.arg(tableName()))) {
-        throwError(query.lastError());
+        throwError(query);
     }
 }
 

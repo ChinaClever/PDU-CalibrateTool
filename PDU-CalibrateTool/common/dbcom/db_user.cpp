@@ -34,7 +34,7 @@ void DbUser::createTable()
     QSqlQuery query(mDb);
     if(!query.exec(cmd.arg(tableName())))
     {
-        throwError(query.lastError());
+        throwError(query);
     }
 }
 
@@ -95,7 +95,7 @@ bool DbUser::modifyItem(const sUserItem &item, const QString &cmd)
     query.bindValue(":remarks",item.remarks);
     query.bindValue(":jur",item.jur);
     bool ret = query.exec();
-    if(!ret)  throwError(query.lastError());
+    if(!ret)  throwError(query);
     return ret;
 }
 

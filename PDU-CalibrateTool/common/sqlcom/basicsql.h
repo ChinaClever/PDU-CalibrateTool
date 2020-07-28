@@ -125,7 +125,7 @@ protected:
             qDebug()<<" "<<query.lastError().databaseText();
             qDebug()<<" "<<query.lastError().driverText();
             qDebug()<<sqlcom;
-            throwError(query.lastError());
+            throwError(query);
         }
         return items;
     }

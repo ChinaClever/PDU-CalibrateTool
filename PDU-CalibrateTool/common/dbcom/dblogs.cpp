@@ -27,7 +27,7 @@ void DbLogs::createTable()
             "sn             VCHAR not null);";
     QSqlQuery query(mDb);
     if(!query.exec(cmd.arg(tableName()))) {
-        throwError(query.lastError());
+        throwError(query);
     }
 }
 

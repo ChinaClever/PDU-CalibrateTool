@@ -24,7 +24,7 @@ BasicSql::BasicSql(QObject *parent) :
                   ");";
     QSqlQuery query(mDb);
     if(!query.exec(cmd))
-        throwError(query.lastError());
+        throwError(query);
 }
 
 BasicSql::~BasicSql()
@@ -40,7 +40,7 @@ bool BasicSql::remove(const QString &condition)
     QSqlQuery query(mDb);
     bool ret = query.exec(QString("DELETE FROM %1 WHERE %2").arg(tableName()).arg(condition));
     if(!ret) {
-        throwError(query.lastError());
+        throwError(query);
     }
 
     return ret;
@@ -99,7 +99,7 @@ int BasicSql::maxId(const QString &idName, const QString &condition)
         if(query.next())
             id = query.value(0).toInt();
     } else
-        throwError(query.lastError());
+        throwError(query);
     return id;
 }
 
@@ -117,7 +117,7 @@ int BasicSql::minId(const QString &idName, const QString &condition)
         if(query.next())
             id = query.value(0).toInt();
     } else
-        throwError(query.lastError());
+        throwError(query);
     return id;
 }
 
@@ -160,7 +160,7 @@ int BasicSql::count(const QString &column_name, const QString &condition)
         if(query.next())
             count = query.value(0).toInt();
     } else
-        throwError(query.lastError());
+        throwError(query);
     return count;
 }
 
@@ -200,7 +200,7 @@ QStringList BasicSql::listColumn(const QString &column_name, const QString &cond
         while(query.next())
             list << query.value(0).toString();
     } else
-        throwError(query.lastError());
+        throwError(query);
     return list;
 }
 
@@ -221,7 +221,7 @@ bool BasicSql::updateColumn(const QString& column_name, double value, const QStr
     bool ret = false;
     QSqlQuery query(mDb);
     ret = query.exec(QString("update  %1 set %2=%3 %4").arg(tableName()).arg(column_name).arg(value).arg(condition));
-    if(!ret) throwError(query.lastError());
+    if(!ret) throwError(query);
     return ret;
 }
 
@@ -230,7 +230,7 @@ bool BasicSql::updateColumn(const QString& column_name, const QString& value, co
     bool ret = false;
     QSqlQuery query(mDb);
     ret = query.exec(QString("update  %1 set %2=\'%3\' where %4").arg(tableName()).arg(column_name).arg(value).arg(condition));
-    if(!ret) throwError(query.lastError());
+    if(!ret) throwError(query);
     return ret;
 }
 
@@ -273,7 +273,7 @@ QString BasicSql::tableMarking()
         if(query.next())
             return query.value(1).toString();
     } else {
-        throwError(query.lastError());
+        throwError(query);
     }
     return "";
 }
@@ -288,7 +288,7 @@ void BasicSql::setTableMarking(const QString &marking)
     QString cmd = ori.isEmpty()?"insert into markingtable (name,marking) values(%1,%2)":"update markingtable set marking = %2 where name = \"%1\"";
     QSqlQuery query(mDb);
     if(!query.exec(cmd.arg(tableName()).arg(marking)))
-        throwError(query.lastError());
+        throwError(query);
 }
 
 /**
