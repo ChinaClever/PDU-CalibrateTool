@@ -168,7 +168,7 @@ bool Ad_Resulting::sumCurCheck(int exValue)
     return ret;
 }
 
-bool Ad_Resulting::outputAllCheck(int exValue)
+bool Ad_Resulting::eachCurCheck(int exValue)
 {
     bool res = true;
     for(int k=0; k<mData->size; ++k) {
@@ -181,13 +181,13 @@ bool Ad_Resulting::outputAllCheck(int exValue)
     return res;
 }
 
-bool Ad_Resulting::outputAllCurCheck(int exValue)
+bool Ad_Resulting::eachCurEnter(int exValue)
 {
     bool ret = true;
     for(int i=0; i<4; ++i) {
         mPacket->status = tr("校验数据: 期望电流%1A %2次").arg(exValue/AD_CUR_RATE).arg(i+1);
         mCollect->readPduData();
-        ret = outputAllCheck(exValue);
+        ret = eachCurCheck(exValue);
         if(ret) break; else if(!delay(2)) break;
     }    
     mModbus->writeLog(ret);
@@ -238,13 +238,45 @@ bool Ad_Resulting::workDown(int exValue)
     switch (dt->specs) {
     case Sum: ret = sumCurCheck(exValue); break;
     case Mn: ret = outputCurCheck(exValue); break; // 输出位锰铜
-    case Transformer: ret = outputAllCurCheck(exValue); break; // 输出位  互感器校验
+    case Transformer: ret = eachCurEnter(exValue); break; // 输出位  互感器校验
     }
 
     return ret;
 }
 
-bool Ad_Resulting::checkNoLoad()
+bool Ad_Resulting::noLoadCurCheck()
+{
+    bool res = true;
+    for(int k=0; k<mData->size; ++k) {
+        if(mData->cur[k] > 0) {
+            res = false;
+            mData->status[k] = Test_Fail;
+            mPacket->status = tr("校验数据: 空载电流A 第%1位 电流错误").arg(k+1);
+        } else {
+            mData->status[k] = Test_Success;
+        }
+    }
+    return res;
+}
+
+
+bool Ad_Resulting::noLoadCurFun()
+{
+    bool ret = true;
+    for(int i=0; i<4; ++i) {
+        mPacket->status = tr("校验数据: 空载电流 第%2次检查").arg(i+1);
+        mCollect->readPduData();
+        ret = noLoadCurCheck();
+        if(ret) break; else if(!delay(2)) break;
+    }
+    mModbus->writeLog(ret);
+
+    return ret;
+}
+
+
+
+bool Ad_Resulting::noLoadEnter()
 {
     mCollect->readPduData();
     bool ret = volErrRange();
@@ -252,7 +284,7 @@ bool Ad_Resulting::checkNoLoad()
         mPacket->status = tr("验证电流：空载电流检查");
         mCtrl->openAllSwitch();
         ret = mSource->setCur(0);
-        if(ret) ret = outputAllCurCheck(0);
+        if(ret) ret = noLoadCurFun();
     }
 
     return ret;
@@ -262,7 +294,7 @@ bool Ad_Resulting::resEnter()
 {
     initThread(); delay(5);
     mItem->step = Test_vert;
-    bool ret = checkNoLoad();
+    bool ret = noLoadEnter();
     if(ret) {
         for(int i=1; i<3; ++i) {
             int exCur = (i*2) * AD_CUR_RATE;

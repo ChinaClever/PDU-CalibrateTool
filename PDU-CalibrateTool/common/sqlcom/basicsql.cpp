@@ -249,10 +249,32 @@ QVector<int> BasicSql::selectIds(const QString &condition)
  * @brief 异常
  * @param err
  */
-void BasicSql::throwError(QSqlQuery &query)
+void BasicSql::throwError(const QSqlQuery &query)
 {
-    QSqlError err = query.lastError();
-    qCritical() <<  tableName() << "Sql_Error:" << err.text() << err.type();
+    QString str;
+    QSqlError err = query.lastError(); //  mDb.lastError();
+    if(err.isValid()) //发生错误时isValid()返回true
+    {
+        switch (err.type()) {
+        case QSqlError::NoError:
+            str = tr("无错误");
+            break;
+        case QSqlError::ConnectionError://连接错语
+            str = tr("连接错语");
+            break;
+        case QSqlError::StatementError://语句错语
+            str =  tr("语句错语");
+            break;
+        case QSqlError::TransactionError://事务错误
+            str =  tr("事务错误");
+            break;
+         case QSqlError::UnknownError: //未知错误
+            str =  tr("未知错误");
+            break;
+        }
+    }
+
+     qCritical() << "Sql_Error: " <<  tableName() << str << err.text();
 }
 
 bool BasicSql::clear()

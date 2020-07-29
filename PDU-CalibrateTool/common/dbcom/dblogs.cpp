@@ -45,7 +45,7 @@ bool DbLogs::insertItem(sLogItem &item)
     QString cmd = "insert into %1 (date,time,dev,user,result,sn) "
                   "values(:date,:time,:dev,:user,:result,:sn)";
     bool ret = modifyItem(item,cmd.arg(tableName()));
-    if(ret) emit itemChanged(item.id,Insert);
+    //if(ret) emit itemChanged(item.id,Insert);
     return ret;
 }
 
