@@ -4,6 +4,7 @@
  *      Author: Lzy
  */
 #include "col_mpduthread.h"
+#include "common.h"
 
 Col_MpduThread::Col_MpduThread(QObject *parent) : Col_CoreThread(parent)
 {
@@ -37,7 +38,9 @@ bool Col_MpduThread::recvMpduVolCur(uchar *recv, int)
             for(int i=mData->size/2; i<mData->size; ++i) mData->vol[i] = vol;
             ptr = toShort(ptr, mData->size, mData->pow);
 
-            for(int i=0; i<mData->size; ++i) mData->pow[i] *= mData->rate; //功率乘以倍率10
+            for(int i=0; i<mData->size; ++i) {
+                mData->pow[i] *= mData->rate; //功率乘以倍率10
+            }
 
             ret = true;
         } else {
@@ -71,18 +74,25 @@ bool Col_MpduThread::getMpduVolCur()
     return res;
 }
 
-bool Col_MpduThread::recvMpduEle(uchar *recv, int)
+bool Col_MpduThread::recvMpduEle(uchar *recv, int len)
 {
     bool ret = true;
     uchar *ptr = recv;
     if(*ptr++ == 0xE1){
-        if(*ptr++ == mItem->addr) {
+        if((0x03&(*ptr++)) == mItem->addr)
+        {
             ptr = toOutputEle(ptr, mData->size, mData->ele);
         } else {
             ret = false;
+            qDebug() << "AdjustCoreThread recvMpduEle addr err!" << len << *ptr ;
         }
+    } else if(recv[0] == 0xC1){
+        recvMpduVolCur(recv, len);
     } else {
-        qDebug() << "AdjustCoreThread recvMpduEle res err!" << *ptr;
+        qDebug() << "AdjustCoreThread recvMpduEle res err!" << len << *ptr ;
+        QByteArray array;
+        array.append((char *)recv, len);
+        qDebug() << cm_ByteArrayToHexStr(array);
     }
     return ret;
 }
@@ -110,6 +120,7 @@ bool Col_MpduThread::readPduData()
     mData->rate = 10;
     bool ret = getMpduVolCur();
     if(ret) {
+        msleep(240);
         ret = getMpduEle();
     }
     return ret;

@@ -15,7 +15,7 @@ protected:
     bool recvMpduVolCur(uchar *recv, int);
     bool getMpduVolCur();
 
-    bool recvMpduEle(uchar *recv, int);
+    bool recvMpduEle(uchar *recv, int len);
     int getMpduEle();
 };
 

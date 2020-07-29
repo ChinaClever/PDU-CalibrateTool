@@ -253,7 +253,6 @@ void BasicSql::throwError(QSqlQuery &query)
 {
     QSqlError err = query.lastError();
     qCritical() <<  tableName() << "Sql_Error:" << err.text() << err.type();
-    query.finish();
 }
 
 bool BasicSql::clear()
