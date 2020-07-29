@@ -263,18 +263,18 @@ void BasicSql::throwError(const QSqlQuery &query)
             str = tr("连接错语");
             break;
         case QSqlError::StatementError://语句错语
-            str =  tr("语句错语");
+            str = tr("语句错语");
             break;
         case QSqlError::TransactionError://事务错误
-            str =  tr("事务错误");
+            str = tr("事务错误");
             break;
          case QSqlError::UnknownError: //未知错误
-            str =  tr("未知错误");
+            str = tr("未知错误");
             break;
         }
     }
 
-     qCritical() << "Sql_Error: " <<  tableName() << str << err.text();
+     qCritical() << "Sql_Error: " << tr("数据库名：") << tableName() << str << err.text();
 }
 
 bool BasicSql::clear()

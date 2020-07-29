@@ -72,7 +72,7 @@ void Ad_CoreThread::verifyResult()
     mPacket->status = tr("采集自动验证");
     bool ret = readDevInfo();
     if(ret) {
-        Db_Tran db; // 事务操作
+        //Db_Tran db; // 事务操作
         mResult->resEnter();
         mItem->step = Test_End;  // 结束验证
     }
@@ -117,7 +117,7 @@ bool Ad_CoreThread::readDevInfo()
 
 void Ad_CoreThread::workDown()
 {
-    Db_Tran db; // 事务操作
+    //Db_Tran db; // 事务操作
     mPacket->status = tr("已启动校准！");
     bool ret = readDevInfo(); if(!ret) return;
     mModbus->writeLog(ret);  // 序列号操作成功，才能记录日志
