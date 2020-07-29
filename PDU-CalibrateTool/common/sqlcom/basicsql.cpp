@@ -253,7 +253,7 @@ void BasicSql::throwError(const QSqlQuery &query)
 {
     QString str;
     QSqlError err = query.lastError(); //  mDb.lastError();
-    if(err.isValid())//发生错误时isValid()返回true
+    if(err.isValid()) //发生错误时isValid()返回true
     {
         switch (err.type()) {
         case QSqlError::NoError:

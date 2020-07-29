@@ -32,10 +32,12 @@ protected:
     bool delay(int s) {return mModbus->delay(s);}
     bool outputCurCheck(int exValue);
 
-    bool outputAllCheck(int exValue);
-    bool outputAllCurCheck(int exValue);
+    bool eachCurCheck(int exValue);
+    bool eachCurEnter(int exValue);
 
-    bool checkNoLoad();
+    bool noLoadEnter();
+    bool noLoadCurFun();
+    bool noLoadCurCheck();
 
 private:
     sDataUnit *mData;
