@@ -10,6 +10,7 @@ class Ad_CoreThread : public QThread
     explicit Ad_CoreThread(QObject *parent = nullptr);
 public:
     static Ad_CoreThread *bulid(QObject *parent = nullptr);
+    ~Ad_CoreThread();
 
     void startAdjust();
     void startCollect();

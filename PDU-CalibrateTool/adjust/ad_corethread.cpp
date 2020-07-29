@@ -21,6 +21,11 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
     mSn = SN_ManageThread::bulid(this);
 }
 
+Ad_CoreThread::~Ad_CoreThread()
+{
+    mItem->step = Test_Over;
+}
+
 Ad_CoreThread *Ad_CoreThread::bulid(QObject *parent)
 {
     static Ad_CoreThread* sington = nullptr;
@@ -72,7 +77,6 @@ void Ad_CoreThread::verifyResult()
     mPacket->status = tr("采集自动验证");
     bool ret = readDevInfo();
     if(ret) {
-        //Db_Tran db; // 事务操作
         mResult->resEnter();
         mItem->step = Test_End;  // 结束验证
     }
@@ -80,6 +84,7 @@ void Ad_CoreThread::verifyResult()
 
 void Ad_CoreThread::writeLog()
 {
+    Db_Tran db;
     sLogItem it;
 
     it.dev =mPacket->dev_type.split("_").first();
@@ -117,10 +122,9 @@ bool Ad_CoreThread::readDevInfo()
 
 void Ad_CoreThread::workDown()
 {
-    //Db_Tran db; // 事务操作
     mPacket->status = tr("已启动校准！");
     bool ret = readDevInfo(); if(!ret) return;
-    mModbus->writeLog(ret);  // 序列号操作成功，才能记录日志
+    mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
 
     mPacket->status = tr("复位单片机");
     mSource->powerReset();//控制标准源下电到上电
@@ -130,7 +134,7 @@ void Ad_CoreThread::workDown()
         ret = mResult->resEnter();
     }
 
-    writeLog();   //记录校准设备校准成功还是校准失败
+    writeLog(); msleep(100);  //记录校准设备校准成功还是校准失败
     mItem->step = Test_End;
 }
 
@@ -147,6 +151,7 @@ void Ad_CoreThread::run()
         case Test_vert: verifyResult(); break;
         }
 
+        mModbus->writeLogs();
         mSource->powerDown();
         isRun = false;
     } else {

@@ -95,7 +95,7 @@ bool Ad_Adjusting::updateStatus(ushort status)
     if(str.size()) {
         ret = overWork(str);
     }
-    mModbus->writeLog(ret);
+    mModbus->appendLogItem(ret);
 
     return ret;
 }

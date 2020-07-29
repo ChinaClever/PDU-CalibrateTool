@@ -13,7 +13,7 @@ class DbStates : public SqlBasic<sStateItem>
 public:
     static DbStates* bulid();
     QString tableName(){return "states";}
-    bool insertItem(sStateItem& item);
+    bool insertItem(const sStateItem& item);
 
 protected:
     void createTable();

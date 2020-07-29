@@ -3,6 +3,8 @@
 
 #include "datapacket.h"
 #include "ad_config.h"
+#include "dbstates.h"
+
 #define MODBUS_RTU_SIZE 255
 
 struct sRtuItem {
@@ -63,7 +65,9 @@ public:
 
     bool rtuWrite(sRtuSetItem *pkt);
     bool delay(int s);
-    bool writeLog(bool pass);
+
+    bool appendLogItem(bool pass);
+    void writeLogs();
 
 protected:
     void initSerial();
@@ -79,6 +83,7 @@ protected:
 private:
     sConfigItem *mItem;
     SerialPort *mSerial;
+    QList<sStateItem> mLogItems;
 };
 
 #endif // AD_MODBUS_H

@@ -41,7 +41,7 @@ DbStates *DbStates::bulid()
     return sington;
 }
 
-bool DbStates::insertItem(sStateItem &item)
+bool DbStates::insertItem(const sStateItem &item)
 {
     QString cmd = "insert into %1 (date,time,dev,user,sn,result,memo) "
                   "values(:date,:time,:dev,:user,:sn,:result,:memo)";

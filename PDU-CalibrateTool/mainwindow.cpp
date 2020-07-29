@@ -23,7 +23,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    // Db_Tran db; // 事务操作
     delete ui;
 }
 

@@ -40,7 +40,7 @@ DbLogs *DbLogs::bulid()
     return sington;
 }
 
-bool DbLogs::insertItem(sLogItem &item)
+bool DbLogs::insertItem(const sLogItem &item)
 {
     QString cmd = "insert into %1 (date,time,dev,user,result,sn) "
                   "values(:date,:time,:dev,:user,:result,:sn)";

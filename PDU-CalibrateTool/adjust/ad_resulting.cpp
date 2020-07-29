@@ -89,7 +89,7 @@ bool Ad_Resulting::volErrRange()
             ret = false;
             mData->status[i] = Test_Fail;
             mPacket->status = tr("电压 %1 错误").arg(i+1);
-            mModbus->writeLog(ret);
+            mModbus->appendLogItem(ret);
         }
     }
 
@@ -115,7 +115,7 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
         ret = curRangeByID(k, exValue);
         if(!ret) delay(2); else break;
     }
-    mModbus->writeLog(ret);
+    mModbus->appendLogItem(ret);
 
     return ret;
 }
@@ -146,7 +146,7 @@ bool Ad_Resulting::workResult(bool res)
     } else {
         mPacket->pass = Test_Fail;
     }
-    mModbus->writeLog(res);
+    mModbus->appendLogItem(res);
 
     return res;
 }
@@ -190,7 +190,7 @@ bool Ad_Resulting::eachCurEnter(int exValue)
         ret = eachCurCheck(exValue);
         if(ret) break; else if(!delay(2)) break;
     }    
-    mModbus->writeLog(ret);
+    mModbus->appendLogItem(ret);
 
     return ret;
 }
@@ -269,7 +269,7 @@ bool Ad_Resulting::noLoadCurFun()
         ret = noLoadCurCheck();
         if(ret) break; else if(!delay(2)) break;
     }
-    mModbus->writeLog(ret);
+    mModbus->appendLogItem(ret);
 
     return ret;
 }
