@@ -113,9 +113,9 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
     for(int i=0; i<5; ++i) {
         mCollect->readPduData();
         ret = curRangeByID(k, exValue);
+        mModbus->appendLogItem(ret);
         if(!ret) delay(2); else break;
     }
-    mModbus->appendLogItem(ret);
 
     return ret;
 }
@@ -188,9 +188,9 @@ bool Ad_Resulting::eachCurEnter(int exValue)
         mPacket->status = tr("校验数据: 期望电流%1A %2次").arg(exValue/AD_CUR_RATE).arg(i+1);
         mCollect->readPduData();
         ret = eachCurCheck(exValue);
+        mModbus->appendLogItem(ret);
         if(ret) break; else if(!delay(2)) break;
-    }    
-    mModbus->appendLogItem(ret);
+    }
 
     return ret;
 }
@@ -267,9 +267,9 @@ bool Ad_Resulting::noLoadCurFun()
         mPacket->status = tr("校验数据: 空载电流 第%2次检查").arg(i+1);
         mCollect->readPduData();
         ret = noLoadCurCheck();
+        mModbus->appendLogItem(ret);
         if(ret) break; else if(!delay(2)) break;
     }
-    mModbus->appendLogItem(ret);
 
     return ret;
 }
@@ -296,7 +296,7 @@ bool Ad_Resulting::resEnter()
     mItem->step = Test_vert;
     bool ret = noLoadEnter();
     if(ret) {
-        for(int i=1; i<3; ++i) {
+        for(int i=2; i<3; ++i) {
             int exCur = (i*2) * AD_CUR_RATE;
             mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/AD_CUR_RATE);
             ret = mSource->setCur(exCur/10);
