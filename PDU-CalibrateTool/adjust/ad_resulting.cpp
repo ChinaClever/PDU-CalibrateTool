@@ -11,8 +11,8 @@ Ad_Resulting::Ad_Resulting(QObject *parent) : QThread(parent)
     mPacket =sDataPacket::bulid();
     mModbus = Ad_Modbus::bulid(this);
     mItem = Ad_Config::bulid()->item;
-    mSource = YC_StandSource::bulid(this);
     mData = mPacket->data;
+    mSource = nullptr;
 }
 
 
@@ -205,6 +205,26 @@ bool Ad_Resulting::outputCurCheck(int exValue)
     return ret;
 }
 
+YC_StandSource *Ad_Resulting::initStandSource()
+{
+//    YC_StandSource *source = YC_Ac92b::bulid(this);
+//    bool ret = source->handShake();
+//    if(!ret) {
+        YC_StandSource *source = YC_Dc107::bulid(this);
+        bool ret = source->handShake();
+        qDebug() << "AAAAAAAAA" << ret;
+        if(!ret) {
+            source = nullptr;
+            mPacket->status = tr("标准源通讯失败!");
+            workResult(ret);
+        }
+//        else source->setVol();
+
+//    }
+
+    return source;
+}
+
 Col_CoreThread *Ad_Resulting::initThread()
 {
     sDevType *dt = mPacket->devType;
@@ -292,6 +312,9 @@ bool Ad_Resulting::noLoadEnter()
 
 bool Ad_Resulting::resEnter()
 {
+    mSource = initStandSource();
+    if(!mSource) return false;
+
     initThread(); delay(5);
     mItem->step = Test_vert;
     bool ret = noLoadEnter();

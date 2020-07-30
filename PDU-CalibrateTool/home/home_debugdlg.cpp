@@ -27,7 +27,9 @@ Home_DebugDlg::~Home_DebugDlg()
 void Home_DebugDlg::initFunSlot()
 {
     sDevType *dt = sDataPacket::bulid()->devType;
-    if(dt->devType && mData->size) {
+    if(dt->devType > RPDU) {
+        return;
+    } else if(dt->devType && mData->size) {
         initThread();
         ui->groupBox_1->setEnabled(true);
         ui->groupBox_2->setEnabled(true);
@@ -113,10 +115,10 @@ void Home_DebugDlg::on_onBtn_clicked()
     QuMsgBox box(this, tr("是否需要校准上电?"));
     if(!box.Exec()) return;
 
-    int ret = YC_StandSource::bulid(this)->powerOn();
-    if(ret <= 0) {
-        CriticalMsgBox box(this, tr("标准源上电失败!"));
-    }
+//    int ret = YC_StandSource::bulid(this)->powerOn();
+//    if(ret <= 0) {
+//        CriticalMsgBox box(this, tr("标准源上电失败!"));
+//    }
 }
 
 void Home_DebugDlg::on_downBtn_clicked()
@@ -124,6 +126,6 @@ void Home_DebugDlg::on_downBtn_clicked()
     QuMsgBox box(this, tr("是否需要校准下电?"));
     if(!box.Exec()) return;
 
-    YC_StandSource::bulid(this)->powerDown();
+    //YC_StandSource::bulid(this)->powerDown();
 }
 

@@ -10,6 +10,7 @@ extern QString user_land_name();
 Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
 {
     isRun = false;
+    mSource = nullptr;
     mPacket =sDataPacket::bulid();
     mItem = Ad_Config::bulid()->item;
 
@@ -17,7 +18,6 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
     mAutoID = Ad_AutoID::bulid(this);
     mAdjust = Ad_Adjusting::bulid(this);
     mResult = Ad_Resulting::bulid(this);
-    mSource = YC_StandSource::bulid(this);
     mSn = SN_ManageThread::bulid(this);
 }
 
@@ -100,6 +100,11 @@ void Ad_CoreThread::writeLog()
 
 bool Ad_CoreThread::readDevInfo()
 {
+    mSource = mResult->initStandSource();
+    if(!mSource) return false;
+
+    return false;
+
     mSource->setVol();
     bool ret = mAutoID->readDevType();//读取设备类型
     if(ret) {
@@ -152,7 +157,7 @@ void Ad_CoreThread::run()
         }
 
         mModbus->writeLogs();
-        mSource->powerDown();
+        if(mSource) mSource->powerDown();
         isRun = false;
     } else {
         qDebug() << "AdjustCoreThread run err" << isRun;

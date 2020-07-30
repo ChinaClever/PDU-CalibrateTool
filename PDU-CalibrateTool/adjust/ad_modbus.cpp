@@ -51,9 +51,15 @@ bool Ad_Modbus::appendLogItem(bool pass)
         it.result = tr("失败");
     }
     it.memo = packet->status;
-    mLogItems << it;
 
-    return true;
+    bool ret = true;
+    if(it.sn.size()) {
+        mLogItems << it;
+    } else {
+        ret = false;
+    }
+
+    return ret;
 }
 
 void Ad_Modbus::writeLogs()

@@ -10,6 +10,7 @@ Ad_Config::Ad_Config()
     item = new sConfigItem();
     item->serial = nullptr;
     item->source = nullptr;
+    item->addr = getAddr();
 
     initCurrentNum();
 }
@@ -81,4 +82,17 @@ QString Ad_Config::initName()
 void Ad_Config::setName(QString str)
 {
     setCurrentName(str);
+}
+
+int Ad_Config::getAddr()
+{
+    int addr = getValue("addr");
+    if(addr < 0) addr = 3;
+
+    return addr;
+}
+
+void Ad_Config::setAddr(int addr)
+{
+    setValue(addr, "addr");
 }

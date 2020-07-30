@@ -25,6 +25,7 @@ protected:
 protected slots:
     void initFunSlot();
     void navBarSlot(int);
+    void initSlot();
 
 private:
     Ui::MainWindow *ui;

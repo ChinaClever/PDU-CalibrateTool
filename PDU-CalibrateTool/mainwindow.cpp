@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     QJsonObject json;
     Json_Build::bulid()->getJson(json);
     Json_Recv::bulid()->recv("PDU-CalibrateTool");
+
+    QTimer::singleShot(5*1000,this,SLOT(initSlot()));
 }
 
 MainWindow::~MainWindow()
@@ -32,6 +34,11 @@ void MainWindow::initFunSlot()
     initWid();
 }
 
+void MainWindow::initSlot()
+{
+    Ad_CoreThread::bulid(this)->startAdjust();
+
+}
 
 void MainWindow::initWid()
 {

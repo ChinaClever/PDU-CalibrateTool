@@ -6,26 +6,27 @@
 class YC_StandSource : public QThread
 {
     Q_OBJECT
+protected:
     explicit YC_StandSource(QObject *parent = nullptr);
 public:
-    static YC_StandSource *bulid(QObject *parent = nullptr);
+    virtual bool powerOn(int v=60)=0;  // 上电
+    virtual void powerDown()=0; // 下电
+    virtual bool powerReset(); //
 
-    bool powerOn(int v=60);  // 上电
-    void powerDown(); // 下电
-    bool powerReset(); //
-    bool setCur(int v);
-    bool setVol();
+    virtual bool setCur(int v)=0;
+    virtual bool setVol()=0;
+    virtual bool handShake()=0;
 
 protected:
-    bool setRange();
     bool delay(int s);
     bool write(QByteArray &array);
-    bool setValue(const QString &str, int v);
+    bool setBaudRate(qint32 baudRate);
+    virtual bool serialWrite(QByteArray &array)=0;
 
 protected slots:
     void initSerialSlot();
 
-private:
+protected:
     SerialPort *mSerial;
 };
 

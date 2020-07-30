@@ -2,7 +2,7 @@
 #define AD_RESULTING_H
 
 #include "sn_managethread.h"
-#include "yc_standsource.h"
+#include "yc_dc107.h"
 
 class Ad_Resulting : public QThread
 {
@@ -13,6 +13,7 @@ public:
 
     bool resEnter();
     Col_CoreThread *initThread();
+    YC_StandSource *initStandSource();
     void resTgData() {resTgData(mPacket->tg);}
 
 protected:

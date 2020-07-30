@@ -42,6 +42,20 @@ void ConfigBase::setSerialName(const QString &name, const QString &com)
     com_cfg_write(str, name, prefix);
 }
 
+QString ConfigBase::getSerialBr(const QString &com)
+{
+    QString prefix = getPrefix();
+    QString str = QString("%1_BR_%2").arg(prefix).arg(com);
+    return com_cfg_readStr(str, prefix);
+}
+
+void ConfigBase::setSerialBr(const QString &com, const QString &br)
+{
+    QString prefix = getPrefix();
+    QString str = QString("%1_BR_%2").arg(prefix).arg(com);
+    com_cfg_write(str, br, prefix);
+}
+
 
 /**
  * @brief 根据名称获取配置文件数值

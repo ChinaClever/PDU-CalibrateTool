@@ -51,7 +51,7 @@ void SerialStatusWid::on_comBtn_clicked()
  * @brief 初始化串口
  * @return
  */
-SerialPort *SerialStatusWid::initSerialPort(const QString &str, qint32 baudRate)
+SerialPort *SerialStatusWid::initSerialPort(const QString &str)
 {
     bool ret = false;
     ui->comBtn->setText(str);
@@ -62,8 +62,13 @@ SerialPort *SerialStatusWid::initSerialPort(const QString &str, qint32 baudRate)
     {
         ret = serial->isContains(com);
         if(ret) {
-            ret = serial->open(com, baudRate);
-            updateSerialWid();
+            QString br = Ad_Config::bulid()->getSerialBr(com);
+            if(!br.isEmpty()) {
+                qint32 baudRate = br.toInt();
+                ret = serial->open(com, baudRate);
+                mSerialDlg->updateBaudRate(baudRate);
+                updateSerialWid();
+            }
         }
     }
 
@@ -77,7 +82,7 @@ SerialPort *SerialStatusWid::initSerialPort(const QString &str, qint32 baudRate)
  */
 void SerialStatusWid::updateSerialWid()
 {
-    QPalette pe;   
+    QPalette pe;
     SerialPort *serial = mSerialDlg->getSerialPort();
     QString str = serial->getSerialName();
     if(serial->isOpened()) {

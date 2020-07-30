@@ -35,7 +35,7 @@ bool com_cfg_open(void)
     bool ret = QFileInfo(strFilename).exists();
     if(pConfigIni==NULL) {
         pConfigIni = new QSettings(strFilename, QSettings::IniFormat);
-        //        pConfigIni->setIniCodec(QTextCodec::codecForName("utf-8")); // gb18030
+        pConfigIni->setIniCodec(QTextCodec::codecForName("utf-8")); // gb18030
     }
 
     return ret;

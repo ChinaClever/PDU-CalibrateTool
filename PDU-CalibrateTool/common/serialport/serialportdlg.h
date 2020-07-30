@@ -17,6 +17,7 @@ public:
     ~SerialPortDlg();
 
      SerialPort *getSerialPort(){return serial->getSerialPort();}
+     void updateBaudRate(qint32 br) {serial->updateBaudRate(br);}
 
 private:
     Ui::SerialPortDlg *ui;
