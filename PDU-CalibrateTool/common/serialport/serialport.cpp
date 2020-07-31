@@ -301,6 +301,16 @@ bool SerialPort::setBaudRate(qint32 baudRate)
     return ret;
 }
 
+qint32 SerialPort::baudRate()
+{
+    qint32 ret = 0;
+    if(isOpen) {
+        ret = mSerial->baudRate();
+    }
+
+    return ret;
+}
+
 /**
  * @brief 回环测试
  */

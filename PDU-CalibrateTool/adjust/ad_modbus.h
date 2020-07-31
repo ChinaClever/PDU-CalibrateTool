@@ -69,6 +69,8 @@ public:
     bool appendLogItem(bool pass);
     void writeLogs();
 
+    bool changeBaudRate();
+
 protected:
     void initSerial();
     ushort calccrc (ushort crc, uchar crcbuf);
