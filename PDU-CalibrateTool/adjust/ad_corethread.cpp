@@ -95,7 +95,10 @@ void Ad_CoreThread::writeLog()
     } else {
         it.result = tr("失败：%1").arg(mPacket->status);
     }
-    DbLogs::bulid()->insertItem(it);
+
+    if(it.sn.size()) {
+        DbLogs::bulid()->insertItem(it);
+    }
 }
 
 bool Ad_CoreThread::readDevInfo()
@@ -110,13 +113,13 @@ bool Ad_CoreThread::readDevInfo()
 
 
     //////////////===================
-    //    sDevType *mDt = mPacket->devType;
-    //    mDt->devType = MPDU;
-    //    mDt->ac = AC;
-    //    mDt->specs = Mn;
-    //    mDt->lines = 1;
+//        sDevType *mDt = mPacket->devType;
+//        mDt->devType = MPDU;
+//        mDt->ac = AC;
+//        mDt->specs = Mn;
+//        mDt->lines = 1;
 
-    //    return true;
+//        return true;
 
 }
 
