@@ -103,8 +103,6 @@ bool Ad_CoreThread::readDevInfo()
     mSource = mResult->initStandSource();
     if(!mSource) return false;
 
-    return false;
-
     mSource->setVol();
     bool ret = mAutoID->readDevType();//读取设备类型
     if(ret) {

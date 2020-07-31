@@ -19,7 +19,6 @@ public:
 
 protected:
     bool setRange();
-    bool setPowers();
     bool sendCmd(const QByteArray &cmd);
     bool setValue(const char &c, char v1, char v2=0);
     bool serialWrite(QByteArray &array);

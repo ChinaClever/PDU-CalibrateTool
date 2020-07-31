@@ -1,4 +1,10 @@
+/*
+ *
+ *  Created on: 2020年10月1日
+ *      Author: Lzy
+ */
 #include "yc_dc107.h"
+#include "common.h"
 
 YC_Dc107::YC_Dc107(QObject *parent) : YC_StandSource(parent)
 {
@@ -17,7 +23,7 @@ bool YC_Dc107::serialWrite(QByteArray &array)
 {
     bool ret = false;
     QByteArray res;
-    int rtn = mSerial->transmit(array, res, 3);
+    int rtn = mSerial->transmit(array, res, 4);
     if(rtn > 0)  ret = true;
 
     return ret;
@@ -36,60 +42,46 @@ bool YC_Dc107::sendCmd(const QByteArray &cmd)
     return write(array);
 }
 
-
 bool YC_Dc107::setValue(const char &c, char v1, char v2)
 {
     char cmd[] = {'P', 0x11, 0, 0, 0};
     cmd[0] = c;
     cmd[1] = v1;
-    cmd[1] = v2;
+    cmd[2] = v2;
 
     QByteArray array(cmd, sizeof(cmd));
     return sendCmd(array);
 }
 
-
-bool YC_Dc107::setPowers()
-{
-    return setValue('P', 0x11);
-}
-
 bool YC_Dc107::setRange()
 {
-//    bool ret = setPowers();
-//    if(ret) {
-//        delay(3);
+    bool ret = setValue('P', 0x11);
+    if(ret) {
         bool ret = setValue('U', 7);
-//        if(ret) {
-//            delay(3);
-//            ret = setValue('I', 12);
-//        }
-//    }
+        if(ret) {
+            delay(1);
+            ret = setValue('I', 12);
+        }
+    }
 
     return ret;
 }
-
 
 bool YC_Dc107::setVol()
 {
-    bool ret = setRange();
-//    if(ret) {
-//        delay(3);
-//        bool ret = setValue('V', 0, 0x20);
-//    }
-
-    return ret;
+    char cmd[] = {'V', 0, 0x73, 0x33, 0x40};
+    QByteArray array(cmd, sizeof(cmd));
+    return sendCmd(array);
 }
 
 bool YC_Dc107::setCur(int v)
 {
+    v /= 10; v <<= 4;
     bool ret = setValue('A', 0, v);
-    if(ret) {
-        ret = delay(10);
-    }
+    if(ret) ret = delay(1);
+
     return ret;
 }
-
 
 void YC_Dc107::powerDown()
 {
@@ -97,10 +89,9 @@ void YC_Dc107::powerDown()
     setValue('V', 0);
 }
 
-
 bool YC_Dc107::powerOn(int v)
 {
-    bool ret = setValue('V', 2);
+    bool ret = setVol();
     if(ret) {
         // ret = setCur('A', v);
     }
@@ -112,9 +103,7 @@ bool YC_Dc107::handShake()
 {
     bool ret = setBaudRate(4800);
     if(ret) {
-//        ret = setPowers();
-        ret = setVol();
-
+        ret = setRange();
     }
     return ret;
 }

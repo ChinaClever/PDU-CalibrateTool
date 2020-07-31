@@ -36,7 +36,7 @@ bool YC_StandSource::write(QByteArray &array)
     initSerialSlot();
 
     if(mSerial) {
-        array.append('\r'); // 0x0D
+        array.append(0x0D);
         ret = serialWrite(array);
     }
 

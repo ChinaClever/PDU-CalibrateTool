@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2020年10月1日
+ *      Author: Lzy
+ */
 #include "yc_ac92b.h"
 
 YC_Ac92b::YC_Ac92b(QObject *parent) : YC_StandSource(parent)

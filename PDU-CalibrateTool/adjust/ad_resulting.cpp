@@ -207,20 +207,17 @@ bool Ad_Resulting::outputCurCheck(int exValue)
 
 YC_StandSource *Ad_Resulting::initStandSource()
 {
-//    YC_StandSource *source = YC_Ac92b::bulid(this);
-//    bool ret = source->handShake();
-//    if(!ret) {
-        YC_StandSource *source = YC_Dc107::bulid(this);
-        bool ret = source->handShake();
-        qDebug() << "AAAAAAAAA" << ret;
+    YC_StandSource *source = YC_Ac92b::bulid(this);
+    bool ret = source->handShake();
+    if(!ret) {
+        source = YC_Dc107::bulid(this);
+        ret = source->handShake();
         if(!ret) {
             source = nullptr;
             mPacket->status = tr("标准源通讯失败!");
             workResult(ret);
         }
-//        else source->setVol();
-
-//    }
+    }
 
     return source;
 }
