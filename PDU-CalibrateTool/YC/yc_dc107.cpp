@@ -93,7 +93,7 @@ bool YC_Dc107::powerOn(int v)
 {
     bool ret = setVol();
     if(ret) {
-        // ret = setCur('A', v);
+         ret = setCur(v);
     }
 
     return ret;

@@ -12,7 +12,7 @@ public:
 
     bool handShake();
     void powerDown();
-    bool powerOn(int v);
+    bool powerOn(int v=60);
 
     bool setCur(int v);
     bool setVol();
