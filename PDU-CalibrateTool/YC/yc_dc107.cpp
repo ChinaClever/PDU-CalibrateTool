@@ -104,6 +104,11 @@ bool YC_Dc107::handShake()
     bool ret = setBaudRate(4800);
     if(ret) {
         ret = setRange();
+        if(ret) {
+            acOrDc = 2;
+        } else {
+            acOrDc = 0;
+        }
     }
     return ret;
 }

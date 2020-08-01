@@ -93,8 +93,10 @@ bool YC_Ac92b::handShake()
         QByteArray res;
         int rtn = mSerial->transmit(array, res, 2);
         if(rtn > 0)  {
+            acOrDc = 1;
             ret = true;
         } else {
+            acOrDc = 0;
             ret = false;
         }
     }

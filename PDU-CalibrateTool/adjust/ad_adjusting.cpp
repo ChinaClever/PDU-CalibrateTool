@@ -50,8 +50,8 @@ bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
 
 bool Ad_Adjusting::sentCmd()
 {
-    mPacket->status = tr("即将发送校准命令！");
-    mModbus->delay(5); // 时间短有问题
+    mPacket->status = tr("即将开始校准！");
+    mModbus->delay(2); // 时间短有问题
 
     mPacket->status = tr("发送校准解锁命令！");
     bool ret = writeCmd(0xA0, 0);

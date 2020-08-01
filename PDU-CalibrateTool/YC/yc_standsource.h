@@ -16,6 +16,7 @@ public:
     virtual bool setCur(int v)=0;
     virtual bool setVol()=0;
     virtual bool handShake()=0;
+    int acOrDc;
 
 protected:
     bool delay(int s);

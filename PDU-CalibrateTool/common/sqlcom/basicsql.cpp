@@ -29,7 +29,7 @@ BasicSql::BasicSql(QObject *parent) :
 
 BasicSql::~BasicSql()
 {
-
+    mDb.close();
 }
 /**
  * @brief 删除

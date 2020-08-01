@@ -133,7 +133,8 @@ void Ad_CoreThread::workDown()
     mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
 
     mPacket->status = tr("复位单片机");
-    mSource->powerReset();//控制标准源下电到上电
+    //mSource->powerReset();//控制标准源下电到上电
+    ret = mSource->setCur(60);
     ret = mAdjust->startAdjust();
     if(ret) {
         mPacket->status = tr("开始自动验证");
