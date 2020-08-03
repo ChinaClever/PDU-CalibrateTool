@@ -51,9 +51,15 @@ bool Ad_Modbus::appendLogItem(bool pass)
         it.result = tr("失败");
     }
     it.memo = packet->status;
-    mLogItems << it;
 
-    return true;
+    bool ret = true;
+    if(it.sn.size()) {
+        mLogItems << it;
+    } else {
+        ret = false;
+    }
+
+    return ret;
 }
 
 void Ad_Modbus::writeLogs()
@@ -299,4 +305,18 @@ uchar Ad_Modbus::getXorNumber(uchar *buf, int len)
     for(int i=0; i<len; i++)
         xorsum ^= buf[i];
     return xorsum;
+}
+
+
+bool Ad_Modbus::changeBaudRate()
+{
+     int br = mSerial->baudRate();
+     switch (br) {
+     case 9600: br = 19200; break;
+     case 19200: br = 9600; break;
+     default: return false;
+     }
+     mSerial->setBaudRate(br);
+
+     return true;
 }

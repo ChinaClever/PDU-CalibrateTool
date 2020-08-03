@@ -18,6 +18,8 @@ public:
     QString getCurrentName();
     void setCurrentName(const QString &name);
 
+    QString getSerialBr(const QString &com);
+    void setSerialBr(const QString &com, const QString &br);
 
 
     virtual QString getPrefix(){return "con";}

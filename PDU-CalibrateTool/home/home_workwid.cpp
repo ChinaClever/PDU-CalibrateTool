@@ -15,6 +15,7 @@ Home_WorkWid::Home_WorkWid(QWidget *parent) :
     ui->setupUi(this);
     mItem = Ad_Config::bulid()->item;
     mCore = Ad_CoreThread::bulid(this);
+    ui->addrSpin->setValue(mItem->addr);
 
     timer = new QTimer(this);
     timer->start(500);
@@ -37,6 +38,7 @@ bool Home_WorkWid::initWid()
 
     mItem->startTime = QTime::currentTime();
     mItem->addr = ui->addrSpin->value();
+    Ad_Config::bulid()->setAddr(mItem->addr);
 
     ui->devTypeLab->setText("---");
     ui->snLab->setText("---");
@@ -101,19 +103,17 @@ void Home_WorkWid::endFun()
     ui->updateBtn->setEnabled(true);
 
     ui->resBtn->setText(tr("开始较验"));
-    ui->resBtn->setEnabled(true);    
+    ui->resBtn->setEnabled(true);
 }
 
 void Home_WorkWid::upStatusLab()
 {
     sDataPacket *packet = sDataPacket::bulid();
-    if(mItem->step) {
-        QString str = packet->status;
-        ui->statusLab->setText(str);
+    QString str = packet->status;
+    ui->statusLab->setText(str);
 
-        ui->devTypeLab->setText(packet->dev_type);
-        ui->snLab->setText(packet->sn);
-    }
+    ui->devTypeLab->setText(packet->dev_type);
+    ui->snLab->setText(packet->sn);
 
     QPalette pe;
     switch (packet->pass) {

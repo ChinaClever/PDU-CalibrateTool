@@ -32,7 +32,6 @@ void MainWindow::initFunSlot()
     initWid();
 }
 
-
 void MainWindow::initWid()
 {
     mHomeWid = new Home_MainWid(ui->stackedWid);

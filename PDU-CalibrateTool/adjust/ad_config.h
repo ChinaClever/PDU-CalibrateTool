@@ -48,6 +48,9 @@ public:
     void setCurrentNum();
     QString initName();
     void setName(QString str);
+
+    int getAddr();
+    void setAddr(int addr);
 protected:
     bool getDate();
     void setDate();

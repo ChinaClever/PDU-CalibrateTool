@@ -5,15 +5,14 @@
  */
 #include "home_debugdlg.h"
 #include "ui_home_debugdlg.h"
-#include "yc_standsource.h"
+#include "yc_dc107.h"
 
 Home_DebugDlg::Home_DebugDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Home_DebugDlg)
 {
     ui->setupUi(this);
-    ui->groupBox_1->setEnabled(false);
-    ui->groupBox_2->setEnabled(false);
+    this->setEnabled(false);
     groupBox_background_icon(this);
     mData = sDataPacket::bulid()->data;
     QTimer::singleShot(1*1000,this,SLOT(initFunSlot()));
@@ -27,10 +26,11 @@ Home_DebugDlg::~Home_DebugDlg()
 void Home_DebugDlg::initFunSlot()
 {
     sDevType *dt = sDataPacket::bulid()->devType;
-    if(dt->devType && mData->size) {
+    if(dt->devType > RPDU) {
+        return;
+    } else if(dt->devType && mData->size) {
         initThread();
-        ui->groupBox_1->setEnabled(true);
-        ui->groupBox_2->setEnabled(true);
+        this->setEnabled(true);
     } else {
         QTimer::singleShot(1*1000,this,SLOT(initFunSlot()));
     }
@@ -42,6 +42,7 @@ void Home_DebugDlg::initThread()
     switch (dt->devType) {
     case ZPDU: mThread = Ctrl_ZpduThread::bulid(this); break;
     case MPDU: mThread = Ctrl_MpduThread::bulid(this); break;
+    case RPDU: mThread = Ctrl_RpduThread::bulid(this); break;
     default:  break;
     }
 }
@@ -113,7 +114,7 @@ void Home_DebugDlg::on_onBtn_clicked()
     QuMsgBox box(this, tr("是否需要校准上电?"));
     if(!box.Exec()) return;
 
-    int ret = YC_StandSource::bulid(this)->powerOn();
+    int ret = YC_Ac92b::bulid(this)->powerOn();
     if(ret <= 0) {
         CriticalMsgBox box(this, tr("标准源上电失败!"));
     }
@@ -124,6 +125,6 @@ void Home_DebugDlg::on_downBtn_clicked()
     QuMsgBox box(this, tr("是否需要校准下电?"));
     if(!box.Exec()) return;
 
-    YC_StandSource::bulid(this)->powerDown();
+    YC_Ac92b::bulid(this)->powerDown();
 }
 

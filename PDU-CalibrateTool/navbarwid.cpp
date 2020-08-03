@@ -19,7 +19,7 @@ NavBarWid::NavBarWid(QWidget *parent) :
     mUserLand = new UsrLandDlg(name,this);
 
     timer = new QTimer(this);
-    timer->start(500);
+    //timer->start(500);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeoutDone()));
 
     QTimer::singleShot(5,this,SLOT(on_loginBtn_clicked()));
@@ -73,7 +73,6 @@ void NavBarWid::timeoutDone()
         ui->setBtn->show();
     else
         ui->setBtn->hide();
-
 }
 
 void NavBarWid::on_readmeBtn_clicked()

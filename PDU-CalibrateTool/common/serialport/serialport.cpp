@@ -118,6 +118,7 @@ void SerialPort::timeoutDone()
 {
     if(mCount++ % 10) {
         recvSlot();
+
     } else {
         writeSlot();
     }
@@ -148,7 +149,7 @@ int SerialPort::write(const QByteArray &array)
 {
     int ret = array.size();
     if(isOpen) {
-        QWriteLocker locker(&mRwLock);
+        //QWriteLocker locker(&mRwLock);
         mWriteArrays.append(array);
     } else {
         ret = 0;
@@ -290,6 +291,25 @@ int SerialPort::transmit(uchar *sent, int len, uchar *recv, int msecs)
     return ret;
 }
 
+bool SerialPort::setBaudRate(qint32 baudRate)
+{
+    bool ret = false;
+    if(isOpen) {
+        ret = mSerial->setBaudRate(baudRate);
+    }
+
+    return ret;
+}
+
+qint32 SerialPort::baudRate()
+{
+    qint32 ret = 0;
+    if(isOpen) {
+        ret = mSerial->baudRate();
+    }
+
+    return ret;
+}
 
 /**
  * @brief 回环测试

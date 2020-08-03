@@ -27,10 +27,10 @@ void Setup_MainWid::initSerial()
 {
     sConfigItem *item = Ad_Config::bulid()->item;
     mSerialWid = new SerialStatusWid(ui->serialWid);
-    item->serial = mSerialWid->initSerialPort(tr("校准源"), 19200);
+    item->serial = mSerialWid->initSerialPort(tr("校准源"));
 
     mSourceWid = new SerialStatusWid(ui->sourceWid);
-    item->source = mSourceWid->initSerialPort(tr("标准源"), 9600);
+    item->source = mSourceWid->initSerialPort(tr("标准源"));
 }
 
 void Setup_MainWid::checkPcNumSlot()

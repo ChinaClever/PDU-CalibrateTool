@@ -29,7 +29,7 @@ BasicSql::BasicSql(QObject *parent) :
 
 BasicSql::~BasicSql()
 {
-
+    mDb.close();
 }
 /**
  * @brief 删除
@@ -260,10 +260,10 @@ void BasicSql::throwError(const QSqlQuery &query)
             str = tr("无错误");
             break;
         case QSqlError::ConnectionError://连接错语
-            str = tr("连接错语");
+            str = tr("连接错误");
             break;
         case QSqlError::StatementError://语句错语
-            str = tr("语句错语");
+            str = tr("语句错误");
             break;
         case QSqlError::TransactionError://事务错误
             str = tr("事务错误");

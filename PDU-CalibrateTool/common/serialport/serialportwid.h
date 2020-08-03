@@ -17,6 +17,7 @@ public:
     ~SerialPortWid();
 
     SerialPort *getSerialPort(){return mSerialPort;}
+    void updateBaudRate(qint32 br);
 
 protected:
     void initWidget();
