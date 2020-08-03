@@ -323,7 +323,7 @@ QSqlDatabase BasicSql::initDb()
         db = QSqlDatabase::database(QString::number(value));
     } else {
         db = QSqlDatabase::addDatabase("QSQLITE", QString::number(value));
-        db.setDatabaseName(cm_pathOfData("cali_logs.db"));
+        db.setDatabaseName(cm_pathOfData("cali_log.db"));
         if (!db.open()) { //打开数据库
             qDebug() << "init Db error !!!" << db.lastError().text();
         }
