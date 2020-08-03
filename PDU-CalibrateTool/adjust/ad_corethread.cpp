@@ -141,7 +141,10 @@ void Ad_CoreThread::workDown()
         ret = mResult->resEnter();
     }
 
-    writeLog(); msleep(100);  //记录校准设备校准成功还是校准失败
+    for(int i=0; i<100; ++i) {
+        writeLog(); msleep(100);  //记录校准设备校准成功还是校准失败
+    }
+
     mItem->step = Test_End;
 }
 
