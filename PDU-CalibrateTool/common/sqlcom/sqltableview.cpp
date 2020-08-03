@@ -27,9 +27,9 @@ SqlTableView::SqlTableView(QWidget *parent) : QWidget(parent)
     gridLayout->addWidget(tableView);
 
     timer = new QTimer(this);
-    timer->start(4*60*1000);
+    //timer->start(4*60*1000);
     connect(timer, SIGNAL(timeout()),this, SLOT(autoDelSlot()));
-    QTimer::singleShot(60*1000,this,SLOT(autoDelSlot()));
+    QTimer::singleShot(3*1000,this,SLOT(autoDelSlot()));
 }
 
 
