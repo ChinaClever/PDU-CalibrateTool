@@ -320,7 +320,7 @@ bool Ad_Resulting::resEnter()
     mItem->step = Test_vert;
     bool ret = noLoadEnter();
     if(ret) {
-        for(int i=2; i<3; ++i) {
+        for(int i=4; i<5; ++i) {
             int exCur = (i*2) * AD_CUR_RATE;
             mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/AD_CUR_RATE);
             ret = mSource->setCur(exCur/10);
