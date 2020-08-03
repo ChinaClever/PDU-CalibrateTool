@@ -116,13 +116,13 @@ bool Ad_CoreThread::readDevInfo()
 
 
     //////////////===================
-//        sDevType *mDt = mPacket->devType;
-//        mDt->devType = MPDU;
-//        mDt->ac = AC;
-//        mDt->specs = Mn;
-//        mDt->lines = 1;
+    //        sDevType *mDt = mPacket->devType;
+    //        mDt->devType = MPDU;
+    //        mDt->ac = AC;
+    //        mDt->specs = Mn;
+    //        mDt->lines = 1;
 
-//        return true;
+    //        return true;
 
 }
 
@@ -141,10 +141,7 @@ void Ad_CoreThread::workDown()
         ret = mResult->resEnter();
     }
 
-    for(int i=0; i<100; ++i) {
-        writeLog(); msleep(100);  //记录校准设备校准成功还是校准失败
-    }
-
+    writeLog(); msleep(100);  //记录校准设备校准成功还是校准失败
     mItem->step = Test_End;
 }
 
