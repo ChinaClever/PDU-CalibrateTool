@@ -38,10 +38,19 @@ bool YC_Ac92b::setValue(const QString &str, int v)
 
 bool YC_Ac92b::setRange()
 {
-    QString str = QString("I0 220 10 15 1200");
-    QByteArray array = str.toLatin1();
-
+    QByteArray array("I0 220 10 15 1200");
     return write(array);
+}
+
+bool YC_Ac92b::initFun()
+{
+    QByteArray p("P3\r");
+    serialWrite(p);
+
+    QByteArray f("F50\r");
+    serialWrite(f);
+
+    return setRange();
 }
 
 void YC_Ac92b::powerDown()

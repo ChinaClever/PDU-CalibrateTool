@@ -20,7 +20,7 @@ enum {
 
 struct sConfigItem
 {
-    sConfigItem() {step=0; vol=220; currentNum=0;}
+    sConfigItem() {step=0; vol=220; currentNum=0;addr=1;}
     SerialPort *serial; // 串口对象
     SerialPort *source; // 标准源
 

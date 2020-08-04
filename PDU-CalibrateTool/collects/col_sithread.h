@@ -15,7 +15,8 @@ protected:
     int recvLine(int len);
     void initRtuItem(sRtuItem &it);
     bool recvPacket(uchar *buf, int len);
-    int recvData(uchar *ptr, int line, sDataUnit *msg);
+    int recvAcData(uchar *ptr, int line, sDataUnit *msg);
+    int recvDcData(uchar *ptr, int line, sDataUnit *msg);
 };
 
 #endif // COL_SITHREAD_H
