@@ -368,7 +368,7 @@
          </size>
         </property>
         <property name="text">
-         <string>开始较验</string>
+         <string>开始校验</string>
         </property>
        </widget>
       </item>

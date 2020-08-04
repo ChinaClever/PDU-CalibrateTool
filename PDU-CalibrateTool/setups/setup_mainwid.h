@@ -33,6 +33,9 @@ protected slots:
     void on_pcBtn_clicked();
 
 
+private slots:
+    void on_pushButton_clicked();
+
 private:
     Ui::Setup_MainWid *ui;
     UserMainWid *mUserWid;

@@ -6,7 +6,7 @@
 #include "setup_mainwid.h"
 #include "ui_setup_mainwid.h"
 #include "logmainwid.h"
-#include "readmedlg.h"
+#include "versiondlg.h"
 
 Setup_MainWid::Setup_MainWid(QWidget *parent) :
     QWidget(parent),
@@ -27,7 +27,7 @@ void Setup_MainWid::initSerial()
 {
     sConfigItem *item = Ad_Config::bulid()->item;
     mSerialWid = new SerialStatusWid(ui->serialWid);
-    item->serial = mSerialWid->initSerialPort(tr("校准源"));
+    item->serial = mSerialWid->initSerialPort(tr("PDU"));
 
     mSourceWid = new SerialStatusWid(ui->sourceWid);
     item->source = mSourceWid->initSerialPort(tr("标准源"));
@@ -176,4 +176,10 @@ void Setup_MainWid::on_pcBtn_clicked()
     ui->pcBtn->setText(str);
     ui->pcNumSpin->setEnabled(ret);
     ui->logCountSpin->setEnabled(ret);
+}
+
+void Setup_MainWid::on_pushButton_clicked()
+{
+    VersionDlg dlg(this);
+    dlg.exec();
 }
