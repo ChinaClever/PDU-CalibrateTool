@@ -73,7 +73,7 @@ bool YC_Ac92b::powerOn(int v)
 
 bool YC_Ac92b::setVol()
 {
-    setRange(); delay(1);
+    setRange(); delay(2);
     bool ret = setValue("V", 100);
     if(ret) {
         ret = delay(6);
