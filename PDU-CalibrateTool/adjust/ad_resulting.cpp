@@ -332,7 +332,6 @@ bool Ad_Resulting::noLoadCurCheck()
     return res;
 }
 
-
 bool Ad_Resulting::noLoadCurFun()
 {
     bool ret = true;
@@ -346,8 +345,6 @@ bool Ad_Resulting::noLoadCurFun()
 
     return ret;
 }
-
-
 
 bool Ad_Resulting::noLoadEnter()
 {
