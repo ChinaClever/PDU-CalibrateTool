@@ -269,7 +269,7 @@ bool Ad_Resulting::noLoadCurCheck()
 {
     bool res = true;
     for(int k=0; k<mData->size; ++k) {
-        if(mData->cur[k] > 0) {
+        if(mData->cur[k] || mData->pow[k]) {
             res = false;
             mData->status[k] = Test_Fail;
             mPacket->status = tr("校验数据: 空载电流A 第%1位 电流错误").arg(k+1);

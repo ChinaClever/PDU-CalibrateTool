@@ -1,0 +1,110 @@
+IPPDU-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    enterprises, Counter,
+    TimeTicks, Gauge                FROM RFC1155-SMI
+    OBJECT-TYPE                     FROM RFC-1212
+    sysUpTime, DisplayString		  FROM RFC1213-MIB
+TRAP-TYPE                           FROM RFC-1215;
+
+clever OBJECT IDENTIFIER ::= { enterprises 30966 }
+ip-PDU OBJECT IDENTIFIER ::= { clever 10 }
+ipPDU OBJECT IDENTIFIER ::= { ip-PDU 3 }
+deviceInfo OBJECT IDENTIFIER ::= { ipPDU 1 }
+masterstatus OBJECT IDENTIFIER ::= { ipPDU 2 }
+
+
+deviceName OBJECT-TYPE
+    SYNTAX DisplayString (SIZE (255))
+    ACCESS read-write
+    STATUS optional
+    DESCRIPTION
+            "Device Name."
+    ::= { deviceInfo 1 }
+deviceAddress OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-write
+    STATUS optional
+    DESCRIPTION
+            "Device Address."
+    ::= { deviceInfo 2 }
+deviceBaud OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-write
+    STATUS optional
+    DESCRIPTION
+            "Device Baud ."
+    ::= { deviceInfo 3 }	
+deviceLineNum OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Device Line Num ."
+    ::= { deviceInfo 4 }		
+
+mVoltageL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 total votage."
+    ::= { masterstatus 1 }
+
+
+mCurrentL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 total current.Magnified 10 times."
+    ::= { masterstatus 4 }
+
+mPowerFactorL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 Power Factor.Magnified 100 times."
+    ::= { masterstatus 7 }
+    
+mEnergyL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 energy .Magnified 10 times."
+    ::= { masterstatus 10 }
+
+mBreakerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 Break."
+    ::= { masterstatus 13 }
+    
+mFrequency OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master  Frequency."
+    ::= { masterstatus 16 }
+    	  
+mTemperature OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Temperature"
+    ::= { masterstatus 17 }
+mHumidity OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Humidity"
+    ::= { masterstatus 18 }    	
+
+END

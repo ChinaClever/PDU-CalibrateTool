@@ -1,0 +1,973 @@
+IPPDU-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    enterprises, Counter,
+    TimeTicks, Gauge                FROM RFC1155-SMI
+    OBJECT-TYPE                     FROM RFC-1212
+    sysUpTime, DisplayString		  FROM RFC1213-MIB
+TRAP-TYPE                           FROM RFC-1215;
+
+admin OBJECT IDENTIFIER ::= { enterprises 30966 }
+ip-PDU OBJECT IDENTIFIER ::= { admin 10 }
+ipPDU OBJECT IDENTIFIER ::= { ip-PDU 3 }
+deviceInfo OBJECT IDENTIFIER ::= { ipPDU 1 }
+masterstatus OBJECT IDENTIFIER ::= { ipPDU 2 }
+slave1status OBJECT IDENTIFIER ::= { ipPDU 3 }
+slave2status OBJECT IDENTIFIER ::= { ipPDU 4 }
+slave3status OBJECT IDENTIFIER ::= { ipPDU 5 }
+slave4status OBJECT IDENTIFIER ::= { ipPDU 6 }
+
+deviceName OBJECT-TYPE
+    SYNTAX DisplayString (SIZE (255))
+    ACCESS read-write
+    STATUS optional
+    DESCRIPTION
+            "Device Name."
+    ::= { deviceInfo 1 }
+deviceAddress OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-write
+    STATUS optional
+    DESCRIPTION
+            "Device Address."
+    ::= { deviceInfo 2 }
+deviceBaud OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Device Baud ."
+    ::= { deviceInfo 3 }	
+deviceLineNum OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Device Line Num ."
+    ::= { deviceInfo 4 }		
+
+mVoltageL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 total votage."
+    ::= { masterstatus 1 }
+
+mVoltageL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 total votage."
+    ::= { masterstatus 2 }    
+
+mVoltageL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 total votage."
+    ::= { masterstatus 3 }
+
+mCurrentL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 total current.Magnified 10 times."
+    ::= { masterstatus 4 }
+
+mCurrentL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 total current.Magnified 10 times."
+    ::= { masterstatus 5 }    
+
+mCurrentL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 total current.Magnified 10 times."
+    ::= { masterstatus 6 }
+mPowerFactorL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 Power Factor.Magnified 100 times."
+    ::= { masterstatus 7 }
+
+mPowerFactorL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 Power Factor.Magnified 100 times."
+    ::= { masterstatus 8 }    
+
+mPowerFactorL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 Power Factor.Magnified 100 times."
+    ::= { masterstatus 9 }
+mActivePowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 Active Power."
+    ::= { masterstatus 10 }
+
+mActivePowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 Active Power."
+    ::= { masterstatus 11 }    
+
+mActivePowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 Active Power."
+    ::= { masterstatus 12 }	
+mApparentPowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 Apparent Power."
+    ::= { masterstatus 13 }
+
+mApparentPowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 Apparent Power."
+    ::= { masterstatus 14 }    
+
+mApparentPowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 Apparent Power."
+    ::= { masterstatus 15 }			
+    
+mEnergyL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 energy .Magnified 10 times."
+    ::= { masterstatus 16 }
+mEnergyL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 energy .Magnified 10 times."
+    ::= { masterstatus 17 }
+mEnergyL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 energy .Magnified 10 times."
+    ::= { masterstatus 18 }
+mBreakerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 Break."
+    ::= { masterstatus 19 }
+
+mBreakerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 Break."
+    ::= { masterstatus 20 }    
+
+mBreakerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 Break."
+    ::= { masterstatus 21 }	
+    
+mFrequency OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master  Frequency."
+    ::= { masterstatus 22 }
+    	  
+mTemperature OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Temperature"
+    ::= { masterstatus 23 }
+mHumidity OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Humidity"
+    ::= { masterstatus 24 }    
+s1VoltageL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 1 total votage."
+    ::= { slave1status 1 }
+
+s1VoltageL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 2 total votage."
+    ::= { slave1status 2 }    
+
+s1VoltageL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 3 total votage."
+    ::= { slave1status 3 }
+
+s1CurrentL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 1 total current.Magnified 10 times."
+    ::= { slave1status 4 }
+
+s1CurrentL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 2 total current.Magnified 10 times."
+    ::= { slave1status 5 }    
+
+s1CurrentL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 3 total current.Magnified 10 times."
+    ::= { slave1status 6 }
+s1PowerFactorL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 1 Power Factor.Magnified 100 times."
+    ::= { slave1status 7 }
+
+s1PowerFactorL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 2 Power Factor.Magnified 100 times."
+    ::= { slave1status 8 }    
+
+s1PowerFactorL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 3 Power Factor.Magnified 100 times."
+    ::= { slave1status 9 }	
+s1ActivePowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 1 Active Power."
+    ::= { slave1status 10 }
+
+s1ActivePowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 2 Active Power."
+    ::= { slave1status 11 }    
+
+s1ActivePowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 3 Active Power."
+    ::= { slave1status 12 }	
+s1ApparentPowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 1 Apparent Power."
+    ::= { slave1status 13 }
+
+s1ApparentPowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 2 Apparent Power."
+    ::= { slave1status 14 }    
+
+s1ApparentPowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 3 Apparent Power."
+    ::= { slave1status 15 }		
+    
+s1EnergyL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 1 energy .Magnified 10 times."
+    ::= { slave1status 16 }
+s1EnergyL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 2 energy .Magnified 10 times."
+    ::= { slave1status 17 }
+s1EnergyL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 3 energy .Magnified 10 times."
+    ::= { slave1status 18 }
+s1BreakerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 1 Break."
+    ::= { slave1status 19 }
+
+s1BreakerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 2 Break."
+    ::= { slave1status 20 }    
+
+s1BreakerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Line 3 Break."
+    ::= { slave1status 21 }	
+    
+s1Frequency OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1  Frequency."
+    ::= { slave1status 22 }
+    	  
+s1Temperature OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Temperature"
+    ::= { slave1status 23 }
+s1Humidity OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 1 Humidity"
+    ::= { slave1status 24 }    	
+	
+s2VoltageL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 1 total votage."
+    ::= { slave2status 1 }
+
+s2VoltageL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 2 total votage."
+    ::= { slave2status 2 }    
+
+s2VoltageL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 3 total votage."
+    ::= { slave2status 3 }
+
+s2CurrentL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 1 total current.Magnified 10 times."
+    ::= { slave2status 4 }
+
+s2CurrentL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 2 total current.Magnified 10 times."
+    ::= { slave2status 5 }    
+
+s2CurrentL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 3 total current.Magnified 10 times."
+    ::= { slave2status 6 }
+s2PowerFactorL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 1 Power Factor.Magnified 100 times."
+    ::= { slave2status 7 }
+
+s2PowerFactorL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 2 Power Factor.Magnified 100 times."
+    ::= { slave2status 8 } 		  
+s2PowerFactorL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 3 Power Factor.Magnified 100 times."
+    ::= { slave2status 9 }	
+s2ActivePowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 1 Active Power."
+    ::= { slave2status 10 }
+
+s2ActivePowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 2 Active Power."
+    ::= { slave2status 11 }    
+
+s2ActivePowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 3 Active Power."
+    ::= { slave2status 12 }	
+s2ApparentPowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 1 Apparent Power."
+    ::= { slave2status 13 }
+
+s2ApparentPowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 2 Apparent Power."
+    ::= { slave2status 14 }    
+
+s2ApparentPowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 3 Apparent Power."
+    ::= { slave2status 15 }	
+    
+s2EnergyL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 1 energy .Magnified 10 times."
+    ::= { slave2status 16 }
+s2EnergyL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 2 energy .Magnified 10 times."
+    ::= { slave2status 17 }
+s2EnergyL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 3 energy .Magnified 10 times."
+    ::= { slave2status 18 }
+s2BreakerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 1 Break."
+    ::= { slave2status 19 }
+
+s2BreakerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 2 Break."
+    ::= { slave2status 20 }    
+
+s2BreakerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Line 3 Break."
+    ::= { slave2status 21 }	
+    
+s2Frequency OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2  Frequency."
+    ::= { slave2status 22 }
+    	  
+s2Temperature OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Temperature"
+    ::= { slave2status 23 }
+s2Humidity OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 2 Humidity"
+    ::= { slave2status 24 } 
+	
+s3VoltageL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 1 total votage."
+    ::= { slave3status 1 }
+
+s3VoltageL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 2 total votage."
+    ::= { slave3status 2 }    
+
+s3VoltageL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 3 total votage."
+    ::= { slave3status 3 }
+
+s3CurrentL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 1 total current.Magnified 10 times."
+    ::= { slave3status 4 }
+
+s3CurrentL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 2 total current.Magnified 10 times."
+    ::= { slave3status 5 }    
+
+s3CurrentL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 3 total current.Magnified 10 times."
+    ::= { slave3status 6 }
+s3PowerFactorL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 1 Power Factor.Magnified 100 times."
+    ::= { slave3status 7 }
+
+s3PowerFactorL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 2 Power Factor.Magnified 100 times."
+    ::= { slave3status 8 }    
+
+s3PowerFactorL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 3 Power Factor.Magnified 100 times."
+    ::= { slave3status 9 }	
+s3ActivePowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 1 Active Power."
+    ::= { slave3status 10 }
+
+s3ActivePowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 2 Active Power."
+    ::= { slave3status 11 }    
+
+s3ActivePowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 3 Active Power."
+    ::= { slave3status 12 }	
+s3ApparentPowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 1 Apparent Power."
+    ::= { slave3status 13 }
+
+s3ApparentPowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 2 Apparent Power."
+    ::= { slave3status 14 }    
+
+s3ApparentPowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 3 Apparent Power."
+    ::= { slave3status 15 }	
+    
+s3EnergyL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 1 energy .Magnified 10 times."
+    ::= { slave3status 16 }
+s3EnergyL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 2 energy .Magnified 10 times."
+    ::= { slave3status 17 }
+s3EnergyL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 3 energy .Magnified 10 times."
+    ::= { slave3status 18 }
+s3BreakerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 1 Break."
+    ::= { slave3status 19 }
+
+s3BreakerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 2 Break."
+    ::= { slave3status 20 }    
+
+s3BreakerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Line 3 Break."
+    ::= { slave3status 21 }	
+    
+s3Frequency OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3  Frequency."
+    ::= { slave3status 22 }
+    	  
+s3Temperature OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Temperature"
+    ::= { slave3status 23 }
+s3Humidity OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 3 Humidity"
+    ::= { slave3status 24 } 
+	
+s4VoltageL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 1 total votage."
+    ::= { slave4status 1 }
+
+s4VoltageL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 2 total votage."
+    ::= { slave4status 2 }    
+
+s4VoltageL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 3 total votage."
+    ::= { slave4status 3 }
+
+s4CurrentL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 1 total current.Magnified 10 times."
+    ::= { slave4status 4 }
+
+s4CurrentL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 2 total current.Magnified 10 times."
+    ::= { slave4status 5 }    
+
+s4CurrentL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 3 total current.Magnified 10 times."
+    ::= { slave4status 6 }
+	
+s4PowerFactorL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 1 Power Factor.Magnified 100 times."
+    ::= { slave4status 7 }
+
+s4PowerFactorL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 2 Power Factor.Magnified 100 times."
+    ::= { slave4status 8 }    
+
+s4PowerFactorL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 3 Power Factor.Magnified 100 times."
+    ::= { slave4status 9 }
+		
+s4ActivePowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 1 Active Power."
+    ::= { slave4status 10 }
+
+s4ActivePowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 2 Active Power."
+    ::= { slave4status 11 }    
+
+s4ActivePowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 3 Active Power."
+    ::= { slave4status 12 }	
+s4ApparentPowerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 1 Apparent Power."
+    ::= { slave4status 13 }
+
+s4ApparentPowerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 2 Apparent Power."
+    ::= { slave4status 14 }    
+
+s4ApparentPowerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 3 Apparent Power."
+    ::= { slave4status 15 }	   
+s4EnergyL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 1 energy .Magnified 10 times."
+    ::= { slave4status 16 }
+s4EnergyL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 2 energy .Magnified 10 times."
+    ::= { slave4status 17 }
+s4EnergyL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 3 energy .Magnified 10 times."
+    ::= { slave4status 18 }
+s4BreakerL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 1 Break."
+    ::= { slave4status 19 }
+
+s4BreakerL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 2 Break."
+    ::= { slave4status 20 }    
+
+s4BreakerL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Line 3 Break."
+    ::= { slave4status 21 }	
+    
+s4Frequency OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4  Frequency."
+    ::= { slave4status 22 }
+    	  
+s4Temperature OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Temperature"
+    ::= { slave4status 23 }
+s4Humidity OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Slave 4 Humidity"
+    ::= { slave4status 24 } 		
+
+END

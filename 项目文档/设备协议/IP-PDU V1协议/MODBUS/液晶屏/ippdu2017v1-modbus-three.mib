@@ -1,0 +1,116 @@
+IPPDU-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    enterprises, Counter,
+    TimeTicks, Gauge                FROM RFC1155-SMI
+    OBJECT-TYPE                     FROM RFC-1212
+    sysUpTime, DisplayString		  FROM RFC1213-MIB
+TRAP-TYPE                           FROM RFC-1215;
+
+clever OBJECT IDENTIFIER ::= { enterprises 30966 }
+ip-PDU OBJECT IDENTIFIER ::= { clever 10 }
+ipPDU OBJECT IDENTIFIER ::= { ip-PDU 3 }
+deviceInfo OBJECT IDENTIFIER ::= { ipPDU 1 }
+statusInfo OBJECT IDENTIFIER ::= { ipPDU 2 }
+
+DeviceName OBJECT-TYPE
+    SYNTAX DisplayString (SIZE (255))
+    ACCESS read-write
+    STATUS optional
+    DESCRIPTION
+            "device name."
+    ::= { deviceInfo 1 }
+
+VoltageL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 total votage."
+    ::= { statusInfo 1 }
+
+VoltageL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 total votage."
+    ::= { statusInfo 2 }    
+
+VoltageL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 total votage."
+    ::= { statusInfo 3 }
+
+
+CurrentL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 total current.Magnified 10 times."
+    ::= { statusInfo 4 }
+
+CurrentL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 total current.Magnified 10 times."
+    ::= { statusInfo 5 }    
+
+CurrentL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 total current.Magnified 10 times."
+    ::= { statusInfo 6 }
+    
+    
+EnergyL1 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 1 energy .Magnified 10 times."
+    ::= { statusInfo 7 }
+
+EnergyL2 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 2 energy .Magnified 10 times."
+    ::= { statusInfo 8 }
+
+EnergyL3 OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Line 3 energy .Magnified 10 times."
+    ::= { statusInfo 9 }  
+ 
+Temperature OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Temperature"
+    ::= { statusInfo 10 }
+
+Humidity OBJECT-TYPE
+    SYNTAX INTEGER (0..65535)
+    ACCESS read-only
+    STATUS optional
+    DESCRIPTION
+            "Master Humidity"
+    ::= { statusInfo 11 }    
+ 
+
+
+END

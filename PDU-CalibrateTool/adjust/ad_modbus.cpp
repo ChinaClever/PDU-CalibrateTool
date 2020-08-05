@@ -144,11 +144,12 @@ bool Ad_Modbus::rtuRecvCrc(uchar *buf, int len, sRtuReplyItem *msg)
     return ret;
 }
 
-int Ad_Modbus::rtuRecvData(uchar *ptr,  sRtuReplyItem *pkt)
+int Ad_Modbus::rtuRecvData(uchar *ptr, sRtuReplyItem *pkt)
 {
     pkt->addr = *(ptr++);// 从机地址码
     pkt->fn = *(ptr++);  /*功能码*/
     pkt->len = *(ptr++); /*数据长度*/
+    if(0 == pkt->len) pkt->len = *(ptr++); /*SI-PDU数据长度是二个字节*/
     if(pkt->len < MODBUS_RTU_SIZE) {
         for(int i=0; i<pkt->len; ++i) {
             pkt->data[i] = *(ptr++);

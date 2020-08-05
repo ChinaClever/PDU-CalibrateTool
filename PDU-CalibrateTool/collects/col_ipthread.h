@@ -16,7 +16,7 @@ protected:
     void initRtuItem(sRtuItem &it);
     bool recvPacket(uchar *buf, int len);
 
-    int recvData(uchar *ptr, sDataUnit *msg);
+    int recvDataV1(uchar *ptr, sDataUnit *msg);
     int recvDataV3(uchar *ptr, sDataUnit *msg);
     uchar *getSwitch(uchar *ptr, int line, uchar *value);
 };
