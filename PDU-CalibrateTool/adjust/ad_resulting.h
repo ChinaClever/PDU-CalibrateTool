@@ -17,9 +17,12 @@ public:
     void resTgData() {resTgData(mPacket->tg);}
 
 protected:
+    bool powErrRange(int exValue, int cur);
     bool curErrRange(int exValue, int cur);
+
     bool curTgCheck(int exValue);
     bool curRangeByID(int i, int exValue);
+    bool powRangeByID(int i, int exValue);
     bool volErrRange();
 
     void resTgData(sTgObjData *tg);
