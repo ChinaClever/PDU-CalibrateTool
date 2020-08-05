@@ -5,8 +5,8 @@
  */
 #include "col_sithread.h"
 
-#define SI_RTU_DC_LEN 0x1B  // 单相数据长度
-#define SI_RTU_THREE_LEN 0x50  // 三相数据长度
+#define SI_RTU_DC_LEN 0x1B // 直流数据长度
+#define SI_RTU_THREE_LEN 0x50  // 三相数据长度//单相时，L2和L3表示C1和C2
 
 Col_SiThread::Col_SiThread(QObject *parent) : Col_CoreThread(parent)
 {

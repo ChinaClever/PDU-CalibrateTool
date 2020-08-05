@@ -284,7 +284,12 @@ Col_CoreThread *Ad_Resulting::initThread()
         mCollect = Col_RpduThread::bulid(this);
         mCtrl = Ctrl_RpduThread::bulid(this);
         break;
-
+    case SI_PDU:
+        mCollect = Col_SiThread::bulid(this);
+        break;
+    case IP_PDU:
+        mCollect = Col_IpThread::bulid(this);
+        break;
     default:
         break;
     }
