@@ -15,7 +15,6 @@ Ad_Resulting::Ad_Resulting(QObject *parent) : QThread(parent)
     mSource = nullptr;
 }
 
-
 Ad_Resulting *Ad_Resulting::bulid(QObject *parent)
 {
     static Ad_Resulting* sington = nullptr;
@@ -23,7 +22,6 @@ Ad_Resulting *Ad_Resulting::bulid(QObject *parent)
         sington = new Ad_Resulting(parent);
     return sington;
 }
-
 
 bool Ad_Resulting::curErrRange(int exValue, int cur)
 {
@@ -53,7 +51,6 @@ bool Ad_Resulting::powErrRange(int exValue, int cur)
     return ret;
 }
 
-
 /**
  * @brief 电流统计，是否在误差范围
  * @return
@@ -68,7 +65,6 @@ bool Ad_Resulting::curTgCheck(int exValue)
     if(mData->rate < 10) cur *= 10;
     return curErrRange(exValue, cur);
 }
-
 
 bool Ad_Resulting::powRangeByID(int i, int exValue)
 {
@@ -91,7 +87,6 @@ bool Ad_Resulting::powRangeByID(int i, int exValue)
     return ret;
 }
 
-
 bool Ad_Resulting::curRangeByID(int i, int exValue)
 {
     int cur = mData->cur[i];
@@ -110,8 +105,6 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
 
     return ret;
 }
-
-
 
 bool Ad_Resulting::volErrRange()
 {
@@ -136,7 +129,6 @@ bool Ad_Resulting::volErrRange()
     return ret;
 }
 
-
 void Ad_Resulting::resTgData(sTgObjData *tg)
 {
     tg->cur = tg->pow = 0;
@@ -145,7 +137,6 @@ void Ad_Resulting::resTgData(sTgObjData *tg)
         tg->pow += mData->pow[i];
     }
 }
-
 
 bool Ad_Resulting::outputCurById(int k, int exValue)
 {
@@ -217,7 +208,6 @@ bool Ad_Resulting::eachCurCheck(int exValue)
     }
     return res;
 }
-
 
 bool Ad_Resulting::eachCurEnter(int exValue)
 {
