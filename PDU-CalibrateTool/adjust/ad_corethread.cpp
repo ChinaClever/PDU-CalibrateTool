@@ -118,7 +118,7 @@ bool Ad_CoreThread::readDevInfo()
     //////////////===================
             sDevType *mDt = mPacket->devType;
             //mDt->devType = MPDU;
-            mDt->devType = IP_PDU;
+            mDt->devType = IP_PDU;//SI_PDU
             mDt->ac = AC;
             //mDt->specs = Mn;
             mDt->specs = Transformer;

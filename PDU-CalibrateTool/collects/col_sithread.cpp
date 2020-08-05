@@ -83,7 +83,7 @@ int Col_SiThread::recvAcData(uchar *ptr, int line, sDataUnit *msg)
     ptr = toShort(ptr, line, msg->cur);
     ptr = toShort(ptr, line, msg->pow);
     ptr = toInt(ptr, line, msg->ele);
-    ptr += 24 + 6; // 阈值 湿湿度
+    ptr += 24 + 6; // 阈值 温湿度
 
     msg->size = *(ptr++);
     msg->br = *(ptr++); // 波特率
