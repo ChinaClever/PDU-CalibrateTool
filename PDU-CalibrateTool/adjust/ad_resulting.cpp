@@ -100,7 +100,6 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
     mPacket->status = tr("校验数据: 期望电流%1A 第%2位 电流").arg(exValue/AD_CUR_RATE).arg(i+1);
     bool ret = curErrRange(exValue, cur);
     if(ret) {
-        mPacket->status += tr("正常");
         mData->cured[i] = mData->cur[i];
         ret = powRangeByID(exValue, cur);
     } else {
