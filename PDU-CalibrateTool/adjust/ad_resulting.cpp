@@ -75,7 +75,7 @@ bool Ad_Resulting::powRangeByID(int i, int exValue)
     int pow = mData->pow[i];
     if(mData->rate < 10) pow *= 10;
 
-    exValue = mItem->vol * exValue/AD_CUR_RATE;
+    exValue = mItem->vol * exValue/AD_CUR_RATE * 1.0;
     mPacket->status = tr("校验数据: 期望功率%1Kw 第%2位 功率").arg(exValue/1000.0).arg(i+1);
     bool ret = powErrRange(exValue, pow);
     if(ret) {

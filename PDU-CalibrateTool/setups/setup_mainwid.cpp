@@ -108,7 +108,7 @@ void Setup_MainWid::initErrData()
     ui->curErrBox->setValue(value);
 
     value = con->getValue("pow_err");
-    if(value < 0) value = 0.1;
+    if(value < 0) value = 0.01;
     ui->powErrBox->setValue(value);
 
     updateErrData();
