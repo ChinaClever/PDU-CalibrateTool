@@ -71,10 +71,12 @@ bool YC_Ac92b::powerOn(int v)
 }
 
 
-bool YC_Ac92b::setVol()
+bool YC_Ac92b::setVol(int v)
 {
-    setRange(); delay(2);
-    bool ret = setValue("V", 100);
+    int vol = 100;
+    if(v == 200) vol = 91;
+
+    bool ret = setValue("V", vol);
     if(ret) {
         ret = delay(6);
     }
@@ -103,7 +105,7 @@ bool YC_Ac92b::handShake()
         int rtn = mSerial->transmit(array, res, 2);
         if(rtn > 0)  {
             acOrDc = 1;
-            ret = true;
+            ret = initFun();
         } else {
             acOrDc = 0;
             ret = false;

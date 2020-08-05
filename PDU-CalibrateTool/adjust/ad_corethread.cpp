@@ -106,14 +106,11 @@ bool Ad_CoreThread::readDevInfo()
 //    mSource = mResult->initStandSource();
 //    if(!mSource) return false;
 
-//    mSource->setVol();
+//    mSource->setVol(220);
 //    bool ret = mAutoID->readDevType();//读取设备类型
 //    if(ret) {
 //        ret = mSn->snEnter();//写入序列号
 //    }
-
-//    return ret;
-
 
     //////////////===================
             sDevType *mDt = mPacket->devType;

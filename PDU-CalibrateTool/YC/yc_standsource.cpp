@@ -49,7 +49,7 @@ bool YC_StandSource::powerReset()
     powerDown();
     bool ret = delay(6);
     if(ret) {
-        ret = setVol();
+        ret = setVol(220);
         if(ret) {
             ret = setCur(60);
         }

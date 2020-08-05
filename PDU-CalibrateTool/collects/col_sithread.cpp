@@ -5,8 +5,8 @@
  */
 #include "col_sithread.h"
 
-#define SI_RTU_DC_LEN 0x1B  // 直流数据长度
-#define SI_RTU_THREE_LEN 0x51  // 三相数据长度//单相时，L2和L3表示C1和C2
+#define SI_RTU_DC_LEN 0x1B // 直流数据长度
+#define SI_RTU_THREE_LEN 0x50  // 三相数据长度//单相时，L2和L3表示C1和C2
 
 Col_SiThread::Col_SiThread(QObject *parent) : Col_CoreThread(parent)
 {
@@ -27,8 +27,13 @@ void Col_SiThread::initRtuItem(sRtuItem &it)
     it.fn = 0x03;
     it.reg = 0;
     it.num = SI_RTU_THREE_LEN;
+
     uchar res = sDataPacket::bulid()->devType->ac;
-    if(DC == res) it.num = SI_RTU_DC_LEN;
+    if(DC == res) {
+        it.num = SI_RTU_DC_LEN;
+    } else if(2 == sDataPacket::bulid()->devType->series) {
+        it.num /= 2;  // 特殊定制
+    }
 }
 
 /**
@@ -52,12 +57,12 @@ int Col_SiThread::recvDcData(uchar *ptr, int line, sDataUnit *msg)
 {
     ptr = toShort(ptr, line, msg->vol);
     ptr = toShort(ptr, line, msg->cur);
-    ptr = toShort(ptr, line, msg->pow);
+    ptr = toShort(ptr, line, msg->activePow);
     ptr = toInt(ptr, line, msg->ele);
     ptr += 8 + 2; // 阈值 湿湿度
 
     msg->br = *(ptr++); // 波特率
-    ptr = toShort(ptr, line, msg->activePow);
+    ptr = toShort(ptr, line, msg->pow);
     ptr = toChar(ptr, line, msg->pf); // 功率因数
     ptr = toChar(ptr, line, msg->sw); // 开关状态
     msg->size = *(ptr++);
@@ -81,13 +86,13 @@ int Col_SiThread::recvAcData(uchar *ptr, int line, sDataUnit *msg)
 {
     ptr = toShort(ptr, line, msg->vol);
     ptr = toShort(ptr, line, msg->cur);
-    ptr = toShort(ptr, line, msg->pow);
+    ptr = toShort(ptr, line, msg->activePow);
     ptr = toInt(ptr, line, msg->ele);
     ptr += 24 + 6; // 阈值 温湿度
 
     msg->size = *(ptr++);
     msg->br = *(ptr++); // 波特率
-    ptr = toShort(ptr, line, msg->activePow);
+    ptr = toShort(ptr, line, msg->pow);
     ptr = toChar(ptr, line, msg->pf); // 功率因数
     ptr = toChar(ptr, line, msg->sw); // 开关状态
     msg->hz = *(ptr++);
@@ -98,6 +103,7 @@ int Col_SiThread::recvAcData(uchar *ptr, int line, sDataUnit *msg)
 
     return SI_RTU_THREE_LEN;
 }
+
 
 bool Col_SiThread::recvPacket(uchar *buf, int len)
 {

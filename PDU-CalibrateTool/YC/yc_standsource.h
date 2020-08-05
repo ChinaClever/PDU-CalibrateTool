@@ -14,7 +14,7 @@ public:
     virtual bool powerReset(); //
 
     virtual bool setCur(int v)=0;
-    virtual bool setVol()=0;
+    virtual bool setVol(int v)=0;
     virtual bool handShake()=0;
     int acOrDc;
 

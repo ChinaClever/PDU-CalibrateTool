@@ -93,6 +93,7 @@ void Setup_MainWid::updateErrData()
     sConfigItem *item = Ad_Config::bulid()->item;
     item->volErr = ui->volErrBox->value();
     item->curErr = ui->curErrBox->value() * 10;
+    item->powErr = ui->powErrBox->value() * 100;
 }
 
 void Setup_MainWid::initErrData()
@@ -106,6 +107,10 @@ void Setup_MainWid::initErrData()
     if(value < 0) value = 0.1;
     ui->curErrBox->setValue(value);
 
+    value = con->getValue("pow_err");
+    if(value < 0) value = 0.01;
+    ui->powErrBox->setValue(value);
+
     updateErrData();
 }
 
@@ -117,6 +122,9 @@ void Setup_MainWid::writeErrData()
 
     value = ui->curErrBox->value();
     con->setValue(value, "cur_err");
+
+    value = ui->powErrBox->value();
+    con->setValue(value, "pow_err");
 
     updateErrData();
 }
@@ -144,6 +152,7 @@ void Setup_MainWid::on_saveBtn_clicked()
     ui->saveBtn->setText(str);
     ui->volErrBox->setEnabled(ret);
     ui->curErrBox->setEnabled(ret);
+    ui->powErrBox->setEnabled(ret);
 }
 
 void Setup_MainWid::writePcNum()

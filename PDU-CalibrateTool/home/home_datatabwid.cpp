@@ -16,7 +16,7 @@ void Home_DataTabWid::initWid()
 {
     QString title = tr("状态列表");
     QStringList header;
-    header<<tr("开关") << tr("电流") << tr("电压") << tr("功率") << tr("电能") << tr("最终电流")<< tr("结果");
+    header<<tr("开关") << tr("电流") << tr("电压") << tr("功率") << tr("电能") << tr("最终电流") << tr("最终功率")<< tr("结果");
     initTableWid(header, 0, title);
 }
 
@@ -33,6 +33,12 @@ void Home_DataTabWid::appendItem(sDataUnit *unit)
         listStr << QString::number(unit->ele[i]/(unit->rate * COM_RATE_ELE),'f',2)+"Kwh";
         if(unit->cured[i]) {
             listStr << QString::number(unit->cured[i]/(unit->rate * COM_RATE_CUR),'f',2)+"A";
+        } else {
+            listStr << "---";
+        }
+
+        if(unit->powed[i]) {
+            listStr << QString::number(unit->powed[i]/(unit->rate * COM_RATE_POW),'f',3)+"Kw";
         } else {
             listStr << "---";
         }

@@ -15,7 +15,7 @@ public:
     bool powerOn(int v=60);
 
     bool setCur(int v);
-    bool setVol();
+    bool setVol(int v);
 
 protected:
     bool setRange();

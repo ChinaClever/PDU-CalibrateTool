@@ -27,6 +27,7 @@ struct sDataUnit
     ushort cur[PACK_ARRAY_SIZE]; // 电流
     ushort cured[PACK_ARRAY_SIZE]; // 电流
     ushort pow[PACK_ARRAY_SIZE]; // 功率
+    ushort powed[PACK_ARRAY_SIZE]; // 功率
     uint ele[PACK_ARRAY_SIZE]; // 电能
 
     uchar pf[PACK_ARRAY_SIZE]; // 功率因数
