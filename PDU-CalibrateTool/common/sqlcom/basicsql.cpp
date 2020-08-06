@@ -29,6 +29,7 @@ BasicSql::BasicSql(QObject *parent) :
 
 BasicSql::~BasicSql()
 {
+    QSqlDatabase::database().commit();
     mDb.close();
 }
 /**
@@ -317,6 +318,18 @@ void BasicSql::setTableMarking(const QString &marking)
  */
 QSqlDatabase BasicSql::initDb()
 {
+#if 1
+    static QSqlDatabase db;
+    static bool s_initDbFinshed = false;
+        if(s_initDbFinshed == false){
+            db = QSqlDatabase::addDatabase("QSQLITE");
+            db.setDatabaseName(cm_pathOfData("cali_log.db"));
+            if (!db.open()) { //打开数据库
+                qDebug() << "init Db error !!!";
+            }
+            s_initDbFinshed = true;
+        }
+#else
     QSqlDatabase db;
     quint32 value = QRandomGenerator::global()->generate();
     if (QSqlDatabase::contains(QString::number(value))) {
@@ -328,6 +341,8 @@ QSqlDatabase BasicSql::initDb()
             qDebug() << "init Db error !!!" << db.lastError().text();
         }
     }
+#endif
+
     return db;
 }
 
