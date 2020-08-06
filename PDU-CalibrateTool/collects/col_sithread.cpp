@@ -95,7 +95,8 @@ int Col_SiThread::recvAcData(uchar *ptr, int line, sDataUnit *msg)
     ptr = toShort(ptr, line, msg->pow);
     ptr = toChar(ptr, line, msg->pf); // 功率因数
     ptr = toChar(ptr, line, msg->sw); // 开关状态
-    msg->hz = *(ptr++);
+    ptr += 3;
+    //msg->hz = *(ptr++);
 
     if(msg->size > 1) {
         msg->size = 3;
