@@ -23,7 +23,9 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
 
 Ad_CoreThread::~Ad_CoreThread()
 {
+    isRun = false;
     mItem->step = Test_Over;
+    wait();
 }
 
 Ad_CoreThread *Ad_CoreThread::bulid(QObject *parent)
@@ -140,7 +142,7 @@ void Ad_CoreThread::workDown()
         ret = mResult->resEnter();
     }
 
-    writeLog(); msleep(100);  //记录校准设备校准成功还是校准失败
+    writeLog(); msleep(20);  //记录校准设备校准成功还是校准失败
     mItem->step = Test_End;
 }
 

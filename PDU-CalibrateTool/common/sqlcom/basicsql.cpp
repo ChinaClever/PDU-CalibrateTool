@@ -29,6 +29,7 @@ BasicSql::BasicSql(QObject *parent) :
 
 BasicSql::~BasicSql()
 {
+    QSqlDatabase::database().commit();
     mDb.close();
 }
 /**
@@ -268,13 +269,13 @@ void BasicSql::throwError(const QSqlQuery &query)
         case QSqlError::TransactionError://事务错误
             str = tr("事务错误");
             break;
-         case QSqlError::UnknownError: //未知错误
+        case QSqlError::UnknownError: //未知错误
             str = tr("未知错误");
             break;
         }
     }
 
-     qCritical() << "Sql_Error: " << tr("数据库名：") << tableName() << str << err.text();
+    qCritical() << "Sql_Error: " << tr("数据库名：") << tableName() << str << err.text();
 }
 
 bool BasicSql::clear()
@@ -317,6 +318,16 @@ void BasicSql::setTableMarking(const QString &marking)
  */
 QSqlDatabase BasicSql::initDb()
 {
+#if 1
+    static QSqlDatabase db;
+    if(!db.isOpen()){
+        db = QSqlDatabase::addDatabase("QSQLITE");
+        db.setDatabaseName(cm_pathOfData("cali_log.db"));
+        if (!db.open()) { //打开数据库
+            qDebug() << "init Db error !!!";
+        }
+    }
+#else
     QSqlDatabase db;
     quint32 value = QRandomGenerator::global()->generate();
     if (QSqlDatabase::contains(QString::number(value))) {
@@ -328,6 +339,8 @@ QSqlDatabase BasicSql::initDb()
             qDebug() << "init Db error !!!" << db.lastError().text();
         }
     }
+#endif
+
     return db;
 }
 

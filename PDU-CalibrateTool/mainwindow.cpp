@@ -26,7 +26,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::initFunSlot()
 {
     initWid();

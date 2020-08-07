@@ -33,7 +33,7 @@ public slots:
     void queryFilter(const QString &);
 
 public:
-    QSqlRelationalTableModel *model;
+   QSqlRelationalTableModel *model;
 };
 
 #endif // SQLTABLEMODEL_H

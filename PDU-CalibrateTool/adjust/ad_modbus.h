@@ -67,9 +67,8 @@ public:
     bool delay(int s);
 
     bool appendLogItem(bool pass);
-    void writeLogs();
-
     bool changeBaudRate();
+    void writeLogs();
 
 protected:
     void initSerial();
