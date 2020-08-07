@@ -88,14 +88,15 @@ int Col_SiThread::recvAcData(uchar *ptr, int line, sDataUnit *msg)
     ptr = toShort(ptr, line, msg->cur);
     ptr = toShort(ptr, line, msg->activePow);
     ptr = toInt(ptr, line, msg->ele);
-    ptr += 24 + 6; // 阈值 湿湿度
+    ptr += 24 + 6; // 阈值 温湿度
 
     msg->size = *(ptr++);
     msg->br = *(ptr++); // 波特率
     ptr = toShort(ptr, line, msg->pow);
     ptr = toChar(ptr, line, msg->pf); // 功率因数
     ptr = toChar(ptr, line, msg->sw); // 开关状态
-    msg->hz = *(ptr++);
+    ptr += 3;
+    //msg->hz = *(ptr++);
 
     if(msg->size > 1) {
         msg->size = 3;
