@@ -78,7 +78,7 @@ bool YC_Ac92b::setVol(int v)
 
     bool ret = setValue("V", vol);
     if(ret) {
-        ret = delay(6);
+        ret = delay(10);
     }
 
     return ret;

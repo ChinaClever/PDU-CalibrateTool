@@ -320,13 +320,10 @@ QSqlDatabase BasicSql::initDb()
 {
 #if 1
     static QSqlDatabase db;
-    static bool s_initDbFinshed = false;
-    if(s_initDbFinshed == false){
+    if(!db.isOpen()){
         db = QSqlDatabase::addDatabase("QSQLITE");
         db.setDatabaseName(cm_pathOfData("cali_log.db"));
-        if (db.open()) { //打开数据库
-            s_initDbFinshed = true;
-        } else {
+        if (!db.open()) { //打开数据库
             qDebug() << "init Db error !!!";
         }
     }
