@@ -31,15 +31,20 @@ void Ad_AutoID::initReadType(sRtuItem &it)
 
 bool Ad_AutoID::analysDevType(uchar *buf, int len)
 {
-    if(len != 4) return false;
+    if(len != 4) {
+        mPacket->status = tr("读取设备序列号失败：返回长度=%1").arg(len);
+        return false;
+    }
 
     uint id = 0;
     for(int i=0; i<len; ++i) {
-        id *= 256;
-        id += buf[i];
+        id *= 256;  id += buf[i];
     }
 
-    return mDevType->analysDevType(id);
+    bool ret = mDevType->analysDevType(id);
+    if(!ret) mPacket->status = QObject::tr("不支持此设备类型 ID=%1").arg(id);
+
+    return ret;
 }
 
 bool Ad_AutoID::readDevId()
@@ -74,7 +79,6 @@ bool Ad_AutoID::readDevType()
     } else {
         mItem->step = Test_End;
         mPacket->pass = Test_Fail;
-        mPacket->status = tr("识别模块错误！");
     }
 
     return ret;

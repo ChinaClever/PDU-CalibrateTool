@@ -55,6 +55,7 @@ int Ad_DevType::getColMode(const QString &str)
 {
     int ret = Transformer;
     if(str.contains("锰铜")) ret = Mn;
+    if(mDt->devType > RPDU) ret = Transformer;
 
     return ret;
 }
