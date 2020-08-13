@@ -37,16 +37,18 @@ bool Ad_Resulting::curErrRange(int exValue, int cur)
     return ret;
 }
 
-bool Ad_Resulting::powErrRange(int exValue, int cur)
+bool Ad_Resulting::powErrRange(int exValue, int pow)
 {
     bool ret = false;
-    int min = exValue - mItem->powErr * 100;
-    int max = exValue + mItem->powErr * 100;
+    int err = exValue * mItem->powErr/1000.0;
+    int min = exValue - err;
+    int max = exValue + err;
 
-    if((cur >= min) && (cur <= max )) {
+    if((pow >= min) && (pow <= max )) {
         ret =  true;
+    } else {
+        qDebug() << "pow Err Range" << pow << exValue << err;
     }
-    resTgData();
 
     return ret;
 }
@@ -68,13 +70,10 @@ bool Ad_Resulting::curTgCheck(int exValue)
 
 bool Ad_Resulting::powRangeByID(int i, int exValue)
 {
-    int pow = mData->pow[i];
-    if(mData->rate < 10) pow *= 10;
-
     exValue = mItem->vol * exValue/AD_CUR_RATE * 1.0;
     mPacket->status = tr("期望功率%1Kw 第%2位 功率").arg(exValue/1000.0).arg(i+1);
-    if(mData->rate) exValue *= mData->rate;
 
+    int pow = mData->pow[i] / mData->rate;
     bool ret = powErrRange(exValue, pow);
     mData->powed[i] = mData->pow[i];
     if(ret) {

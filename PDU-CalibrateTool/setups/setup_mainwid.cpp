@@ -93,7 +93,7 @@ void Setup_MainWid::updateErrData()
     sConfigItem *item = Ad_Config::bulid()->item;
     item->volErr = ui->volErrBox->value();
     item->curErr = ui->curErrBox->value() * 10;
-    item->powErr = ui->powErrBox->value() * 100;
+    item->powErr = ui->powErrBox->value() * 10;
 }
 
 void Setup_MainWid::initErrData()
@@ -108,7 +108,7 @@ void Setup_MainWid::initErrData()
     ui->curErrBox->setValue(value);
 
     value = con->getValue("pow_err");
-    if(value < 0) value = 0.03;
+    if(value < 0) value = 1.5;
     ui->powErrBox->setValue(value);
 
     updateErrData();
