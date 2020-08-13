@@ -134,8 +134,7 @@ void Ad_CoreThread::workDown()
     bool ret = readDevInfo(); if(!ret) return;
 
     mPacket->status = tr("设置标准源电流");
-    //mSource->powerReset();//控制标准源下电到上电
-    ret = mSource->setCur(60);
+    ret = mSource->setCur(60); if(!ret) return;
     ret = mAdjust->startAdjust();
     if(ret) {
         mPacket->status = tr("开始自动验证");
