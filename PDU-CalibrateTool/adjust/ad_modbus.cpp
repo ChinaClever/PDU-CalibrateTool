@@ -316,8 +316,7 @@ bool Ad_Modbus::changeBaudRate()
      case 9600: br = 19200; break;
      case 19200: br = 9600; break;
      default: return false;
-     }
-     mSerial->setBaudRate(br);
+     }     
 
-     return true;
+     return mSerial->setBaudRate(br);;
 }

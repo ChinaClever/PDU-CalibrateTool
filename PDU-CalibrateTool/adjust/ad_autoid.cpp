@@ -54,16 +54,9 @@ bool Ad_AutoID::readDevId()
 
     uchar recv[8] = {0};
     int len = mModbus->rtuRead(&it, recv);
-    if(0 == len){
-        mModbus->delay(1);
-        len = mModbus->rtuRead(&it, recv);
-
-#if 0   // 暂时不启用
-        if(len == 0) { // 自动转变波特泫
-            if(!mModbus->changeBaudRate())
-            len = mModbus->rtuRead(&it, recv);
-        }
-#endif
+    if(len == 0) {
+        bool ret = mModbus->changeBaudRate(); // 自动转变波特泫
+        if(!ret) len = mModbus->rtuRead(&it, recv);
     }
 
     return analysDevType(recv, len);
