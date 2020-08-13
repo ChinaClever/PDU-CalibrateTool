@@ -9,10 +9,10 @@
 Ad_Resulting::Ad_Resulting(QObject *parent) : QThread(parent)
 {
     mPacket =sDataPacket::bulid();
+    mSource =YC_Ac92b::bulid(this);;
     mModbus = Ad_Modbus::bulid(this);
     mItem = Ad_Config::bulid()->item;
     mData = mPacket->data;
-    mSource = nullptr;
 }
 
 Ad_Resulting *Ad_Resulting::bulid(QObject *parent)
@@ -72,7 +72,7 @@ bool Ad_Resulting::powRangeByID(int i, int exValue)
     if(mData->rate < 10) pow *= 10;
 
     exValue = mItem->vol * exValue/AD_CUR_RATE * 1.0;
-    mPacket->status = tr("校验数据: 期望功率%1Kw 第%2位 功率").arg(exValue/1000.0).arg(i+1);
+    mPacket->status = tr("期望功率%1Kw 第%2位 功率").arg(exValue/1000.0).arg(i+1);
     if(mData->rate) exValue *= mData->rate;
 
     bool ret = powErrRange(exValue, pow);
@@ -94,7 +94,7 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
     int cur = mData->cur[i];
     if(mData->rate < 10) cur *= 10;
 
-    mPacket->status = tr("校验数据: 期望电流%1A 第%2位 电流").arg(exValue/AD_CUR_RATE).arg(i+1);
+    mPacket->status = tr("期望电流%1A 第%2位 电流").arg(exValue/AD_CUR_RATE).arg(i+1);
     bool ret = curErrRange(exValue, cur);
     mData->cured[i] = mData->cur[i];
     if(ret) {
@@ -146,9 +146,9 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
     for(int i=0; i<5; ++i) {
         mCollect->readPduData();
         ret = curRangeByID(k, exValue);
-        mModbus->appendLogItem(ret);
         if(!ret) delay(2); else break;
     }
+    mModbus->appendLogItem(ret);
 
     return ret;
 }
@@ -161,7 +161,7 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
         mCtrl->openOnlySwitch(k); if(!delay(10)) break;
         ret = outputCurById(k, exValue);
         if(ret) {
-            ret = delay(3); if(!ret) break;
+            ret = delay(2); if(!ret) break;
         } else {
             //mPacket->status = tr("错误");
             break;
@@ -205,7 +205,7 @@ bool Ad_Resulting::eachCurCheck(int exValue)
 {
     bool res = true;
     for(int k=0; k<mData->size; ++k) {
-        bool ret = curRangeByID(k, exValue);        
+        bool ret = curRangeByID(k, exValue);
         if(!ret) res = false;
     }
     return res;
@@ -215,14 +215,15 @@ bool Ad_Resulting::eachCurEnter(int exValue)
 {
     bool ret = true;
     for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据: 期望电流%1A 功率%2Kw 第%3次")
-                .arg(exValue/AD_CUR_RATE).arg(mItem->vol*exValue/AD_CUR_RATE/1000.0).arg(i+1);
+        mPacket->status = tr("校验数据: 期望电流%1A 功率%2Kw")
+                .arg(exValue/AD_CUR_RATE).arg(mItem->vol*exValue/AD_CUR_RATE/1000.0);
+        if(i) mPacket->status += tr(" 第%1次").arg(i+1);
 
         mCollect->readPduData();
         ret = eachCurCheck(exValue);
-        mModbus->appendLogItem(ret);
         if(ret) break; else if(!delay(2)) break;
     }
+    mModbus->appendLogItem(ret);
 
     return ret;
 }
@@ -239,23 +240,22 @@ bool Ad_Resulting::outputCurCheck(int exValue)
 
 YC_StandSource *Ad_Resulting::initStandSource()
 {
-    static YC_StandSource *source = YC_Ac92b::bulid(this);
-    bool ret = source->handShake();
+    bool ret = mSource->handShake();
     if(!ret) {
-        source = YC_Dc107::bulid(this);
-        ret = source->handShake();
+        mSource = YC_Dc107::bulid(this);
+        ret = mSource->handShake();
         if(!ret) {
-            source = YC_Ac92b::bulid(this);
-            ret = source->handShake();
+            mSource = YC_Ac92b::bulid(this);
+            ret = mSource->handShake();
             if(!ret) {
-                source = nullptr;
+                mSource = nullptr;
                 mPacket->status = tr("标准源通讯失败!");
                 workResult(ret);
             }
         }
     }
 
-    return source;
+    return mSource;
 }
 
 Col_CoreThread *Ad_Resulting::initThread()
@@ -282,7 +282,7 @@ Col_CoreThread *Ad_Resulting::initThread()
         mCtrl = Ctrl_HeaderThread::bulid(this);
         break;
 
-    case IP_PDU:        
+    case IP_PDU:
         mCollect = Col_IpThread::bulid(this);
         mCtrl = Ctrl_HeaderThread::bulid(this);
         break;
@@ -313,7 +313,7 @@ bool Ad_Resulting::noLoadCurCheck()
     for(int k=0; k<mData->size; ++k) {
         if(mData->cur[k] || mData->pow[k]) {
             res = false;
-            mData->status[k] = Test_Fail;            
+            mData->status[k] = Test_Fail;
             mPacket->status = tr("校验数据: 空载电流A 第%1位 ").arg(k+1);
             if(mData->cur[k]) mPacket->status += tr("电流错误");
             if(mData->pow[k]) mPacket->status += tr("功率错误");
@@ -328,7 +328,7 @@ bool Ad_Resulting::noLoadCurFun()
 {
     bool ret = true;
     for(int i=0; i<4; ++i) {
-        mPacket->status = tr("校验数据: 空载电流 第%2次检查").arg(i+1);
+        if(i)mPacket->status = tr("校验数据: 空载电流 第%2次检查").arg(i+1);
         mCollect->readPduData();
         ret = noLoadCurCheck();
         mModbus->appendLogItem(ret);
@@ -355,17 +355,23 @@ bool Ad_Resulting::noLoadEnter()
 bool Ad_Resulting::resEnter()
 {
     mSource = initStandSource();
-    if(mSource) mSource->setVol(200); else return false;
+    bool ret = false;
+    if(mSource) ret = mSource->setVol(200);
+    if(ret) initThread(); else return ret;
 
-    initThread(); delay(5);
     mItem->step = Test_vert;
-    bool ret = noLoadEnter();
+    ret = noLoadEnter();
     if(ret) {
-        for(int i=4; i<5; ++i) {
-            int exCur = (i*2) * AD_CUR_RATE;
-            mPacket->status = tr("验证电流：期望电流%1A").arg(exCur/AD_CUR_RATE);
-            ret = mSource->setCur(exCur/10);
-            if(ret) ret = workDown(exCur);
+        for(int i=0; i<2; ++i) {
+            int exCur = 0;
+            switch (i) {
+            case 0: exCur = 3; break;
+            case 1: exCur = 8; break;
+            }
+
+            mPacket->status = tr("验证电流：期望电流%1A").arg(exCur);
+            ret = mSource->setCur(exCur*10);
+            if(ret) ret = workDown(exCur*AD_CUR_RATE);
             if(!ret) break;
         }
     }

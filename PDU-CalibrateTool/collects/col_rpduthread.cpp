@@ -33,8 +33,10 @@ bool Col_RpduThread::recvVolCur(uchar *recv, int)
 
             uchar sw = *ptr++; // 开关状态 1表示开，0表示关
             for(int i=0; i<mData->size; ++i) {
-                mData->sw[i] =  (sw >> (7-i)) & 1;
-            }
+                mData->sw[i] = (sw >>(7-i)) & 1;
+                mData->vol[i] = mItem->vol; // 假电压
+                mData->pow[i] = mData->vol[i] * mData->cur[i]; // 假功率
+            }            
 
             ret = true;
         } else {

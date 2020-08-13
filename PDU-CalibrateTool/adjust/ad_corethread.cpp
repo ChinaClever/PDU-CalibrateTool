@@ -106,43 +106,40 @@ void Ad_CoreThread::writeLog()
 bool Ad_CoreThread::readDevInfo()
 {
     mSource = mResult->initStandSource();
-    if(!mSource) return false;
+    if(!mSource) {mItem->step = Test_End; return false;}
 
     mSource->setVol(220);
     bool ret = mAutoID->readDevType();//读取设备类型
     if(ret) {
         ret = mSn->snEnter();//写入序列号
     }
+    mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
+
     return ret;
 
-//    //////////////===================
-//            sDevType *mDt = mPacket->devType;
-//            //mDt->devType = MPDU;
-//            mDt->devType = SI_PDU;//SI_PDU
-//            mDt->ac = AC;
-//            //mDt->specs = Mn;
-//            mDt->specs = Transformer;
-//            mDt->lines = 1;
-
-//            return true;
-
+    //////////////===================
+    //    sDevType *mDt = mPacket->devType;
+    //    //mDt->devType = MPDU;
+    //    mDt->devType = IP_PDU;//SI_PDU
+    //    mDt->ac = AC;
+    //    //mDt->specs = Mn;
+    //    mDt->specs = Transformer;
+    //    mDt->lines = 1;
+    //    return true;
 }
 
 void Ad_CoreThread::workDown()
 {
     mPacket->status = tr("已启动校准！");
     bool ret = readDevInfo(); if(!ret) return;
-    mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
 
-    mPacket->status = tr("复位单片机");
-    //mSource->powerReset();//控制标准源下电到上电
-    ret = mSource->setCur(60);
+    mPacket->status = tr("设置标准源电流");
+    ret = mSource->setCur(60); if(!ret) return;
     ret = mAdjust->startAdjust();
     if(ret) {
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
     }
-
     writeLog(); msleep(20);  //记录校准设备校准成功还是校准失败
     mItem->step = Test_End;
 }

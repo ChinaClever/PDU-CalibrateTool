@@ -70,7 +70,7 @@ bool YC_Dc107::setRange()
 bool YC_Dc107::setVol(int v)
 {
     char cmd220[] = {'V', 0, 0x73, 0x33, 0x40};
-    char cmd200[] = {'V', 0, 0x73, 0, 0};
+    char cmd200[] = {'V', 0, 0x66, 0x70, 0};
 
     char *cmd = cmd220;
     if(v == 200) cmd = cmd200;
