@@ -354,7 +354,7 @@ bool Ad_Resulting::noLoadEnter()
 
 bool Ad_Resulting::resEnter()
 {
-    mSource = initStandSource();    
+    mSource = initStandSource();
     if(mSource) mSource->setVol(200); else return false;
 
     initThread(); delay(5);
