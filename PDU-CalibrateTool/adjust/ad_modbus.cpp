@@ -311,12 +311,11 @@ uchar Ad_Modbus::getXorNumber(uchar *buf, int len)
 
 bool Ad_Modbus::changeBaudRate()
 {
-     int br = mSerial->baudRate();
-     switch (br) {
-     case 9600: br = 19200; break;
-     case 19200: br = 9600; break;
-     default: return false;
-     }     
-
-     return mSerial->setBaudRate(br);;
+    int br = mSerial->baudRate();
+    switch (br) {
+    case 9600: br = 19200; break;
+    case 19200: br = 9600; break;
+    default: return false;
+    }
+    return mSerial->setBaudRate(br);;
 }

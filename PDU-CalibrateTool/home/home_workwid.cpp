@@ -74,6 +74,7 @@ void Home_WorkWid::on_startBtn_clicked()
     }
 
     ui->startBtn->setText(str);
+    ui->addrSpin->setEnabled(en);
     ui->groupBox_2->setEnabled(en);
 }
 
@@ -98,6 +99,7 @@ void Home_WorkWid::endFun()
     ui->groupBox_2->setEnabled(true);
     ui->startBtn->setText(tr("开始校准"));
     ui->startBtn->setEnabled(true);
+    ui->addrSpin->setEnabled(true);
 
     ui->updateBtn->setText(tr("开始采集"));
     ui->updateBtn->setEnabled(true);
