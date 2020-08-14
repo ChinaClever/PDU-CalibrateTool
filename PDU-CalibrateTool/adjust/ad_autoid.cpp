@@ -54,7 +54,8 @@ bool Ad_AutoID::readDevId()
 
     uchar recv[8] = {0};
     int len = mModbus->rtuRead(&it, recv);
-    if(len == 0) {
+    if(!len) len = mModbus->rtuRead(&it, recv);
+    if(0 == len){
         bool ret = mModbus->changeBaudRate(); // 自动转变波特泫
         if(!ret) len = mModbus->rtuRead(&it, recv);
         if(!len) mModbus->changeBaudRate();
