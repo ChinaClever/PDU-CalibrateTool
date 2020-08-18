@@ -239,6 +239,7 @@ bool Ad_Resulting::outputCurCheck(int exValue)
 
 YC_StandSource *Ad_Resulting::initStandSource()
 {
+    if(!mSource) mSource = YC_Ac92b::bulid(this);
     bool ret = mSource->handShake();
     if(!ret) {
         mSource = YC_Dc107::bulid(this);
@@ -353,7 +354,6 @@ bool Ad_Resulting::noLoadEnter()
 
 bool Ad_Resulting::resEnter()
 {
-    mSource = initStandSource();
     bool ret = false;
     if(mSource) ret = mSource->setVol(200);
     if(ret) initThread(); else return ret;
