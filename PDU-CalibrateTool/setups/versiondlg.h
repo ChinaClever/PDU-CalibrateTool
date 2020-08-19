@@ -14,14 +14,12 @@ class VersionDlg : public QDialog
 public:
     explicit VersionDlg(QWidget *parent = nullptr);
     ~VersionDlg();
-    void init();
 
 private slots:
     void on_okBtn_clicked();
 
 private:
     Ui::VersionDlg *ui;
-
 };
 
 #endif // VERSIONDLG_H
