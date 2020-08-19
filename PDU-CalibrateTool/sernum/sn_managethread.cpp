@@ -96,11 +96,14 @@ bool SN_ManageThread::readSn(sSnItem &itSn)
 
     uchar buf[32] = {0};
     int len = mModbus->rtuRead(&itRtu, buf);
-    if(len > 0) {
+    if(8 != len) len = mModbus->rtuRead(&itRtu, buf);
+    if(len == 8) {
         ret = analySn(buf, len, itSn);
         if(ret) {
             toSnStr(itSn);
         }
+    } else {
+        mPacket->status = tr("读序列号未返数据长度错误 %1").arg(len);
     }
 
     return ret;
