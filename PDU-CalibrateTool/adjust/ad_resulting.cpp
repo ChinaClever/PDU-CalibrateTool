@@ -239,6 +239,7 @@ bool Ad_Resulting::outputCurCheck(int exValue)
 
 YC_StandSource *Ad_Resulting::initStandSource()
 {
+    if(!mSource) mSource = YC_Ac92b::bulid(this);
     bool ret = mSource->handShake();
     if(!ret) {
         mSource = YC_Dc107::bulid(this);
