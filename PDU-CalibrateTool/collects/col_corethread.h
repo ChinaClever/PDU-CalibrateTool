@@ -20,8 +20,8 @@ protected:
     uchar *getShort(uchar *ptr, int line, uchar *value);
     uchar *toOutputEle(uchar *ptr, int line, uint *value);
 
-    struct sThreshold { uchar min[3], max[3];};
-    uchar *toThreshold(uchar *ptr, int line, sThreshold &unit);
+    uchar *toSiThreshold(uchar *ptr, int line, sThreshold &unit);
+    uchar *toIpThreshold(uchar *ptr, int line, sThreshold &unit);
 
 protected:
     sDataUnit *mData;

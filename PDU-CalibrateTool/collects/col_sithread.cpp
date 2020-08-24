@@ -59,7 +59,10 @@ int Col_SiThread::recvDcData(uchar *ptr, int line, sDataUnit *msg)
     ptr = toShort(ptr, line, msg->cur);
     ptr = toShort(ptr, line, msg->activePow);
     ptr = toInt(ptr, line, msg->ele);
-    ptr += 8 + 2; // 阈值 湿湿度
+    ptr = toSiThreshold(ptr, line, msg->volTh);
+    ptr = toSiThreshold(ptr, line, msg->curTh);
+    msg->tem = *ptr++;
+    msg->hum = *ptr++;
 
     msg->br = *(ptr++); // 波特率
     ptr = toShort(ptr, line, msg->pow);
@@ -88,7 +91,11 @@ int Col_SiThread::recvAcData(uchar *ptr, int line, sDataUnit *msg)
     ptr = toShort(ptr, line, msg->cur);
     ptr = toShort(ptr, line, msg->activePow);
     ptr = toInt(ptr, line, msg->ele);
-    ptr += 24 + 6; // 阈值 温湿度
+    ptr = toSiThreshold(ptr, line, msg->volTh);
+    ptr = toSiThreshold(ptr, line, msg->curTh);
+    msg->tem = *ptr++;
+    msg->hum = *ptr++;
+    ptr += 4; // 温湿度阈值
 
     msg->size = *(ptr++);
     msg->br = *(ptr++); // 波特率
