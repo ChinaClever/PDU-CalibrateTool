@@ -176,7 +176,7 @@ void Home_WorkWid::timeoutDone()
         endFun();
     }
 
-    if(usr_land_jur()) ui->deBtn->show(); else ui->deBtn->hide();
+    //if(usr_land_jur()) ui->deBtn->show(); else ui->deBtn->hide();
 }
 
 
