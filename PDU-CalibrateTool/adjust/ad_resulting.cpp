@@ -175,6 +175,7 @@ bool Ad_Resulting::workResult(bool res)
     if(res) {
         mPacket->pass = Test_Success;
         mPacket->status = tr("校准成功!");
+        mCtrl->factorySet();
     } else {
         mPacket->pass = Test_Fail;
     }
@@ -279,12 +280,12 @@ Col_CoreThread *Ad_Resulting::initThread()
 
     case SI_PDU:
         mCollect = Col_SiThread::bulid(this);
-        mCtrl = Ctrl_HeaderThread::bulid(this);
+        mCtrl = Ctrl_SiThread::bulid(this);
         break;
 
     case IP_PDU:
         mCollect = Col_IpThread::bulid(this);
-        mCtrl = Ctrl_HeaderThread::bulid(this);
+        mCtrl = Ctrl_IpThread::bulid(this);
         break;
 
     default:

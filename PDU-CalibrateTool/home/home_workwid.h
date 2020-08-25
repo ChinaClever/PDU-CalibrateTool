@@ -1,9 +1,8 @@
 #ifndef MODESELECTWID_H
 #define MODESELECTWID_H
 
-#include "home_datatabwid.h"
 #include "ad_corethread.h"
-
+#include "home_setdlg.h"
 
 namespace Ui {
 class Home_WorkWid;
@@ -31,9 +30,11 @@ private slots:
     void on_deBtn_clicked();
     void on_resBtn_clicked();
     void on_updateBtn_clicked();
+    void on_setBtn_clicked();
 
 private:
     Ui::Home_WorkWid *ui;
+    Home_SetDlg *mSetDlg;
     Ad_CoreThread *mCore;
     sConfigItem *mItem;
     QTimer *timer;

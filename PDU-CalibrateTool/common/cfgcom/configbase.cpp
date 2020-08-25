@@ -61,10 +61,10 @@ void ConfigBase::setSerialBr(const QString &com, const QString &br)
  * @brief 根据名称获取配置文件数值
  * @return 对应的配置文件数值
  */
-double ConfigBase::getValue(const QString &name)
+double ConfigBase::getValue(const QString &name, const QString &v)
 {
     QString prefix = getPrefix();
-    QString str = QString("%1_value_%2").arg(prefix).arg(name);
+    QString str = QString("%1_%2_%3").arg(prefix).arg(name).arg(v);
     return com_cfg_readDouble(str, prefix);
 }
 
@@ -73,10 +73,10 @@ double ConfigBase::getValue(const QString &name)
  * @param value
  * @param name
  */
-void ConfigBase::setValue(double value, const QString &name)
+void ConfigBase::setValue(double value, const QString &name, const QString &v)
 {
     QString prefix = getPrefix();
-    QString str = QString("%1_value_%2").arg(prefix).arg(name);
+    QString str = QString("%1_%2_%3").arg(prefix).arg(name).arg(v);
     com_cfg_write(str, QString::number(value), prefix);
 }
 

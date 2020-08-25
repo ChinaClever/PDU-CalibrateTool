@@ -7,9 +7,10 @@
 
 Ctrl_CoreThread::Ctrl_CoreThread(QObject *parent) : QThread(parent)
 {
-    mData = sDataPacket::bulid()->data;
+    mPacket = sDataPacket::bulid();
     mItem = Ad_Config::bulid()->item;
     mModbus = Ad_Modbus::bulid(this);
+    mData = mPacket->data;
 }
 
 

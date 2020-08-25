@@ -12,6 +12,8 @@ Ad_Config::Ad_Config()
     item->source = nullptr;
     item->addr = getAddr();
 
+    initErrData();
+    initThreshold();
     initCurrentNum();
 }
 
@@ -51,7 +53,7 @@ bool Ad_Config::getDate()
 void Ad_Config::setCurrentNum()
 {
     setDate();
-    setValue(item->currentNum, "current_num");
+    setValue(item->currentNum, "current","num");
 }
 
 void Ad_Config::initCurrentNum()
@@ -61,7 +63,7 @@ void Ad_Config::initCurrentNum()
         item->currentNum = 0;
         setCurrentNum();
     } else {
-        int value = getValue("current_num");
+        int value = getValue("current","num");
         if(value < 1) value = 0;
         item->currentNum = value;
     }
@@ -86,7 +88,7 @@ void Ad_Config::setName(QString str)
 
 int Ad_Config::getAddr()
 {
-    int addr = getValue("addr");
+    int addr = getValue("addr", "id");
     if(addr < 0) addr = 3;
 
     return addr;
@@ -94,5 +96,138 @@ int Ad_Config::getAddr()
 
 void Ad_Config::setAddr(int addr)
 {
-    setValue(addr, "addr");
+    setValue(addr, "addr", "id");
+}
+
+
+void Ad_Config::initErrData()
+{
+    double value = getValue("err", "vol");
+    if(value < 0) value = 1;
+    item->volErr = value;
+
+    value = getValue("err", "cur");
+    if(value < 0) value = 1;
+    item->curErr = value;
+
+    value = getValue("err", "pow");
+    if(value < 0) value = 15;
+    item->powErr = value;
+}
+
+void Ad_Config::writeErrData()
+{
+    double value = item->volErr;
+    setValue(value, "err", "vol");
+
+    value = item->curErr;
+    setValue(value, "err", "cur");
+
+    value = item->powErr;
+    setValue(value, "err", "pow");
+}
+
+void Ad_Config::initThreshold()
+{
+    double value = getValue("cth", "type");
+    if(value < 0) value = 1;
+    item->cTh.type = value;
+
+    value = getValue("vol", "min");
+    if(value < 0) value = 80;
+    item->cTh.vol_min = value;
+
+    value = getValue("vol", "max");
+    if(value < 0) value = 276;
+    item->cTh.vol_max = value;
+
+    value = getValue("cur", "min");
+    if(value < 0) value = 0;
+    item->cTh.cur_min = value;
+
+    value = getValue("cur", "max");
+    if(value < 0) value = 320;
+    item->cTh.cur_max = value;
+
+    value = getValue("si", "mod");
+    if(value < 0) value = 0;
+    item->cTh.si_mod = value;
+
+    value = getValue("ele", "clear");
+    if(value < 0) value = 1;
+    item->cTh.ele_clear = value;
+
+    value = getValue("ip", "mod");
+    if(value < 0) value = 0;
+    item->cTh.ip_mod = value;
+
+    value = getValue("set", "mac");
+    if(value < 0) value = 1;
+    item->cTh.set_mac = value;
+
+    value = getValue("mac", "clear");
+    if(value < 0) value = 0;
+    item->cTh.mac_clear = value;
+
+    char* ch = getMacAddr().toLatin1().data();
+    strcpy(item->cTh.mac_addr, ch);
+}
+
+
+void Ad_Config::writeThreshold()
+{
+    double value = item->cTh.type;
+    setValue(value, "cth", "type");
+
+    value = item->cTh.vol_min;
+    setValue(value, "vol", "min");
+
+    value = item->cTh.vol_max;
+    setValue(value, "vol", "max");
+
+    value = item->cTh.cur_min;
+    setValue(value, "cur", "min");
+
+    value = item->cTh.cur_max;
+    setValue(value, "cur", "max");
+
+    value = item->cTh.si_mod;
+    setValue(value, "si", "mod");
+
+    value = item->cTh.ele_clear;
+    setValue(value, "ele", "clear");
+
+    value = item->cTh.ip_mod;
+    setValue(value, "ip", "mod");
+
+    value = item->cTh.set_mac;
+    setValue(value, "set", "mac");
+
+    value = item->cTh.mac_clear;
+    setValue(value, "mac", "clear");
+
+    setMacAddr(item->cTh.mac_addr);
+}
+
+
+/**
+ * @brief 获取当前用户名称
+ * @return 用户名
+ */
+QString Ad_Config::getMacAddr()
+{
+    QString prefix = getPrefix();
+    QString str = QString("%1_mac_addr").arg(prefix);
+    return com_cfg_readStr(str, prefix);
+}
+
+/**
+ * @brief 设置当前用户名
+ * @param name
+ */
+void Ad_Config::setMacAddr(const QString &name)
+{
+    QString prefix = getPrefix();
+    QString str = QString("%1_mac_addr").arg(prefix);
+    com_cfg_write(str, name, prefix);
 }
