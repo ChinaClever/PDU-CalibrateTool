@@ -8,7 +8,6 @@ Home_SetDlg::Home_SetDlg(QWidget *parent) :
     ui->setupUi(this);
     groupBox_background_icon(this);
     mItem = Ad_Config::bulid()->item;
-    initThresholdWid();
 }
 
 Home_SetDlg::~Home_SetDlg()
@@ -16,19 +15,20 @@ Home_SetDlg::~Home_SetDlg()
     delete ui;
 }
 
-
 void Home_SetDlg::initThresholdWid()
 {
     ui->comboBox->setCurrentIndex(mItem->cTh.type);
     on_comboBox_currentIndexChanged(mItem->cTh.type);
 
+    ui->timeCheck->setChecked(mItem->cTh.time_set);
+    ui->logCheck->setChecked(mItem->cTh.log_clear);
     ui->siCheck->setChecked(mItem->cTh.si_mod);
     ui->eleCheck->setChecked(mItem->cTh.ele_clear);
     ui->ipCheck->setChecked(mItem->cTh.ip_mod);
-    ui->macCheck->setChecked(mItem->cTh.set_mac);
+    ui->macCheck->setChecked(mItem->cTh.mac_set);
     ui->macEdit->setText(mItem->cTh.mac_addr);
     ui->clearRadio->setChecked(mItem->cTh.mac_clear);
-    on_macCheck_clicked(mItem->cTh.set_mac);
+    on_macCheck_clicked(mItem->cTh.mac_set);
 }
 
 void Home_SetDlg::getThresholdWid()
@@ -39,10 +39,12 @@ void Home_SetDlg::getThresholdWid()
     mItem->cTh.cur_min = ui->curMinSpin->value();
     mItem->cTh.cur_max = ui->curMaxSpin->value();
 
+    mItem->cTh.time_set = ui->timeCheck->isChecked() ? 1:0;
+    mItem->cTh.log_clear = ui->logCheck->isChecked() ? 1:0;
     mItem->cTh.si_mod = ui->siCheck->isChecked() ? 1:0;
     mItem->cTh.ele_clear = ui->eleCheck->isChecked() ? 1:0;
     mItem->cTh.ip_mod = ui->ipCheck->isChecked() ? 1:0;
-    mItem->cTh.set_mac = ui->macCheck->isChecked() ? 1:0;
+    mItem->cTh.mac_set = ui->macCheck->isChecked() ? 1:0;
     mItem->cTh.mac_clear = ui->clearRadio->isChecked() ? 1:0;
 
     char* ch = ui->macEdit->text().toLatin1().data();

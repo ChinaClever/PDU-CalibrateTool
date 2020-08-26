@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>440</width>
-    <height>435</height>
+    <height>489</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -434,7 +434,7 @@
      <x>10</x>
      <y>300</y>
      <width>421</width>
-     <height>61</height>
+     <height>100</height>
     </rect>
    </property>
    <property name="font">
@@ -448,6 +448,26 @@
    </property>
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
+     <widget class="QCheckBox" name="logCheck">
+      <property name="text">
+       <string>自动清除日志</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QCheckBox" name="timeCheck">
+      <property name="text">
+       <string>自动同步时间</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
      <widget class="QCheckBox" name="siCheck">
       <property name="minimumSize">
        <size>
@@ -463,7 +483,7 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
+    <item row="1" column="1">
      <widget class="QCheckBox" name="ipCheck">
       <property name="minimumSize">
        <size>
@@ -487,8 +507,8 @@
   <widget class="QPushButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>284</x>
-     <y>380</y>
+     <x>280</x>
+     <y>430</y>
      <width>131</width>
      <height>41</height>
     </rect>

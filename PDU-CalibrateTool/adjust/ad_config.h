@@ -26,9 +26,12 @@ struct sConfigThreshold {
     uchar si_mod; // 1 表示行业标准 Modbus RTU 模式
     uchar ele_clear; // 电能清除
     uchar ip_mod; //  1 表示 Modbus版本
-    uchar set_mac; // 设置MAC
+    uchar mac_set; // 设置MAC
     uchar mac_clear;  // MAC地址自动加一，清空
     char mac_addr[32]; //  MAC地址
+
+    uchar log_clear;
+    uchar time_set;
 };
 
 struct sConfigItem

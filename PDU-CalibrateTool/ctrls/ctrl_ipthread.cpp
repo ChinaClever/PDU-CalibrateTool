@@ -107,28 +107,71 @@ void Ctrl_IpThread::setTime()
     mModbus->writeSerial(buf, len);
 }
 
+bool Ctrl_IpThread::inputMacAddr(uchar *buf)
+{
+    bool ret = false;
+    char *ptr = mItem->cTh.mac_addr;
+    int len = strlen(ptr);
+    if(len) {
+        Ad_MacAddr *mac = Ad_MacAddr::bulid();
+        len = mac->macToChar(ptr, buf);
+        if(len > 0) {
+            ret = true;
+            if(mItem->cTh.mac_clear > 0) {
+                mac->macAdd(ptr, ptr);
+            } else {
+                ptr[0] = 0;
+            }
+        }
+    }
+
+    return ret;
+}
+
 void Ctrl_IpThread::setMacAddr()
 {
     uchar len = 8;
     uchar buf[32] = {0x01, 0x06, 0x10, 0x19, 0x00, 0x01, 0x5C, 0xCD};
     buf[0] = mItem->addr;
 
-    memcpy(&buf[4], mItem->cTh.mac_addr, 16);
+    bool res = inputMacAddr(&buf[4]);
+    if(res){
+        ushort crc = mModbus->rtu_crc(buf, len-2);
+        buf[26] = 0xff&crc; /*低8位*/
+        buf[27] = crc >> 8; /*高8位*/
+        mModbus->delay(1);
+
+        len = mModbus->transmit(buf, len, buf, 1);
+        if(len > 0) res = true; else res = false;
+    }
+
+    mPacket->status = tr("出厂MAC设置");
+    mModbus->appendLogItem(res);
+}
+
+// 表示行业标准 Modbus RTU 模式
+bool Ctrl_IpThread::setModel()
+{
+    uchar len = 8;
+    uchar buf[20] = {0x01, 0x06, 0x10, 0x19, 0x00, 0x01, 0x5C, 0xCD};
+    buf[0] = mItem->addr;
+
     ushort crc = mModbus->rtu_crc(buf, len-2);
-    buf[26] = 0xff&crc; /*低8位*/
-    buf[27] = crc >> 8; /*高8位*/
+    buf[6] = 0xff&crc; /*低8位*/
+    buf[7] = crc >> 8; /*高8位*/
     mModbus->delay(1);
 
     bool ret = false;
     len = mModbus->transmit(buf, len, buf, 1);
     if(len > 0) ret = true;
 
-    mPacket->status = tr("出厂MAC设置");
+    mPacket->status = tr("出厂模式切换");
     mModbus->appendLogItem(ret);
+
+    return ret;
 }
 
-// 表示行业标准 Modbus RTU 模式
-bool Ctrl_IpThread::setModel()
+bool Ctrl_IpThread::setclearLog()
 {
     uchar len = 8;
     uchar buf[20] = {0x01, 0x06, 0x10, 0x19, 0x00, 0x01, 0x5C, 0xCD};
@@ -154,9 +197,10 @@ bool Ctrl_IpThread::factorySet()
 {
     bool ret = setThreshold();
     if(ret) {
-        setTime(); // 设置时间
+        if(mItem->cTh.time_set > 0) setTime(); // 设置时间
         if(mItem->cTh.ele_clear > 0) funClearEle(nullptr);
-        if(mItem->cTh.set_mac > 0)  setMacAddr();
+        if(mItem->cTh.mac_set > 0)  setMacAddr();
+        if(mItem->cTh.log_clear > 0)  setclearLog();
         if(mItem->cTh.ip_mod > 0) ret = setModel();
     }
 

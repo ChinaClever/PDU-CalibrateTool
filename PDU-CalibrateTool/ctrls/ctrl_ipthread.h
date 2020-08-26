@@ -18,9 +18,11 @@ protected:
 
     void initWriteCmd(sRtuSetItem &item);
     bool setThreshold();
+    bool inputMacAddr(uchar *buf);
     void setMacAddr();
     bool setModel();
     void setTime();
+    bool setclearLog();
 };
 
 #endif // CTRL_HEADERTHREAD_H

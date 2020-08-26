@@ -161,13 +161,21 @@ void Ad_Config::initThreshold()
     if(value < 0) value = 0;
     item->cTh.ip_mod = value;
 
-    value = getValue("set", "mac");
+    value = getValue("mac", "set");
     if(value < 0) value = 1;
-    item->cTh.set_mac = value;
+    item->cTh.mac_set = value;
 
     value = getValue("mac", "clear");
     if(value < 0) value = 0;
     item->cTh.mac_clear = value;
+
+    value = getValue("time", "set");
+    if(value < 0) value = 1;
+    item->cTh.time_set = value;
+
+    value = getValue("log", "clear");
+    if(value < 0) value = 1;
+    item->cTh.log_clear = value;
 
     char* ch = getMacAddr().toLatin1().data();
     strcpy(item->cTh.mac_addr, ch);
@@ -200,11 +208,17 @@ void Ad_Config::writeThreshold()
     value = item->cTh.ip_mod;
     setValue(value, "ip", "mod");
 
-    value = item->cTh.set_mac;
-    setValue(value, "set", "mac");
+    value = item->cTh.mac_set;
+    setValue(value, "mac", "set");
 
     value = item->cTh.mac_clear;
     setValue(value, "mac", "clear");
+
+    value = item->cTh.time_set;
+    setValue(value, "time", "set");
+
+    value = item->cTh.log_clear;
+    setValue(value, "log", "clear");
 
     setMacAddr(item->cTh.mac_addr);
 }

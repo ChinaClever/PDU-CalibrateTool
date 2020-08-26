@@ -16,8 +16,8 @@ public:
     explicit Home_SetDlg(QWidget *parent = nullptr);
     ~Home_SetDlg();
 
-protected:
     void initThresholdWid();
+protected:
     void getThresholdWid();
     void setThresholdWid();
 
