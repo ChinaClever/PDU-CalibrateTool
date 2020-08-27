@@ -32,7 +32,6 @@ bool Ad_MacAddr::isMacAddress(const QString &mac)
     return false;
 }
 
-
 /**
 * 函数功能:将格式如"EA-EB-EC-AA-AB-AC"的MAC QString字符串转换成6字节的数组，
 * 数组的元素对应为{0xEA,0xEB,0xEC,0xAA,0xAB,0xAC}

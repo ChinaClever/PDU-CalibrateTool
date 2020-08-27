@@ -27,7 +27,7 @@ void DbLogs::createTable()
             "sn             VCHAR not null);";
     QSqlQuery query(mDb);
     if(!query.exec(cmd.arg(tableName()))) {
-        throwError(query);
+        throwError(query.lastError());
     }
 }
 
@@ -61,6 +61,6 @@ bool DbLogs::modifyItem(const sLogItem &item, const QString &cmd)
     query.bindValue(":result",item.result);
     query.bindValue(":sn",item.sn);
     bool ret = query.exec();
-    if(!ret) throwError(query);
+    if(!ret) throwError(query.lastError());
     return ret;
 }

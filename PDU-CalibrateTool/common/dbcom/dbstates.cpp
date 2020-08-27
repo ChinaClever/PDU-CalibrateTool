@@ -28,7 +28,7 @@ void DbStates::createTable()
             "memo           VCHAR);";
     QSqlQuery query(mDb);
     if(!query.exec(cmd.arg(tableName()))) {
-        throwError(query);
+        throwError(query.lastError());
     }
 }
 
@@ -64,6 +64,6 @@ bool DbStates::modifyItem(const sStateItem &item, const QString &cmd)
     query.bindValue(":result",item.result);
     query.bindValue(":memo",item.memo);
     bool ret = query.exec();
-    if(!ret) throwError(query);
+    if(!ret) throwError(query.lastError());
     return ret;
 }

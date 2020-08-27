@@ -42,7 +42,6 @@ void Ctrl_IpThread::funClearEle(uchar *buf)
     mModbus->appendLogItem(ret);
 }
 
-
 void Ctrl_IpThread::initWriteCmd(sRtuSetItem &item)
 {
     int k=0, len=12;
@@ -118,6 +117,7 @@ bool Ctrl_IpThread::inputMacAddr(uchar *buf)
         if(len > 0) {
             ret = true;
             if(mItem->cTh.mac_clear > 0) {
+                mModbus->writeMac(ptr);
                 mac->macAdd(ptr, ptr);
             } else {
                 ptr[0] = 0;

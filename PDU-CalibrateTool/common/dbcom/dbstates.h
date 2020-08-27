@@ -1,7 +1,7 @@
 #ifndef DBSTATUS_H
 #define DBSTATUS_H
 
-#include "dblogs.h"
+#include "dbmacs.h"
 
 struct sStateItem : public sLogItem{
     QString memo;
