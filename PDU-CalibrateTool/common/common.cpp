@@ -52,7 +52,7 @@ bool cm_isIPaddress(const QString& ip)
  */
 QString cm_ByteArrayToHexStr(const QByteArray &array)
 {
-    QString strArray = array.toHex(); // 十六进制
+    QString strArray = array.toHex().toUpper(); // 十六进制
     for(int i=0; i<array.size(); ++i)
         strArray.insert(2+3*i, " "); // 插入空格
     return strArray;

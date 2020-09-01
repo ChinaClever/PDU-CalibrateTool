@@ -73,8 +73,11 @@ int Col_IpThread::recvDataV1(uchar *ptr, sDataUnit *msg)
     ptr =  toShort(ptr, line, msg->pow);
     ptr += (2*line); // 频率  //  ptr =  touChar(ptr, line, msg->hz);
     ptr =  toInt(ptr, line, msg->ele);
-    ptr += 4 + 24 + 8; // 温度 湿度
-    ptr += (2*2*line + 4); // 报警标志位
+    msg->tem = getShort(ptr); ptr +=2;
+    msg->hum = getShort(ptr); ptr +=2;
+    ptr = toIpThreshold(ptr, line, msg->volTh);
+    ptr = toIpThreshold(ptr, line, msg->curTh);
+    ptr += 8 + (2*2*line + 4); // 报警标志位
 
     ptr = getSwitch(ptr, 2, msg->sw);
     msg->size = getShort(ptr); ptr +=2;
@@ -106,8 +109,11 @@ int Col_IpThread::recvDataV3(uchar *ptr, sDataUnit *msg)
 
     msg->hz = getShort(ptr); ptr +=2;
     ptr = getSwitch(ptr, line, msg->sw); // 开关状态
-    ptr += 4 + 12*2 + 2*4; // 温度 湿度
-    ptr += (2*2*line + 2 + 2); // 报警
+    msg->tem = getShort(ptr); ptr +=2;
+    msg->hum = getShort(ptr); ptr +=2;
+    ptr = toIpThreshold(ptr, line, msg->volTh);
+    ptr = toIpThreshold(ptr, line, msg->curTh);
+    ptr += 8 + (2*2*line + 2 + 2); // 报警
 
     msg->size = getShort(ptr); ptr +=2;
     msg->version = getShort(ptr); ptr +=2;

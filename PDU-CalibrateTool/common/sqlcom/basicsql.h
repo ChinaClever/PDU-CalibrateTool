@@ -75,7 +75,7 @@ signals:
     void itemChanged(int id,int type);
 protected:
     QString tableMarking();
-    void throwError(const QSqlQuery &query); /// inline static
+    void throwError(const QSqlError &err); /// inline static
     void setTableMarking(const QString& marking);
 };
 
@@ -125,7 +125,7 @@ protected:
             qDebug()<<" "<<query.lastError().databaseText();
             qDebug()<<" "<<query.lastError().driverText();
             qDebug()<<sqlcom;
-            throwError(query);
+            throwError(query.lastError());
         }
         return items;
     }

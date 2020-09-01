@@ -19,6 +19,7 @@ public:
 
     virtual void clearAllEle();
     virtual void setClearEle(int id);
+    virtual bool factorySet(){return true;}
 
 protected:
     void setBitControl(int id, uchar *buf);
@@ -35,6 +36,7 @@ protected:
     sDataUnit *mData;
     sConfigItem *mItem;
     Ad_Modbus *mModbus;
+    sDataPacket *mPacket;
 };
 
 #endif // AD_CORETHREAD_H

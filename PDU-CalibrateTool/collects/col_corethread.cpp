@@ -53,11 +53,21 @@ uchar *Col_CoreThread::toChar(uchar *ptr, int line, uchar *value)
     return ptr;
 }
 
-uchar *Col_CoreThread::toThreshold(uchar *ptr, int line, sThreshold &unit)
+uchar *Col_CoreThread::toSiThreshold(uchar *ptr, int line, sThreshold &unit)
 {
     for(int i=0; i<line; ++i) {
-        ptr = toChar(ptr, 1, &unit.min[i]);
-        ptr = toChar(ptr, 1, &unit.max[i]);
+        unit.min[i] = *ptr++;
+        unit.max[i] = *ptr++;
+    }
+
+    return ptr;
+}
+
+uchar *Col_CoreThread::toIpThreshold(uchar *ptr, int line, sThreshold &unit)
+{
+    for(int i=0; i<line; ++i) {
+        ptr = toShort(ptr, 1, &unit.min[i]);
+        ptr = toShort(ptr, 1, &unit.max[i]);
     }
 
     return ptr;

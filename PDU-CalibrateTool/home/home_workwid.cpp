@@ -13,6 +13,7 @@ Home_WorkWid::Home_WorkWid(QWidget *parent) :
     ui(new Ui::Home_WorkWid)
 {
     ui->setupUi(this);
+    mSetDlg = new Home_SetDlg(this);
     mItem = Ad_Config::bulid()->item;
     mCore = Ad_CoreThread::bulid(this);
     ui->addrSpin->setValue(mItem->addr);
@@ -74,6 +75,7 @@ void Home_WorkWid::on_startBtn_clicked()
     }
 
     ui->startBtn->setText(str);
+    ui->setBtn->setEnabled(en);
     ui->addrSpin->setEnabled(en);
     ui->groupBox_2->setEnabled(en);
 }
@@ -100,6 +102,7 @@ void Home_WorkWid::endFun()
     ui->startBtn->setText(tr("开始校准"));
     ui->startBtn->setEnabled(true);
     ui->addrSpin->setEnabled(true);
+    ui->setBtn->setEnabled(true);
 
     ui->updateBtn->setText(tr("开始采集"));
     ui->updateBtn->setEnabled(true);
@@ -173,7 +176,7 @@ void Home_WorkWid::timeoutDone()
         endFun();
     }
 
-    if(usr_land_jur()) ui->deBtn->show(); else ui->deBtn->hide();
+    //if(usr_land_jur()) ui->deBtn->show(); else ui->deBtn->hide();
 }
 
 
@@ -192,6 +195,7 @@ void Home_WorkWid::on_resBtn_clicked()
     }
 
     ui->resBtn->setText(str);
+    ui->setBtn->setEnabled(en);
     ui->startBtn->setEnabled(en);
     ui->updateBtn->setEnabled(en);
 }
@@ -228,6 +232,13 @@ void Home_WorkWid::on_updateBtn_clicked()
     }
 
     ui->updateBtn->setText(str);
+    ui->setBtn->setEnabled(en);
     ui->resBtn->setEnabled(en);
     ui->startBtn->setEnabled(en);
+}
+
+void Home_WorkWid::on_setBtn_clicked()
+{
+    mSetDlg->initThresholdWid();
+    mSetDlg->exec();
 }

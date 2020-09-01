@@ -19,7 +19,6 @@ public:
 protected:
     void initSerial();
     void initErrData();
-    void writeErrData();
     void updateErrData();
     void initLogCount();
     void initPcNum();

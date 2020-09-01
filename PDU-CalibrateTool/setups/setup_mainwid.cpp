@@ -59,7 +59,7 @@ void Setup_MainWid::initFunSlot()
 void Setup_MainWid::initPcNum()
 {
     Ad_Config *con = Ad_Config::bulid();
-    int value = (int)con->getValue("pc_num");
+    int value = (int)con->getValue("pc", "num");
     if(value < 1) value = 0;
 
     sConfigItem *item = con->item;
@@ -71,7 +71,7 @@ void Setup_MainWid::initPcNum()
 void Setup_MainWid::initLogCount()
 {
     Ad_Config *con = Ad_Config::bulid();
-    int value = (int)con->getValue("log_count");
+    int value = (int)con->getValue("log", "count");
     if(value < 1) value = 10*10000;
 
     sConfigItem *item = con->item;
@@ -85,7 +85,7 @@ void Setup_MainWid::writeLogCount()
     Ad_Config *con = Ad_Config::bulid();
     int arg1 = ui->logCountSpin->value();
     con->item->logCount = arg1*10000;
-    con->setValue(arg1*10000, "log_count");
+    con->setValue(arg1*10000, "log", "count");
 }
 
 void Setup_MainWid::updateErrData()
@@ -94,40 +94,18 @@ void Setup_MainWid::updateErrData()
     item->volErr = ui->volErrBox->value();
     item->curErr = ui->curErrBox->value() * 10;
     item->powErr = ui->powErrBox->value() * 10;
+
+    Ad_Config::bulid()->writeErrData();
 }
 
 void Setup_MainWid::initErrData()
 {
-    Ad_Config *con = Ad_Config::bulid();
-    double value = con->getValue("vol_err");
-    if(value < 0) value = 1;
-    ui->volErrBox->setValue(value);
-
-    value = con->getValue("cur_err");
-    if(value < 0) value = 0.1;
-    ui->curErrBox->setValue(value);
-
-    value = con->getValue("pow_err");
-    if(value < 0) value = 1.5;
-    ui->powErrBox->setValue(value);
-
-    updateErrData();
+    sConfigItem *item = Ad_Config::bulid()->item;
+    ui->volErrBox->setValue(item->volErr);
+    ui->curErrBox->setValue(item->curErr / 10.0);
+    ui->powErrBox->setValue(item->powErr / 10.0);
 }
 
-void Setup_MainWid::writeErrData()
-{
-    Ad_Config *con = Ad_Config::bulid();
-    double value = ui->volErrBox->value();
-    con->setValue(value, "vol_err");
-
-    value = ui->curErrBox->value();
-    con->setValue(value, "cur_err");
-
-    value = ui->powErrBox->value();
-    con->setValue(value, "pow_err");
-
-    updateErrData();
-}
 
 
 void Setup_MainWid::on_saveBtn_clicked()
@@ -143,7 +121,6 @@ void Setup_MainWid::on_saveBtn_clicked()
 
     if(flg++ %2) {
         ret = false;
-        writeErrData();
         updateErrData();
     } else {
         str = tr("保存");
@@ -160,7 +137,7 @@ void Setup_MainWid::writePcNum()
     Ad_Config *con = Ad_Config::bulid();
     int arg1 = ui->pcNumSpin->value();
     con->item->pcNum = arg1;
-    con->setValue(arg1, "pc_num");
+    con->setValue(arg1, "pc", "num");
 }
 
 void Setup_MainWid::on_pcBtn_clicked()

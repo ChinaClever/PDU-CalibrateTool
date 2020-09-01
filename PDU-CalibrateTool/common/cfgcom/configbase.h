@@ -12,8 +12,8 @@ public:
     QString getSerialName(const QString &com="");
     void setSerialName(const QString &name, const QString &com="");
 
-    double getValue(const QString &name);
-    void setValue(double value, const QString &name);
+    double getValue(const QString &name, const QString &v);
+    void setValue(double value, const QString &name, const QString &v);
 
     QString getCurrentName();
     void setCurrentName(const QString &name);

@@ -16,7 +16,23 @@ enum {
     Test_Fail,
 };
 
+struct sConfigThreshold {
+    uchar type; // 0 不设置， 1 32安  2 16安， 3 63安  4 自定义
+    ushort vol_min;
+    ushort vol_max;
+    ushort cur_min;
+    ushort cur_max;
 
+    uchar si_mod; // 1 表示行业标准 Modbus RTU 模式
+    uchar ele_clear; // 电能清除
+    uchar ip_mod; //  1 表示 Modbus版本
+    uchar mac_set; // 设置MAC
+    uchar mac_clear;  // MAC地址自动加一，清空
+    char mac_addr[32]; //  MAC地址
+
+    uchar log_clear;
+    uchar time_set;
+};
 
 struct sConfigItem
 {
@@ -29,6 +45,8 @@ struct sConfigItem
 
     ushort vol;
     ushort volErr, curErr, powErr; // 电流误差
+    sConfigThreshold cTh;
+
     int logCount;
 
     uchar pcNum;
@@ -51,11 +69,19 @@ public:
 
     int getAddr();
     void setAddr(int addr);
+
+    void writeErrData();
+    void writeThreshold();
+    void setMacAddr(const QString &name);
+
 protected:
     bool getDate();
     void setDate();
 
+    QString getMacAddr();
     void initCurrentNum();
+    void initErrData();
+    void initThreshold();
 };
 
 #endif // ADJUSTCONFIG_H

@@ -14,6 +14,10 @@
 #define COM_RATE_TEM	10.0    // 温度
 #define COM_RATE_HUM	10.0    // 湿度
 
+struct sThreshold {
+    ushort min[PACK_ARRAY_SIZE];
+    ushort max[PACK_ARRAY_SIZE];
+};
 
 /**
  * 数据对象：包括电流，电压，功率，电能，开关状态，插接位名称
@@ -23,7 +27,10 @@ struct sDataUnit
     sDataUnit() {size=0;}
     int size;
     double rate;
+    sThreshold volTh;
     ushort vol[PACK_ARRAY_SIZE]; // 电压
+
+    sThreshold curTh;
     ushort cur[PACK_ARRAY_SIZE]; // 电流
     ushort cured[PACK_ARRAY_SIZE]; // 电流
     ushort pow[PACK_ARRAY_SIZE]; // 功率
@@ -32,6 +39,8 @@ struct sDataUnit
 
     uchar pf[PACK_ARRAY_SIZE]; // 功率因数
     uchar sw[PACK_ARRAY_SIZE]; // 开关状态  0 表示未启用 1 表示开
+    uchar tem;
+    uchar hum;
 
     uchar hz; // 电压频率
     uchar br; // 波特率
