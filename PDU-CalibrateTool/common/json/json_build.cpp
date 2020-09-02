@@ -9,7 +9,7 @@
 
 Json_Build::Json_Build()
 {
-    QString product[PRODUCT_NUM]={"ZPDU","MPDU","RPDU","NPM-V","IP-PDU","SI-PDU","BM"};
+    QString product[PRODUCT_NUM]={"ZPDU","MPDU","RPDU","NPM-V","IP-PDU","SI-PDU","BM-PDU"};
     for(int i = 0 ; i < PRODUCT_NUM ; i++)
     {
         mProduct.push_back(product[i]);//产品种类初始化
