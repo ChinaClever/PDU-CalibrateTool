@@ -74,56 +74,13 @@ void Ctrl_SiThread::initDcCmd(sRtuSetItem &item)
     item.data[k++] = mItem->cTh.cur_min/10;
 }
 
-void Ctrl_SiThread::initAcCmd(QList<sRtuSetItem>& item,unsigned short reg)
-{
-    int k=0;
-
-    sRtuSetItem t;
-    t.addr = mItem->addr;
-    t.fn = 0x10;
-    t.reg = reg;
-
-    if(reg>=0x1002&&reg<=0x1007){
-        if(reg%2==0)
-        t.data[k++] = mItem->cTh.vol_max;
-        else
-        t.data[k++] = mItem->cTh.vol_min;
-    }
-
-    if(reg>=0x1008&&reg<=0x100D){
-        if(reg%2==0)
-        t.data[k++] = mItem->cTh.cur_max/10;
-        else
-        t.data[k++] = mItem->cTh.cur_min/10;
-    }
-    item.append(t);
-}
-
-void Ctrl_SiThread::initDcCmd(QList<sRtuSetItem>& item,unsigned short reg)
-{
-    int k=0;
-
-    sRtuSetItem t;
-    t.addr = mItem->addr;
-    t.fn = 0x10;
-    t.reg = reg;//0x1014;
-    //t.num = len;
-    //t.len = len;
-
-    t.data[k++] = mItem->cTh.vol_max;
-    t.data[k++] = mItem->cTh.vol_min;
-    t.data[k++] = mItem->cTh.cur_max/10;
-    t.data[k++] = mItem->cTh.cur_min/10;
-    item.append(t);
-}
-
-void Ctrl_SiThread::initWriteCmd(QList<sRtuSetItem> &item,unsigned short reg)
+void Ctrl_SiThread::initWriteCmd(sRtuSetItem &item)
 {
     sDevType *devType = sDataPacket::bulid()->devType;
     if(DC == devType->ac) {
-        initDcCmd(item,reg);
+        initDcCmd(item);
     } else {
-        initAcCmd(item,reg);
+        initAcCmd(item);
     }
 }
 
@@ -131,20 +88,10 @@ bool Ctrl_SiThread::setThreshold()
 {
     bool ret = true;
     if(mItem->cTh.type > 0) {
-        QList<sRtuSetItem> itRtu;
-        sDevType *devType = sDataPacket::bulid()->devType;
-        int len = 12;
-        if(DC == devType->ac){
-           len = 4;
-        }
-        for(int i = 0 ; i < len ; i++){
-            initWriteCmd(itRtu);
-        }
+        sRtuSetItem itRtu;
+        initWriteCmd(itRtu);
         mModbus->delay(1);
-        for(int i = 0 ; i < len ; i++){
-            ret = mModbus->rtuWrite(&itRtu);
-            mModbus->delay(1);
-        }
+        ret = mModbus->rtuWrite(&itRtu);
 
         mPacket->status = tr("出厂阈值设置");
         mModbus->appendLogItem(ret);

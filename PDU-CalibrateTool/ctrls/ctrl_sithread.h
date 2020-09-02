@@ -18,9 +18,7 @@ protected:
 
     void initAcCmd(sRtuSetItem &item);
     void initDcCmd(sRtuSetItem &item);
-    void initAcCmd(QList<sRtuSetItem>& item,unsigned short reg);
-    void initDcCmd(QList<sRtuSetItem>& item,unsigned short reg);
-    void initWriteCmd(QList<sRtuSetItem> &item, unsigned short reg);
+    void initWriteCmd(sRtuSetItem &item);
     bool setThreshold();
     bool setModel();
 };
