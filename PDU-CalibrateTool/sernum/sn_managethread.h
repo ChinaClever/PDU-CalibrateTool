@@ -32,7 +32,7 @@ protected:
 
     void createSn(sSnItem &it);
     int toSnData(sSnItem &it, uchar *data);
-    void initWriteCmd(sRtuSetItem &item, uchar *data, int len);
+    void initWriteCmd(sRtuSetItems &item, uchar *data, int len);
 
     bool readSn(sSnItem &itSn);
     bool writeSn(sSnItem &itSn);

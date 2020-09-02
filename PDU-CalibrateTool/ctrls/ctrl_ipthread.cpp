@@ -42,7 +42,7 @@ void Ctrl_IpThread::funClearEle(uchar *buf)
     mModbus->appendLogItem(ret);
 }
 
-void Ctrl_IpThread::initWriteCmd(sRtuSetItem &item)
+void Ctrl_IpThread::initWriteCmd(sRtuSetItems &item)
 {
     int k=0, len=12;
 
@@ -73,12 +73,12 @@ bool Ctrl_IpThread::setThreshold()
 {
     bool ret = true;
     if(mItem->cTh.type > 0) {
-        sRtuSetItem itRtu;
+        sRtuSetItems itRtu;
         initWriteCmd(itRtu);
         mModbus->delay(1);
 
         mPacket->status = tr("出厂阈值设置");
-        ret = mModbus->rtuWrite(&itRtu);
+        ret = mModbus->rtuWrites(&itRtu);
         mModbus->appendLogItem(ret);
     }
     return ret;

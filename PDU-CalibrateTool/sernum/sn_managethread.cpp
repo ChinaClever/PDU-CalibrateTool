@@ -109,7 +109,7 @@ bool SN_ManageThread::readSn(sSnItem &itSn)
     return ret;
 }
 
-void SN_ManageThread::initWriteCmd(sRtuSetItem &item, uchar *data, int len)
+void SN_ManageThread::initWriteCmd(sRtuSetItems &item, uchar *data, int len)
 {
     item.addr = mItem->addr;
     item.fn = 0x10;
@@ -159,11 +159,11 @@ bool SN_ManageThread::writeSn(sSnItem &itSn)
     uchar buf[32] = {0};
     int len = toSnData(itSn, buf);
 
-    sRtuSetItem itRtu;
+    sRtuSetItems itRtu;
     initWriteCmd(itRtu, buf, len);
     mModbus->delay(1);
 
-    return mModbus->rtuWrite(&itRtu);
+    return mModbus->rtuWrites(&itRtu);
 }
 
 void SN_ManageThread::writeStatus(bool ret)

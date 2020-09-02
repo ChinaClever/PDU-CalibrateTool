@@ -25,45 +25,23 @@ void Ctrl_SiThread::funSwitch(uchar *on, uchar *off, int f)
 
 void Ctrl_SiThread::funClearEle(uchar *buf)
 {
-    sentRtuCmd(0x1013, 0xFF00);
-}
-
-
-int Ctrl_SiThread::initRtu(ushort reg, ushort value, uchar *buf)
-{
-    int k = 0;
-    buf[k++] = mItem->addr;
-    buf[k++] = 0x10;
-    buf[k++] = reg >> 8;
-    buf[k++] = reg & 0xFF;
-    buf[k++] = value >> 8;
-    buf[k++] = value & 0xFF;
-
-    ushort crc = mModbus->rtu_crc(buf, k);
-    buf[k++] = crc >> 8;
-    buf[k++] = crc & 0xFF;
-
-    return k;
-}
-
-bool Ctrl_SiThread::writeRtu(uchar *buf, int len)
-{
-    bool ret = false;
-    uchar recv[32] = {0};
-    len = mModbus->transmit(buf, len, recv, 2);
-    if(len > 0) {
-        if(recv[1] == buf[1])
-            ret = true;
-    }
-    return ret;
+    sRtuSetItem it;
+    it.addr = mItem->addr;
+    it.fn = 0x10;
+    it.reg = 0x1013;
+    it.data = 0xFF00;
+    mModbus->rtuWrite(&it);
 }
 
 bool Ctrl_SiThread::sentRtuCmd(ushort reg, ushort value)
 {
-    uchar buf[32] = {0};
-    int len = initRtu(reg, value, buf);
+    sRtuSetItem it;
+    it.addr = mItem->addr;
+    it.fn = 0x10;
+    it.reg = reg;
+    it.data = value;
 
-    return writeRtu(buf, len);
+    return mModbus->rtuWrite(&it);
 }
 
 
@@ -123,18 +101,13 @@ bool Ctrl_SiThread::setThreshold()
 // 表示行业标准 Modbus RTU 模式
 bool Ctrl_SiThread::setModel()
 {
-    bool ret = false;
-    uchar len = 8;
-    uchar buf[20] = {0x01, 0x06, 0x10, 0x19, 0x00, 0x01, 0x5C, 0xCD};
-    buf[0] = mItem->addr;
+    sRtuSetItem it;
+    it.addr = mItem->addr;
+    it.fn = 0x06;
+    it.reg = 0x1019;
+    it.data = 1;
 
-    ushort crc = mModbus->rtu_crc(buf, len-2);
-    buf[6] = 0xff&crc; /*低8位*/
-    buf[7] = crc >> 8; /*高8位*/
-    mModbus->delay(1);
-    len = mModbus->transmit(buf, len, buf, 1);
-    if(len > 0) ret = true;
-
+    bool ret = mModbus->rtuWrite(&it);
     mPacket->status = tr("切换成行业标准模式");
     mModbus->appendLogItem(ret);
 

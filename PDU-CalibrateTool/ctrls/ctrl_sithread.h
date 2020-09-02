@@ -18,9 +18,7 @@ protected:
 
     bool setAcTh();
     bool setDcTh();
-    bool writeRtu(uchar *buf, int len);
     bool sentRtuCmd(ushort reg, ushort value);
-    int initRtu(ushort reg, ushort value, uchar *buf);
 
     bool setThreshold();
     bool setModel();
