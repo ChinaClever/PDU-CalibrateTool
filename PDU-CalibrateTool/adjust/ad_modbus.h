@@ -25,8 +25,16 @@ struct sRtuReplyItem {
     ushort crc; // 表示CRC校验
 };
 
-
 struct sRtuSetItem
+{
+    uchar addr;
+    uchar fn;
+    ushort reg;
+    ushort data;
+    ushort crc;
+};
+
+struct sRtuSetItems
 {
     uchar addr;
     uchar fn;
@@ -51,7 +59,7 @@ class Ad_Modbus : public QThread
     Q_OBJECT
     explicit Ad_Modbus(QObject *parent = nullptr);
 public:
-     static Ad_Modbus *bulid(QObject *parent = nullptr);
+    static Ad_Modbus *bulid(QObject *parent = nullptr);
 
     int readSerial(quint8 *cmd, int secs);
     bool writeSerial(quint8 *cmd, int len);
@@ -64,6 +72,7 @@ public:
     int rtuRead(sRtuItem *pkt, sRtuReplyItem *recv);
 
     bool rtuWrite(sRtuSetItem *pkt);
+    bool rtuWrites(sRtuSetItems *pkt);
     bool delay(int s);
 
     bool writeMac(const QString &mac);
@@ -81,6 +90,7 @@ protected:
     bool rtuRecvCrc(uchar *buf, int len, sRtuReplyItem *msg);
 
     int rtu_write_packet(sRtuSetItem *pkt, uchar *ptr);
+    int rtu_write_packets(sRtuSetItems *pkt, uchar *ptr);
 
 private:
     sConfigItem *mItem;

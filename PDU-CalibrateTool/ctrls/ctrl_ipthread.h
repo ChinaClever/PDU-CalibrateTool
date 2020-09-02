@@ -16,7 +16,7 @@ protected:
     void funSwitch(uchar *on, uchar *off, int f);
     void funClearEle(uchar *buf);
 
-    void initWriteCmd(sRtuSetItem &item);
+    void initWriteCmd(sRtuSetItems &item);
     bool setThreshold();
     bool inputMacAddr(uchar *buf);
     void setMacAddr();

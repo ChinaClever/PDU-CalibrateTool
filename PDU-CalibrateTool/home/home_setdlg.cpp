@@ -36,8 +36,8 @@ void Home_SetDlg::getThresholdWid()
     mItem->cTh.type = ui->comboBox->currentIndex();
     mItem->cTh.vol_min = ui->volMinSpin->value();
     mItem->cTh.vol_max = ui->volMaxSpin->value();
-    mItem->cTh.cur_min = ui->curMinSpin->value();
-    mItem->cTh.cur_max = ui->curMaxSpin->value();
+    mItem->cTh.cur_min = ui->curMinSpin->value()*10;
+    mItem->cTh.cur_max = ui->curMaxSpin->value()*10;
 
     mItem->cTh.time_set = ui->timeCheck->isChecked() ? 1:0;
     mItem->cTh.log_clear = ui->logCheck->isChecked() ? 1:0;
