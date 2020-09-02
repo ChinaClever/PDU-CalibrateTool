@@ -16,11 +16,12 @@ protected:
     void funSwitch(uchar *on, uchar *off, int f);
     void funClearEle(uchar *buf);
 
-    void initAcCmd(sRtuSetItem &item);
-    void initDcCmd(sRtuSetItem &item);
-    void initAcCmd(QList<sRtuSetItem>& item,unsigned short reg);
-    void initDcCmd(QList<sRtuSetItem>& item,unsigned short reg);
-    void initWriteCmd(QList<sRtuSetItem> &item, unsigned short reg);
+    bool setAcTh();
+    bool setDcTh();
+    bool writeRtu(uchar *buf, int len);
+    bool sentRtuCmd(ushort reg, ushort value);
+    int initRtu(ushort reg, ushort value, uchar *buf);
+
     bool setThreshold();
     bool setModel();
 };

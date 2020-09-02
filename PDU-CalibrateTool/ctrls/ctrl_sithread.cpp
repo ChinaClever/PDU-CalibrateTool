@@ -25,125 +25,92 @@ void Ctrl_SiThread::funSwitch(uchar *on, uchar *off, int f)
 
 void Ctrl_SiThread::funClearEle(uchar *buf)
 {
-    uchar len = 8;
-    uchar data[20] = {0x01, 0x06, 0x10, 0x13, 0x00, 0xF0, 0x7C, 0x8B};
-    data[0] = mItem->addr;
-
-    ushort crc = mModbus->rtu_crc(data, len-2);
-    data[6] = 0xff&crc; /*低8位*/
-    data[7] = crc >> 8; /*高8位*/
-    mModbus->delay(1);
-
-    mModbus->writeSerial(data, len);
+    sentRtuCmd(0x1013, 0xFF00);
 }
 
-void Ctrl_SiThread::initAcCmd(sRtuSetItem &item)
+
+int Ctrl_SiThread::initRtu(ushort reg, ushort value, uchar *buf)
 {
-    int k=0, len=12;
+    int k = 0;
+    buf[k++] = mItem->addr;
+    buf[k++] = 0x10;
+    buf[k++] = reg >> 8;
+    buf[k++] = reg & 0xFF;
+    buf[k++] = value >> 8;
+    buf[k++] = value & 0xFF;
 
-    item.addr = mItem->addr;
-    item.fn = 0x10;
-    item.reg = 0x1002;
-    item.num = len;
-    item.len = len;
+    ushort crc = mModbus->rtu_crc(buf, k);
+    buf[k++] = crc >> 8;
+    buf[k++] = crc & 0xFF;
 
-    for(int i=0; i<3; ++i) {
-        item.data[k++] = mItem->cTh.vol_max;
-        item.data[k++] = mItem->cTh.vol_min;
+    return k;
+}
+
+bool Ctrl_SiThread::writeRtu(uchar *buf, int len)
+{
+    bool ret = false;
+    uchar recv[32] = {0};
+    len = mModbus->transmit(buf, len, recv, 2);
+    if(len > 0) {
+        if(recv[1] == buf[1])
+            ret = true;
+    }
+    return ret;
+}
+
+bool Ctrl_SiThread::sentRtuCmd(ushort reg, ushort value)
+{
+    uchar buf[32] = {0};
+    int len = initRtu(reg, value, buf);
+
+    return writeRtu(buf, len);
+}
+
+
+bool Ctrl_SiThread::setAcTh()
+{
+    bool ret = true;
+    ushort reg = 0x1002;
+
+    for(int i=0; i<mData->size; ++i) {
+        ret = sentRtuCmd(reg++, mItem->cTh.vol_max); if(!ret) return ret;
+        ret = sentRtuCmd(reg++, mItem->cTh.vol_min); if(!ret) return ret;
     }
 
-    for(int i=0; i<3; ++i) {
-        item.data[k++] = mItem->cTh.cur_max/10;
-        item.data[k++] = mItem->cTh.cur_min/10;
-    }
-}
-
-void Ctrl_SiThread::initDcCmd(sRtuSetItem &item)
-{
-    int k=0, len=4;
-
-    item.addr = mItem->addr;
-    item.fn = 0x10;
-    item.reg = 0x1014;
-    item.num = len;
-    item.len = len;
-
-    item.data[k++] = mItem->cTh.vol_max;
-    item.data[k++] = mItem->cTh.vol_min;
-    item.data[k++] = mItem->cTh.cur_max/10;
-    item.data[k++] = mItem->cTh.cur_min/10;
-}
-
-void Ctrl_SiThread::initAcCmd(QList<sRtuSetItem>& item,unsigned short reg)
-{
-    int k=0;
-
-    sRtuSetItem t;
-    t.addr = mItem->addr;
-    t.fn = 0x10;
-    t.reg = reg;
-
-    if(reg>=0x1002&&reg<=0x1007){
-        if(reg%2==0)
-        t.data[k++] = mItem->cTh.vol_max;
-        else
-        t.data[k++] = mItem->cTh.vol_min;
+    reg = 0x1008;
+    for(int i=0; i<mData->size; ++i) {
+        ret = sentRtuCmd(reg++, mItem->cTh.cur_max/10); if(!ret) return ret;
+        ret = sentRtuCmd(reg++, mItem->cTh.cur_min/10); if(!ret) return ret;
     }
 
-    if(reg>=0x1008&&reg<=0x100D){
-        if(reg%2==0)
-        t.data[k++] = mItem->cTh.cur_max/10;
-        else
-        t.data[k++] = mItem->cTh.cur_min/10;
-    }
-    item.append(t);
+    return ret;
 }
 
-void Ctrl_SiThread::initDcCmd(QList<sRtuSetItem>& item,unsigned short reg)
+bool Ctrl_SiThread::setDcTh()
 {
-    int k=0;
+    bool ret = true;
+    ushort reg = 0x1014;
 
-    sRtuSetItem t;
-    t.addr = mItem->addr;
-    t.fn = 0x10;
-    t.reg = reg;//0x1014;
-    //t.num = len;
-    //t.len = len;
+    ret = sentRtuCmd(reg++, mItem->cTh.vol_max); if(!ret) return ret;
+    ret = sentRtuCmd(reg++, mItem->cTh.vol_min); if(!ret) return ret;
+    ret = sentRtuCmd(reg++, mItem->cTh.cur_max/10); if(!ret) return ret;
+    ret = sentRtuCmd(reg++, mItem->cTh.cur_min/10); if(!ret) return ret;
 
-    t.data[k++] = mItem->cTh.vol_max;
-    t.data[k++] = mItem->cTh.vol_min;
-    t.data[k++] = mItem->cTh.cur_max/10;
-    t.data[k++] = mItem->cTh.cur_min/10;
-    item.append(t);
+    return ret;
 }
 
-void Ctrl_SiThread::initWriteCmd(QList<sRtuSetItem> &item,unsigned short reg)
-{
-    sDevType *devType = sDataPacket::bulid()->devType;
-    if(DC == devType->ac) {
-        initDcCmd(item,reg);
-    } else {
-        initAcCmd(item,reg);
-    }
-}
+
+
 
 bool Ctrl_SiThread::setThreshold()
 {
     bool ret = true;
     if(mItem->cTh.type > 0) {
-        QList<sRtuSetItem> itRtu;
         sDevType *devType = sDataPacket::bulid()->devType;
-        int len = 12;
-        if(DC == devType->ac){
-           len = 4;
-        }
-        for(int i = 0 ; i < len ; i++){
-            initWriteCmd(itRtu);
-        }
-        mModbus->delay(1);
-        for(int i = 0 ; i < len ; i++){
-            ret = mModbus->rtuWrite(&itRtu);
-            mModbus->delay(1);
+        if(DC == devType->ac) {
+            ret = setDcTh();
+        } else {
+            ret = setAcTh();
         }
 
         mPacket->status = tr("出厂阈值设置");
