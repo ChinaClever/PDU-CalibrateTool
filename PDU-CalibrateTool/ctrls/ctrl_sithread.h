@@ -16,9 +16,16 @@ protected:
     void funSwitch(uchar *on, uchar *off, int f);
     void funClearEle(uchar *buf);
 
-    void initAcCmd(sRtuSetItem &item);
-    void initDcCmd(sRtuSetItem &item);
-    void initWriteCmd(sRtuSetItem &item);
+
+//    void initAcCmd(sRtuSetItem &item);
+//    void initDcCmd(sRtuSetItem &item);
+//    void initWriteCmd(sRtuSetItem &item);
+    bool setAcTh();
+    bool setDcTh();
+    bool writeRtu(uchar *buf, int len);
+    bool sentRtuCmd(ushort reg, ushort value);
+    int initRtu(ushort reg, ushort value, uchar *buf);
+
     bool setThreshold();
     bool setModel();
 };

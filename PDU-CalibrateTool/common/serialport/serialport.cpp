@@ -118,7 +118,6 @@ void SerialPort::timeoutDone()
 {
     if(mCount++ % 10) {
         recvSlot();
-
     } else {
         writeSlot();
     }
