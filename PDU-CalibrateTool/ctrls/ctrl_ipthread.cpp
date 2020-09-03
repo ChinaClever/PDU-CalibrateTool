@@ -86,24 +86,26 @@ bool Ctrl_IpThread::setThreshold()
 
 void Ctrl_IpThread::setTime()
 {
-    uchar k=4, len=8;
-    uchar buf[32] = {0x01, 0x06, 0x10, 0x19, 0x00, 0x01, 0x5C, 0xCD};
-    buf[0] = mItem->addr;
+    int k = 0;
+    sRtuSetItems it;
+    it.addr = mItem->addr;
+    it.fn = 0x10;
+    it.reg =0x33;
+    it.num = 6;
+    it.len = 6;
 
     QDateTime time = QDateTime::currentDateTime();
-    buf[k++] = time.date().year() % 100;
-    buf[k++] = time.date().month();
-    buf[k++] = time.date().day();
-    buf[k++] = time.time().hour();
-    buf[k++] = time.time().minute();
-    buf[k++] = time.time().second();
+    it.data[k++] = time.date().year() % 100;
+    it.data[k++] = time.date().month();
+    it.data[k++] = time.date().day();
+    it.data[k++] = time.time().hour();
+    it.data[k++] = time.time().minute();
+    it.data[k++] = time.time().second();
 
-    ushort crc = mModbus->rtu_crc(buf, len-2);
-    buf[26] = 0xff&crc; /*低8位*/
-    buf[27] = crc >> 8; /*高8位*/
+    mPacket->status = tr("时间设置");
+    bool ret = mModbus->rtuWrites(&it);
+    mModbus->appendLogItem(ret);
     mModbus->delay(1);
-
-    mModbus->writeSerial(buf, len);
 }
 
 bool Ctrl_IpThread::inputMacAddr(uchar *buf)
@@ -130,23 +132,20 @@ bool Ctrl_IpThread::inputMacAddr(uchar *buf)
 
 void Ctrl_IpThread::setMacAddr()
 {
-    uchar len = 8;
-    uchar buf[32] = {0x01, 0x06, 0x10, 0x19, 0x00, 0x01, 0x5C, 0xCD};
-    buf[0] = mItem->addr;
+    sRtuSetItems it;
+    it.addr = mItem->addr;
+    it.fn = 0x10;
+    it.reg =0x33;
+    it.num = 6;
+    it.len = 6;
 
-    bool res = inputMacAddr(&buf[4]);
+    bool res = inputMacAddr(it.data);
     if(res){
-        ushort crc = mModbus->rtu_crc(buf, len-2);
-        buf[26] = 0xff&crc; /*低8位*/
-        buf[27] = crc >> 8; /*高8位*/
+        mPacket->status = tr("出厂MAC设置");
+        bool ret = mModbus->rtuWrites(&it);
+        mModbus->appendLogItem(ret);
         mModbus->delay(1);
-
-        len = mModbus->transmit(buf, len, buf, 1);
-        if(len > 0) res = true; else res = false;
     }
-
-    mPacket->status = tr("出厂MAC设置");
-    mModbus->appendLogItem(res);
 }
 
 // 表示行业标准 Modbus RTU 模式

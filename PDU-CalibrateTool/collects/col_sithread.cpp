@@ -59,8 +59,8 @@ int Col_SiThread::recvDcData(uchar *ptr, int line, sDataUnit *msg)
     ptr = toShort(ptr, line, msg->cur);
     ptr = toShort(ptr, line, msg->activePow);
     ptr = toInt(ptr, line, msg->ele);
-    ptr = toSiThreshold(ptr, line, msg->volTh);
-    ptr = toSiThreshold(ptr, line, msg->curTh);
+    ptr = toThreshold(ptr, line, msg->volTh);
+    ptr = toThreshold(ptr, line, msg->curTh);
     msg->tem = *ptr++;
     msg->hum = *ptr++;
 
@@ -91,8 +91,8 @@ int Col_SiThread::recvAcData(uchar *ptr, int line, sDataUnit *msg)
     ptr = toShort(ptr, line, msg->cur);
     ptr = toShort(ptr, line, msg->activePow);
     ptr = toInt(ptr, line, msg->ele);
-    ptr = toSiThreshold(ptr, line, msg->volTh);
-    ptr = toSiThreshold(ptr, line, msg->curTh);
+    ptr = toThreshold(ptr, line, msg->volTh);
+    ptr = toThreshold(ptr, line, msg->curTh);
     msg->tem = *ptr++;
     msg->hum = *ptr++;
     ptr += 4; // 温湿度阈值

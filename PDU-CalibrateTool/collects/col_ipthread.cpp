@@ -75,8 +75,8 @@ int Col_IpThread::recvDataV1(uchar *ptr, sDataUnit *msg)
     ptr =  toInt(ptr, line, msg->ele);
     msg->tem = getShort(ptr); ptr +=2;
     msg->hum = getShort(ptr); ptr +=2;
-    ptr = toIpThreshold(ptr, line, msg->volTh);
-    ptr = toIpThreshold(ptr, line, msg->curTh);
+    ptr = toThreshold(ptr, line, msg->volTh);
+    ptr = toThreshold(ptr, line, msg->curTh);
     ptr += 8 + (2*2*line + 4); // 报警标志位
 
     ptr = getSwitch(ptr, 2, msg->sw);
@@ -111,8 +111,8 @@ int Col_IpThread::recvDataV3(uchar *ptr, sDataUnit *msg)
     ptr = getSwitch(ptr, line, msg->sw); // 开关状态
     msg->tem = getShort(ptr); ptr +=2;
     msg->hum = getShort(ptr); ptr +=2;
-    ptr = toIpThreshold(ptr, line, msg->volTh);
-    ptr = toIpThreshold(ptr, line, msg->curTh);
+    ptr = toThreshold(ptr, line, msg->volTh);
+    ptr = toThreshold(ptr, line, msg->curTh);
     ptr += 8 + (2*2*line + 2 + 2); // 报警
 
     msg->size = getShort(ptr); ptr +=2;

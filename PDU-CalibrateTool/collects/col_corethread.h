@@ -19,9 +19,7 @@ protected:
     ushort getShort(uchar *ptr);
     uchar *getShort(uchar *ptr, int line, uchar *value);
     uchar *toOutputEle(uchar *ptr, int line, uint *value);
-
-    uchar *toSiThreshold(uchar *ptr, int line, sThreshold &unit);
-    uchar *toIpThreshold(uchar *ptr, int line, sThreshold &unit);
+    uchar *toThreshold(uchar *ptr, int line, sThreshold &unit);
 
 protected:
     sDataUnit *mData;

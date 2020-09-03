@@ -16,10 +16,6 @@ protected:
     void funSwitch(uchar *on, uchar *off, int f);
     void funClearEle(uchar *buf);
 
-
-//    void initAcCmd(sRtuSetItem &item);
-//    void initDcCmd(sRtuSetItem &item);
-//    void initWriteCmd(sRtuSetItem &item);
     bool setAcTh();
     bool setDcTh();
     bool sentRtuCmd(ushort reg, ushort value);
