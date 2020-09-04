@@ -18,7 +18,7 @@ YC_Ac92b *YC_Ac92b::bulid(QObject *parent)
     return sington;
 }
 
-bool YC_Ac92b::serialWrite(QByteArray &array)
+bool YC_Ac92b::serialWrite(const QByteArray &array)
 {
     bool ret = false;
     int rtn = mSerial->write(array);
@@ -74,7 +74,10 @@ bool YC_Ac92b::powerOn(int v)
 bool YC_Ac92b::setVol(int v)
 {
     int vol = 100;
-    if(v == 200) vol = 91;
+    if(v == 200) {
+        vol = 91;
+        serialWrite("P1\r"); // 改变功率因素
+    }
 
     bool ret = setValue("V", vol);
     if(ret) {

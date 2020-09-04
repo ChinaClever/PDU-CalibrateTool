@@ -19,7 +19,7 @@ YC_Dc107 *YC_Dc107::bulid(QObject *parent)
     return sington;
 }
 
-bool YC_Dc107::serialWrite(QByteArray &array)
+bool YC_Dc107::serialWrite(const QByteArray &array)
 {
     bool ret = false;
     QByteArray res;

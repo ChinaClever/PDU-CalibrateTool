@@ -22,7 +22,7 @@ protected:
     bool delay(int s);
     bool write(QByteArray &array);
     bool setBaudRate(qint32 baudRate);
-    virtual bool serialWrite(QByteArray &array)=0;
+    virtual bool serialWrite(const QByteArray &array)=0;
 
 protected slots:
     void initSerialSlot();

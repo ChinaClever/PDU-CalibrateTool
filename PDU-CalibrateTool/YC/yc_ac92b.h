@@ -21,7 +21,7 @@ protected:
     bool initFun();
     bool setRange();
     bool setValue(const QString &str, int v);
-    bool serialWrite(QByteArray &array);
+    bool serialWrite(const QByteArray &array);
 };
 
 #endif // YC_AC92B_H

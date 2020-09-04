@@ -21,7 +21,7 @@ protected:
     bool setRange();
     bool sendCmd(const QByteArray &cmd);
     bool setValue(const char &c, char v1, char v2=0);
-    bool serialWrite(QByteArray &array);
+    bool serialWrite(const QByteArray &array);
 };
 
 #endif // YC_DC107_H
