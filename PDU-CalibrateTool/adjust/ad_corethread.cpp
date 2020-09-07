@@ -109,6 +109,7 @@ bool Ad_CoreThread::readDevInfo()
     if(!mSource) {mItem->step = Test_End; return false;}
 
     mSource->setVol(220);
+    sleep(5);
     bool ret = mAutoID->readDevType();//读取设备类型
     if(ret) {
         ret = mSn->snEnter();//写入序列号
