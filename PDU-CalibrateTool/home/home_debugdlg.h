@@ -2,7 +2,7 @@
 #define DEBUGDLG_H
 
 #include <QDialog>
-#include "home_datatabwid.h"
+#include "home_outputwid.h"
 
 namespace Ui {
 class Home_DebugDlg;
@@ -17,26 +17,12 @@ public:
     ~Home_DebugDlg();
 
 protected:
-    void initThread();
-
-private slots:
-    void on_onAllBtn_clicked();
-    void on_eleAllBtn_clicked();
-    void on_closeAllBtn_clicked();
-    void on_openBtn_clicked();
-    void on_closeBtn_clicked();
-    void on_eleBtn_clicked();
-    void on_swAllBtn_clicked();
-    void on_onBtn_clicked();
-    void on_downBtn_clicked();
-    void workDownSlot();
-    void initFunSlot();
+    void initWid();
 
 private:
     Ui::Home_DebugDlg *ui;
-    int mId;
-    sDataUnit *mData;
-    Ctrl_CoreThread *mThread;
+    Home_OutputWid *mOutputWid;
+    Home_ThresholdWid *mThresholdWid;
 };
 
 #endif // DEBUGDLG_H
