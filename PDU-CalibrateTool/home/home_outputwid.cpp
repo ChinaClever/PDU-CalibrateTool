@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2020年10月1日
+ *      Author: Lzy
+ */
 #include "home_outputwid.h"
 #include "ui_home_outputwid.h"
 #include "yc_dc107.h"
