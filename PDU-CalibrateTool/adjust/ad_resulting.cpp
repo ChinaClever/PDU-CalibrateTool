@@ -73,6 +73,7 @@ bool Ad_Resulting::powRangeByID(int i, int exValue)
     exValue = mItem->vol * exValue/AD_CUR_RATE * 0.5;
     mPacket->status = tr("期望功率%1Kw 第%2位 功率").arg(exValue/1000.0).arg(i+1);
 
+    qDebug()<<mPacket->status<<endl;
     int pow = mData->pow[i] / mData->rate;
     bool ret = powErrRange(exValue, pow);
     mData->powed[i] = mData->pow[i];
@@ -96,6 +97,7 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
     mPacket->status = tr("期望电流%1A 第%2位 电流").arg(exValue/AD_CUR_RATE).arg(i+1);
     bool ret = curErrRange(exValue, cur);
     mData->cured[i] = mData->cur[i];
+    qDebug()<<"mPacket->status"<<mPacket->status <<"ret"<<ret<<endl;
     if(ret) {
         ret = powRangeByID(i, cur);
     } else {
@@ -207,7 +209,7 @@ bool Ad_Resulting::eachCurCheck(int exValue)
     bool res = true;
     for(int k=0; k<mData->size; ++k) {
         bool ret = curRangeByID(k, exValue);
-        if(!ret) res = false;
+        if(!ret) {res = false;return res;}
     }
     return res;
 }
@@ -377,6 +379,7 @@ bool Ad_Resulting::resEnter()
         }
     }
 
+    qDebug()<<"ret"<<ret<<endl;
     return workResult(ret);
 }
 
