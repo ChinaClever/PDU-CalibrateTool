@@ -67,13 +67,30 @@ bool Ad_AutoID::readDevId()
 bool Ad_AutoID::readDevType()
 {        
     mPacket->status = tr("正在识别模块类型！");
+
     bool ret = readDevId();
     if(ret) {
-        mPacket->status = tr("识别模块成功！");
-        ret = mModbus->delay(1);
+        if(mPacket->devType->devType == IP_PDU) mModbus->delay(5);
+        ret = readDevId();
+        if(ret){
+            mPacket->status = tr("识别模块成功！");
+            ret = mModbus->delay(1);
+        }
+        else{
+            mItem->step = Test_End;
+            mPacket->pass = Test_Fail;
+        }
     } else {
-        mItem->step = Test_End;
-        mPacket->pass = Test_Fail;
+        mModbus->delay(5);
+        ret = readDevId();
+        if(ret){
+            mPacket->status = tr("识别模块成功！");
+            ret = mModbus->delay(1);
+        }
+        else{
+            mItem->step = Test_End;
+            mPacket->pass = Test_Fail;
+        }
     }
 
     return ret;

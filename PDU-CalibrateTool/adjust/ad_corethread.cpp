@@ -110,8 +110,7 @@ bool Ad_CoreThread::readDevInfo()
 
     mSource->setVol(220);
     bool ret = mAutoID->readDevType();//读取设备类型
-    if(ret) {        
-        if(mPacket->devType->devType == IP_PDU) mModbus->delay(5);
+    if(ret) {
         ret = mSn->snEnter();//写入序列号
     }
     mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
