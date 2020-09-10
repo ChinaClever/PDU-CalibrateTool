@@ -106,12 +106,8 @@ bool Ad_Adjusting::updateStatus(ushort status)
 bool Ad_Adjusting::recvStatus(uchar *recv, int len)
 {
     bool ret = true;
-    if(len == 8) {
-        ushort status = recv[4]*256 + recv[5];
-        ret = updateStatus(status);
-    } else if(len>8 && len%8 == 0) {
-        for(int i = 0 ; i < len ; i+=8)
-        {
+     if((len>0) && (len%8 == 0)) {
+        for(int i = 0 ; i < len ; i+=8) {
             ushort status = recv[i+4]*256 + recv[i+5];
             ret = updateStatus(status);
         }
@@ -178,7 +174,8 @@ bool Ad_Adjusting::startAdjust()
     mItem->step = Test_Ading;
     bool ret = sentCmd();
     if(ret) {
-        ret = readData();
+        if(mItem->step == Test_Ading)
+            ret = readData();
     }
 
     return ret;
