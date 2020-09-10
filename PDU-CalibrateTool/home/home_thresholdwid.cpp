@@ -29,12 +29,13 @@ void Home_ThresholdWid::appendItem(sDataUnit *unit)
         listStr << QString::number(unit->vol[i]/(unit->rate),'f',1)+"V";
         listStr << QString::number(unit->volTh.min[i]/(unit->rate),'f',1)+"V";
         listStr << QString::number(unit->volTh.max[i]/(unit->rate),'f',1)+"V";
+        setTableRow(k, listStr);
         if((unit->vol[i] < unit->volTh.min[i]) || (unit->vol[i] > unit->volTh.max[i])){
             setAlarmBackgroundColor(k);
         } else {
             setNormalBackgroundColor(k);
         }
-        setTableRow(k++, listStr);
+        k += 1;
     }
 
     for(int i=0; i<unit->size; ++i) {
@@ -43,12 +44,13 @@ void Home_ThresholdWid::appendItem(sDataUnit *unit)
         listStr << QString::number(unit->cur[i]/(unit->rate * COM_RATE_CUR),'f',2)+"A";
         listStr << QString::number(unit->curTh.min[i]/(unit->rate * COM_RATE_CUR),'f',2)+"A";
         listStr << QString::number(unit->curTh.max[i]/(unit->rate * COM_RATE_CUR),'f',2)+"A";
+        setTableRow(k, listStr);
         if((unit->cur[i] < unit->curTh.min[i]) || (unit->cur[i] > unit->curTh.max[i])){
             setAlarmBackgroundColor(k);
         } else {
             setNormalBackgroundColor(k);
         }
-        setTableRow(k++, listStr);
+        k += 1;
     }
 }
 

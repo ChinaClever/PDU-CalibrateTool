@@ -65,17 +65,16 @@ bool Ctrl_SiThread::setAcTh()
 
     reg = 0x1008;
     for(int i=0; i<mData->size; ++i) {
-
-        ushort value = mItem->cTh.cur_max/10;
+        ushort value = mItem->cTh.cur_max;
         if(mData->curTh.max[0] != value) {
-            mPacket->status = tr("L%1 电流最大值设置 %2A").arg(i+1).arg(value);
+            mPacket->status = tr("L%1 电流最大值设置 %2A").arg(i+1).arg(value/10);
             ret = sentRtuCmd(reg++, value);
             if(!ret) return ret;
         } else reg++;
 
-        value = mItem->cTh.cur_min/10;
+        value = mItem->cTh.cur_min;
         if(mData->curTh.min[0] != value) {
-            mPacket->status = tr("L%1 电流最小值设置 %2A").arg(i+1).arg(value);
+            mPacket->status = tr("L%1 电流最小值设置 %2A").arg(i+1).arg(value/10);
             ret = sentRtuCmd(reg++, value);
             if(!ret) return ret;
         } else reg++;
@@ -103,16 +102,16 @@ bool Ctrl_SiThread::setDcTh()
         if(!ret) return ret;
     } else reg++;
 
-    value = mItem->cTh.cur_max/10;
+    value = mItem->cTh.cur_max;
     if(mData->curTh.max[0] != value) {
-        mPacket->status = tr("电流最大值设置 %1A").arg(value);
+        mPacket->status = tr("电流最大值设置 %1A").arg(value/10);
         ret = sentRtuCmd(reg++, value);
         if(!ret) return ret;
     } else reg++;
 
-    value = mItem->cTh.cur_min/10;
+    value = mItem->cTh.cur_min;
     if(mData->curTh.min[0] != value) {
-        mPacket->status = tr("电流最小值设置 %1A").arg(value);
+        mPacket->status = tr("电流最小值设置 %1A").arg(value/10);
         ret = sentRtuCmd(reg++, value);
         if(!ret) return ret;
     } else reg++;
