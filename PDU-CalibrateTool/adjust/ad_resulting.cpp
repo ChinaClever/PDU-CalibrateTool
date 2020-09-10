@@ -70,7 +70,8 @@ bool Ad_Resulting::curTgCheck(int exValue)
 
 bool Ad_Resulting::powRangeByID(int i, int exValue)
 {
-    exValue = mItem->vol * exValue/AD_CUR_RATE * 0.5;
+    //exValue = mItem->vol * exValue/AD_CUR_RATE * 0.5;
+    exValue = mItem->vol * exValue/AD_CUR_RATE;
     mPacket->status = tr("期望功率%1Kw 第%2位 功率").arg(exValue/1000.0).arg(i+1);
 
     int pow = mData->pow[i] / mData->rate;
@@ -207,7 +208,7 @@ bool Ad_Resulting::eachCurCheck(int exValue)
     bool res = true;
     for(int k=0; k<mData->size; ++k) {
         bool ret = curRangeByID(k, exValue);
-        if(!ret) res = false;
+         if(!ret) {res = false;return res;}
     }
     return res;
 }
