@@ -65,7 +65,6 @@ void Ad_Config::initCurrentNum()
     }
 }
 
-
 int Ad_Config::getAddr()
 {
     return read("addr", 3,"Sys").toInt();
@@ -75,7 +74,6 @@ void Ad_Config::setAddr(int addr)
 {
     write("addr", addr, "Sys");
 }
-
 
 void Ad_Config::initErrData()
 {
@@ -93,23 +91,24 @@ void Ad_Config::writeErrData()
 
 void Ad_Config::initThreshold()
 {
+    item->cTh.type = read("repair_en", 0).toInt();
     item->cTh.type = read("cth_type", 1).toInt();
     item->cTh.vol_min = read("vol_min", 80).toInt();
     item->cTh.vol_max = read("vol_max", 276).toInt();
     item->cTh.cur_min = read("cur_min", 0).toInt();
     item->cTh.cur_max = read("cur_max", 320).toInt();
     item->cTh.si_mod = read("si_mod", 0).toInt();
-    item->cTh.ele_clear = read("ele_clear", 1).toInt();
-    item->cTh.ip_mod = read("ip_mod", 0).toInt();
-    item->cTh.mac_set = read("mac_set", 1).toInt();
-    item->cTh.mac_clear = read("mac_clear", 0).toInt();
-    item->cTh.time_set = read("time_set", 1).toInt();
-    item->cTh.log_clear = read("log_clear", 1).toInt();
+
+    item->cTh.ip_version = read("version", 1).toInt();
+    item->cTh.ip_line = read("lines", 1).toInt();
+    item->cTh.ip_mod = read("modbus", 0).toInt();
+    item->cTh.ip_log = read("log_en", 0).toInt();
+    item->cTh.ip_standard = read("standard", 0).toInt();
+    item->cTh.ip_language = read("language", 1).toInt();
 
     char* ch = getMacAddr().toLatin1().data();
     strcpy(item->cTh.mac_addr, ch);
 }
-
 
 void Ad_Config::writeThreshold()
 {
@@ -119,12 +118,13 @@ void Ad_Config::writeThreshold()
     write("cur_min", item->cTh.cur_min);
     write("cur_max", item->cTh.cur_max);
     write("si_mod", item->cTh.si_mod);
-    write("ele_clear", item->cTh.ele_clear);
-    write("ip_mod", item->cTh.ip_mod);
-    write("mac_set", item->cTh.mac_set);
-    write("mac_clear", item->cTh.mac_clear);
-    write("time_set", item->cTh.time_set);
-    write("log_clear", item->cTh.log_clear);
+
+    write("version", item->cTh.ip_version);
+    write("lines", item->cTh.ip_line);
+    write("modbus", item->cTh.ip_mod);
+    write("log_en", item->cTh.ip_log);
+    write("standard", item->cTh.ip_standard);
+    write("language", item->cTh.ip_language);
 
     setMacAddr(item->cTh.mac_addr);
 }

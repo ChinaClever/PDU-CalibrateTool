@@ -158,7 +158,7 @@ bool Ctrl_SiThread::factorySet()
 {
     bool ret = setThreshold();
     if(ret) {
-        if(mItem->cTh.ele_clear > 0) funClearEle(nullptr);
+        // funClearEle(nullptr);
         if(mItem->cTh.si_mod > 0) ret = setModel();
     }
 

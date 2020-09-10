@@ -1,3 +1,8 @@
+/*
+ *
+ *  Created on: 2020年10月1日
+ *      Author: Lzy
+ */
 #include "cfgcom.h"
 
 CfgCom::CfgCom(QObject *parent)
@@ -8,7 +13,6 @@ CfgCom::CfgCom(QObject *parent)
     QCoreApplication::setApplicationName("PDU-CalibrateTool");
 
     cfgOpen(parent);
-
 }
 
 CfgCom *CfgCom::bulid(QObject *parent)

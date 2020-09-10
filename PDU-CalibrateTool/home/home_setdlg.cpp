@@ -22,61 +22,64 @@ Home_SetDlg::~Home_SetDlg()
 
 void Home_SetDlg::initThresholdWid()
 {
-    ui->comboBox->setCurrentIndex(mItem->cTh.type);
-    on_comboBox_currentIndexChanged(mItem->cTh.type);
+    sConfigThreshold *cth = &(mItem->cTh);
+    ui->checkBox->setChecked(cth->repair_en);
+    ui->comboBox->setCurrentIndex(cth->type);
+    on_comboBox_currentIndexChanged(cth->type);
 
-    ui->timeCheck->setChecked(mItem->cTh.time_set);
-    ui->logCheck->setChecked(mItem->cTh.log_clear);
-    ui->siCheck->setChecked(mItem->cTh.si_mod);
-    ui->eleCheck->setChecked(mItem->cTh.ele_clear);
-    ui->ipCheck->setChecked(mItem->cTh.ip_mod);
-    ui->macCheck->setChecked(mItem->cTh.mac_set);
-    ui->macEdit->setText(mItem->cTh.mac_addr);
-    ui->clearRadio->setChecked(mItem->cTh.mac_clear);
-    on_macCheck_clicked(mItem->cTh.mac_set);
+    ui->ipTypeBox->setCurrentIndex(cth->ip_version);
+    ui->languageBox->setCurrentIndex(cth->ip_language);
+    ui->lineBox->setCurrentIndex(cth->ip_line);
+    ui->ipModeBox->setCurrentIndex(cth->ip_mod);
+    ui->sBox->setCurrentIndex(cth->ip_standard);
+    ui->logBox->setCurrentIndex(cth->ip_log);
+    ui->macEdit->setText(cth->mac_addr);
+    ui->logBox->setEnabled(cth->ip_version);
 }
 
 void Home_SetDlg::getThresholdWid()
 {
-    mItem->cTh.type = ui->comboBox->currentIndex();
-    mItem->cTh.vol_min = ui->volMinSpin->value();
-    mItem->cTh.vol_max = ui->volMaxSpin->value();
-    mItem->cTh.cur_min = ui->curMinSpin->value()*10;
-    mItem->cTh.cur_max = ui->curMaxSpin->value()*10;
-
-    mItem->cTh.time_set = ui->timeCheck->isChecked() ? 1:0;
-    mItem->cTh.log_clear = ui->logCheck->isChecked() ? 1:0;
-    mItem->cTh.si_mod = ui->siCheck->isChecked() ? 1:0;
-    mItem->cTh.ele_clear = ui->eleCheck->isChecked() ? 1:0;
-    mItem->cTh.ip_mod = ui->ipCheck->isChecked() ? 1:0;
-    mItem->cTh.mac_set = ui->macCheck->isChecked() ? 1:0;
-    mItem->cTh.mac_clear = ui->clearRadio->isChecked() ? 1:0;
+    sConfigThreshold *cth = &(mItem->cTh);
+    cth->type = ui->comboBox->currentIndex();
+    cth->vol_min = ui->volMinSpin->value();
+    cth->vol_max = ui->volMaxSpin->value();
+    cth->cur_min = ui->curMinSpin->value()*10;
+    cth->cur_max = ui->curMaxSpin->value()*10;
+    cth->si_mod = ui->siCheck->isChecked() ? 1:0;
+    cth->ip_version = ui->ipTypeBox->currentIndex();
+    cth->ip_language = ui->languageBox->currentIndex();
+    cth->ip_line = ui->lineBox->currentIndex();
+    cth->ip_mod = ui->ipModeBox->currentIndex();
+    cth->ip_standard = ui->sBox->currentIndex();
+    cth->ip_log = ui->logBox->currentIndex();
 
     char* ch = ui->macEdit->text().toLatin1().data();
-    strcpy(mItem->cTh.mac_addr, ch);
+    strcpy(cth->mac_addr, ch);
 }
 
 void Home_SetDlg::setThresholdWid()
 {
-    ui->volMinSpin->setValue(mItem->cTh.vol_min);
-    ui->volMaxSpin->setValue(mItem->cTh.vol_max);
-    ui->curMinSpin->setValue(mItem->cTh.cur_min/10.0);
-    ui->curMaxSpin->setValue(mItem->cTh.cur_max/10.0);
+    sConfigThreshold *cth = &(mItem->cTh);
+    ui->volMinSpin->setValue(cth->vol_min);
+    ui->volMaxSpin->setValue(cth->vol_max);
+    ui->curMinSpin->setValue(cth->cur_min/10.0);
+    ui->curMaxSpin->setValue(cth->cur_max/10.0);
 }
 
 
 void Home_SetDlg::on_comboBox_currentIndexChanged(int index)
 {
     bool en = true;
-    mItem->cTh.type = index;
+    sConfigThreshold *cth = &(mItem->cTh);
+    cth->type = index;
     if(index) {
-        mItem->cTh.vol_min = 80;
-        mItem->cTh.vol_max = 276;
-        mItem->cTh.cur_min = 0;
+        cth->vol_min = 80;
+        cth->vol_max = 276;
+        cth->cur_min = 0;
         switch (index) {
-        case 1:  mItem->cTh.cur_max = 320; break;
-        case 2:  mItem->cTh.cur_max = 160; break;
-        case 3:  mItem->cTh.cur_max = 630; break;
+        case 1:  cth->cur_max = 320; break;
+        case 2:  cth->cur_max = 160; break;
+        case 3:  cth->cur_max = 630; break;
         }
     } else {
         en = false;
@@ -89,16 +92,21 @@ void Home_SetDlg::on_comboBox_currentIndexChanged(int index)
     ui->curMaxSpin->setEnabled(en);
 }
 
-void Home_SetDlg::on_macCheck_clicked(bool checked)
-{
-    ui->macEdit->setEnabled(checked);
-    ui->addRadio->setEnabled(checked);
-    ui->clearRadio->setEnabled(checked);
-}
 
 void Home_SetDlg::on_okBtn_clicked()
 {
     this->close();
     getThresholdWid();
     Ad_Config::bulid()->writeThreshold();
+}
+
+void Home_SetDlg::on_checkBox_clicked(bool checked)
+{
+    ui->groupBox_1->setEnabled(!checked);
+    ui->groupBox_2->setEnabled(!checked);
+}
+
+void Home_SetDlg::on_ipTypeBox_currentIndexChanged(int index)
+{
+     ui->logBox->setEnabled(index);
 }

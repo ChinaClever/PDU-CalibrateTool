@@ -117,13 +117,9 @@ bool Ctrl_IpThread::inputMacAddr(uchar *buf)
         Ad_MacAddr *mac = Ad_MacAddr::bulid();
         len = mac->macToChar(ptr, buf);
         if(len > 0) {
-            ret = true;
-            if(mItem->cTh.mac_clear > 0) {
-                mModbus->writeMac(ptr);
-                mac->macAdd(ptr, ptr);
-            } else {
-                ptr[0] = 0;
-            }
+            ret = mModbus->writeMac(ptr);
+            QString s = mac->macAdd(ptr, ptr);
+            Ad_Config::bulid()->setMacAddr(s);
         }
     }
 
@@ -196,11 +192,11 @@ bool Ctrl_IpThread::factorySet()
 {
     bool ret = setThreshold();
     if(ret) {
-        if(mItem->cTh.time_set > 0) setTime(); // 设置时间
-        if(mItem->cTh.ele_clear > 0) funClearEle(nullptr);
-        if(mItem->cTh.mac_set > 0)  setMacAddr();
-        if(mItem->cTh.log_clear > 0)  setclearLog();
-        if(mItem->cTh.ip_mod > 0) ret = setModel();
+        //  setTime(); // 设置时间
+        //  funClearEle(nullptr);
+        //  setMacAddr();
+        //  setclearLog();
+        //  ret = setModel();
     }
 
     return ret;
