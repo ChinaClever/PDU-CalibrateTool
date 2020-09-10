@@ -59,8 +59,7 @@ void Setup_MainWid::initFunSlot()
 void Setup_MainWid::initPcNum()
 {
     Ad_Config *con = Ad_Config::bulid();
-    int value = (int)con->getValue("pc", "num");
-    if(value < 1) value = 0;
+    int value = con->read("pc_num", 0, "Sys").toInt();
 
     sConfigItem *item = con->item;
     item->pcNum = value;
@@ -71,12 +70,11 @@ void Setup_MainWid::initPcNum()
 void Setup_MainWid::initLogCount()
 {
     Ad_Config *con = Ad_Config::bulid();
-    int value = (int)con->getValue("log", "count");
-    if(value < 1) value = 10*10000;
+    int value = con->read("log_count", 10, "Sys").toInt();
 
     sConfigItem *item = con->item;
-    item->logCount = value;
-    ui->logCountSpin->setValue(value/10000);
+    item->logCount = value * 10000;
+    ui->logCountSpin->setValue(value);
 }
 
 
@@ -84,8 +82,8 @@ void Setup_MainWid::writeLogCount()
 {
     Ad_Config *con = Ad_Config::bulid();
     int arg1 = ui->logCountSpin->value();
-    con->item->logCount = arg1*10000;
-    con->setValue(arg1*10000, "log", "count");
+    con->item->logCount = arg1;
+    con->write("log_count", arg1, "Sys");
 }
 
 void Setup_MainWid::updateErrData()
@@ -137,7 +135,7 @@ void Setup_MainWid::writePcNum()
     Ad_Config *con = Ad_Config::bulid();
     int arg1 = ui->pcNumSpin->value();
     con->item->pcNum = arg1;
-    con->setValue(arg1, "pc", "num");
+    con->write("pc_num", arg1, "Sys");
 }
 
 void Setup_MainWid::on_pcBtn_clicked()

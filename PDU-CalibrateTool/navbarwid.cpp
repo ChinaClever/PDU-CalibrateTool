@@ -13,10 +13,7 @@ NavBarWid::NavBarWid(QWidget *parent) :
     QGridLayout *gridLayout = new QGridLayout(parent);
     gridLayout->setContentsMargins(0, 0, 0, 6);
     gridLayout->addWidget(this);
-
-    Ad_Config *con = Ad_Config::bulid();
-    QString name = con->initName();
-    mUserLand = new UsrLandDlg(name,this);
+    mUserLand = new UsrLandDlg(this);
 
     timer = new QTimer(this);
     //timer->start(500);

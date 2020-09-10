@@ -2,11 +2,13 @@
 INCLUDEPATH += $$PWD
 
 
-HEADERS += \	
+HEADERS += \
+    $$PWD/cfgcom.h \
     $$PWD/configbase.h \
     $$PWD/sysconfigfile.h
 	
-SOURCES += \	
+SOURCES += \
+    $$PWD/cfgcom.cpp \
     $$PWD/configbase.cpp \
     $$PWD/sysconfigfile.cpp
 

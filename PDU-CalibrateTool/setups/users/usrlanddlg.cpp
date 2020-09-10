@@ -8,15 +8,19 @@
 #include "usrlanddlg.h"
 #include "ui_usrlanddlg.h"
 #include <QApplication>
-#include "ad_config.h"
+#include "configbase.h"
 
-UsrLandDlg::UsrLandDlg(const QString &name, QWidget *parent) :
+UsrLandDlg::UsrLandDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::UsrLandDlg)
 {
     ui->setupUi(this);
     this->setWindowTitle(tr("用户登录"));
     groupBox_background_icon(this);
+
+    ConfigBase *con = ConfigBase::bulid();
+    QString name = con->getCurrentName();
+
     ui->nameLineEdit->setText(name);
     ui->pwdLineEdit->setText("admin");
 }
@@ -106,8 +110,9 @@ void UsrLandDlg::usrLand()
                     LandingUser::get()->sig();
                     this->accept();
                     emit sendUserNameSig(name);
-                    Ad_Config *con = Ad_Config::bulid();
-                    con->setName(name);
+
+                    ConfigBase *con = ConfigBase::bulid();
+                    con->setCurrentName(name);
                 }
                 else
                     str = tr("密码错误");

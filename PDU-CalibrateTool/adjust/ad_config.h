@@ -64,9 +64,6 @@ public:
     sConfigItem *item;
 
     void setCurrentNum();
-    QString initName();
-    void setName(QString str);
-
     int getAddr();
     void setAddr(int addr);
 

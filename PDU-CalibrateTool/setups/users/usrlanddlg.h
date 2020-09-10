@@ -13,7 +13,7 @@ class UsrLandDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit UsrLandDlg(const QString &name,QWidget *parent = 0);
+    explicit UsrLandDlg(QWidget *parent = 0);
     ~UsrLandDlg();
 
     bool quitWidget(void);

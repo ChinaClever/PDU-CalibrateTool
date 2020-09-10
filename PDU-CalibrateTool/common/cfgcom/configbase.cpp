@@ -8,7 +8,7 @@
 
 ConfigBase::ConfigBase()
 {
-
+    mCfg = CfgCom::bulid();
 }
 
 ConfigBase *ConfigBase::bulid()
@@ -24,36 +24,30 @@ ConfigBase *ConfigBase::bulid()
  * @brief 获取串口名称
  * @return 串口名
  */
-QString ConfigBase::getSerialName(const QString &com)
+QString ConfigBase::getSerialName(const QString &key)
 {
-    QString prefix = getPrefix();
-    QString str = QString("%1_COM_%2").arg(prefix).arg(com);
-    return com_cfg_readStr(str, prefix);
+    return mCfg->read(key, "", "Serial").toString();
 }
 
 /**
  * @brief 设置串口名
  * @param name
  */
-void ConfigBase::setSerialName(const QString &name, const QString &com)
+void ConfigBase::setSerialName(const QString &key, const QString &v)
 {
-    QString prefix = getPrefix();
-    QString str = QString("%1_COM_%2").arg(prefix).arg(com);
-    com_cfg_write(str, name, prefix);
+    mCfg->write(key, v, "Serial");
 }
 
 QString ConfigBase::getSerialBr(const QString &com)
 {
-    QString prefix = getPrefix();
-    QString str = QString("%1_BR_%2").arg(prefix).arg(com);
-    return com_cfg_readStr(str, prefix);
+    QString key = QString("BR_%1").arg(com);
+    return mCfg->read(key, "", "Serial").toString();
 }
 
 void ConfigBase::setSerialBr(const QString &com, const QString &br)
 {
-    QString prefix = getPrefix();
-    QString str = QString("%1_BR_%2").arg(prefix).arg(com);
-    com_cfg_write(str, br, prefix);
+    QString key = QString("BR_%1").arg(com);
+    mCfg->write(key, br, "Serial");
 }
 
 
@@ -61,11 +55,9 @@ void ConfigBase::setSerialBr(const QString &com, const QString &br)
  * @brief 根据名称获取配置文件数值
  * @return 对应的配置文件数值
  */
-double ConfigBase::getValue(const QString &name, const QString &v)
+QVariant ConfigBase::read(const QString &key, const QVariant &v, const QString &g)
 {
-    QString prefix = getPrefix();
-    QString str = QString("%1_%2_%3").arg(prefix).arg(name).arg(v);
-    return com_cfg_readDouble(str, prefix);
+    return mCfg->read(key, v, g);
 }
 
 /**
@@ -73,11 +65,9 @@ double ConfigBase::getValue(const QString &name, const QString &v)
  * @param value
  * @param name
  */
-void ConfigBase::setValue(double value, const QString &name, const QString &v)
+void ConfigBase::write(const QString &key, const QVariant& v, const QString &g)
 {
-    QString prefix = getPrefix();
-    QString str = QString("%1_%2_%3").arg(prefix).arg(name).arg(v);
-    com_cfg_write(str, QString::number(value), prefix);
+    mCfg->write(key, v, g);
 }
 
 /**
@@ -86,9 +76,7 @@ void ConfigBase::setValue(double value, const QString &name, const QString &v)
  */
 QString ConfigBase::getCurrentName()
 {
-    QString prefix = getPrefix();
-    QString str = QString("%1_NAME").arg(prefix);
-    return com_cfg_readStr(str, prefix);
+    return mCfg->read("name", "admin", "User").toString();
 }
 
 /**
@@ -97,7 +85,5 @@ QString ConfigBase::getCurrentName()
  */
 void ConfigBase::setCurrentName(const QString &name)
 {
-    QString prefix = getPrefix();
-    QString str = QString("%1_NAME").arg(prefix);
-    com_cfg_write(str, name, prefix);
+    mCfg->write("name", name, "User");
 }
