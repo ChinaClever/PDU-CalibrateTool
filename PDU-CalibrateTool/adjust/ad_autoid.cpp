@@ -66,9 +66,8 @@ bool Ad_AutoID::readDevId()
 
 bool Ad_AutoID::readDevType()
 {        
+    mPacket->status = tr("等待设备稳定！"); mModbus->delay(5);
     mPacket->status = tr("正在识别模块类型！");
-
-    mModbus->delay(5);
     bool ret = readDevId();
     if(ret) {
         mPacket->status = tr("识别模块成功！");
