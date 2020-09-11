@@ -13,11 +13,18 @@ Home_SetDlg::Home_SetDlg(QWidget *parent) :
     ui->setupUi(this);
     groupBox_background_icon(this);
     mItem = Ad_Config::bulid()->item;
+    QTimer::singleShot(500,this,SLOT(initFunSlot()));
 }
 
 Home_SetDlg::~Home_SetDlg()
 {
     delete ui;
+}
+
+void Home_SetDlg::initFunSlot()
+{
+    initThresholdWid();
+    Ad_Config::bulid()->writeThreshold();
 }
 
 void Home_SetDlg::initThresholdWid()

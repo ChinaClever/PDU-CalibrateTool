@@ -22,6 +22,7 @@ protected:
     void setThresholdWid();
 
 private slots:
+    void initFunSlot();
     void on_okBtn_clicked();
     void on_checkBox_clicked(bool checked);
     void on_comboBox_currentIndexChanged(int index);
