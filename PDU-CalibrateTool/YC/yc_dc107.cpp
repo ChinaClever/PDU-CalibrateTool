@@ -59,8 +59,8 @@ bool YC_Dc107::setRange()
     if(ret) {
         ret = setValue('U', 7);
         if(ret) {
-            delay(1);
-            ret = setValue('I', 12);
+            delay(2);
+            ret = setValue('I', 12); delay(2);
         }
     }
 
@@ -75,14 +75,17 @@ bool YC_Dc107::setVol(int v)
     char *cmd = cmd220;
     if(v == 200) cmd = cmd200;
     QByteArray array(cmd, sizeof(cmd220));
-    return sendCmd(array);
+    bool ret = sendCmd(array);
+    if(ret) ret = delay(5);
+
+    return ret;
 }
 
 bool YC_Dc107::setCur(int v)
 {
     v /= 10; v <<= 4;
     bool ret = setValue('A', 0, v);
-    if(ret) ret = delay(1);
+    if(ret) ret = delay(5);
 
     return ret;
 }

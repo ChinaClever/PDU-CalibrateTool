@@ -90,14 +90,14 @@ bool Ctrl_SiThread::setDcTh()
 
     ushort value = mItem->cTh.vol_max;
     if(mData->volTh.max[0] != value) {
-        mPacket->status = tr("电压最大值设置").arg(value);
+        mPacket->status = tr("电压最大值设置 %1V").arg(value);
         ret = sentRtuCmd(reg++, value);
         if(!ret) return ret;
     } else reg++;
 
     value = mItem->cTh.vol_min;
     if(mData->volTh.min[0] != value) {
-        mPacket->status = tr("电压最小值设置").arg(value);
+        mPacket->status = tr("电压最小值设置 %1V").arg(value);
         ret = sentRtuCmd(reg++, value);
         if(!ret) return ret;
     } else reg++;
