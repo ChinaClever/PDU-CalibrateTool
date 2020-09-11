@@ -63,10 +63,11 @@ bool Ad_Adjusting::sentCmd()
 
     sDevType *dt = mPacket->devType;
     if(DC == dt->ac) {
+        mPacket->status = tr("发送直流偏移命令！");
         ret = writeCmd(0xA1, 0);
+        mModbus->delay(15); // 时间短有问题
     }
 
-    mModbus->delay(15); // 时间短有问题
     mPacket->status = tr("设置标准源电流");
     ret = mSource->setCur(60); if(!ret) return ret;
     mModbus->delay(10); // 时间短有问题
@@ -125,7 +126,6 @@ bool Ad_Adjusting::recvStatus(uchar *recv, int len)
      if((len>0) && (len%8 == 0)) {
         for(int i = 0 ; i < len ; i+=8) {
             ushort status = recv[i+4]*256 + recv[i+5];
-            qDebug()<<"status"<<status<<endl;
             ret = updateStatus(status);
         }
     } else {
