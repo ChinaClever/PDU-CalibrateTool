@@ -200,8 +200,6 @@ bool Ctrl_IpThread::updateMacAddr()
     return ret;
 }
 
-
-
 bool Ctrl_IpThread::startProcess()
 {
     bool ret = false;
@@ -220,19 +218,20 @@ bool Ctrl_IpThread::startProcess()
     return ret;
 }
 
-
-
 bool Ctrl_IpThread::factorySet()
 {
     bool ret = true;
     if(!mItem->cTh.repair_en) {
+#if 1
         ret = startProcess();
-        // ret = setThreshold();
-        //  setTime(); // 设置时间
-        //  funClearEle(nullptr);
-        //  setMacAddr();
-        //  setclearLog();
-        //  ret = setModel();
+#else
+        ret = setThreshold();
+        setTime(); // 设置时间
+        funClearEle(nullptr);
+        setMacAddr();
+        setclearLog();
+        ret = setModel();
+#endif
     }
 
     return ret;
