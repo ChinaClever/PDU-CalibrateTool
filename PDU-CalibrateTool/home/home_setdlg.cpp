@@ -85,7 +85,6 @@ void Home_SetDlg::setThresholdWid()
     ui->curMaxSpin->setValue(cth->cur_max/10.0);
 }
 
-
 void Home_SetDlg::on_comboBox_currentIndexChanged(int index)
 {
     bool en = true;
@@ -110,7 +109,6 @@ void Home_SetDlg::on_comboBox_currentIndexChanged(int index)
     ui->curMinSpin->setEnabled(en);
     ui->curMaxSpin->setEnabled(en);
 }
-
 
 void Home_SetDlg::on_okBtn_clicked()
 {

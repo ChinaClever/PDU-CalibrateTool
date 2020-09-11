@@ -12,7 +12,24 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+bool cm_checkIp(const QString& ip)
+{
+    QProcess pingProcess;
+    QString strArg = "ping " + ip + " -n 1 -i 2";  //strPingIP 为设备IP地址
+    pingProcess.start(strArg,QIODevice::ReadOnly);
+    pingProcess.waitForFinished(-1);
 
+    QString p_stdout = QString::fromLocal8Bit(pingProcess.readAllStandardOutput());
+    bool bPingSuccess = false;
+
+    if(p_stdout.contains("TTL=")) { //我采用这个字符来判断 对不对？
+        bPingSuccess = true;
+    }else {
+        bPingSuccess = false;
+    }
+
+    return bPingSuccess;
+}
 
 /***
   *判断一个字符串是否为纯数字

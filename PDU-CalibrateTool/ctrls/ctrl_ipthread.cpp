@@ -218,10 +218,22 @@ bool Ctrl_IpThread::startProcess()
     return ret;
 }
 
+bool Ctrl_IpThread::checkNet()
+{
+    mPacket->status = tr("检测设备网络");
+    QString ip = CfgCom::bulid()->read("ip", "192.168.1.163").toString();
+    bool ret = cm_checkIp(ip);
+    mModbus->appendLogItem(ret);
+
+    return ret;
+}
+
 bool Ctrl_IpThread::factorySet()
 {
-    bool ret = true;
-    if(!mItem->cTh.repair_en) {
+    bool ret = mItem->cTh.repair_en;
+    if(!ret) {
+        ret = checkNet(); if(!ret) return ret;
+
 #if 1
         ret = startProcess();
 #else
