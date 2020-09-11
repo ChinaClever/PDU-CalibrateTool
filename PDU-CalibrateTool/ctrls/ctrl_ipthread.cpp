@@ -223,6 +223,11 @@ bool Ctrl_IpThread::checkNet()
     mPacket->status = tr("检测设备网络");
     QString ip = CfgCom::bulid()->read("ip", "192.168.1.163").toString();
     bool ret = cm_checkIp(ip);
+    if(ret) {
+        mPacket->status = tr(" 正常");
+    } else {
+         mPacket->status = tr(" 错误");
+    }
     mModbus->appendLogItem(ret);
 
     return ret;
