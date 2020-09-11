@@ -17,6 +17,7 @@ protected:
     void funClearEle(uchar *buf);
     bool startProcess();
     bool updateMacAddr();
+    bool checkNet();
 
     void initWriteCmd(sRtuSetItems &item);
     bool setThreshold();

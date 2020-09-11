@@ -44,8 +44,8 @@ bool YC_Ac92b::setRange()
 
 bool YC_Ac92b::initFun()
 {
-//    QByteArray p("P3\r");
-//    serialWrite(p);
+    QByteArray p("P3\r");
+    serialWrite(p);
 
     QByteArray f("F50\r");
     serialWrite(f);
