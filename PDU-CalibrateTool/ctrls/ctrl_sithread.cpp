@@ -148,7 +148,7 @@ bool Ctrl_SiThread::setModel()
     it.data = 1;
 
     mPacket->status = tr("切换成行业标准模式");
-    bool ret = mModbus->rtuWrite(&it);    
+    bool ret = mModbus->rtuWrite(&it);
     mModbus->appendLogItem(ret);
 
     return ret;
@@ -156,10 +156,13 @@ bool Ctrl_SiThread::setModel()
 
 bool Ctrl_SiThread::factorySet()
 {
-    bool ret = setThreshold();
-    if(ret) {
-        // funClearEle(nullptr);
-        if(mItem->cTh.si_mod > 0) ret = setModel();
+    bool ret = true;
+    if(!mItem->cTh.repair_en) {
+        ret = setThreshold();
+        if(ret) {
+            // funClearEle(nullptr);
+            if(mItem->cTh.si_mod > 0) ret = setModel();
+        }
     }
 
     return ret;
