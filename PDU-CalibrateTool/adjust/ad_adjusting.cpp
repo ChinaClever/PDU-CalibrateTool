@@ -10,6 +10,7 @@ Ad_Adjusting::Ad_Adjusting(QObject *parent) : QThread(parent)
     mPacket = sDataPacket::bulid();
     mModbus = Ad_Modbus::bulid(this);
     mItem = Ad_Config::bulid()->item;
+    mSource = nullptr;
 }
 
 Ad_Adjusting *Ad_Adjusting::bulid(QObject *parent)
@@ -65,6 +66,11 @@ bool Ad_Adjusting::sentCmd()
         ret = writeCmd(0xA1, 0);
     }
 
+    mModbus->delay(15); // 时间短有问题
+    mPacket->status = tr("设置标准源电流");
+    ret = mSource->setCur(60); if(!ret) return ret;
+    mModbus->delay(10); // 时间短有问题
+
     mPacket->status = tr("发送启动校准命令！");
     return writeCmd(0xA2, 0);
 }
@@ -81,7 +87,17 @@ bool Ad_Adjusting::updateStatus(ushort status)
         str = tr("校准失败");
     } else if(0x1102 == status) {
         mPacket->status = tr("校准解锁成功");
-    } else if(status <= 0x1114) {
+    } else if(0x1108 == status) {
+        mPacket->status = tr("准直流偏移校准成功");
+    }else if(0x1109 == status) {
+        str = tr("直流偏移校准失败");
+    }else if(0x110A == status) {
+        mPacket->status = tr("直流正在校准");
+    }else if(0x110B == status) {
+        str = tr("直流电流校准失败");
+    }else if(0x110C == status) {
+        str = tr("直流电压校准失败");
+    }else if(status <= 0x1114) {
         mPacket->status = tr("正在校准，%1相 ").arg(status-0x1110);
     } else if(status <= 0x1119) {
         str = tr("校准失败：%1相 ").arg(status-0x1115);
@@ -109,6 +125,7 @@ bool Ad_Adjusting::recvStatus(uchar *recv, int len)
      if((len>0) && (len%8 == 0)) {
         for(int i = 0 ; i < len ; i+=8) {
             ushort status = recv[i+4]*256 + recv[i+5];
+            qDebug()<<"status"<<status<<endl;
             ret = updateStatus(status);
         }
     } else {
@@ -169,8 +186,9 @@ bool Ad_Adjusting::readData()
     return ret;
 }
 
-bool Ad_Adjusting::startAdjust()
+bool Ad_Adjusting::startAdjust(YC_StandSource *source)
 {
+    if(!mSource) mSource = source;
     mItem->step = Test_Ading;
     bool ret = sentCmd();
     if(ret) {
