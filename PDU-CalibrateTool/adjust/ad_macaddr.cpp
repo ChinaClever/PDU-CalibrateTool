@@ -129,13 +129,12 @@ int Ad_MacAddr::macToChar(const QString &in, uchar *buf)
     return ret;
 }
 
-QString Ad_MacAddr::macAdd(const QString &in, char *buf)
+QString Ad_MacAddr::macAdd(const QString &in)
 {
     QString ret;
     quint64 mac = macToInt(in);
     if(mac++ > 0) {
         ret = intToMac(mac);
-        strcpy(buf, ret.toLatin1().data());
     }
 
     return ret;

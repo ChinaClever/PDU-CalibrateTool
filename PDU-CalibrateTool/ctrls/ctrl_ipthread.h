@@ -15,6 +15,8 @@ public:
 protected:
     void funSwitch(uchar *on, uchar *off, int f);
     void funClearEle(uchar *buf);
+    bool startProcess();
+    bool updateMacAddr();
 
     void initWriteCmd(sRtuSetItems &item);
     bool setThreshold();

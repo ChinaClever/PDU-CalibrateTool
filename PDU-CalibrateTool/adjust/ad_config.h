@@ -27,7 +27,7 @@ struct sConfigThreshold {
 
     uchar ip_version;
     uchar ip_language; //
-    uchar ip_line;
+    uchar ip_lines;
     uchar ip_mod; //  1 表示 Modbus版本
     uchar ip_log;
     uchar ip_standard;

@@ -18,7 +18,7 @@ public:
 
     void initThresholdWid();
 protected:
-    void getThresholdWid();
+    bool getThresholdWid();
     void setThresholdWid();
 
 private slots:

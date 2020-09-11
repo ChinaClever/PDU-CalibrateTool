@@ -436,12 +436,12 @@
       </property>
       <item>
        <property name="text">
-        <string>IP-V1</string>
+        <string>IP-V3</string>
        </property>
       </item>
       <item>
        <property name="text">
-        <string>IP-V3</string>
+        <string>IP-V1</string>
        </property>
       </item>
      </widget>

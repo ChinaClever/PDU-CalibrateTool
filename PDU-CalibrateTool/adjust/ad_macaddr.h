@@ -9,7 +9,7 @@ public:
     static Ad_MacAddr *bulid();
     bool isMacAddress(const QString &mac);
 
-    QString macAdd(const QString &in, char *buf);
+    QString macAdd(const QString &in);
     int macToChar(const QString &in, uchar *buf);
 
 protected:

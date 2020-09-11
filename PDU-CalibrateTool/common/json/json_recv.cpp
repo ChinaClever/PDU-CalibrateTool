@@ -109,7 +109,7 @@ bool Json_Recv::recv(const QString &name)
 {
     bool ret = false;
     QByteArray ba;
-    QString path = cm_pathOfData(QString("%1.json").arg(name));
+    QString path = CfgCom::bulid()->pathOfData(QString("%1.json").arg(name));
     QFile file(path);
     ret = file.open(QIODevice::ReadOnly);
     if(file.exists())

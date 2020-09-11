@@ -24,22 +24,25 @@ void Home_SetDlg::initThresholdWid()
 {
     sConfigThreshold *cth = &(mItem->cTh);
     ui->checkBox->setChecked(cth->repair_en);
+    on_checkBox_clicked(cth->repair_en);
     ui->comboBox->setCurrentIndex(cth->type);
     on_comboBox_currentIndexChanged(cth->type);
 
     ui->ipTypeBox->setCurrentIndex(cth->ip_version);
     ui->languageBox->setCurrentIndex(cth->ip_language);
-    ui->lineBox->setCurrentIndex(cth->ip_line);
+    ui->lineBox->setCurrentIndex(cth->ip_lines);
     ui->ipModeBox->setCurrentIndex(cth->ip_mod);
     ui->sBox->setCurrentIndex(cth->ip_standard);
     ui->logBox->setCurrentIndex(cth->ip_log);
     ui->macEdit->setText(cth->mac_addr);
-    ui->logBox->setEnabled(cth->ip_version);
+    on_ipTypeBox_currentIndexChanged(cth->ip_version);
 }
 
-void Home_SetDlg::getThresholdWid()
+bool Home_SetDlg::getThresholdWid()
 {
+    bool ret = true;
     sConfigThreshold *cth = &(mItem->cTh);
+    cth->repair_en = ui->checkBox->isChecked() ? 1:0;
     cth->type = ui->comboBox->currentIndex();
     cth->vol_min = ui->volMinSpin->value();
     cth->vol_max = ui->volMaxSpin->value();
@@ -48,13 +51,22 @@ void Home_SetDlg::getThresholdWid()
     cth->si_mod = ui->siCheck->isChecked() ? 1:0;
     cth->ip_version = ui->ipTypeBox->currentIndex();
     cth->ip_language = ui->languageBox->currentIndex();
-    cth->ip_line = ui->lineBox->currentIndex();
+    cth->ip_lines = ui->lineBox->currentIndex();
     cth->ip_mod = ui->ipModeBox->currentIndex();
     cth->ip_standard = ui->sBox->currentIndex();
     cth->ip_log = ui->logBox->currentIndex();
 
-    char* ch = ui->macEdit->text().toLatin1().data();
+    QString mac = ui->macEdit->text();
+    if(!mac.isEmpty()) {
+        ret = Ad_MacAddr::bulid()->isMacAddress(mac);
+        if(!ret) {
+            CriticalMsgBox box(this, tr("MAC地址设置错误"));
+        }
+    }
+    char* ch = mac.toLatin1().data();
     strcpy(cth->mac_addr, ch);
+
+    return ret;
 }
 
 void Home_SetDlg::setThresholdWid()
@@ -95,9 +107,11 @@ void Home_SetDlg::on_comboBox_currentIndexChanged(int index)
 
 void Home_SetDlg::on_okBtn_clicked()
 {
-    this->close();
-    getThresholdWid();
-    Ad_Config::bulid()->writeThreshold();
+    bool ret = getThresholdWid();
+    if(ret) {
+        this->close();
+        Ad_Config::bulid()->writeThreshold();
+    }
 }
 
 void Home_SetDlg::on_checkBox_clicked(bool checked)
@@ -108,5 +122,5 @@ void Home_SetDlg::on_checkBox_clicked(bool checked)
 
 void Home_SetDlg::on_ipTypeBox_currentIndexChanged(int index)
 {
-     ui->logBox->setEnabled(index);
+    ui->logBox->setEnabled(!index);
 }

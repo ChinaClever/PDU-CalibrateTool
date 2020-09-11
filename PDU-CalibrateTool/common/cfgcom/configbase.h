@@ -1,6 +1,5 @@
 #ifndef CONFIGBASH
 #define CONFIGBASH
-#include "sysconfigfile.h"
 #include "cfgcom.h"
 
 class ConfigBase

@@ -11,8 +11,8 @@ public:
     void write(const QString &key, const QVariant& v, const QString &g="Cfg");
     QVariant read(const QString &key, const QVariant &v = QVariant(), const QString &g="Cfg");
 
-protected:
     QString pathOfData(const QString& name);
+protected:
     bool cfgOpen(QObject *parent = nullptr, const QString& fn = "cfg.ini");
 
 private:
