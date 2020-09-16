@@ -105,19 +105,17 @@ void Ad_CoreThread::writeLog()
 
 bool Ad_CoreThread::readDevInfo()
 {
+    bool ret = false;
     mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
     if(mSource) {
         mSource->setVol(220);
+        ret = mAutoID->readDevType();//读取设备类型
+        if(ret) ret = mSn->snEnter();//写入序列号
+        mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
     } else {
         mItem->step = Test_End;
-        return false;
     }
-
-
-    bool ret = mAutoID->readDevType();//读取设备类型
-    if(ret) ret = mSn->snEnter();//写入序列号
-    mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
 
     return ret;
 
