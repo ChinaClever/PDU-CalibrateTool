@@ -105,14 +105,18 @@ void Ad_CoreThread::writeLog()
 
 bool Ad_CoreThread::readDevInfo()
 {
+    mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
-    if(!mSource) {mItem->step = Test_End; return false;}
-
-    mSource->setVol(220);
-    bool ret = mAutoID->readDevType();//读取设备类型
-    if(ret) {
-        ret = mSn->snEnter();//写入序列号
+    if(mSource) {
+        mSource->setVol(220);
+    } else {
+        mItem->step = Test_End;
+        return false;
     }
+
+
+    bool ret = mAutoID->readDevType();//读取设备类型
+    if(ret) ret = mSn->snEnter();//写入序列号
     mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
 
     return ret;
@@ -130,11 +134,7 @@ bool Ad_CoreThread::readDevInfo()
 
 void Ad_CoreThread::workDown()
 {
-    mPacket->status = tr("已启动校准！");
     bool ret = readDevInfo(); if(!ret) return;
-
-//    mPacket->status = tr("设置标准源电流");
-//    ret = mSource->setCur(60); if(!ret) return;
     ret = mAdjust->startAdjust(mSource);
     if(ret) {
         mPacket->status = tr("开始自动验证");

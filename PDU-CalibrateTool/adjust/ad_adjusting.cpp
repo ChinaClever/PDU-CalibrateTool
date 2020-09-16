@@ -10,7 +10,6 @@ Ad_Adjusting::Ad_Adjusting(QObject *parent) : QThread(parent)
     mPacket = sDataPacket::bulid();
     mModbus = Ad_Modbus::bulid(this);
     mItem = Ad_Config::bulid()->item;
-    mSource = nullptr;
 }
 
 Ad_Adjusting *Ad_Adjusting::bulid(QObject *parent)
@@ -49,10 +48,10 @@ bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
     return transmit(cmd, len);
 }
 
-bool Ad_Adjusting::sentCmd()
+bool Ad_Adjusting::sentCmd(YC_StandSource *source)
 {
     mPacket->status = tr("即将开始校准！");
-    mModbus->delay(2); // 时间短有问题
+    mModbus->delay(1);
 
     mPacket->status = tr("发送校准解锁命令！");
     bool ret = writeCmd(0xA0, 0);
@@ -65,12 +64,14 @@ bool Ad_Adjusting::sentCmd()
     if(DC == dt->ac) {
         mPacket->status = tr("发送直流偏移命令！");
         ret = writeCmd(0xA1, 0);
-        mModbus->delay(15); // 时间短有问题
+        if(ret) ret = mModbus->delay(15);
+        if(!ret) return ret;
     }
 
     mPacket->status = tr("设置标准源电流");
-    ret = mSource->setCur(60); if(!ret) return ret;
-    mModbus->delay(10); // 时间短有问题
+    ret = source->setCur(60);
+    if(ret) ret = mModbus->delay(10);
+    if(!ret) return ret;
 
     mPacket->status = tr("发送启动校准命令！");
     return writeCmd(0xA2, 0);
@@ -188,9 +189,8 @@ bool Ad_Adjusting::readData()
 
 bool Ad_Adjusting::startAdjust(YC_StandSource *source)
 {
-    if(!mSource) mSource = source;
     mItem->step = Test_Ading;
-    bool ret = sentCmd();
+    bool ret = sentCmd(source);
     if(ret) {
         if(mItem->step == Test_Ading)
             ret = readData();
