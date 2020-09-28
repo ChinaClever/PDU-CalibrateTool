@@ -284,6 +284,7 @@ Col_CoreThread *Ad_Resulting::initThread()
         break;
 
     case SI_PDU:
+    case BM_PDU:
         mCollect = Col_SiThread::bulid(this);
         mCtrl = Ctrl_SiThread::bulid(this);
         break;

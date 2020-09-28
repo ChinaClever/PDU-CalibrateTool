@@ -38,7 +38,7 @@ bool YC_Ac92b::setValue(const QString &str, int v)
 
 bool YC_Ac92b::setRange()
 {
-    QByteArray array("I0 220 10 15 1200");
+    QByteArray array("I0 220 10 15 1600");
     return write(array);
 }
 
