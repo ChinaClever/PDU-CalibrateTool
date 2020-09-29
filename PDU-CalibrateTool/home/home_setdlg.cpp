@@ -37,7 +37,7 @@ void Home_SetDlg::initThresholdWid()
 
     ui->ipTypeBox->setCurrentIndex(cth->ip_version);
     ui->languageBox->setCurrentIndex(cth->ip_language);
-    ui->lineBox->setCurrentIndex(cth->ip_lines);
+    ui->lineBox->setCurrentIndex(cth->ip_lines-1);
     ui->ipModeBox->setCurrentIndex(cth->ip_mod);
     ui->sBox->setCurrentIndex(cth->ip_standard);
     ui->logBox->setCurrentIndex(cth->ip_log);
@@ -58,7 +58,7 @@ bool Home_SetDlg::getThresholdWid()
     cth->si_mod = ui->siCheck->isChecked() ? 1:0;
     cth->ip_version = ui->ipTypeBox->currentIndex();
     cth->ip_language = ui->languageBox->currentIndex();
-    cth->ip_lines = ui->lineBox->currentIndex();
+    cth->ip_lines = ui->lineBox->currentIndex()+1;
     cth->ip_mod = ui->ipModeBox->currentIndex();
     cth->ip_standard = ui->sBox->currentIndex();
     cth->ip_log = ui->logBox->currentIndex();
