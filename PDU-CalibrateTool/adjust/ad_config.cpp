@@ -106,6 +106,7 @@ void Ad_Config::writeCnt()
 
 void Ad_Config::initThreshold()
 {
+    item->user = read("user", "").toString();
     item->cTh.repair_en = read("repair_en", 0).toInt();
     item->cTh.type = read("cth_type", 1).toInt();
     item->cTh.vol_min = read("vol_min", 80).toInt();
@@ -127,6 +128,7 @@ void Ad_Config::initThreshold()
 
 void Ad_Config::writeThreshold()
 {
+    write("user", item->user);
     write("repair_en", item->cTh.repair_en);
     write("cth_type", item->cTh.type);
     write("vol_min", item->cTh.vol_min);

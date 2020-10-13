@@ -11,7 +11,7 @@ DbLogs::DbLogs()
     createTable();
     tableTile = tr("校准状态日志");
     //hiddens <<  9;
-    headList << tr("设备类型") << tr("操作员") << tr("校准状态") << tr("设备序列号");
+    headList << tr("设备类型") << tr("客户名称") << tr("操作员") << tr("校准状态") << tr("设备序列号");
 }
 
 void DbLogs::createTable()
@@ -23,6 +23,7 @@ void DbLogs::createTable()
             "time           VCHAR,"
             "dev            VCHAR,"
             "user           VCHAR,"
+            "op             VCHAR,"
             "result         VCHAR,"
             "sn             VCHAR not null);";
     QSqlQuery query(mDb);
@@ -42,8 +43,8 @@ DbLogs *DbLogs::bulid()
 
 bool DbLogs::insertItem(const sLogItem &item)
 {
-    QString cmd = "insert into %1 (date,time,dev,user,result,sn) "
-                  "values(:date,:time,:dev,:user,:result,:sn)";
+    QString cmd = "insert into %1 (date,time,dev,user,op,result,sn) "
+                  "values(:date,:time,:dev,:user,:op,:result,:sn)";
     bool ret = modifyItem(item,cmd.arg(tableName()));
     //if(ret) emit itemChanged(item.id,Insert);
     return ret;
@@ -58,6 +59,7 @@ bool DbLogs::modifyItem(const sLogItem &item, const QString &cmd)
     query.bindValue(":time",item.time);
     query.bindValue(":dev",item.dev);
     query.bindValue(":user",item.user);
+    query.bindValue(":op",item.op);
     query.bindValue(":result",item.result);
     query.bindValue(":sn",item.sn);
     bool ret = query.exec();

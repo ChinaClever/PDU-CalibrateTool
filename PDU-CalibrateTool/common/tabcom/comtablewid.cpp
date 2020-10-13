@@ -23,7 +23,6 @@ ComTableWid::ComTableWid(QWidget *parent) :
     QGridLayout *gridLayout = new QGridLayout(parent);
     gridLayout->setContentsMargins(0, 0, 0, 0);
     gridLayout->addWidget(this);
-    mGrid = gridLayout;
 }
 
 ComTableWid::~ComTableWid()

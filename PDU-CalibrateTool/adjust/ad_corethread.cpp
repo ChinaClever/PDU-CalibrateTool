@@ -90,7 +90,8 @@ void Ad_CoreThread::writeLog()
     sLogItem it;
 
     it.dev =mPacket->dev_type.split("_").first();
-    it.user = user_land_name();
+    it.op = user_land_name();
+    it.user = mItem->user;
     it.sn = mPacket->sn;
     if(it.sn.isEmpty()) return;
 

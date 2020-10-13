@@ -53,6 +53,7 @@ void Home_SetDlg::initThresholdWid()
 bool Home_SetDlg::getThresholdWid()
 {
     bool ret = true;
+    mItem->user = ui->userEdit->text();
     sConfigThreshold *cth = &(mItem->cTh);
     cth->repair_en = ui->checkBox->isChecked() ? 1:0;
     cth->type = ui->comboBox->currentIndex();
@@ -145,3 +146,4 @@ void Home_SetDlg::on_resBtn_clicked()
         Ad_Config::bulid()->writeCnt();
     }
 }
+

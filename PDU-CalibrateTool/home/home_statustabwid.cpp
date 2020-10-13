@@ -10,8 +10,8 @@ Home_StatusTabWid::Home_StatusTabWid(QWidget *parent) : ComTableWid(parent)
 
 void Home_StatusTabWid::initWid()
 {
-    QString title = tr("校准数据列表");
     QStringList header;
+    QString title = tr("校准数据列表");
     header<<tr("时间") << tr("项目");
     initTableWid(header, 0, title);
 
@@ -22,7 +22,7 @@ void Home_StatusTabWid::appendItem()
 {
     if(mStatus != mPacket->status) {
         QStringList listStr;
-        listStr  << QTime::currentTime().toString("hh:mm:ss");
+        listStr << QTime::currentTime().toString("hh:mm:ss");
         listStr << mPacket->status;
 
         insertRow(0, listStr);

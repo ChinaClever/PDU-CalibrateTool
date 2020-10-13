@@ -188,6 +188,7 @@ bool Ctrl_IpThread::updateMacAddr()
     bool ret = true;
     char *ptr = mItem->cTh.mac_addr;
     if(strlen(ptr) > 5) {
+        mModbus->writeMac(ptr);
         Ad_MacAddr *mac = Ad_MacAddr::bulid();
         QString s = mac->macAdd(ptr);
         char* ch = s.toLatin1().data();

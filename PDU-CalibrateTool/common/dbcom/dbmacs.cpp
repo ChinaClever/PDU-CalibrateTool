@@ -6,7 +6,7 @@ DbMacs::DbMacs()
     createTable();
     tableTile = tr("MAC纪录");
     //hiddens <<  9;
-    headList << tr("设备类型") << tr("操作员") << tr("SN码")
+    headList << tr("设备类型") << tr("客户名称") << tr("操作员") << tr("SN码")
              << tr("MAC地址");
 }
 
@@ -19,6 +19,7 @@ void DbMacs::createTable()
             "time           VCHAR,"
             "dev            VCHAR,"
             "user           VCHAR,"
+            "op             VCHAR,"
             "sn             VCHAR,"
             "mac            VCHAR not null);";
     QSqlQuery query(mDb);
@@ -37,8 +38,8 @@ DbMacs *DbMacs::bulid()
 
 bool DbMacs::insertItem(sMacItem &item)
 {
-    QString cmd = "insert into %1 (date,time,dev,user,sn,mac) "
-                  "values(:date,:time,:dev,:user,:sn,:mac)";
+    QString cmd = "insert into %1 (date,time,dev,user,op,sn,mac) "
+                  "values(:date,:time,:dev,:user,:op,:sn,:mac)";
     bool ret = modifyItem(item,cmd.arg(tableName()));
     if(ret) emit itemChanged(item.id,Insert);
     return ret;
@@ -77,6 +78,7 @@ bool DbMacs::modifyItem(const sMacItem &item, const QString &cmd)
     query.bindValue(":time",item.time);
     query.bindValue(":dev",item.dev);
     query.bindValue(":user",item.user);
+    query.bindValue(":op",item.op);
     query.bindValue(":sn",item.sn);
     query.bindValue(":mac",item.mac);
     bool ret = query.exec();
@@ -91,6 +93,7 @@ void DbMacs::selectItem(QSqlQuery &query,sMacItem &item)
     item.time = query.value("time").toString();
     item.dev = query.value("dev").toString();
     item.user = query.value("user").toString();
+    item.op = query.value("op").toString();
     item.sn = query.value("sn").toString();
     item.mac = query.value("mac").toString();
 }

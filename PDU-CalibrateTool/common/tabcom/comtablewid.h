@@ -48,7 +48,6 @@ public slots:
 
 protected:
     QTimer *timer;
-    QGridLayout *mGrid;
 
 private:
     void initTableWidget(QStringList &header);

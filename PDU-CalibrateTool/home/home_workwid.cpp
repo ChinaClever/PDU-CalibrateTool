@@ -42,10 +42,10 @@ bool Home_WorkWid::initWid()
     Ad_Config::bulid()->setAddr(mItem->addr);
 
     ui->devTypeLab->setText("---");
-    ui->snLab->setText("---");
+    ui->snLab->setText(tr("%1 ---").arg(mItem->user));
     ui->statusLab->setText("---");
 
-    QString str = tr("设备数量：%1 成功：%2 失败：%3")
+    QString str = tr("设备数量:%1  成功:%2  失败:%3")
             .arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
     ui->tgLab->setText(str);
 
@@ -84,7 +84,7 @@ void Home_WorkWid::on_startBtn_clicked()
 
 void Home_WorkWid::upTgWid()
 {
-    QString str = tr("设备数量：%1 成功：%2 失败：%3 ").arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
+    QString str = tr("设备数量:%1 成功:%2 失败:%3 ").arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
     sDataPacket *packet = sDataPacket::bulid();
     sTgObjData *tg = packet->tg;
     if(tg->cur > 0) {
@@ -120,7 +120,8 @@ void Home_WorkWid::upStatusLab()
     ui->statusLab->setText(str);
 
     ui->devTypeLab->setText(packet->dev_type);
-    ui->snLab->setText(packet->sn);
+    str = tr("%1 %2").arg(mItem->user).arg(packet->sn);
+    ui->snLab->setText(str);
 
     QPalette pe;
     switch (packet->pass) {
