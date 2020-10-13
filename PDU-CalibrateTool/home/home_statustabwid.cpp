@@ -33,6 +33,7 @@ void Home_StatusTabWid::appendItem()
         }
 
         mStatus = mPacket->status;
+        qDebug() << mStatus;
     }
 }
 
