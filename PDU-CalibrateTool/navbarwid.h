@@ -29,6 +29,8 @@ private slots:
 
     void on_readmeBtn_clicked();
 
+    void on_dataBtn_clicked();
+
 private:
     Ui::NavBarWid *ui;
     UsrLandDlg* mUserLand;

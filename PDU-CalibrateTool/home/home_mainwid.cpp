@@ -14,6 +14,7 @@ Home_MainWid::Home_MainWid(QWidget *parent) :
     groupBox_background_icon(this);
     mModeWid = new Home_WorkWid(ui->modeWid);
     mTableWid = new Home_DataTabWid(ui->tableWid);
+    connect(mModeWid, SIGNAL(startSig()), this, SIGNAL(startSig()));
 }
 
 Home_MainWid::~Home_MainWid()

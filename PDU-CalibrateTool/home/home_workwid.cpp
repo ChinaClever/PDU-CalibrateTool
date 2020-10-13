@@ -59,6 +59,7 @@ void Home_WorkWid::on_startBtn_clicked()
         bool ret = initWid();
         if(ret){
             mCore->startAdjust();
+            emit startSig();
         } else {
             return;
         }

@@ -2,7 +2,7 @@
 #define HOME_SETDLG_H
 
 #include <QDialog>
-#include "home_datatabwid.h"
+#include "home_statustabwid.h"
 
 namespace Ui {
 class Home_SetDlg;

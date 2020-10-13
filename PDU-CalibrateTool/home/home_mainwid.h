@@ -17,6 +17,9 @@ public:
     explicit Home_MainWid(QWidget *parent = nullptr);
     ~Home_MainWid();
 
+signals:
+    void startSig();
+
 private:
     Ui::Home_MainWid *ui;
     Home_DataTabWid *mTableWid;

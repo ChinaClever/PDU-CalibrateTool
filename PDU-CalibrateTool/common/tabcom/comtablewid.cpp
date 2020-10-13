@@ -73,9 +73,8 @@ void ComTableWid::addItemContent(int row, int column, const QString &content)
  * @brief 增加一行内容
  * @param list
  */
-void ComTableWid::addRowContent(QStringList &list)
+void ComTableWid::addRowContent(int row, QStringList &list)
 {
-    int row = ui->tableWidget->rowCount();
     ui->tableWidget->insertRow(row);
     // ui->tableWidget->setRowHeight(row, 40);
 
@@ -90,13 +89,12 @@ void ComTableWid::addRowContent(QStringList &list)
  * @brief 初始化一行表格
  * @param str
  */
-void ComTableWid::addInitRow()
+void ComTableWid::addInitRow(int row)
 {
     QStringList list;
     int column = ui->tableWidget->columnCount();
-    for(int j=0; j<column; ++j)
-        list << "---";
-    addRowContent(list);
+    for(int j=0; j<column; ++j) list << "---";
+    addRowContent(row, list);
 }
 
 /**
@@ -108,8 +106,10 @@ void ComTableWid::addInitRow()
 void ComTableWid::initTableWid(QStringList &header, int line, const QString &title)
 {
     initTableWidget(header);
-    for(int i=0; i<line; ++i)
-        addInitRow();
+    for(int i=0; i<line; ++i) {
+        int row = ui->tableWidget->rowCount();
+        addInitRow(row);
+    }
 }
 
 /**
@@ -156,7 +156,11 @@ void ComTableWid::setTableRow(int id, int col, QStringList &listStr)
         setTableItem(id, i+col, listStr.at(i));
 }
 
-
+void ComTableWid::insertRow(int id, QStringList &listStr)
+{
+    addInitRow(id);
+    setTableRow(id, listStr);
+}
 //void ComTableWid::appendTableRow(QStringList &listStr, bool c)
 //{
 //    int row = ui->tableWidget->rowCount();
@@ -170,8 +174,10 @@ void ComTableWid::addTableRows(int line)
     int row = ui->tableWidget->rowCount();
     if(row < line)
     {
-        for(int i=0; i<line-row; ++i)
-            addInitRow();
+        for(int i=0; i<line-row; ++i) {
+            int id = ui->tableWidget->rowCount();
+            addInitRow(id);
+        }
     }
 }
 
