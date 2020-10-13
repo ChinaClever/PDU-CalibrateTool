@@ -36,6 +36,10 @@ void MainWindow::initWid()
     mHomeWid = new Home_MainWid(ui->stackedWid);
     ui->stackedWid->addWidget(mHomeWid);
 
+    mStatusWid = new Home_StatusTabWid(ui->stackedWid);
+    ui->stackedWid->addWidget(mStatusWid);
+    connect(mHomeWid, SIGNAL(startSig()), mStatusWid, SLOT(startSlot()));
+
     mSetupWid = new Setup_MainWid(ui->stackedWid);
     ui->stackedWid->addWidget(mSetupWid);
 

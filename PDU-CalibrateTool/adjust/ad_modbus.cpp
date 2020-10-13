@@ -43,7 +43,8 @@ bool Ad_Modbus::writeMac(const QString &mac)
 
     sDataPacket *packet = sDataPacket::bulid();
     it.dev = packet->dev_type.split("_").first();
-    it.user = user_land_name();
+    it.op = user_land_name();
+    it.user = mItem->user;
     it.sn = packet->sn;
     it.mac = mac;
 
@@ -56,7 +57,8 @@ bool Ad_Modbus::appendLogItem(bool pass)
 
     sDataPacket *packet = sDataPacket::bulid();
     it.dev = packet->dev_type.split("_").first();
-    it.user = user_land_name();
+    it.op = user_land_name();
+    it.user = mItem->user;
     it.sn = packet->sn;
     if(pass) {
         it.result = tr("通过");

@@ -200,6 +200,7 @@ bool Ctrl_IpThread::updateMacAddr()
     bool ret = true;
     char *ptr = mItem->cTh.mac_addr;
     if(strlen(ptr) > 5) {
+        mModbus->writeMac(ptr);
         Ad_MacAddr *mac = Ad_MacAddr::bulid();
         QString s = mac->macAdd(ptr);
         char* ch = s.toLatin1().data();
@@ -217,15 +218,18 @@ bool Ctrl_IpThread::startProcess()
     bool ret = false;
     char *ptr = mItem->cTh.mac_addr;
     if(strlen(ptr) > 5) {
-        mPacket->status = tr("请等待，正在设置设备参数！");
-
-        print(mPacket->status);
-
         QProcess process(this);
         process.start("pyweb.exe");
-        process.waitForFinished();
+        ret = checkNet();
+        if(ret) {
+            mPacket->status = tr("请等待，正在设置设备参数！");
+
+            print(mPacket->status);
+
+            process.waitForFinished();
+            ret = updateMacAddr();
+        }
         process.close();
-        ret = updateMacAddr();
     } else {
         mPacket->status = tr("Mac地址未设置！");
         print(mPacket->status);
@@ -256,8 +260,6 @@ bool Ctrl_IpThread::factorySet()
 {
     bool ret = mItem->cTh.repair_en;
     if(!ret) {
-        ret = checkNet(); if(!ret) return ret;
-
 #if 1
         ret = startProcess();
 #else

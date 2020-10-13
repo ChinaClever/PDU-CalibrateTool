@@ -28,6 +28,7 @@ protected:
     //void appendTableRow(QStringList &listStr, bool c=false);
     void checkTableRow(int line);
 
+    void insertRow(int id, QStringList &listStr);
     void clearRow(int row);
     void clearTable();
     void delTable();
@@ -35,6 +36,7 @@ protected:
     void setNormalBackgroundColor(int id);
     void setItemColor(int id, int column, int alarm);
     void scrollToBottomTable();
+    void setColumnWidth(int column, int width);
 
     int currentRow();
     int currentColumn();
@@ -50,8 +52,8 @@ protected:
 private:
     void initTableWidget(QStringList &header);
     void addItemContent(int row, int column, const QString &content);
-    void addRowContent(QStringList &list);
-    void addInitRow();
+    void addRowContent(int row, QStringList &list);
+    void addInitRow(int row);
     void addTableRows(int line);
     void delTableRows(int line);
 

@@ -8,6 +8,7 @@ HEADERS += \
     $$PWD/home_mainwid.h \
     $$PWD/home_outputwid.h \
     $$PWD/home_setdlg.h \
+    $$PWD/home_statustabwid.h \
     $$PWD/home_thresholdwid.h \
     $$PWD/home_workwid.h
 
@@ -18,6 +19,7 @@ SOURCES += \
     $$PWD/home_mainwid.cpp \
     $$PWD/home_outputwid.cpp \
     $$PWD/home_setdlg.cpp \
+    $$PWD/home_statustabwid.cpp \
     $$PWD/home_thresholdwid.cpp \
     $$PWD/home_workwid.cpp
 

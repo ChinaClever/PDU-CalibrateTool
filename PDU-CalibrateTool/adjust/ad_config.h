@@ -34,6 +34,16 @@ struct sConfigThreshold {
     char mac_addr[32]; //  MAC地址
 };
 
+/**
+ * RTU传输统计结构体
+ */
+struct sCount
+{
+    uint all;
+    uint ok;
+    uint err;
+};
+
 struct sConfigItem
 {
     sConfigItem() {step=0; vol=200; currentNum=0;addr=1;}
@@ -48,7 +58,9 @@ struct sConfigItem
     sConfigThreshold cTh;
 
     int logCount;
+    sCount cnt;
 
+    QString user; // 客户名称
     uchar pcNum;
     ushort currentNum; // 当天序号
     QString currentName; // 当前用户名称
@@ -67,6 +79,7 @@ public:
     int getAddr();
     void setAddr(int addr);
 
+    void writeCnt();
     void writeErrData();
     void writeThreshold();
     void setMacAddr(const QString &name);
@@ -79,6 +92,7 @@ protected:
     void initCurrentNum();
     void initErrData();
     void initThreshold();
+    void initCnt();
 };
 
 #endif // ADJUSTCONFIG_H

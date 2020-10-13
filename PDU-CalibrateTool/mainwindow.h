@@ -33,5 +33,6 @@ private:
     NavBarWid *mNavBarWid;
     Home_MainWid *mHomeWid;
     Setup_MainWid *mSetupWid;
+    Home_StatusTabWid *mStatusWid;
 };
 #endif // MAINWINDOW_H

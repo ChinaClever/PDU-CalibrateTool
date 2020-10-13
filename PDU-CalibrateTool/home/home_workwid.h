@@ -16,6 +16,9 @@ public:
     explicit Home_WorkWid(QWidget *parent = nullptr);
     ~Home_WorkWid();
 
+signals:
+    void startSig();
+
 protected:
     bool initWid();
     void endFun();
