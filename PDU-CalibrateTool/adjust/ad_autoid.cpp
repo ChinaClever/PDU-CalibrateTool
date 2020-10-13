@@ -33,6 +33,7 @@ bool Ad_AutoID::analysDevType(uchar *buf, int len)
 {
     if(len != 4) {
         mPacket->status = tr("读取设备序列号失败：返回长度为%1").arg(len);
+        print(mPacket->status);
         return false;
     }
 
@@ -42,7 +43,10 @@ bool Ad_AutoID::analysDevType(uchar *buf, int len)
     }
 
     bool ret = mDevType->analysDevType(id);
-    if(!ret) mPacket->status = QObject::tr("不支持此设备类型 ID是%1").arg(id);
+    if(!ret){
+        mPacket->status = QObject::tr("不支持此设备类型 ID是%1").arg(id);
+        print(mPacket->status);
+    }
 
     return ret;
 }
@@ -67,10 +71,13 @@ bool Ad_AutoID::readDevId()
 bool Ad_AutoID::readDevType()
 {        
     mPacket->status = tr("等待设备稳定！"); mModbus->delay(5);
+    print(mPacket->status);
     mPacket->status = tr("正在识别模块类型！");
+    print(mPacket->status);
     bool ret = readDevId();
     if(ret) {
         mPacket->status = tr("识别模块成功！");
+        print(mPacket->status);
         ret = mModbus->delay(1);
     }else{
         mItem->step = Test_End;

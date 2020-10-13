@@ -47,7 +47,7 @@ void outputMessage(QtMsgType type, const QMessageLogContext &context, const QStr
 
 int main(int argc, char *argv[])
 {
-    //qInstallMessageHandler(outputMessage);//注释显示打印信息，打开则输出日志
+    qInstallMessageHandler(outputMessage);//注释显示打印信息，打开则输出日志
     QtSingleApplication a(QLatin1String("PDU-CalibrateTool"),argc, argv);
     if(a.isRunning())  {
         QMessageBox::information(NULL, QObject::tr("提示"), QObject::tr("程序已运行！"),QMessageBox::Ok);

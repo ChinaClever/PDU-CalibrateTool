@@ -63,6 +63,7 @@ void Ad_CoreThread::startResult()
 void Ad_CoreThread::collectData()
 {
     mPacket->status = tr("数据采集");
+    print(mPacket->status);
     bool ret = readDevInfo();
     if(!ret) return;
 
@@ -77,6 +78,7 @@ void Ad_CoreThread::collectData()
 void Ad_CoreThread::verifyResult()
 {
     mPacket->status = tr("采集自动验证");
+    print(mPacket->status);
     bool ret = readDevInfo();
     if(ret) {
         mResult->resEnter();
@@ -96,6 +98,7 @@ void Ad_CoreThread::writeLog()
         it.result = tr("通过");
     } else {
         it.result = tr("失败：%1").arg(mPacket->status);
+        print(mPacket->status);
     }
 
     if(it.sn.size()) {
@@ -107,6 +110,7 @@ bool Ad_CoreThread::readDevInfo()
 {
     bool ret = false;
     mPacket->status = tr("已启动校准！连接标准源");
+    print(mPacket->status);
     mSource = mResult->initStandSource();
     if(mSource) {
         mSource->setVol(220);
@@ -136,6 +140,7 @@ void Ad_CoreThread::workDown()
     ret = mAdjust->startAdjust(mSource);
     if(ret) {
         mPacket->status = tr("开始自动验证");
+        print(mPacket->status);
         ret = mResult->resEnter();
     }
     writeLog(); msleep(20);  //记录校准设备校准成功还是校准失败

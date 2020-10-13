@@ -64,6 +64,7 @@ bool Ad_Modbus::appendLogItem(bool pass)
         it.result = tr("失败");
     }
     it.memo = packet->status;
+    print(packet->status);
 
     bool ret = true;
     if(it.sn.size()) {

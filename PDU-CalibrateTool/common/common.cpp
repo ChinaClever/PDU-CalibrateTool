@@ -89,4 +89,15 @@ QString cm_ByteArrayToUcharStr(const QByteArray &array)
 }
 
 
+/**
+ * @brief 打印字符串
+ * @param array
+ * @return
+ */
+void print(const QString &array)
+{
+    qDebug()<<array<<endl;
+}
+
+
 

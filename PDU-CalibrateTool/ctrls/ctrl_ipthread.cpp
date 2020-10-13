@@ -39,6 +39,8 @@ void Ctrl_IpThread::funClearEle(uchar *buf)
     if(len > 0) ret = true;
 
     mPacket->status = tr("出厂电能清除");
+    print(mPacket->status);
+
     mModbus->appendLogItem(ret);
 }
 
@@ -78,6 +80,8 @@ bool Ctrl_IpThread::setThreshold()
         mModbus->delay(1);
 
         mPacket->status = tr("出厂阈值设置");
+        print(mPacket->status);
+
         ret = mModbus->rtuWrites(&itRtu);
         mModbus->appendLogItem(ret);
     }
@@ -103,6 +107,8 @@ void Ctrl_IpThread::setTime()
     it.data[k++] = time.time().second();
 
     mPacket->status = tr("时间设置");
+    print(mPacket->status);
+
     bool ret = mModbus->rtuWrites(&it);
     mModbus->appendLogItem(ret);
     mModbus->delay(1);
@@ -134,6 +140,8 @@ void Ctrl_IpThread::setMacAddr()
     bool res = inputMacAddr(it.data);
     if(res){
         mPacket->status = tr("出厂MAC设置");
+        print(mPacket->status);
+
         bool ret = mModbus->rtuWrites(&it);
         mModbus->appendLogItem(ret);
         mModbus->delay(1);
@@ -157,6 +165,8 @@ bool Ctrl_IpThread::setModel()
     if(len > 0) ret = true;
 
     mPacket->status = tr("出厂模式切换");
+    print(mPacket->status);
+
     mModbus->appendLogItem(ret);
 
     return ret;
@@ -178,6 +188,8 @@ bool Ctrl_IpThread::setclearLog()
     if(len > 0) ret = true;
 
     mPacket->status = tr("出厂模式切换");
+    print(mPacket->status);
+
     mModbus->appendLogItem(ret);
 
     return ret;
@@ -206,6 +218,9 @@ bool Ctrl_IpThread::startProcess()
     char *ptr = mItem->cTh.mac_addr;
     if(strlen(ptr) > 5) {
         mPacket->status = tr("请等待，正在设置设备参数！");
+
+        print(mPacket->status);
+
         QProcess process(this);
         process.start("pyweb.exe");
         process.waitForFinished();
@@ -213,6 +228,7 @@ bool Ctrl_IpThread::startProcess()
         ret = updateMacAddr();
     } else {
         mPacket->status = tr("Mac地址未设置！");
+        print(mPacket->status);
     }
 
     return ret;
@@ -226,8 +242,11 @@ bool Ctrl_IpThread::checkNet()
     if(ret) {
         mPacket->status = tr(" 正常");
     } else {
-         mPacket->status = tr(" 错误");
+        mPacket->status = tr(" 错误");
     }
+
+    print(mPacket->status);
+
     mModbus->appendLogItem(ret);
 
     return ret;

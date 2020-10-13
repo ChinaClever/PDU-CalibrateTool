@@ -104,6 +104,7 @@ bool SN_ManageThread::readSn(sSnItem &itSn)
         }
     } else {
         mPacket->status = tr("读序列号未返数据长度错误 %1").arg(len);
+        print(mPacket->status);
     }
 
     return ret;
@@ -171,8 +172,13 @@ void SN_ManageThread::writeStatus(bool ret)
     if(ret) {
         Ad_Config::bulid()->setCurrentNum();
         mPacket->status = tr("已写入序列号");
+
+        print(mPacket->status);
     } else {
         mPacket->status = tr("序列号写入失败");
+
+        print(mPacket->status);
+
         mItem->currentNum -= 1;
         mItem->step = Test_End;
         mPacket->pass = Test_Fail;
@@ -189,7 +195,10 @@ bool SN_ManageThread::snEnter()
     initDevType(mSnItem);
     bool ret = readSn(mSnItem);
     if(ret) {
+
         mPacket->status = tr("已读到序列号");
+
+        print(mPacket->status);
     } else {
         ret = writeSn(mSnItem);
         writeStatus(ret);
