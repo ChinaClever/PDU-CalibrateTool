@@ -11,6 +11,7 @@
 SqlTableModel::SqlTableModel(QWidget *parent, QSqlDatabase db) :
     QWidget(parent)
 {
+    this->setHidden(true);
     model = new QSqlRelationalTableModel(this, db);
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     model->setSort(0, Qt::DescendingOrder); //选择按照 第一列 排序
