@@ -5,6 +5,7 @@ Home_StatusTabWid::Home_StatusTabWid(QWidget *parent) : ComTableWid(parent)
     initWid();
     mPacket = sDataPacket::bulid();
     mItem = Ad_Config::bulid()->item;
+    groupBox_background_icon(this);
 }
 
 void Home_StatusTabWid::initWid()
@@ -13,8 +14,9 @@ void Home_StatusTabWid::initWid()
     QStringList header;
     header<<tr("时间") << tr("项目");
     initTableWid(header, 0, title);
-}
 
+    setColumnWidth(0, 200);
+}
 
 void Home_StatusTabWid::appendItem()
 {
@@ -42,5 +44,7 @@ void Home_StatusTabWid::startSlot()
 
 void Home_StatusTabWid::timeoutDone()
 {
-    appendItem();
+    if(!mPacket->status.isEmpty()) {
+        appendItem();
+    }
 }

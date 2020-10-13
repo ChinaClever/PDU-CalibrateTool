@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>505</width>
-    <height>571</height>
+    <height>672</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>90</y>
+     <y>190</y>
      <width>471</width>
      <height>161</height>
     </rect>
@@ -332,7 +332,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>520</y>
+     <y>620</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -398,7 +398,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>260</y>
+     <y>360</y>
      <width>471</width>
      <height>251</height>
     </rect>
@@ -638,6 +638,70 @@
        <string>MAC地址软件会自动加一，自动生成新的MAC地址</string>
       </property>
      </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>90</y>
+     <width>471</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>设备计数区</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_15">
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>设备计数：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="cntLab">
+      <property name="text">
+       <string>设备数据：-- 成功：-- 失败：--</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPushButton" name="resBtn">
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>重新计数</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_17">
+      <property name="text">
+       <string>客户名称：</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit"/>
     </item>
    </layout>
   </widget>

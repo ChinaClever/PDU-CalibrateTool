@@ -36,6 +36,7 @@ protected:
     void setNormalBackgroundColor(int id);
     void setItemColor(int id, int column, int alarm);
     void scrollToBottomTable();
+    void setColumnWidth(int column, int width);
 
     int currentRow();
     int currentColumn();
@@ -47,6 +48,7 @@ public slots:
 
 protected:
     QTimer *timer;
+    QGridLayout *mGrid;
 
 private:
     void initTableWidget(QStringList &header);

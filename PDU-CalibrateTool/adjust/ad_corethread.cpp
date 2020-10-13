@@ -92,15 +92,19 @@ void Ad_CoreThread::writeLog()
     it.dev =mPacket->dev_type.split("_").first();
     it.user = user_land_name();
     it.sn = mPacket->sn;
+    if(it.sn.isEmpty()) return;
+
+    mItem->cnt.all += 1;
     if(mPacket->pass == Test_Success) {
         it.result = tr("通过");
+        mItem->cnt.ok += 1;
     } else {
+        mItem->cnt.err += 1;
         it.result = tr("失败：%1").arg(mPacket->status);
     }
 
-    if(it.sn.size()) {
-        DbLogs::bulid()->insertItem(it);
-    }
+    DbLogs::bulid()->insertItem(it);
+    Ad_Config::bulid()->writeCnt();
 }
 
 bool Ad_CoreThread::readDevInfo()

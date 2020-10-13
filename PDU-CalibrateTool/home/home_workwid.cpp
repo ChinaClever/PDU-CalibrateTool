@@ -45,7 +45,8 @@ bool Home_WorkWid::initWid()
     ui->snLab->setText("---");
     ui->statusLab->setText("---");
 
-    QString str = tr("总电流：---    总功率：---  ");
+    QString str = tr("设备数量：%1 成功：%2 失败：%3")
+            .arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
     ui->tgLab->setText(str);
 
     return ret;
@@ -83,14 +84,14 @@ void Home_WorkWid::on_startBtn_clicked()
 
 void Home_WorkWid::upTgWid()
 {
-    QString str = tr("总电流：---    总功率：---");
+    QString str = tr("设备数量：%1 成功：%2 失败：%3 ").arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
     sDataPacket *packet = sDataPacket::bulid();
     sTgObjData *tg = packet->tg;
     if(tg->cur > 0) {
         float curRate = packet->data->rate * COM_RATE_CUR;
         float powRate = packet->data->rate * COM_RATE_POW;
         if(curRate!=0&&powRate!=0)
-            str = tr("总电流：%1A    总功率：%2Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
+            str += tr("总电流：%1A  总功率：%2Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
     }
 
     ui->tgLab->setText(str);
@@ -109,7 +110,7 @@ void Home_WorkWid::endFun()
     ui->updateBtn->setEnabled(true);
 
     ui->resBtn->setText(tr("开始较验"));
-    ui->resBtn->setEnabled(true);
+    ui->resBtn->setEnabled(true);    
 }
 
 void Home_WorkWid::upStatusLab()

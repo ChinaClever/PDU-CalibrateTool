@@ -23,6 +23,7 @@ ComTableWid::ComTableWid(QWidget *parent) :
     QGridLayout *gridLayout = new QGridLayout(parent);
     gridLayout->setContentsMargins(0, 0, 0, 0);
     gridLayout->addWidget(this);
+    mGrid = gridLayout;
 }
 
 ComTableWid::~ComTableWid()
@@ -281,6 +282,11 @@ void ComTableWid::scrollToBottomTable()
     ui->tableWidget->scrollToBottom();
 }
 
+void ComTableWid::setColumnWidth(int column, int width)
+{
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+    ui->tableWidget->setColumnWidth(column, width);
+}
 
 int ComTableWid::getList(QList<QStringList> list)
 {

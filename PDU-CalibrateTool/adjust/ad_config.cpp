@@ -12,6 +12,7 @@ Ad_Config::Ad_Config()
     item->source = nullptr;
     item->addr = getAddr();
 
+    initCnt();
     initErrData();
     initThreshold();
     initCurrentNum();
@@ -87,6 +88,20 @@ void Ad_Config::writeErrData()
     write("vol", item->volErr, "Err");
     write("cur", item->curErr, "Err");
     write("pow", item->powErr, "Err");
+}
+
+void Ad_Config::initCnt()
+{
+    item->cnt.all = read("all", 0, "Count").toInt();
+    item->cnt.ok = read("ok", 0, "Count").toInt();
+    item->cnt.err = read("err", 0, "Count").toInt();
+}
+
+void Ad_Config::writeCnt()
+{
+    write("all", item->cnt.all, "Count");
+    write("ok", item->cnt.ok, "Count");
+    write("err", item->cnt.err, "Count");
 }
 
 void Ad_Config::initThreshold()

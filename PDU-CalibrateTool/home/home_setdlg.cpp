@@ -43,6 +43,11 @@ void Home_SetDlg::initThresholdWid()
     ui->logBox->setCurrentIndex(cth->ip_log);
     ui->macEdit->setText(cth->mac_addr);
     on_ipTypeBox_currentIndexChanged(cth->ip_version);
+
+    QString str = tr("设备数量：%1 成功：%2 失败：%3 ")
+            .arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
+    ui->cntLab->setText(str);
+
 }
 
 bool Home_SetDlg::getThresholdWid()
@@ -128,4 +133,15 @@ void Home_SetDlg::on_checkBox_clicked(bool checked)
 void Home_SetDlg::on_ipTypeBox_currentIndexChanged(int index)
 {
     ui->logBox->setEnabled(!index);
+}
+
+void Home_SetDlg::on_resBtn_clicked()
+{
+    QuMsgBox box(this, tr("请确认，重新计数？"));
+    if(box.Exec()) {
+        mItem->cnt.all = 0;
+        mItem->cnt.ok = 0;
+        mItem->cnt.err = 0;
+        Ad_Config::bulid()->writeCnt();
+    }
 }
