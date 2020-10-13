@@ -96,7 +96,7 @@ QString cm_ByteArrayToUcharStr(const QByteArray &array)
  */
 void print(const QString &array)
 {
-    qDebug()<<array<<endl;
+    //qDebug()<<array<<endl;
 }
 
 
