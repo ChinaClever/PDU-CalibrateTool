@@ -37,6 +37,7 @@ protected:
     void setItemColor(int id, int column, int alarm);
     void scrollToBottomTable();
     void setColumnWidth(int column, int width);
+    void setAlignLeft(int row, int col);
 
     int currentRow();
     int currentColumn();

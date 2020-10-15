@@ -26,6 +26,7 @@ void Home_StatusTabWid::appendItem()
         listStr << mPacket->status;
 
         insertRow(0, listStr);
+        setAlignLeft(0, 1);
         if(mPacket->pass == Test_Fail) {
             setAlarmBackgroundColor(0);
         } else {
