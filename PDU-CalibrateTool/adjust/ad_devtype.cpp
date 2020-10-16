@@ -68,6 +68,18 @@ int Ad_DevType::getLineNum(const QString &str)
     return ret;
 }
 
+
+int Ad_DevType::getSerie(const QString &str)
+{
+    int ret = 0;
+    if(str.contains("A系列")) ret = 1;
+    if(str.contains("B系列")) ret = 2;
+    if(str.contains("C系列")) ret = 3;
+    if(str.contains("B/D系列")) ret = 4;
+
+    return ret;
+}
+
 bool Ad_DevType::analysDevType(uint id)
 {
     bool ret = true;
@@ -78,6 +90,7 @@ bool Ad_DevType::analysDevType(uint id)
         mDt->devType = getDevType(str);
         mDt->ac = getAcType(str);
         mDt->specs = getColMode(str);
+        mDt->series = getSerie(str);
         mDt->lines = getLineNum(str);
     } else {
         ret = false;
