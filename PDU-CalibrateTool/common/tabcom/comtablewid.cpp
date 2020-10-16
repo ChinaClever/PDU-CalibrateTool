@@ -55,6 +55,10 @@ void ComTableWid::initTableWidget(QStringList &header)
 }
 
 
+void ComTableWid::setAlignLeft(int row, int col)
+{
+    ui->tableWidget->item(row, col)->setTextAlignment(Qt::AlignLeft);
+}
 /**
  * @brief 增加Item
  * @param row 行

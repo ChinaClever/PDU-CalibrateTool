@@ -19,13 +19,9 @@ protected:
     bool updateMacAddr();
     bool checkNet();
 
-    void initWriteCmd(sRtuSetItems &item);
-    bool setThreshold();
+    bool initDev();
+    bool sentRtuCmd(ushort reg, ushort value);
     bool inputMacAddr(uchar *buf);
-    void setMacAddr();
-    bool setModel();
-    void setTime();
-    bool setclearLog();
 };
 
 #endif // CTRL_HEADERTHREAD_H
