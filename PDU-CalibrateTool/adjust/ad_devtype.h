@@ -34,6 +34,7 @@ protected:
     int getAcType(const QString &str);
     int getColMode(const QString &str);
     int getLineNum(const QString &str);
+    int getSerie(const QString &str);
 
 private:
     sDevType *mDt;

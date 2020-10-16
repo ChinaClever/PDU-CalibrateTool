@@ -170,6 +170,9 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
 {
     bool ret = false;
     for(int k=0; k<mData->size; ++k) {
+        if(mPacket->devType->series == 3) {
+            if(k) k = mData->size - 1;
+        }
         mPacket->status = tr("校验数据 期望电流%1A 第%2输出位 ").arg(exValue/AD_CUR_RATE).arg(k+1);
         print(mPacket->status);
         mCtrl->openOnlySwitch(k); if(!delay(10)) break;
@@ -229,6 +232,9 @@ bool Ad_Resulting::eachCurCheck(int exValue)
 {
     bool res = true;
     for(int k=0; k<mData->size; ++k) {
+        if(mPacket->devType->series == 3) {
+            if(k) k = mData->size - 1;
+        }
         bool ret = curRangeByID(k, exValue);
          if(!ret) {res = false;return res;}
     }

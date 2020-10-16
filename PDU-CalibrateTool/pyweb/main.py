@@ -2,7 +2,6 @@ from pyweb.ip_v1 import  *
 from pyweb.ip_v3 import  *
 
 
-
 if __name__ == '__main__':
     v = IpWeb.getCfg().get("Cfg", "ip_version")
 

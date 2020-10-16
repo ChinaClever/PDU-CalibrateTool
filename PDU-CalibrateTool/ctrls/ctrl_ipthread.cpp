@@ -92,7 +92,7 @@ bool Ctrl_IpThread::startProcess()
 bool Ctrl_IpThread::checkNet()
 {
     mPacket->status = tr("检测设备网络");
-    QString ip = CfgCom::bulid()->read("ip", "192.168.1.163").toString();
+    QString ip = CfgCom::bulid()->read("ip_addr", "192.168.1.163").toString();
     bool ret = cm_checkIp(ip);
     if(ret) {
         mPacket->status = tr(" 正常");
@@ -111,7 +111,9 @@ bool Ctrl_IpThread::initDev()
 
     if(mPacket->devType->ac == AC) {
         int line = mItem->cTh.ip_lines;
-        ret = sentRtuCmd(1019, line);
+        if(line > 1) {
+            ret = sentRtuCmd(1019, line);
+        }
     }
 
     return ret;
