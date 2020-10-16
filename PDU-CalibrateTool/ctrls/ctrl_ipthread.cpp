@@ -226,7 +226,7 @@ bool Ctrl_IpThread::startProcess()
 
             print(mPacket->status);
 
-            process.waitForFinished();
+            process.waitForFinished(60*1000);
             ret = updateMacAddr();
         }
         process.close();

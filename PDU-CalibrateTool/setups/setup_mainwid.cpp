@@ -15,7 +15,6 @@ Setup_MainWid::Setup_MainWid(QWidget *parent) :
     ui->setupUi(this);
     groupBox_background_icon(this);
     QTimer::singleShot(rand()%13,this,SLOT(initFunSlot()));
-    initSerial();
 }
 
 Setup_MainWid::~Setup_MainWid()
@@ -52,6 +51,7 @@ void Setup_MainWid::initFunSlot()
     mUserWid = new UserMainWid(ui->stackedWid);
     ui->stackedWid->addWidget(mUserWid);
 
+    initSerial();
     initPcNum();
     initLogCount();
     initErrData();
