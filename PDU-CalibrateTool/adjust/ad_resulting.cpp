@@ -288,6 +288,12 @@ YC_StandSource *Ad_Resulting::initStandSource()
     return mSource;
 }
 
+bool Ad_Resulting::initDev()
+{
+    initThread();
+    return mCtrl->initDev();
+}
+
 Col_CoreThread *Ad_Resulting::initThread()
 {
     sDevType *dt = mPacket->devType;

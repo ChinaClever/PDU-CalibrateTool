@@ -19,6 +19,7 @@ public:
 
     virtual void clearAllEle();
     virtual void setClearEle(int id);
+    virtual bool initDev(){return true;}
     virtual bool factorySet(){return true;}
 
 protected:

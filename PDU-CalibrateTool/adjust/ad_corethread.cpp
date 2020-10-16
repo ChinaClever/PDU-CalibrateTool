@@ -120,7 +120,10 @@ bool Ad_CoreThread::readDevInfo()
     if(mSource) {
         mSource->setVol(220);
         ret = mAutoID->readDevType();//读取设备类型
-        if(ret) ret = mSn->snEnter();//写入序列号
+        if(ret) {
+            ret = mResult->initDev();
+            ret = mSn->snEnter();//写入序列号
+        }
         mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
     } else {
         mItem->step = Test_End;
