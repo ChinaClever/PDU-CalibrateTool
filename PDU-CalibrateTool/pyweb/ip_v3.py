@@ -35,7 +35,8 @@ class IpV3(IpWeb):
         self.setItById("standard", cfg['ip_standard'])
         self.setItById("LCDswitch", cfg['lcd_switch'])
         self.setItById("Log_flag", cfg['log_en'])
-        self.setItById("mac1", cfg['mac'])
+        if (len(cfg['mac']) > 5):
+            self.setItById("mac1", cfg['mac'])
         self.alertClick("Button3")
         self.driver.back(); time.sleep(1)
 

@@ -18,7 +18,8 @@ class IpV1(IpWeb):
         self.setItById("modbus", cfg['ip_modbus'])
         self.setItById("lcdled", cfg['ip_lines'])
         self.setItById("horizontal", cfg['lcd_switch'])
-        self.setItById("mac1", cfg['mac'])
+        if(len(cfg['mac']) > 5) :
+            self.setItById("mac1", cfg['mac'])
         self.alertClick("Button3")
         self.driver.back(); time.sleep(1)
 
