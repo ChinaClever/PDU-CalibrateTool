@@ -39,7 +39,10 @@ void Setup_MainWid::checkPcNumSlot()
     int num = item->pcNum;
 
     if(num < 1) {
-        CriticalMsgBox box(this, tr("请联系研发部设定电脑号！\n 服务设置 -> 设置功能 \n 需要管理员权限!"));
+        if(!usr_land_jur())
+            CriticalMsgBox box(this, tr("请联系研发部设定电脑号！\n 服务设置 -> 设置功能 \n 需要管理员权限!"));
+        else
+            CriticalMsgBox box(this, tr("请自行设定电脑号！\n 服务设置 -> 设置功能 \n 需要管理员权限!"));
         QTimer::singleShot(20*1000,this,SLOT(checkPcNumSlot()));
     }
 }

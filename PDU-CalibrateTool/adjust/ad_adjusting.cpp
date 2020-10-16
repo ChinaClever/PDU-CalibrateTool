@@ -67,7 +67,7 @@ bool Ad_Adjusting::sentCmd(YC_StandSource *source)
         mPacket->status = tr("发送直流偏移命令！");
         print(mPacket->status);
         ret = writeCmd(0xA1, 0);
-        if(ret) ret = mModbus->delay(15);
+        if(ret) ret = mModbus->delay(35);//15
         if(!ret) return ret;
     }
 
