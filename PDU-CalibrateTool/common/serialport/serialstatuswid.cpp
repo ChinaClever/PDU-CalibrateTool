@@ -87,7 +87,7 @@ void SerialStatusWid::updateSerialWid()
     QString str = serial->getSerialName();
     if(serial->isOpened()) {
         QString com = ui->comBtn->text();
-        Ad_Config::bulid()->setSerialName(str, com);
+        Ad_Config::bulid()->setSerialName(com, str);
         str += tr(" 已打开");
         pe.setColor(QPalette::WindowText,Qt::black);
     } else {
