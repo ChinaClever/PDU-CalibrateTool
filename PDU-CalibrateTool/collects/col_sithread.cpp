@@ -31,7 +31,7 @@ void Col_SiThread::initRtuItem(sRtuItem &it)
     uchar res = sDataPacket::bulid()->devType->ac;
     if(DC == res) {
         it.num = SI_RTU_DC_LEN;
-    } else if(2 == sDataPacket::bulid()->devType->series) {
+    } else if(mItem->cTh.si_mod) {
         it.num /= 2;  // 特殊定制
     }
 }
