@@ -34,6 +34,7 @@ void Home_SetDlg::initThresholdWid()
     on_checkBox_clicked(cth->repair_en);
     ui->comboBox->setCurrentIndex(cth->type);
     on_comboBox_currentIndexChanged(cth->type);
+    ui->siCheck->setChecked(cth->si_mod);
 
     ui->ipTypeBox->setCurrentIndex(cth->ip_version);
     ui->languageBox->setCurrentIndex(cth->ip_language);

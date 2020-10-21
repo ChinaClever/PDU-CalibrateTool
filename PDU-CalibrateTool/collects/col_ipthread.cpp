@@ -40,9 +40,10 @@ void Col_IpThread::initRtuItem(sRtuItem &it)
     it.addr = mItem->addr;
     it.fn = 0x03;
     it.reg = 0;
-    if(mItem->cTh.ip_version) {
-        it.num = IP_RTU_ONE_LEN;// V1
-    } else {
+    it.num = IP_RTU_ONE_LEN;// V1
+
+    sDevType *devType = sDataPacket::bulid()->devType;
+    if(devType->version == 3) {
         it.num = IP_RTU_THREE_LEN;  // V3
     }
 }
