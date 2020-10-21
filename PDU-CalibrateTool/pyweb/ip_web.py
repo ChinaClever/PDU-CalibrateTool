@@ -41,6 +41,7 @@ class IpWeb:
         self.setItById("name", user)
         self.setItById("psd", pwd)
         self.execJs("login()")
+        time.sleep(1)
 
     def setCur(self, lines, min, max):
         for num in range(1, lines+1):
@@ -72,12 +73,6 @@ class IpWeb:
         self.setCur(line, curMin, curMax)
         self.setVol(line, volMin, volMax)
         self.setEnv()
-
-    def setEle(self):
-        self.divClick(3)
-        line = int(self.cfgs['ip_lines'])
-        for num in range(0, line):
-            self.execJsAlert("energyclaer({0})".format(num))
 
     def setSelect(self, id, v):
         it = self.driver.find_element_by_id(id)
