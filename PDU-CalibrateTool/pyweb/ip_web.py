@@ -7,6 +7,7 @@ import os
 class IpWeb:
 
     def __init__(self):
+        self.ip_prefix = "http://"
         self.initCfg()
         self.initDriver()
 
@@ -34,13 +35,14 @@ class IpWeb:
             self.cfgs[it[0]] = it[1]
 
     def login(self):
-        ip =  'http://'+self.cfgs['ip']+'/'
+        ip =  self.ip_prefix +self.cfgs['ip']+'/'
         user = self.cfgs['user']
         pwd = self.cfgs['pwd']
         self.driver.get(ip)
         self.setItById("name", user)
         self.setItById("psd", pwd)
         self.execJs("login()")
+        time.sleep(1)
 
     def setCur(self, lines, min, max):
         for num in range(1, lines+1):
