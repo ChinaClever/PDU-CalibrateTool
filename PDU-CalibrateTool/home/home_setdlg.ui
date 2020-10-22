@@ -388,7 +388,7 @@
     <item row="0" column="1">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>返修模式：软件不会对设备里德参数修改</string>
+       <string>返修模式：软件不会对设备里的参数修改</string>
       </property>
      </widget>
     </item>

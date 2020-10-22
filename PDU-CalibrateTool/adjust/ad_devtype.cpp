@@ -40,7 +40,7 @@ int Ad_DevType::getDevType(const QString &str)
     if(str.contains("SI-PDU")) ret = SI_PDU;
     if(str.contains("IP-PDU")) {
         ret = IP_PDU;
-        if(str.contains("V3")) mDt->version = 3;
+        if(str.contains("SNMPV3")) mDt->version = 3;
     }
 
     return ret;
