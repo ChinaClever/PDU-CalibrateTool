@@ -75,12 +75,6 @@ class IpWeb:
         self.setVol(line, volMin, volMax)
         self.setEnv()
 
-    def setEle(self):
-        self.divClick(3)
-        line = int(self.cfgs['ip_lines'])
-        for num in range(0, line):
-            self.execJsAlert("energyclaer({0})".format(num))
-
     def setSelect(self, id, v):
         it = self.driver.find_element_by_id(id)
         Select(it).select_by_index(v)
