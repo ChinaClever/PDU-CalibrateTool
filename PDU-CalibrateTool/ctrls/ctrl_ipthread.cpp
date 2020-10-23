@@ -32,7 +32,13 @@ bool Ctrl_IpThread::sentRtuCmd(ushort reg, ushort value)
 {
     sRtuSetItem it;
     it.addr = mItem->addr;
-    it.fn = 0x10;
+    if(mPacket->devType->version == 3) {
+        it.fn = 0x06; //V3 写 0x06
+    }
+    else{
+        it.fn = 0x10;//V1 写 0x10
+    }
+
     it.reg = reg;
     it.data = value;
 
