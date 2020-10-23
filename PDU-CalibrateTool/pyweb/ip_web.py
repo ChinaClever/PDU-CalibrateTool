@@ -62,6 +62,15 @@ class IpWeb:
         self.setItById("min8", 0)
         self.setItById("max8", 90)
         self.execJs("setlimit(8)")
+        
+    def setEle(self):
+        self.divClick(3)
+        #line = int(self.cfgs['ip_lines'])
+        jsSheet = " claerset = createXmlRequest();claerset.onreadystatechange = clearrec;ajaxget(claerset, \"/energyzero?a=\" + {0}+\"&\");"
+        
+        for num in range(0, 4):
+            self.execJs(jsSheet.format(num))
+            time.sleep(1)
 
     def setThreshold(self):
         curMin = self.cfgs['cur_min']
