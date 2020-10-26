@@ -1,7 +1,7 @@
 #ifndef CTRL_RPDUTHREAD_H
 #define CTRL_RPDUTHREAD_H
 
-#include "ctrl_mpduthread.h"
+#include "ctrl_apduthread.h"
 
 class Ctrl_RpduThread : public Ctrl_CoreThread
 {

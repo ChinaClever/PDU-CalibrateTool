@@ -1,7 +1,7 @@
 #ifndef COL_SITHREAD_H
 #define COL_SITHREAD_H
 
-#include "col_mpduthread.h"
+#include "col_apduthread.h"
 
 class Col_SiThread : public Col_CoreThread
 {

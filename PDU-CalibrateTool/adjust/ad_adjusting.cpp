@@ -37,7 +37,7 @@ bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
     uchar cmd[] = {0x7B, 0x00, 0xA0, 0x00, 0x66, 0xBB, 0xBB};
     int len = sizeof(cmd);
 
-    cmd[1] = mItem->addr;
+    cmd[1] = mItem->addr==0x04?0x00:mItem->addr;
     cmd[2] = fn;
     cmd[3] = line;
 

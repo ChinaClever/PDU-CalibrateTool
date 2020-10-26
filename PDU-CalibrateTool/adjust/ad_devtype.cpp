@@ -42,6 +42,13 @@ int Ad_DevType::getDevType(const QString &str)
         ret = IP_PDU;
         if(str.contains("SNMPV3")) mDt->version = 3;
     }
+    if(str.contains("断路器")) {
+        int size = 6;
+        if(str.contains("3")) size = 3;
+        mPacket->data->size = size;
+        mPacket->data->rate = 10;
+        ret = APDU;
+    }
 
     return ret;
 }
