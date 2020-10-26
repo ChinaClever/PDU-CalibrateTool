@@ -24,18 +24,7 @@ class IpV1(IpWeb):
             self.setItById("mac1", cfg['mac'])
         self.alertClick("Button3")
         self.driver.back()
-        time.sleep(1) 
-        
-    def setEle(self):
-        self.divClick(3)
-        line = int(self.cfgs['ip_lines'])
-        jsSheet = " claerset = createXmlRequest();claerset.onreadystatechange = clearrec;ajaxget(claerset, \"/energyzero?a=\" + {0}+\"&\");"
-        
-        if('直流电能:' == self.driver.find_element_by_id("L4").text):
-            self.execJs(jsSheet.format(3))
-        else:
-            for num in range(0, line):
-                self.execJs(jsSheet.format(num))
+        time.sleep(1)
     
     
 
