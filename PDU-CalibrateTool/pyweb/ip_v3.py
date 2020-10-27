@@ -25,6 +25,7 @@ class IpV3(IpWeb):
         for num in range(0, 2):
             self.setSelect("loglist", num)
             self.execJs(jsSheet.format(num))
+            time.sleep(1)
 
     def setCorrect(self):
         cfg = self.cfgs
