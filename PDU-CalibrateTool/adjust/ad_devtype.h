@@ -11,6 +11,7 @@ enum eDevTypes {
     SI_PDU,
     IP_PDU,
     BM_PDU,
+    APDU,
 
     AC = 1, // 交流
     DC,     // 直流

@@ -4,6 +4,7 @@ INCLUDEPATH += $$PWD
 
 
 HEADERS += \
+    $$PWD/ctrl_apduthread.h \
     $$PWD/ctrl_ipthread.h \
     $$PWD/ctrl_mpduthread.h \
     $$PWD/ctrl_rpduthread.h \
@@ -14,6 +15,7 @@ HEADERS += \
 
 	
 SOURCES += \
+    $$PWD/ctrl_apduthread.cpp \
     $$PWD/ctrl_ipthread.cpp \
     $$PWD/ctrl_mpduthread.cpp \
     $$PWD/ctrl_rpduthread.cpp \

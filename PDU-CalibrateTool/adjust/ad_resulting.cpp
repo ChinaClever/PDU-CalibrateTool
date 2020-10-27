@@ -329,6 +329,10 @@ Col_CoreThread *Ad_Resulting::initThread()
         mCollect = Col_IpThread::bulid(this);
         mCtrl = Ctrl_IpThread::bulid(this);
         break;
+    case APDU:
+        mCollect = Col_ApduThread::bulid(this);
+        mCtrl = Ctrl_ApduThread::bulid(this);
+        break;
 
     default:
         break;

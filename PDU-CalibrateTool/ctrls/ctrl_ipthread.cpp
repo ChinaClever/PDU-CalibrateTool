@@ -87,7 +87,7 @@ bool Ctrl_IpThread::startProcess()
     bool ret = checkNet();
     if(ret) {
         mPacket->status = tr("请等待，正在设置设备参数！");
-        process.waitForFinished(60*1000);
+        process.waitForFinished(60*2000);
         ret = updateMacAddr();
     }
     process.close();
@@ -117,9 +117,9 @@ bool Ctrl_IpThread::initDev()
 
     if(mPacket->devType->ac == AC) {
         int line = mItem->cTh.ip_lines;
-        if(line > 1) {
+        //if(line > 1) {
             ret = sentRtuCmd(1019, line);
-        }
+        //}
     }
 
     return ret;
