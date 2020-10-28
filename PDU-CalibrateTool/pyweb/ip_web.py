@@ -12,9 +12,9 @@ class IpWeb:
 
     def initDriver(self):
         try:
-            self.driver = webdriver.Firefox()
+            self.driver = webdriver.Firefox(executable_path="geckodriver.exe")
         except ValueError:
-            self.driver = webdriver.Chrome()
+            self.driver = webdriver.Chrome(executable_path="chromedriver.exe")
 
     @staticmethod
     def getCfg():
@@ -115,6 +115,17 @@ class IpWeb:
     def execJsAlert(self, js):
         self.execJs(js)
         self.driver.switch_to.alert.accept()
+        time.sleep(1)
+        
+    def resetFactory(self):
+        v = IpWeb.getCfg().get("Cfg", "ip_version")
+        if(1 == int(v)):
+            self.divClick(8)
+        else:
+            self.divClick(10)
+        self.setSelect("order",1)
+        jsSheet = "xmlset = createXmlRequest();xmlset.onreadystatechange = setdata;ajaxgets(xmlset, \"/setsys?a=\" + {0} + \"&\");"
+        self.execJs(jsSheet.format(1))
         time.sleep(1)
 
 
