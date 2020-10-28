@@ -45,10 +45,10 @@ void Home_SetDlg::initThresholdWid()
     ui->macEdit->setText(cth->mac_addr);
     on_ipTypeBox_currentIndexChanged(cth->ip_version);
 
+    ui->userEdit->setText(mItem->user);
     QString str = tr("设备数量：%1 成功：%2 失败：%3 ")
             .arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
     ui->cntLab->setText(str);
-
 }
 
 bool Home_SetDlg::getThresholdWid()

@@ -50,12 +50,10 @@ bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
 
 bool Ad_Adjusting::sentCmd(YC_StandSource *source)
 {
-    mPacket->status = tr("即将开始校准！");
-    print(mPacket->status);
+    mPacket->status = tr("即将开始校准！");    
     mModbus->delay(1);
 
-    mPacket->status = tr("发送校准解锁命令！");
-    print(mPacket->status);
+    mPacket->status = tr("发送校准解锁命令！");    
     bool ret = writeCmd(0xA0, 0);
     if(!ret){
         ret = writeCmd(0xA0, 0);  // 重复发一次命令
@@ -64,8 +62,7 @@ bool Ad_Adjusting::sentCmd(YC_StandSource *source)
 
     sDevType *dt = mPacket->devType;
     if(DC == dt->ac) {
-        mPacket->status = tr("发送直流偏移命令！");
-        print(mPacket->status);
+        mPacket->status = tr("发送直流偏移命令！");        
         ret = writeCmd(0xA1, 0);
         if(ret) ret = mModbus->delay(15);//15
         if(dt->devType == IP_PDU)
@@ -73,14 +70,12 @@ bool Ad_Adjusting::sentCmd(YC_StandSource *source)
         if(!ret) return ret;
     }
 
-    mPacket->status = tr("设置标准源电流6A");
-    print(mPacket->status);
+    mPacket->status = tr("设置标准源电流6A");    
     ret = source->setCur(60);
     if(ret) ret = mModbus->delay(10);
     if(!ret) return ret;
 
-    mPacket->status = tr("发送启动校准命令！");
-    print(mPacket->status);
+    mPacket->status = tr("发送启动校准命令！");    
     return writeCmd(0xA2, 0);
 }
 
@@ -91,33 +86,27 @@ bool Ad_Adjusting::updateStatus(ushort status)
 
     if(0x1100 == status) {
         mItem->step = Test_vert;
-        mPacket->status = tr("校准返回正常！");
-        print(mPacket->status);
+        mPacket->status = tr("校准返回正常！");        
     } else if(0x1101 == status) {
         str = tr("校准失败");
     } else if(0x1102 == status) {
-        mPacket->status = tr("校准解锁成功");
-        print(mPacket->status);
+        mPacket->status = tr("校准解锁成功");        
     } else if(0x1108 == status) {
-        mPacket->status = tr("准直流偏移校准成功");
-        print(mPacket->status);
+        mPacket->status = tr("准直流偏移校准成功");        
     }else if(0x1109 == status) {
         str = tr("直流偏移校准失败");
     }else if(0x110A == status) {
-        mPacket->status = tr("直流正在校准");
-        print(mPacket->status);
+        mPacket->status = tr("直流正在校准");        
     }else if(0x110B == status) {
         str = tr("直流电流校准失败");
     }else if(0x110C == status) {
         str = tr("直流电压校准失败");
     }else if(status <= 0x1114) {
-        mPacket->status = tr("正在校准，%1相 ").arg(status-0x1110);
-        print(mPacket->status);
+        mPacket->status = tr("正在校准，%1相 ").arg(status-0x1110);        
     } else if(status <= 0x1119) {
         str = tr("校准失败：%1相 ").arg(status-0x1115);
     } else if(status <= 0x112F) {
-        mPacket->status = tr("校准完成，输出位%1 ").arg(status-0x1120);
-        print(mPacket->status);
+        mPacket->status = tr("校准完成，输出位%1 ").arg(status-0x1120);        
     } else if(status <= 0x114F) {
         str = tr("电流校准失败：输出位%1").arg(status-0x1140);
     } else if(status <= 0x116F) {
@@ -177,7 +166,7 @@ bool Ad_Adjusting::overWork(const QString &str)
     mItem->step = Test_End;
     mPacket->pass = Test_Fail;
     mPacket->status = str;
-    print(mPacket->status);
+    
     return false;
 }
 
@@ -185,8 +174,7 @@ bool Ad_Adjusting::readData()
 {
     bool ret = false;
     uchar buf[MODBUS_RTU_SIZE] = {0};
-    mPacket->status = tr("正在校准：请等待...");
-    print(mPacket->status);
+    mPacket->status = tr("正在校准：请等待...");    
 
     do {
         int len = readSerial(buf);
