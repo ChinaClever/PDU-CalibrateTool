@@ -9,6 +9,7 @@ class IpV3(IpWeb):
         self.setEle()
         self.setThreshold()
         self.clearLogs()
+        self.resetFactory()
         self.driver.close()
 
     def setTime(self):
@@ -43,6 +44,7 @@ class IpV3(IpWeb):
         self.alertClick("Button3")
         self.driver.back()
         time.sleep(1)
+    
 
 
 
