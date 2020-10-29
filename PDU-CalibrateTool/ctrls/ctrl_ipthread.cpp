@@ -34,8 +34,7 @@ bool Ctrl_IpThread::sentRtuCmd(ushort reg, ushort value)
     it.addr = mItem->addr;
     if(mPacket->devType->version == 3) {
         it.fn = 0x06; //V3 写 0x06
-    }
-    else{
+    } else{
         it.fn = 0x10;//V1 写 0x10
     }
 
