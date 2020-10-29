@@ -12,7 +12,7 @@
 #include <sys/time.h>
 #include <unistd.h>
 
-bool cm_checkNet(const QString& ip)
+bool cm_pingNet(const QString& ip)
 {
     QProcess pingProcess;
     QString strArg = "ping " + ip + " -n 1 -i 2";  //strPingIP 为设备IP地址
