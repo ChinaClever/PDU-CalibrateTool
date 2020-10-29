@@ -8,6 +8,7 @@ class IpV1(IpWeb):
         self.setEle()
         self.setThreshold()
         time.sleep(1)
+        self.resetFactory()
         self.driver.close()
 
     def setCorrect(self):
