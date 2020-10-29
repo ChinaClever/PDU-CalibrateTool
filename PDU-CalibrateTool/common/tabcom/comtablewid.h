@@ -7,6 +7,11 @@
 #include "backcolourcom.h"
 #include <QTableWidgetItem>
 
+//#include <QScrollBar>
+//#include <QPropertyAnimation>
+//#include <QDateTime>
+
+
 namespace Ui {
 class ComTableWid;
 }
@@ -41,6 +46,8 @@ protected:
 
     int currentRow();
     int currentColumn();
+//    bool eventFilter(QObject *obj, QEvent *event);
+//    QScrollBar *m_scrollBarV;
 
 public slots:
     virtual void timeoutDone(){}
@@ -58,9 +65,11 @@ private:
     void addTableRows(int line);
     void delTableRows(int line);
 
+
 private:
     Ui::ComTableWid *ui;
     QStringList mHeader;
+
 };
 
 #endif // COMTABLEWID_H
