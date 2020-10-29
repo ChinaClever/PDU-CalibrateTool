@@ -23,6 +23,7 @@ ComTableWid::ComTableWid(QWidget *parent) :
     QGridLayout *gridLayout = new QGridLayout(parent);
     gridLayout->setContentsMargins(0, 0, 0, 0);
     gridLayout->addWidget(this);
+    // initScrollArea(); // 开启滑动功能
 }
 
 ComTableWid::~ComTableWid()
@@ -52,7 +53,6 @@ void ComTableWid::initTableWidget(QStringList &header)
     ui->tableWidget->horizontalHeader()->setStyleSheet("font: 12pt \"微软雅黑\";");
     // ui->tableWidget->setColumnHidden(0, true);
     // ui->tableWidget->setColumnWidth(0,200);
-    // initScrollArea(); // 开启滑动功能
 }
 
 void ComTableWid::initScrollArea()
