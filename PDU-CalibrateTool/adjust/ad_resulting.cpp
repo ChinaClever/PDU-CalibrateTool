@@ -70,8 +70,11 @@ bool Ad_Resulting::curTgCheck(int exValue)
 
 bool Ad_Resulting::powRangeByID(int i, int exValue)
 {
-    //exValue = mItem->vol * exValue/AD_CUR_RATE * 0.5;
-    exValue = mItem->vol * exValue/AD_CUR_RATE;
+    sDevType *dt = mPacket->devType;
+    if(AC == dt->ac)
+        exValue = mItem->vol * exValue/AD_CUR_RATE * 0.5;
+    else
+        exValue = mItem->vol * exValue/AD_CUR_RATE;
     mPacket->status = tr("期望功率%1Kw 第%2位 功率").arg(exValue/1000.0).arg(i+1);
 
     int pow = mData->pow[i] / mData->rate;
@@ -387,7 +390,7 @@ bool Ad_Resulting::resEnter()
     mItem->step = Test_vert;
     ret = noLoadEnter();
     if(ret) {
-        for(int i=0; i<2; ++i) {
+        for(int i=0; i<1; ++i) {
             int exCur = 0;
             switch (i) {
             case 0: exCur = 3; break;
