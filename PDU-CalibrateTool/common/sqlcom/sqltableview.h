@@ -41,18 +41,21 @@ public slots:
     void querySlot(const QString &);    
     void doubleSlot(QModelIndex);
 
+protected:
+    void initScrollArea();
+    bool eventFilter(QObject *obj, QEvent *event);
+
 protected slots:
     void autoDelSlot();
 
 public:
     BasicSql *mDb;
-    SqlTableModel *model;
-    bool eventFilter(QObject *obj, QEvent *event);
-    QScrollBar *m_scrollBarV;
+    SqlTableModel *model;    
 
 private:
     QTimer *timer;
     QTableView *tableView;
+    QScrollBar *m_scrollBarV;
 };
 
 #endif // SQLTABLEVIEW_H
