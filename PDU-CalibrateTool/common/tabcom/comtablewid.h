@@ -6,6 +6,10 @@
 #include <QGridLayout>
 #include "backcolourcom.h"
 #include <QTableWidgetItem>
+#include <QScrollBar>
+#include <QPropertyAnimation>
+#include <QDateTime>
+
 
 namespace Ui {
 class ComTableWid;
@@ -51,6 +55,8 @@ protected:
     QTimer *timer;
 
 private:
+    void initScrollArea();
+    bool eventFilter(QObject *obj, QEvent *event);
     void initTableWidget(QStringList &header);
     void addItemContent(int row, int column, const QString &content);
     void addRowContent(int row, QStringList &list);
@@ -58,9 +64,11 @@ private:
     void addTableRows(int line);
     void delTableRows(int line);
 
+
 private:
     Ui::ComTableWid *ui;
     QStringList mHeader;
+    QScrollBar *m_scrollBarV;
 };
 
 #endif // COMTABLEWID_H

@@ -76,7 +76,7 @@ bool YC_Ac92b::setVol(int v)
     int vol = 100;
     if(v == 200) {
         vol = 91;
-        //serialWrite("P1\r"); // 改变功率因素
+        serialWrite("P5\r"); // 改变功率因素
     }
 
     bool ret = setValue("V", vol);

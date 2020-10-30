@@ -26,9 +26,6 @@ void Ctrl_SiThread::funSwitch(uchar *on, uchar *off, int f)
 void Ctrl_SiThread::funClearEle(uchar *buf)
 {
     mPacket->status = tr("清除电能");
-
-    print(mPacket->status);
-
     sentRtuCmd(0x1013, 0xFF00);
 }
 
@@ -53,20 +50,14 @@ bool Ctrl_SiThread::setAcTh()
 
         ushort value = mItem->cTh.vol_max;
         if(mData->volTh.max[i] != value) {
-
             mPacket->status = tr("L%1 电压最大值设置 %2V").arg(i+1).arg(value);
-            print(mPacket->status);
-
             ret = sentRtuCmd(reg++, value);
             if(!ret) return ret;
         } else reg++;
 
         value = mItem->cTh.vol_min;
         if(mData->volTh.min[i] != value) {
-
             mPacket->status = tr("L%1 电压最小值设置 %2V").arg(i+1).arg(value);
-            print(mPacket->status);
-
             ret = sentRtuCmd(reg++, value);
             if(!ret) return ret;
         } else reg++;
@@ -76,10 +67,7 @@ bool Ctrl_SiThread::setAcTh()
     for(int i=0; i<mData->size; ++i) {
         ushort value = mItem->cTh.cur_max;
         if(mData->curTh.max[0] != value) {
-
             mPacket->status = tr("L%1 电流最大值设置 %2A").arg(i+1).arg(value/10);
-            print(mPacket->status);
-
             ret = sentRtuCmd(reg++, value);
             if(!ret) return ret;
         } else reg++;
@@ -102,40 +90,28 @@ bool Ctrl_SiThread::setDcTh()
 
     ushort value = mItem->cTh.vol_max;
     if(mData->volTh.max[0] != value) {
-
         mPacket->status = tr("电压最大值设置 %1V").arg(value);
-        print(mPacket->status);
-
         ret = sentRtuCmd(reg++, value);
         if(!ret) return ret;
     } else reg++;
 
     value = mItem->cTh.vol_min;
     if(mData->volTh.min[0] != value) {
-
         mPacket->status = tr("电压最小值设置 %1V").arg(value);
-        print(mPacket->status);
-
         ret = sentRtuCmd(reg++, value);
         if(!ret) return ret;
     } else reg++;
 
     value = mItem->cTh.cur_max;
     if(mData->curTh.max[0] != value) {
-
         mPacket->status = tr("电流最大值设置 %1A").arg(value/10);
-        print(mPacket->status);
-
         ret = sentRtuCmd(reg++, value);
         if(!ret) return ret;
     } else reg++;
 
     value = mItem->cTh.cur_min;
     if(mData->curTh.min[0] != value) {
-
         mPacket->status = tr("电流最小值设置 %1A").arg(value/10);
-        print(mPacket->status);
-
         ret = sentRtuCmd(reg++, value);
         if(!ret) return ret;
     } else reg++;
@@ -156,9 +132,7 @@ bool Ctrl_SiThread::setThreshold()
         }
 
         if(ret){
-
             mPacket->status = tr("出厂阈值设置");
-            print(mPacket->status);
         }
 
         mModbus->appendLogItem(ret);

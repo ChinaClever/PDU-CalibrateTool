@@ -13,9 +13,8 @@ class IpV1(IpWeb):
 
     def setCorrect(self):
         cfg = self.cfgs
-        ip = 'http://' + cfg['ip'] + '/correct.html'
-        self.driver.get(ip)
-        time.sleep(1)
+        ip =  self.ip_prefix + cfg['ip'] + '/correct.html'
+        self.driver.get(ip); time.sleep(1)
         self.driver.switch_to.default_content()
         self.setItById("language", int(cfg['ip_language'])+1)
         self.setItById("modbus", cfg['ip_modbus'])
