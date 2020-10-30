@@ -119,12 +119,13 @@ class IpWeb:
         
     def resetFactory(self):
         v = IpWeb.getCfg().get("Cfg", "ip_version")
+        jsSheet = "xmlset = createXmlRequest();xmlset.onreadystatechange = setdata;ajaxgets(xmlset, \"/setsys?a=\" + {0} + \"&\");"
         if(1 == int(v)):
             self.divClick(8)
+            jsSheet = "xmlset = createXmlRequest();xmlset.onreadystatechange = setdata;ajaxget(xmlset, \"/setsys?a=\" + {0} + \"&\");"
         else:
             self.divClick(10)
         self.setSelect("order",1)
-        jsSheet = "xmlset = createXmlRequest();xmlset.onreadystatechange = setdata;ajaxgets(xmlset, \"/setsys?a=\" + {0} + \"&\");"
         self.execJs(jsSheet.format(1))
         time.sleep(1)
 
