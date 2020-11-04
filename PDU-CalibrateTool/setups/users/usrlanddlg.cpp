@@ -22,7 +22,7 @@ UsrLandDlg::UsrLandDlg(QWidget *parent) :
     QString name = con->getCurrentName();
 
     ui->nameLineEdit->setText(name);
-    ui->pwdLineEdit->setText("admin");
+//    ui->pwdLineEdit->setText("admin");
 }
 
 UsrLandDlg::~UsrLandDlg()
