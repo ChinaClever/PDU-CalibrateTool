@@ -25,7 +25,9 @@ bool Col_MpduThread::recvMpduVolCur(uchar *recv, int)
     uchar *ptr = recv;
     if(*ptr++ == 0xc1) {
         if(*ptr++ == mItem->addr) {
-            mData->size = 8; ptr++;
+            ptr++;
+            int size = mData->size;
+            mData->size= 8;
             uchar sw = *ptr++; // 开关状态 1表示开，0表示关
             for(int i=0; i<mData->size; ++i) {
                 mData->sw[i] =  (sw >> (7-i)) & 1;
@@ -42,6 +44,8 @@ bool Col_MpduThread::recvMpduVolCur(uchar *recv, int)
                 mData->pow[i] *= mData->rate; //功率乘以倍率10
             }
 
+            mData->size = size;
+            if(!mData->size) mData->size = 8;
             ret = true;
         } else {
             qDebug() << "AdjustCoreThread recvMpduVolCur addr err!";

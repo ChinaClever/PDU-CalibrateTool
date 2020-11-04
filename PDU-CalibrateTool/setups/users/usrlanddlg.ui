@@ -76,7 +76,7 @@
     </font>
    </property>
    <property name="text">
-    <string>admin</string>
+    <string/>
    </property>
    <property name="echoMode">
     <enum>QLineEdit::Password</enum>

@@ -33,8 +33,14 @@ int Ad_DevType::getDevType(const QString &str)
 {
     int ret = 0;
     if(str.contains("ZPDU")) ret = ZPDU;
-    if(str.contains("MPDU")) ret = MPDU;
     if(str.contains("RPDU")) ret = RPDU;
+    if(str.contains("MPDU")) {
+        ret = MPDU;
+        if(str.contains("位")) {
+            mPacket->data->size = str.split("_").last().remove("位").toInt();
+            mPacket->data->rate = 10;
+        }
+    }
 
     if(str.contains("BM-PDU")) ret = BM_PDU;
     if(str.contains("SI-PDU")) ret = SI_PDU;
@@ -42,12 +48,13 @@ int Ad_DevType::getDevType(const QString &str)
         ret = IP_PDU;
         if(str.contains("SNMPV3")) mDt->version = 3;
     }
+
     if(str.contains("断路器")) {
-        int size = 6;
-        if(str.contains("3")) size = 3;
-        mPacket->data->size = size;
-        mPacket->data->rate = 10;
         ret = APDU;
+        if(str.contains("位")) {
+            mPacket->data->size = str.split("_").last().remove("位断路器").toInt();
+            mPacket->data->rate = 10;
+        }
     }
 
     return ret;
