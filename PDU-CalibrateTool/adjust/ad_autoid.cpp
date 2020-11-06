@@ -58,7 +58,7 @@ bool Ad_AutoID::readDevId()
     int len = mModbus->rtuRead(&it, recv);
     if(!len){ mModbus->delay(1); len = mModbus->rtuRead(&it, recv);}
     if(0 == len){
-        bool ret = mModbus->changeBaudRate(); // 自动转变波特泫
+        bool ret = mModbus->changeBaudRate(); // 自动转变波特率
         if(!ret) len = mModbus->rtuRead(&it, recv);
         if(!len) mModbus->changeBaudRate();
     }
