@@ -11,7 +11,7 @@ DbStates::DbStates()
     createTable();
     tableTile = tr("校准过程日志");
     //hiddens <<  9;
-    headList << tr("设备类型") << tr("客户名称") << tr("操作员") << tr("设备序列号") << tr("状态") << tr("内容");
+    headList << tr("设备类型") << tr("客户名称") << tr("设备序列号") << tr("操作员") << tr("状态") << tr("内容");
 }
 
 void DbStates::createTable()

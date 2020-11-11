@@ -277,6 +277,8 @@ YC_StandSource *Ad_Resulting::initStandSource()
 bool Ad_Resulting::initDev()
 {
     initThread();
+    if(!mCtrl) return false;
+
     return mCtrl->initDev();
 }
 
