@@ -3,7 +3,7 @@
 #include "msgbox.h"
 #include "configbase.h"
 
-bool cm_checkIp(const QString& ip);
+bool cm_pingNet(const QString& ip);
 bool cm_isDigitStr(const QString &src);
 bool cm_isIPaddress(const QString& ip);
 

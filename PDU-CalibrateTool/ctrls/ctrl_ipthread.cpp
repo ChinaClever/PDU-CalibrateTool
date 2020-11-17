@@ -98,7 +98,7 @@ bool Ctrl_IpThread::checkNet()
 {
     mPacket->status = tr("检测设备网络");
     QString ip = CfgCom::bulid()->read("ip_addr", "192.168.1.163").toString();
-    bool ret = cm_checkIp(ip);
+    bool ret = cm_pingNet(ip);
     if(ret) {
         mPacket->status = tr(" 正常");
     } else {

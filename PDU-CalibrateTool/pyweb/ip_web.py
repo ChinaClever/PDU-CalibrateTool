@@ -45,7 +45,12 @@ class IpWeb:
         time.sleep(1)
 
     def setCur(self, lines, min, max):
+        size = lines
+        if(size == 2):
+            lines = 3
         for num in range(1, lines+1):
+            if(size == 2 and num > 1):
+                max = int((int(max)/10+1)//2)
             self.setItById("min" + str(num), int(min)/10)
             self.setItById("max" + str(num), int(max)/10)
             self.execJs("setlimit({0})".format(num))

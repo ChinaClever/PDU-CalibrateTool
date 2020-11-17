@@ -66,6 +66,10 @@ bool Ctrl_SiThread::setAcTh()
     reg = 0x1008;
     for(int i=0; i<mData->size; ++i) {
         ushort value = mItem->cTh.cur_max;
+
+        uchar line = mPacket->devType->lines; // 解决单项二路阈值问题
+        if((line == 2) && i) value = (value/10 +1)/2 * 10;
+
         if(mData->curTh.max[0] != value) {
             mPacket->status = tr("L%1 电流最大值设置 %2A").arg(i+1).arg(value/10);
             ret = sentRtuCmd(reg++, value);
