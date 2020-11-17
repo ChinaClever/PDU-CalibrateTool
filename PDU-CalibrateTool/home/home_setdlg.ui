@@ -29,7 +29,7 @@
     </font>
    </property>
    <property name="title">
-    <string>报警设置区</string>
+    <string>表头类阈值设置区</string>
    </property>
    <layout class="QGridLayout" name="gridLayout_3" columnstretch="0,0,0,0">
     <item row="0" column="0">
@@ -410,7 +410,7 @@
     </font>
    </property>
    <property name="title">
-    <string>IP-PDU设置区</string>
+    <string>IP-PDU后台参数设置区</string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
     <property name="bottomMargin">

@@ -70,7 +70,11 @@ bool SN_ManageThread::analySn(uchar *sn, int len, sSnItem &it)
 void SN_ManageThread::toSnStr(sSnItem &it)
 {
     QString cmd;
-    for(int i=0; i<11; ++i) cmd += "%" + QString::number(i+1);
+    for(int i=0; i<11; ++i) {
+        cmd += "%" + QString::number(i+1);
+        if(i%4 == 0) cmd += " ";
+    }
+
     QString sn  = QString(cmd)
             .arg(it.devType[0], 2, 16, QLatin1Char('0'))
             .arg(it.devType[1], 2, 16, QLatin1Char('0'))
