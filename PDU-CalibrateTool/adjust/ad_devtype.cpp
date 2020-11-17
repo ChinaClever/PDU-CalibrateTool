@@ -81,6 +81,7 @@ int Ad_DevType::getLineNum(const QString &str)
 {
     int ret = 1;
     if(str.contains("三相")) ret = 3;
+    if(str.contains("两路")) ret = 2;
 
     return ret;
 }
