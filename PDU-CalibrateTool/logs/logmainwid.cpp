@@ -11,7 +11,7 @@ LogMainWid::LogMainWid(QWidget *parent) :
     ui(new Ui::LogMainWid)
 {
     ui->setupUi(this);
-    // groupBox_background_icon(this);
+    groupBox_background_icon(this);
     QTimer::singleShot(rand()%50,this,SLOT(initFunSLot()));
 }
 
