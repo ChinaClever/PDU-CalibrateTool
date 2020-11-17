@@ -105,9 +105,8 @@ int Col_SiThread::recvAcData(uchar *ptr, int line, sDataUnit *msg)
     ptr += 3;
     //msg->hz = *(ptr++);
 
-    if(msg->size > 1) {
-        msg->size = 3;
-    }
+    mDt->lines = msg->size;
+    if(msg->size > 1)  msg->size = 3;
 
     return SI_RTU_THREE_LEN;
 }
