@@ -87,6 +87,9 @@ int Col_IpThread::recvDataV1(uchar *ptr, sDataUnit *msg)
     msg->br = getShort(ptr); ptr +=2;
     msg->reserve = getShort(ptr); ptr +=2;
 
+    mDt->lines = msg->size;
+    if(msg->size == 2) msg->size = 3;
+
     return ptr-ret;
 }
 
@@ -123,6 +126,9 @@ int Col_IpThread::recvDataV3(uchar *ptr, sDataUnit *msg)
 
     ptr = toChar(ptr, 8, msg->ip);
     msg->reserve = getShort(ptr); ptr +=2;
+
+    mDt->lines = msg->size;
+    if(msg->size == 2) msg->size = 3;
 
     return ptr-ret;
 }

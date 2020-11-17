@@ -7,6 +7,7 @@
 
 Col_CoreThread::Col_CoreThread(QObject *parent) : QThread(parent)
 {
+    mDt = sDataPacket::bulid()->devType;
     mData = sDataPacket::bulid()->data;
     mItem = Ad_Config::bulid()->item;
     mModbus = Ad_Modbus::bulid(this);

@@ -22,6 +22,7 @@ protected:
     uchar *toThreshold(uchar *ptr, int line, sThreshold &unit);
 
 protected:
+    sDevType *mDt;
     sDataUnit *mData;
     Ad_Modbus *mModbus;
     sConfigItem *mItem;
