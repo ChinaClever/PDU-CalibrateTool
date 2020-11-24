@@ -95,11 +95,14 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
     int cur = mData->cur[i];
     if(mData->rate < 10) cur *= 10;
 
+    if(mPacket->devType->lines == 2 &&i == 0)
+        exValue *= 2;
+
     mPacket->status = tr("期望电流%1A 第%2位 电流").arg(exValue/AD_CUR_RATE).arg(i+1);
     bool ret = curErrRange(exValue, cur);
     mData->cured[i] = mData->cur[i];
     if(ret) {
-        ret = powRangeByID(i, cur);
+        ret = powRangeByID(i, exValue);
     } else {
         mPacket->status += tr("错误");
         mData->status[i] = Test_Fail;
@@ -157,10 +160,16 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
 bool Ad_Resulting::outputSwCtrl(int exValue)
 {
     bool ret = false;
+    bool flag = false;
+    if(mPacket->devType->devType == MPDU && mData->reserve == 6) {
+        flag = true;
+    }
     for(int k=0; k<mData->size; ++k) {
         if(mPacket->devType->series == 3) {
             if(k) k = mData->size - 1;
         }
+        if( flag && (k==2||k==6) )//华为6位MPDU执行板跳过第3，7位
+            continue;
         mPacket->status = tr("校验数据 期望电流%1A 第%2输出位 ").arg(exValue/AD_CUR_RATE).arg(k+1);
         mCtrl->openOnlySwitch(k); if(!delay(8)) break;
         ret = outputCurById(k, exValue);
@@ -213,11 +222,17 @@ bool Ad_Resulting::sumCurCheck(int exValue)
 bool Ad_Resulting::eachCurCheck(int exValue)
 {
     bool res = true;
+    bool flag = false;
+    if(mPacket->devType->devType == MPDU && mData->reserve == 6) {
+        flag = true;
+    }
     for(int k=0; k<mData->size; ++k) {
         if(mPacket->devType->series == 3) {
             if(k) k = mData->size - 1;
             if(mData->size == 4 && k > 0) break;
         }
+        if( flag &&(k==2||k==6) )//华为6位MPDU执行板跳过第3，7位
+            continue;
         bool ret = curRangeByID(k, exValue);
         if(!ret) {res = false;return res;}
     }
@@ -339,11 +354,17 @@ bool Ad_Resulting::workDown(int exValue)
 bool Ad_Resulting::noLoadCurCheck()
 {
     bool res = true;
+    bool flag = false;
+    if(mPacket->devType->devType == MPDU && mData->reserve == 6) {
+        flag = true;
+    }
     for(int k=0; k<mData->size; ++k) {
         if(mPacket->devType->series == 3) {
             if(k) k = mData->size - 1;
             if(mData->size == 4 && k > 0) break;
         }
+        if( flag && (k==2||k==6) )//华为6位MPDU执行板跳过第3，7位
+            continue;
 
         mData->powed[k] = mData->pow[k];
         mData->cured[k] = mData->cur[k];
@@ -376,10 +397,15 @@ bool Ad_Resulting::noLoadCurFun()
 
 bool Ad_Resulting::noLoadEnter()
 {
-    mPacket->status = tr("验证电流：空载电流检查");
-    mCtrl->openAllSwitch();
-    bool ret = mSource->setCur(0);
-    if(ret) ret = noLoadCurFun();
+    mCollect->readPduData();
+    bool ret = volErrRange();
+    if(ret)
+    {
+        mPacket->status = tr("验证电流：空载电流检查");
+        mCtrl->openAllSwitch();
+        ret = mSource->setCur(0);
+        if(ret) ret = noLoadCurFun();
+    }
 
     return ret;
 }
@@ -392,7 +418,6 @@ bool Ad_Resulting::resEnter()
 
     mCollect->readPduData();
     mItem->step = Test_vert;
-    ret = volErrRange();
     if(ret) {
         for(int i=0; i<1; ++i) {
             int exCur = 0;

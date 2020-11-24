@@ -67,7 +67,7 @@ bool Ctrl_SiThread::setAcTh()
     for(int i=0; i<mData->size; ++i) {
         ushort value = mItem->cTh.cur_max;
 
-        uchar line = mPacket->devType->lines; // 解决单项二路阈值问题
+        uchar line = mPacket->devType->lines; // 解决单相两路阈值问题
         if((line == 2) && i) value = (value/10 +1)/2 * 10;
 
         if(mData->curTh.max[0] != value) {

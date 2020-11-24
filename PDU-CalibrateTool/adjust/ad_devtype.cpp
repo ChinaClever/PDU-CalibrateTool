@@ -40,6 +40,10 @@ int Ad_DevType::getDevType(const QString &str)
             mPacket->data->size = str.split("_").last().remove("位").toInt();
             mPacket->data->rate = 10;
         }
+        if(str.contains("华为")) {
+            mPacket->data->size = 8;
+            mPacket->data->reserve = 6;
+        }
     }
 
     if(str.contains("BM-PDU")) ret = BM_PDU;
