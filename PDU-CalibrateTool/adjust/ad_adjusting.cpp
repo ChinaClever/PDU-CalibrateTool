@@ -75,8 +75,19 @@ bool Ad_Adjusting::sentCmd(YC_StandSource *source)
     if(ret) ret = mModbus->delay(10);
     if(!ret) return ret;
 
-    mPacket->status = tr("发送启动校准命令！");    
-    return writeCmd(0xA2, 0);
+    mPacket->status = tr("发送启动校准命令！");
+    ret = writeCmd(0xA2, 0);
+    if(ret) ret = mModbus->delay(10);
+//    if(!ret) return ret;
+//    if(AC == dt->ac) {
+//        if(dt->devType == IP_PDU || dt->devType == BM_PDU|| dt->devType == SI_PDU){
+//            mPacket->status = tr("发送电流电压相位校准命令！");
+//            ret = writeCmd(0xA3, 60);
+//            if(ret) ret = mModbus->delay(10);
+//            if(!ret) return ret;
+//        }
+//    }
+    return ret;
 }
 
 bool Ad_Adjusting::updateStatus(ushort status)
@@ -101,11 +112,18 @@ bool Ad_Adjusting::updateStatus(ushort status)
         str = tr("直流电流校准失败");
     }else if(0x110C == status) {
         str = tr("直流电压校准失败");
-    }else if(status <= 0x1114) {
-        mPacket->status = tr("正在校准，%1相 ").arg(status-0x1110);        
-    } else if(status <= 0x1119) {
-        str = tr("校准失败：%1相 ").arg(status-0x1115);
-    } else if(status <= 0x112F) {
+    }else if(status <= 0x1115) {
+        if(status%3 == 0)
+            mPacket->status = tr("L%1相， 正在校准").arg((status-0x110C)/3+1);
+        else if(status%3 == 1)
+            mPacket->status = tr("L%1相， 校准成功").arg((status-0x110C)/3+1);
+        else if(status%3 == 2)
+            mPacket->status = tr("L%1相， 校准失败").arg((status-0x110C)/3+1);
+    } else if(status <= 0x1118) {
+        str = tr("校准失败：L%1相电流 ").arg(status-0x1115);
+    } else if(status <= 0x111C) {
+        str = tr("校准失败：L%1相电压 ").arg(status-0x1119);
+    }else if(status <= 0x112F) {
         mPacket->status = tr("校准完成，输出位%1 ").arg(status-0x1120);        
     } else if(status <= 0x114F) {
         str = tr("电流校准失败：输出位%1").arg(status-0x1140);
