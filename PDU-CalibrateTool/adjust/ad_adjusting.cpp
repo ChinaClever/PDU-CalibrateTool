@@ -114,11 +114,11 @@ bool Ad_Adjusting::updateStatus(ushort status)
         str = tr("直流电压校准失败");
     }else if(status <= 0x1115) {
         if(status%3 == 0)
-            mPacket->status = tr("L%1相， 正在校准").arg((status-0x110C)/3+1);
+            mPacket->status = tr("L%1相， 正在校准").arg((status-0x110D)/3+1);
         else if(status%3 == 1)
-            mPacket->status = tr("L%1相， 校准成功").arg((status-0x110C)/3+1);
+            mPacket->status = tr("L%1相， 校准成功").arg((status-0x110D)/3+1);
         else if(status%3 == 2)
-            mPacket->status = tr("L%1相， 校准失败").arg((status-0x110C)/3+1);
+            mPacket->status = tr("L%1相， 校准失败").arg((status-0x110D)/3+1);
     } else if(status <= 0x1118) {
         str = tr("校准失败：L%1相电流 ").arg(status-0x1115);
     } else if(status <= 0x111C) {
