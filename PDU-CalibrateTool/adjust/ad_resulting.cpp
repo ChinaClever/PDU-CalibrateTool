@@ -102,7 +102,8 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
     bool ret = curErrRange(exValue, cur);
     mData->cured[i] = mData->cur[i];
     if(ret) {
-        ret = powRangeByID(i, exValue);
+        ret = volErrRange(i);
+        if(ret) ret = powRangeByID(i, exValue);
     } else {
         mPacket->status += tr("错误");
         mData->status[i] = Test_Fail;
@@ -112,7 +113,8 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
     return ret;
 }
 
-bool Ad_Resulting::volErrRange()
+
+bool Ad_Resulting::volErrRange(int i)
 {
     int min = mItem->vol - mItem->volErr;
     int max = mItem->vol + mItem->volErr;
@@ -120,16 +122,26 @@ bool Ad_Resulting::volErrRange()
     max *= mData->rate;
 
     bool ret = true;
+    int vol = mData->vol[i];
+    if((vol >= min) && (vol <= max)) {
+        mData->status[i] = Test_Success;
+    } else {
+        ret = false;
+        mData->status[i] = Test_Fail;
+        mPacket->status = tr("电压 %1 错误").arg(i+1);
+        mModbus->appendLogItem(ret);
+    }
+
+    return ret;
+}
+
+
+bool Ad_Resulting::volErrRange()
+{
+    bool ret = true;
     for(int i=0; i<mData->size; ++i) {
-        int vol = mData->vol[i];
-        if((vol >= min) && (vol <= max)) {
-            mData->status[i] = Test_Success;
-        } else {
-            ret = false;
-            mData->status[i] = Test_Fail;
-            mPacket->status = tr("电压 %1 错误").arg(i+1);
-            mModbus->appendLogItem(ret);
-        }
+        ret = volErrRange(i);
+        if(!ret) break;
     }
 
     return ret;
@@ -401,10 +413,9 @@ bool Ad_Resulting::noLoadEnter()
 
     mPacket->status = tr("验证电流：空载电流检查");
     bool ret = mSource->setCur(0);
-    mCtrl->openAllSwitch();
-    delay(2);
+    mCtrl->openAllSwitch(); delay(2);
     if(ret) ret = noLoadCurFun();
-    if(ret) ret = volErrRange();
+    //if(ret) ret = volErrRange();
     return ret;
 }
 
