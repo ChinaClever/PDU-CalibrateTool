@@ -48,6 +48,23 @@ bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
     return transmit(cmd, len);
 }
 
+
+bool Ad_Adjusting::waitDcRecv()
+{
+    bool ret = false;
+    uchar buf[MODBUS_RTU_SIZE] = {0};
+    mPacket->status = tr("正在等待直流偏移：请等待...");
+
+    int len = readSerial(buf, 60);
+    if(len > 0){
+        ret = recvStatus(buf, len);
+    } else {
+        ret = overWork(tr("直流偏移等待超时！"));
+    }
+
+    return ret;
+}
+
 bool Ad_Adjusting::sentCmd(YC_StandSource *source)
 {
     mPacket->status = tr("即将开始校准！");    
@@ -66,7 +83,7 @@ bool Ad_Adjusting::sentCmd(YC_StandSource *source)
         ret = writeCmd(0xA1, 0);
         if(ret) ret = mModbus->delay(15);//15
         if(dt->devType == IP_PDU)
-        if(ret) ret = mModbus->delay(20);//15
+        if(ret) ret = waitDcRecv();//15
         if(!ret) return ret;
     }
 
@@ -157,12 +174,12 @@ bool Ad_Adjusting::recvStatus(uchar *recv, int len)
     return ret;
 }
 
-int Ad_Adjusting::readSerial(uchar *recv)
+int Ad_Adjusting::readSerial(uchar *recv, int sec)
 {
     uchar *ptr = nullptr;
     uchar buf[MODBUS_RTU_SIZE] = {0};
 
-    int len = mModbus->readSerial(buf, 15);
+    int len = mModbus->readSerial(buf, sec);
     if(len > 0){
         if(len > 8) {
             ptr = &(buf[len-8]);

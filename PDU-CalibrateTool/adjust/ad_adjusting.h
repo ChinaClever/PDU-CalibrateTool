@@ -18,7 +18,8 @@ protected:
     bool transmit(uchar *buf, int len);
 
     bool readData();
-    int readSerial(uchar *recv);
+    bool waitDcRecv();
+    int readSerial(uchar *recv, int sec=15);
     bool recvStatus(uchar *recv, int len);
     bool updateStatus(ushort status);
     bool overWork(const QString &str);
