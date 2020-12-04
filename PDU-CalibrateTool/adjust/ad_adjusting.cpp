@@ -48,7 +48,6 @@ bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
     return transmit(cmd, len);
 }
 
-
 bool Ad_Adjusting::waitDcRecv()
 {
     bool ret = false;

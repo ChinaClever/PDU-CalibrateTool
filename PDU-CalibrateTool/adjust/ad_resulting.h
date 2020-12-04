@@ -25,6 +25,7 @@ protected:
     bool curRangeByID(int i, int exValue);
     bool powRangeByID(int i, int exValue);
     bool volErrRange();
+    bool volErrRange(int i);
 
     void resTgData(sTgObjData *tg);
     bool outputSwCtrl(int exValue);
