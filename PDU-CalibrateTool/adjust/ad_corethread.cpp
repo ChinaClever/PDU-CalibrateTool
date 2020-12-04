@@ -25,6 +25,7 @@ Ad_CoreThread::~Ad_CoreThread()
 {
     if(isRun) {
         isRun = false;
+        mPacket->status = tr("正在关闭标准源");
         if(mSource) mSource->powerDown();
         mItem->step = Test_Over;
     }
