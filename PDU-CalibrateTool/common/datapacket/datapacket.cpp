@@ -10,6 +10,7 @@ sDataPacket::sDataPacket()
     tg = new sTgObjData;
     data = new sDataUnit;
     devType = new sDevType;
+    clear();
 }
 
 void sDataPacket::clear()

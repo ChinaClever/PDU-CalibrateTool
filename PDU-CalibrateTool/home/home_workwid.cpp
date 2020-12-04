@@ -84,17 +84,18 @@ void Home_WorkWid::on_startBtn_clicked()
 
 void Home_WorkWid::upTgWid()
 {
-    QString str = tr("设备数量:%1 成功:%2 失败:%3 ").arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
+    QString str = tr("数量:%1 成功:%2 失败:%3 ").arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
     sDataPacket *packet = sDataPacket::bulid();
     sTgObjData *tg = packet->tg;
-    if(tg->cur > 0) {
+    if(tg->cur && (mItem->step<Test_Over)) {
         float curRate = packet->data->rate * COM_RATE_CUR;
         float powRate = packet->data->rate * COM_RATE_POW;
         if(curRate!=0&&powRate!=0)
-            str += tr("总电流：%1A  总功率：%2Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
+            str = tr("总电流：%1A  总功率：%2Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
     }
 
     ui->tgLab->setText(str);
+    ui->userLab->setText(mItem->user);
 }
 
 void Home_WorkWid::endFun()
@@ -178,8 +179,6 @@ void Home_WorkWid::timeoutDone()
     if(mItem->step == Test_End) {
         endFun();
     }
-
-    //if(usr_land_jur()) ui->deBtn->show(); else ui->deBtn->hide();
 }
 
 
