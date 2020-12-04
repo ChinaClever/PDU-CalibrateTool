@@ -42,7 +42,7 @@ bool Home_WorkWid::initWid()
     Ad_Config::bulid()->setAddr(mItem->addr);
 
     ui->devTypeLab->setText("---");
-    ui->snLab->setText(tr("%1 ---").arg(mItem->user));
+    ui->snLab->setText(mItem->user);
     ui->statusLab->setText("---");
 
     QString str = tr("设备数量:%1  成功:%2  失败:%3")
