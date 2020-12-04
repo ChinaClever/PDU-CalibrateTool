@@ -42,7 +42,7 @@ bool Home_WorkWid::initWid()
     Ad_Config::bulid()->setAddr(mItem->addr);
 
     ui->devTypeLab->setText("---");
-    ui->snLab->setText(mItem->user);
+    ui->snLab->setText("---");
     ui->statusLab->setText("---");
 
     QString str = tr("设备数量:%1  成功:%2  失败:%3")
@@ -121,8 +121,7 @@ void Home_WorkWid::upStatusLab()
     ui->statusLab->setText(str);
 
     ui->devTypeLab->setText(packet->dev_type);
-    str = tr("%1 %2").arg(mItem->user).arg(packet->sn);
-    ui->snLab->setText(str);
+    ui->snLab->setText(packet->sn);
 
     QPalette pe;
     switch (packet->pass) {
