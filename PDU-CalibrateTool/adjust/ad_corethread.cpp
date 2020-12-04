@@ -23,8 +23,11 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
 
 Ad_CoreThread::~Ad_CoreThread()
 {
-    isRun = false;
-    mItem->step = Test_Over;
+    if(isRun) {
+        isRun = false;
+        if(mSource) mSource->powerDown();
+        mItem->step = Test_Over;
+    }
     wait();
 }
 
@@ -62,7 +65,7 @@ void Ad_CoreThread::startResult()
 
 void Ad_CoreThread::collectData()
 {
-    mPacket->status = tr("数据采集");    
+    mPacket->status = tr("数据采集");
     bool ret = readDevInfo();
     if(!ret) return;
 
@@ -76,7 +79,7 @@ void Ad_CoreThread::collectData()
 
 void Ad_CoreThread::verifyResult()
 {
-    mPacket->status = tr("采集自动验证");    
+    mPacket->status = tr("采集自动验证");
     bool ret = readDevInfo();
     if(ret) {
         mResult->resEnter();
@@ -101,7 +104,7 @@ void Ad_CoreThread::writeLog()
         mItem->cnt.ok += 1;
     } else {
         mItem->cnt.err += 1;
-        it.result = tr("失败：%1").arg(mPacket->status);        
+        it.result = tr("失败：%1").arg(mPacket->status);
     }
 
     DbLogs::bulid()->insertItem(it);
@@ -111,7 +114,7 @@ void Ad_CoreThread::writeLog()
 bool Ad_CoreThread::readDevInfo()
 {
     bool ret = false;
-    mPacket->status = tr("已启动校准！连接标准源");    
+    mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
     if(mSource) {
         mSource->setVol(220);
@@ -145,7 +148,7 @@ void Ad_CoreThread::workDown()
     bool ret = readDevInfo(); if(!ret) return;
     ret = mAdjust->startAdjust(mSource);
     if(ret) {
-        mPacket->status = tr("开始自动验证");        
+        mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
     }
     writeLog(); msleep(20);  //记录校准设备校准成功还是校准失败
