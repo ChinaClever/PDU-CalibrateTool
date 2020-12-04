@@ -14,7 +14,7 @@ Ad_Config::Ad_Config()
 
     initCnt();
     initErrData();
-    initThreshold();
+//    initThreshold();
     initCurrentNum();
 }
 
@@ -104,64 +104,64 @@ void Ad_Config::writeCnt()
     write("err", item->cnt.err, "Count");
 }
 
-void Ad_Config::initThreshold()
-{
-    item->user = read("user", "", "User").toString();
-    item->cTh.repair_en = read("repair_en", 0).toInt();
-    item->cTh.type = read("cth_type", 1).toInt();
-    item->cTh.vol_min = read("vol_min", 80).toInt();
-    item->cTh.vol_max = read("vol_max", 276).toInt();
-    item->cTh.cur_min = read("cur_min", 0).toInt();
-    item->cTh.cur_max = read("cur_max", 320).toInt();
-    item->cTh.si_mod = read("si_mod", 0).toInt();
+//void Ad_Config::initThreshold()
+//{
+//    item->user = read("user", "", "User").toString();
+//    item->cTh.repair_en = read("repair_en", 0).toInt();
+//    item->cTh.type = read("cth_type", 1).toInt();
+//    item->cTh.vol_min = read("vol_min", 80).toInt();
+//    item->cTh.vol_max = read("vol_max", 276).toInt();
+//    item->cTh.cur_min = read("cur_min", 0).toInt();
+//    item->cTh.cur_max = read("cur_max", 320).toInt();
+//    item->cTh.si_mod = read("si_mod", 0).toInt();
 
-    item->cTh.ip_version = read("ip_version", 1).toInt();
-    item->cTh.ip_lines = read("ip_lines", 1).toInt();
-    item->cTh.ip_mod = read("ip_modbus", 0).toInt();
-    item->cTh.ip_log = read("log_en", 0).toInt();
-    item->cTh.ip_standard = read("ip_standard", 0).toInt();
-    item->cTh.ip_language = read("ip_language", 1).toInt();
+//    item->cTh.ip_version = read("ip_version", 1).toInt();
+//    item->cTh.ip_lines = read("ip_lines", 1).toInt();
+//    item->cTh.ip_mod = read("ip_modbus", 0).toInt();
+//    item->cTh.ip_log = read("log_en", 0).toInt();
+//    item->cTh.ip_standard = read("ip_standard", 0).toInt();
+//    item->cTh.ip_language = read("ip_language", 1).toInt();
 
-    char* ch = getMacAddr().toLatin1().data();
-    strcpy(item->cTh.mac_addr, ch);
-}
+//    char* ch = getMacAddr().toLatin1().data();
+//    strcpy(item->cTh.mac_addr, ch);
+//}
 
-void Ad_Config::writeThreshold()
-{
-    write("user", item->user, "User");
-    write("repair_en", item->cTh.repair_en);
-    write("cth_type", item->cTh.type);
-    write("vol_min", item->cTh.vol_min);
-    write("vol_max", item->cTh.vol_max);
-    write("cur_min", item->cTh.cur_min);
-    write("cur_max", item->cTh.cur_max);
-    write("si_mod", item->cTh.si_mod);
+//void Ad_Config::writeThreshold()
+//{
+//    write("user", item->user, "User");
+//    write("repair_en", item->cTh.repair_en);
+//    write("cth_type", item->cTh.type);
+//    write("vol_min", item->cTh.vol_min);
+//    write("vol_max", item->cTh.vol_max);
+//    write("cur_min", item->cTh.cur_min);
+//    write("cur_max", item->cTh.cur_max);
+//    write("si_mod", item->cTh.si_mod);
 
-    write("ip_version", item->cTh.ip_version);
-    write("ip_lines", item->cTh.ip_lines);
-    write("ip_modbus", item->cTh.ip_mod);
-    write("log_en", item->cTh.ip_log);
-    write("ip_standard", item->cTh.ip_standard);
-    write("ip_language", item->cTh.ip_language);
+//    write("ip_version", item->cTh.ip_version);
+//    write("ip_lines", item->cTh.ip_lines);
+//    write("ip_modbus", item->cTh.ip_mod);
+//    write("log_en", item->cTh.ip_log);
+//    write("ip_standard", item->cTh.ip_standard);
+//    write("ip_language", item->cTh.ip_language);
 
-    setMacAddr(item->cTh.mac_addr);
-}
+//    setMacAddr(item->cTh.mac_addr);
+//}
 
 
 /**
  * @brief 获取当前用户名称
  * @return 用户名
  */
-QString Ad_Config::getMacAddr()
-{
-    return read("mac", "").toString();
-}
+//QString Ad_Config::getMacAddr()
+//{
+//    return read("mac", "").toString();
+//}
 
 /**
  * @brief 设置当前用户名
  * @param name
  */
-void Ad_Config::setMacAddr(const QString &name)
-{
-    write("mac", name);
-}
+//void Ad_Config::setMacAddr(const QString &name)
+//{
+//    write("mac", name);
+//}

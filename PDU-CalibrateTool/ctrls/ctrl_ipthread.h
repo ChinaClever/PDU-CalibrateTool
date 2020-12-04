@@ -10,18 +10,18 @@ class Ctrl_IpThread : public Ctrl_CoreThread
 public:
     static Ctrl_IpThread *bulid(QObject *parent = nullptr);
 
-    bool factorySet();
+//    bool factorySet();
 
 protected:
     void funSwitch(uchar *on, uchar *off, int f);
     void funClearEle(uchar *buf);
-    bool startProcess();
-    bool updateMacAddr();
-    bool checkNet();
+//    bool startProcess();
+//    bool updateMacAddr();
+//    bool checkNet();
 
-    bool initDev();
-    bool sentRtuCmd(ushort reg, ushort value);
-    bool inputMacAddr(uchar *buf);
+//    bool initDev();
+//    bool sentRtuCmd(ushort reg, ushort value);
+//    bool inputMacAddr(uchar *buf);
 };
 
 #endif // CTRL_HEADERTHREAD_H

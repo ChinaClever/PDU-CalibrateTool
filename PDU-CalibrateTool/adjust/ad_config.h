@@ -55,7 +55,7 @@ struct sConfigItem
 
     ushort vol;
     ushort volErr, curErr, powErr; // 电流误差
-    sConfigThreshold cTh;
+    //sConfigThreshold cTh;
 
     int logCount;
     sCount cnt;
@@ -81,17 +81,17 @@ public:
 
     void writeCnt();
     void writeErrData();
-    void writeThreshold();
-    void setMacAddr(const QString &name);
+//    void writeThreshold();
+//    void setMacAddr(const QString &name);
 
 protected:
     bool getDate();
     void setDate();
 
-    QString getMacAddr();
+//    QString getMacAddr();
     void initCurrentNum();
     void initErrData();
-    void initThreshold();
+//    void initThreshold();
     void initCnt();
 };
 
