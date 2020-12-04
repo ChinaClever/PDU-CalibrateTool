@@ -10,18 +10,10 @@ class Ctrl_SiThread : public Ctrl_CoreThread
 public:
     static Ctrl_SiThread *bulid(QObject *parent = nullptr);
 
-//    bool factorySet();
-
 protected:
     void funSwitch(uchar *on, uchar *off, int f);
-    void funClearEle(uchar *buf);
-
-//    bool setAcTh();
-//    bool setDcTh();
     bool sentRtuCmd(ushort reg, ushort value);
-
-//    bool setThreshold();
-//    bool setModel();
+    void funClearEle(uchar *buf);
 };
 
 #endif // CTRL_SITHREAD_H

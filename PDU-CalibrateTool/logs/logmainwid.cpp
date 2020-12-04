@@ -29,10 +29,6 @@ void LogMainWid::initFunSLot()
 
     mStatusWid = new LogComWid(ui->tabWidget);
     mStatusWid->initWid(DbStates::bulid(),new LogBtnBar(),  new Log_LogQueryDlg(this));
-    ui->tabWidget->addTab(mStatusWid, tr("校准过程日志"));
-
-    mStatusWid = new LogComWid(ui->tabWidget);
-    mStatusWid->initWid(DbMacs::bulid(),new LogBtnBar(),  new Log_MacQueryDlg(this));
-    ui->tabWidget->addTab(mStatusWid, tr("设备Mac记录"));
+    ui->tabWidget->addTab(mStatusWid, tr("校准过程日志"));    
 }
 

@@ -12,7 +12,7 @@ class DbLogs : public SqlBasic<sLogItem>
     DbLogs();
 public:
     static DbLogs* bulid();
-    QString tableName(){return "cali_logs";}
+    QString tableName(){return "logs";}
     bool insertItem(const sLogItem& item);
 
 protected:

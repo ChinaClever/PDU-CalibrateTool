@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include <QMessageBox>
 #include <QApplication>
-#include "QtSingleApplication.h"
+#include "qtsingleapplication.h"
 
 void outputMessage(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {

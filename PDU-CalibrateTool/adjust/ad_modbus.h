@@ -75,7 +75,6 @@ public:
     bool rtuWrites(sRtuSetItems *pkt);
     bool delay(int s);
 
-    bool writeMac(const QString &mac);
     bool appendLogItem(bool pass);
     bool changeBaudRate();
     void writeLogs();

@@ -28,11 +28,11 @@ void Col_SiThread::initRtuItem(sRtuItem &it)
     it.reg = 0;
     it.num = SI_RTU_THREE_LEN;
 
-    uchar res = sDataPacket::bulid()->devType->ac;
-    if(DC == res) {
+    sDevType *dt = sDataPacket::bulid()->devType;
+    if(DC == dt->ac) {
         it.num = SI_RTU_DC_LEN;
-//    } else if(mItem->cTh.si_mod) {   ///////=======
-//        it.num /= 2;  // 特殊定制
+    } else if(dt->version) {
+        it.num /= 2;  // 特殊定制
     }
 }
 

@@ -1,7 +1,7 @@
 #ifndef DBSTATUS_H
 #define DBSTATUS_H
 
-#include "dbmacs.h"
+#include "dblogs.h"
 
 struct sStateItem : public sLogItem{
     QString memo;
@@ -12,7 +12,7 @@ class DbStates : public SqlBasic<sStateItem>
     DbStates();
 public:
     static DbStates* bulid();
-    QString tableName(){return "cali_states";}
+    QString tableName(){return "states";}
     bool insertItem(const sStateItem& item);
 
 protected:

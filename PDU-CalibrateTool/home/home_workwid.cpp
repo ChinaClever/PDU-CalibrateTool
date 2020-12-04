@@ -242,6 +242,5 @@ void Home_WorkWid::on_updateBtn_clicked()
 
 void Home_WorkWid::on_setBtn_clicked()
 {
-    mSetDlg->initThresholdWid();
     mSetDlg->exec();
 }

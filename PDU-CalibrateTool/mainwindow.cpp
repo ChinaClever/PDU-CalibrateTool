@@ -5,9 +5,6 @@
  */
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "common/json/json_build.h"
-#include "common/json/json_recv.h"
-
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -15,10 +12,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     QTimer::singleShot(5,this,SLOT(initFunSlot())); //延时初始化
-
-    QJsonObject json;
-    Json_Build::bulid()->getJson(json);
-    Json_Recv::bulid()->recv("PDU-CalibrateTool");
 }
 
 MainWindow::~MainWindow()

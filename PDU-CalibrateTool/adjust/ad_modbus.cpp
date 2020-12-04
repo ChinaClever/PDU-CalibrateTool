@@ -37,19 +37,6 @@ bool Ad_Modbus::delay(int s)
     return ret;
 }
 
-bool Ad_Modbus::writeMac(const QString &mac)
-{
-    sMacItem it;
-
-    sDataPacket *packet = sDataPacket::bulid();
-    it.dev = packet->dev_type.split("_").first();
-    it.op = user_land_name();
-    it.user = mItem->user;
-    it.sn = packet->sn;
-    it.mac = mac;
-
-    return DbMacs::bulid()->insertItem(it);
-}
 
 bool Ad_Modbus::appendLogItem(bool pass)
 {

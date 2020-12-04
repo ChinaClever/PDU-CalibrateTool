@@ -10,6 +10,10 @@ Ad_DevType::Ad_DevType()
 {
     mPacket = sDataPacket::bulid();
     mDt = mPacket->devType;
+
+    QJsonObject json;
+    Json_Build::bulid()->getJson(json);
+    Json_Recv::bulid()->recv("pdu_id");
 }
 
 

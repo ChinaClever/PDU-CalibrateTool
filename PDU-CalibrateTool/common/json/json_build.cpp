@@ -209,7 +209,7 @@ bool Json_Build::saveJson( QJsonObject &json)
 {
     QJsonDocument jsonDoc(json);
     QByteArray ba = jsonDoc.toJson();
-    QString path = CfgCom::bulid()->pathOfData("PDU-CalibrateTool.json");
+    QString path = CfgCom::bulid()->pathOfData("pdu_id.json");
     QFile file(path);
     bool ret = false;
     if(file.exists())//文件存在则不需要再写

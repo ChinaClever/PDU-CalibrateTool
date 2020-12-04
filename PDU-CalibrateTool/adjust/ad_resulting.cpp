@@ -198,11 +198,6 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
 
 bool Ad_Resulting::workResult(bool res)
 {
-//    if(res) {
-//        mPacket->status = tr("参数设置!");
-//        res = mCtrl->factorySet();
-//    }
-
     if(res) {
         mPacket->pass = Test_Success;
         mPacket->status = tr("校准成功!");

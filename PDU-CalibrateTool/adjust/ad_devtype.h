@@ -1,6 +1,6 @@
 #ifndef AD_DEVTYPE_H
 #define AD_DEVTYPE_H
-#include "ad_macaddr.h"
+#include "ad_modbus.h"
 
 enum eDevTypes {
     PDU=0,
