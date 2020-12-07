@@ -102,8 +102,7 @@ bool Ad_Resulting::curRangeByID(int i, int exValue)
     bool ret = curErrRange(exValue, cur);
     mData->cured[i] = mData->cur[i];
     if(ret) {
-        ret = volErrRange(i);
-        if(ret) ret = powRangeByID(i, exValue);
+        ret = powRangeByID(i, exValue);
     } else {
         mPacket->status += tr("错误");
         mData->status[i] = Test_Fail;
@@ -123,6 +122,7 @@ bool Ad_Resulting::volErrRange(int i)
 
     bool ret = true;
     int vol = mData->vol[i];
+    mPacket->status = tr("期望电压200V，实际电压%1V 第%2位 电压").arg(vol/AD_CUR_RATE).arg(i+1);
     if((vol >= min) && (vol <= max)) {
         mData->status[i] = Test_Success;
     } else {
@@ -138,7 +138,7 @@ bool Ad_Resulting::volErrRange(int i)
 
 bool Ad_Resulting::volErrRange()
 {
-    bool ret = true;
+    bool ret = mCollect->readPduData();
     for(int i=0; i<mData->size; ++i) {
         ret = volErrRange(i);
         if(!ret) break;
@@ -404,13 +404,11 @@ bool Ad_Resulting::noLoadCurFun()
 
 bool Ad_Resulting::noLoadEnter()
 {
-    mCollect->readPduData();
-
     mPacket->status = tr("验证电流：空载电流检查");
     bool ret = mSource->setCur(0);
     mCtrl->openAllSwitch(); delay(2);
     if(ret) ret = noLoadCurFun();
-    //if(ret) ret = volErrRange();
+    if(ret) ret = volErrRange();
     return ret;
 }
 
