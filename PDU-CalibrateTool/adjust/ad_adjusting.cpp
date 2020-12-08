@@ -66,10 +66,10 @@ bool Ad_Adjusting::waitDcRecv()
 
 bool Ad_Adjusting::sentCmd(YC_StandSource *source)
 {
-    mPacket->status = tr("即将开始校准！");    
+    mPacket->status = tr("即将开始校准！");
     mModbus->delay(1);
 
-    mPacket->status = tr("发送校准解锁命令！");    
+    mPacket->status = tr("发送校准解锁命令！");
     bool ret = writeCmd(0xA0, 0);
     if(!ret){
         ret = writeCmd(0xA0, 0);  // 重复发一次命令
@@ -78,15 +78,15 @@ bool Ad_Adjusting::sentCmd(YC_StandSource *source)
 
     sDevType *dt = mPacket->devType;
     if(DC == dt->ac) {
-        mPacket->status = tr("发送直流偏移命令！");        
+        mPacket->status = tr("发送直流偏移命令！");
         ret = writeCmd(0xA1, 0);
         if(ret) ret = mModbus->delay(15);//15
         if(dt->devType == IP_PDU)
-        if(ret) ret = waitDcRecv();//15
+            if(ret) ret = waitDcRecv();//15
         if(!ret) return ret;
     }
 
-    mPacket->status = tr("设置标准源电流6A");    
+    mPacket->status = tr("设置标准源电流6A");
     ret = source->setCur(60);
     if(ret) ret = mModbus->delay(10);
     if(!ret) return ret;
@@ -94,15 +94,15 @@ bool Ad_Adjusting::sentCmd(YC_StandSource *source)
     mPacket->status = tr("发送启动校准命令！");
     ret = writeCmd(0xA2, 0);
     if(ret) ret = mModbus->delay(10);
-//    if(!ret) return ret;
-//    if(AC == dt->ac) {
-//        if(dt->devType == IP_PDU || dt->devType == BM_PDU|| dt->devType == SI_PDU){
-//            mPacket->status = tr("发送电流电压相位校准命令！");
-//            ret = writeCmd(0xA3, 60);
-//            if(ret) ret = mModbus->delay(10);
-//            if(!ret) return ret;
-//        }
-//    }
+    //    if(!ret) return ret;
+    //    if(AC == dt->ac) {
+    //        if(dt->devType == IP_PDU || dt->devType == BM_PDU|| dt->devType == SI_PDU){
+    //            mPacket->status = tr("发送电流电压相位校准命令！");
+    //            ret = writeCmd(0xA3, 60);
+    //            if(ret) ret = mModbus->delay(10);
+    //            if(!ret) return ret;
+    //        }
+    //    }
     return ret;
 }
 
@@ -113,17 +113,17 @@ bool Ad_Adjusting::updateStatus(ushort status)
 
     if(0x1100 == status) {
         mItem->step = Test_vert;
-        mPacket->status = tr("校准返回正常！");        
+        mPacket->status = tr("校准返回正常！");
     } else if(0x1101 == status) {
         str = tr("校准失败");
     } else if(0x1102 == status) {
-        mPacket->status = tr("校准解锁成功");        
+        mPacket->status = tr("校准解锁成功");
     } else if(0x1108 == status) {
-        mPacket->status = tr("准直流偏移校准成功");        
+        mPacket->status = tr("准直流偏移校准成功");
     }else if(0x1109 == status) {
         str = tr("直流偏移校准失败");
     }else if(0x110A == status) {
-        mPacket->status = tr("直流正在校准");        
+        mPacket->status = tr("直流正在校准");
     }else if(0x110B == status) {
         str = tr("直流电流校准失败");
     }else if(0x110C == status) {
@@ -140,7 +140,7 @@ bool Ad_Adjusting::updateStatus(ushort status)
     } else if(status <= 0x111C) {
         str = tr("校准失败：L%1相电压 ").arg(status-0x1119);
     }else if(status <= 0x112F) {
-        mPacket->status = tr("校准完成，输出位%1 ").arg(status-0x1120);        
+        mPacket->status = tr("校准完成，输出位%1 ").arg(status-0x1120);
     } else if(status <= 0x114F) {
         str = tr("电流校准失败：输出位%1").arg(status-0x1140);
     } else if(status <= 0x116F) {
@@ -160,7 +160,7 @@ bool Ad_Adjusting::updateStatus(ushort status)
 bool Ad_Adjusting::recvStatus(uchar *recv, int len)
 {
     bool ret = true;
-     if((len>0) && (len%8 == 0)) {
+    if((len>0) && (len%8 == 0)) {
         for(int i = 0 ; i < len ; i+=8) {
             ushort status = recv[i+4]*256 + recv[i+5];
             ret = updateStatus(status);
@@ -197,7 +197,7 @@ int Ad_Adjusting::readSerial(uchar *recv, int sec)
 
 bool Ad_Adjusting::overWork(const QString &str)
 {
-    mItem->step = Test_End;
+    mItem->step = Test_End; // Test_End;
     mPacket->pass = Test_Fail;
     mPacket->status = str;
     
@@ -208,7 +208,7 @@ bool Ad_Adjusting::readData()
 {
     bool ret = false;
     uchar buf[MODBUS_RTU_SIZE] = {0};
-    mPacket->status = tr("正在校准：请等待...");    
+    mPacket->status = tr("正在校准：请等待...");
 
     do {
         int len = readSerial(buf);

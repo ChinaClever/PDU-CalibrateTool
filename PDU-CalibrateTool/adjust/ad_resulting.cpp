@@ -204,7 +204,7 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
 
 bool Ad_Resulting::workResult(bool res)
 {
-    if(res) {
+    if(res && (mPacket->pass != Test_Fail)) {
         mPacket->pass = Test_Success;
         mPacket->status = tr("校准成功!");
     } else {
@@ -423,7 +423,7 @@ bool Ad_Resulting::resEnter()
     if(mSource) ret = mSource->setVol(200);
     if(ret) initThread(); else return ret;
 
-    mCollect->readPduData();
+    ret = mCollect->readPduData();
     mItem->step = Test_vert;
     if(ret) {
         for(int i=0; i<1; ++i) {
@@ -438,6 +438,8 @@ bool Ad_Resulting::resEnter()
             if(ret) ret = workDown(exCur*AD_CUR_RATE);
             if(!ret) break;
         }
+    }else{
+        mPacket->status = tr("通讯协议不正确");
     }
     if(ret) ret = noLoadEnter();
 
