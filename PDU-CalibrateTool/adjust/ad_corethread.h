@@ -18,6 +18,7 @@ public:
 
 protected:
     void run();
+    bool initThread();
     void writeLog();
     void workDown();
     void collectData();
