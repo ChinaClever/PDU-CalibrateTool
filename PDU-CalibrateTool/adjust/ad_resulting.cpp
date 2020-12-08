@@ -13,6 +13,7 @@ Ad_Resulting::Ad_Resulting(QObject *parent) : QThread(parent)
     mModbus = Ad_Modbus::bulid(this);
     mItem = Ad_Config::bulid()->item;
     mData = mPacket->data;
+    mCollect= nullptr;
 }
 
 Ad_Resulting *Ad_Resulting::bulid(QObject *parent)
@@ -336,6 +337,7 @@ Col_CoreThread *Ad_Resulting::initThread()
         mCtrl = Ctrl_RpduThread::bulid(this);
         break;
 
+    case PDU:
     case SI_PDU:
     case BM_PDU:
         mCollect = Col_SiThread::bulid(this);
@@ -346,6 +348,7 @@ Col_CoreThread *Ad_Resulting::initThread()
         mCollect = Col_IpThread::bulid(this);
         mCtrl = Ctrl_IpThread::bulid(this);
         break;
+
     case APDU:
         mCollect = Col_ApduThread::bulid(this);
         mCtrl = Ctrl_ApduThread::bulid(this);

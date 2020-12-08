@@ -64,11 +64,24 @@ void Ad_CoreThread::startResult()
     }
 }
 
+bool Ad_CoreThread::initThread()
+{
+    bool ret = false;
+    Col_CoreThread *th = mResult->initThread();
+    if(th) {
+        ret = th->readPduData();
+        if(ret) ret = mSn->snEnter();//写入序列号
+        else ret = readDevInfo();
+    }
+
+    return ret;
+}
+
 void Ad_CoreThread::collectData()
 {
     mPacket->status = tr("数据采集");
-    bool ret = readDevInfo();
-    if(!ret) return;
+    bool ret = initThread();
+    if(!ret)  return;
 
     Col_CoreThread *th = mResult->initThread();
     while(mItem->step != Test_Over) {
@@ -81,7 +94,7 @@ void Ad_CoreThread::collectData()
 void Ad_CoreThread::verifyResult()
 {
     mPacket->status = tr("采集自动验证");
-    bool ret = readDevInfo();
+    bool ret = initThread();
     if(ret) {
         mResult->resEnter();
         mItem->step = Test_End;  // 结束验证
@@ -146,6 +159,7 @@ bool Ad_CoreThread::readDevInfo()
 
 void Ad_CoreThread::workDown()
 {
+    mPacket->clear();
     bool ret = readDevInfo(); if(!ret) return;
     ret = mAdjust->startAdjust(mSource);
     if(ret) {
@@ -160,7 +174,6 @@ void Ad_CoreThread::run()
 {
     if(!isRun) {
         isRun = true;
-        mPacket->clear();
         mPacket->pass = 0;
 
         switch (mItem->step) {
