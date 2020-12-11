@@ -13,9 +13,11 @@ public:
     bool startAdjust(YC_StandSource *source);
 
 protected:
-    bool sentCmd(YC_StandSource *source);
+    bool sentCmd();
     bool writeCmd(uchar fn, uchar line);
     bool transmit(uchar *buf, int len);
+
+    bool writeOffset();
 
     bool readData();
     bool waitDcRecv();
@@ -28,6 +30,7 @@ private:
     sConfigItem *mItem;
     Ad_Modbus *mModbus;
     sDataPacket *mPacket;
+    YC_StandSource *mSource;
 };
 
 #endif // AD_ADJUSTING_H
