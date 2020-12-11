@@ -133,7 +133,7 @@ bool Ad_CoreThread::initSource()
     mSource = mResult->initStandSource();
     if(mSource) {
         mPacket->status = tr("标准源上电中");
-        ret = mSource->setVol(220, 4);
+        ret = mSource->setVol(220, 5);
         if(ret) mSource->setCur(60, 0);
 
         mPacket->status = tr("等待设备稳定！");

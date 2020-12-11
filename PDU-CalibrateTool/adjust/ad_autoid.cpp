@@ -76,7 +76,8 @@ bool Ad_AutoID::readDevType()
         ret = mModbus->delay(1);
 
         if(IP_PDU == mDt->devType){
-            ret = mModbus->delay(2);
+            ret = mModbus->delay(3);
+            mPacket->status = tr("读取IP模块代号！");
             ret = readDevId();
         }
     }else{
