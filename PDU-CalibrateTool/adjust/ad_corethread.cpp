@@ -136,8 +136,10 @@ bool Ad_CoreThread::initSource()
         ret = mSource->setVol(220, 6);
 
         mPacket->status = tr("等待设备稳定！");
-        ret = mModbus->delay(6);//IP-PDU三相启动慢
-        if(ret) mSource->setCur(60, 0);
+        ret = mModbus->delay(4);
+
+        mPacket->status = tr("标准源设置电流！");
+        if(ret) mSource->setCur(60, 3);
     } else {
         mItem->step = Test_End;
     }

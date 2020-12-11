@@ -108,11 +108,12 @@ bool Ad_Adjusting::writePhase()
 bool Ad_Adjusting::sentCmd()
 {
     mPacket->status = tr("即将开始校准！");
-    mModbus->delay(1);
+    mModbus->delay(2);
 
     mPacket->status = tr("发送校准解锁命令！");
     bool ret = writeCmd(0xA0, 0);
     if(!ret){
+        mModbus->delay(4);
         ret = writeCmd(0xA0, 0);  // 重复发一次命令
         if(!ret) return ret;
     }
