@@ -11,7 +11,6 @@ class Ad_Resulting : public QThread
 public:
     static Ad_Resulting *bulid(QObject *parent = nullptr);
 
-    bool initDev();
     bool resEnter();
     Col_CoreThread *initThread();
     YC_StandSource *initStandSource();

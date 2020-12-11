@@ -310,14 +310,6 @@ YC_StandSource *Ad_Resulting::initStandSource()
     return mSource;
 }
 
-bool Ad_Resulting::initDev()
-{
-    initThread();
-    if(!mCtrl) return false;
-
-    return mCtrl->initDev();
-}
-
 Col_CoreThread *Ad_Resulting::initThread()
 {
     sDevType *dt = mPacket->devType;
@@ -423,11 +415,12 @@ bool Ad_Resulting::noLoadEnter()
 bool Ad_Resulting::resEnter()
 {
     bool ret = false;
-    if(mSource) ret = mSource->setVol(200);
+    if(!mSource) initStandSource();
+    if(mSource) ret = mSource->setVol(200, 5);
     if(ret) initThread(); else return ret;
 
-    ret = mCollect->readPduData();
     mItem->step = Test_vert;
+    ret = mCollect->readPduData();
     if(ret) {
         for(int i=0; i<1; ++i) {
             int exCur = 0;
@@ -437,7 +430,7 @@ bool Ad_Resulting::resEnter()
             }
 
             mPacket->status = tr("验证电流：期望电流%1A").arg(exCur);
-            ret = mSource->setCur(exCur*10);
+            ret = mSource->setCur(exCur*10, 6);
             if(ret) ret = workDown(exCur*AD_CUR_RATE);
             if(!ret) break;
         }

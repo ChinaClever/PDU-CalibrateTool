@@ -17,11 +17,12 @@ protected:
     bool writeCmd(uchar fn, uchar line);
     bool transmit(uchar *buf, int len);
 
+    bool writePhase();
     bool writeOffset();
 
     bool readData();
     bool waitDcRecv();
-    int readSerial(uchar *recv, int sec=15);
+    int readSerial(uchar *recv, int sec=16);
     bool recvStatus(uchar *recv, int len);
     bool updateStatus(ushort status);
     bool overWork(const QString &str);

@@ -19,6 +19,8 @@ public:
 protected:
     void run();
     bool initThread();
+    bool initSource();
+
     void writeLog();
     void workDown();
     void collectData();
@@ -28,6 +30,7 @@ protected:
 
 private:
     bool isRun;
+    sDevType *mDt;
     sDataPacket *mPacket;
     sConfigItem *mItem;
     Ad_Modbus *mModbus;

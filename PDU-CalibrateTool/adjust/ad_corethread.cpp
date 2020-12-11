@@ -13,6 +13,7 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
     mSource = nullptr;
     mPacket =sDataPacket::bulid();
     mItem = Ad_Config::bulid()->item;
+    mDt = mPacket->devType;
 
     mModbus = Ad_Modbus::bulid(this);
     mAutoID = Ad_AutoID::bulid(this);
@@ -125,19 +126,33 @@ void Ad_CoreThread::writeLog()
     Ad_Config::bulid()->writeCnt();
 }
 
-bool Ad_CoreThread::readDevInfo()
+bool Ad_CoreThread::initSource()
 {
     bool ret = false;
     mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
     if(mSource) {
-        mSource->setVol(220);
+        mPacket->status = tr("标准源上电中");
+        ret = mSource->setVol(220, 4);
+        if(ret) mSource->setCur(60, 0);
+
+        mPacket->status = tr("等待设备稳定！");
+        ret = mModbus->delay(4);//IP-PDU三相启动慢
+    } else {
+        mItem->step = Test_End;
+    }
+
+    return ret;
+}
+
+bool Ad_CoreThread::readDevInfo()
+{
+    bool ret = initSource();
+    if(mSource) {
         ret = mAutoID->readDevType();//读取设备类型
         if(ret){
-            ret = mResult->initDev();
-            if(ret) {
-                ret = mSn->snEnter();//写入序列号
-            }
+            if(DC == mDt->ac) mSource->setCur(0, 0);
+            ret = mSn->snEnter();//写入序列号
         }
         mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
     } else {
@@ -145,16 +160,6 @@ bool Ad_CoreThread::readDevInfo()
     }
 
     return ret;
-
-    //////////////===================
-    //    sDevType *mDt = mPacket->devType;
-    //    //mDt->devType = MPDU;
-    //    mDt->devType = IP_PDU;//SI_PDU
-    //    mDt->ac = AC;
-    //    //mDt->specs = Mn;
-    //    mDt->specs = Transformer;
-    //    mDt->lines = 1;
-    //    return true;
 }
 
 void Ad_CoreThread::workDown()
@@ -182,10 +187,12 @@ void Ad_CoreThread::run()
         case Test_vert: verifyResult(); break;
         }
 
-        mModbus->writeLogs();
         if(mSource) mSource->powerDown();
+        mModbus->writeLogs();
         isRun = false;
     } else {
         qDebug() << "AdjustCoreThread run err" << isRun;
     }
 }
+
+

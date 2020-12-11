@@ -11,6 +11,7 @@ Ad_AutoID::Ad_AutoID(QObject *parent) : QThread(parent)
     mModbus = Ad_Modbus::bulid(this);
     mItem = Ad_Config::bulid()->item;
     mDevType = Ad_DevType::bulid();
+    mDt = mPacket->devType;
 }
 
 Ad_AutoID *Ad_AutoID::bulid(QObject *parent)
@@ -56,7 +57,7 @@ bool Ad_AutoID::readDevId()
 
     uchar recv[8] = {0};
     int len = mModbus->rtuRead(&it, recv);
-    if(!len){ mModbus->delay(1); len = mModbus->rtuRead(&it, recv);}
+    if(!len){ mModbus->delay(2); len = mModbus->rtuRead(&it, recv);}
     if(0 == len){
         bool ret = mModbus->changeBaudRate(); // 自动转变波特率
         if(!ret) len = mModbus->rtuRead(&it, recv);
@@ -67,13 +68,17 @@ bool Ad_AutoID::readDevId()
 }
 
 bool Ad_AutoID::readDevType()
-{        
-    mPacket->status = tr("等待设备稳定！"); mModbus->delay(8);//IP-PDU三相启动慢
+{
     mPacket->status = tr("正在识别模块类型！");    
     bool ret = readDevId();
     if(ret) {
-        mPacket->status = tr("识别模块成功！");        
+        mPacket->status = tr("识别模块成功！");
         ret = mModbus->delay(1);
+
+        if(IP_PDU == mDt->devType){
+            ret = mModbus->delay(2);
+            ret = readDevId();
+        }
     }else{
         mItem->step = Test_End;
         mPacket->pass = Test_Fail;

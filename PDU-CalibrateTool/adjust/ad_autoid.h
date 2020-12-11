@@ -21,6 +21,7 @@ private:
     Ad_Modbus *mModbus;
     sDataPacket *mPacket;
     Ad_DevType *mDevType;
+    sDevType *mDt;
 };
 
 #endif // AD_AUTOID_H
