@@ -105,7 +105,7 @@ bool SN_ManageThread::readSn(sSnItem &itSn)
         ret = analySn(buf, len, itSn);
         if(ret) toSnStr(itSn);
     } else {
-        mPacket->status = tr("读序列号未返数据长度错误 %1").arg(len);        
+        mPacket->status = tr("通讯错误，未能正确识别执行板/表头");
     }
 
     return ret;
