@@ -416,7 +416,7 @@ bool Ad_Resulting::resEnter()
 {
     bool ret = false;
     if(!mSource) initStandSource();
-    if(mSource) ret = mSource->setVol(200, 5);
+    if(mSource) ret = mSource->setVol(200);
     if(ret) initThread(); else return ret;
 
     mItem->step = Test_vert;
@@ -430,7 +430,7 @@ bool Ad_Resulting::resEnter()
             }
 
             mPacket->status = tr("验证电流：期望电流%1A").arg(exCur);
-            ret = mSource->setCur(exCur*10, 6);
+            ret = mSource->setCur(exCur*10);
             if(ret) ret = workDown(exCur*AD_CUR_RATE);
             if(!ret) break;
         }

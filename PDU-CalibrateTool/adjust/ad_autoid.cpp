@@ -57,7 +57,7 @@ bool Ad_AutoID::readDevId()
 
     uchar recv[8] = {0};
     int len = mModbus->rtuRead(&it, recv);
-    if(!len){ mModbus->delay(2); len = mModbus->rtuRead(&it, recv);}
+    if(!len){ mModbus->delay(3); len = mModbus->rtuRead(&it, recv);}
     if(0 == len){
         bool ret = mModbus->changeBaudRate(); // 自动转变波特率
         if(!ret) len = mModbus->rtuRead(&it, recv);
@@ -76,7 +76,7 @@ bool Ad_AutoID::readDevType()
         ret = mModbus->delay(1);
 
         if(IP_PDU == mDt->devType){
-            ret = mModbus->delay(3);
+            ret = mModbus->delay(8);
             mPacket->status = tr("读取IP模块代号！");
             ret = readDevId();
         }
