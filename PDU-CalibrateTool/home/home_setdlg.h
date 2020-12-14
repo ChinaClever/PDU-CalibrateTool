@@ -16,8 +16,10 @@ public:
     explicit Home_SetDlg(QWidget *parent = nullptr);
     ~Home_SetDlg();
 
-protected slots:
+public slots:
     void initFunSlot();
+
+private slots:
     void on_okBtn_clicked();
     void on_resBtn_clicked();
 

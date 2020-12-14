@@ -37,6 +37,16 @@ bool Home_WorkWid::initWid()
     bool ret = mItem->serial->isOpened();
     if(!ret){CriticalMsgBox box(this, tr("请先打开串口!")); return ret;}
 
+    if(mItem->user.isEmpty()) {
+        CriticalMsgBox box(this, tr("请先填写客户名称！"));
+        return false;
+    }
+
+    if(mItem->cnt.num < 1) {
+        CriticalMsgBox box(this, tr("请先填写订单剩余数量！"));
+        return false;
+    }
+
     mItem->startTime = QTime::currentTime();
     mItem->addr = ui->addrSpin->value();
     Ad_Config::bulid()->setAddr(mItem->addr);
@@ -240,5 +250,6 @@ void Home_WorkWid::on_updateBtn_clicked()
 
 void Home_WorkWid::on_setBtn_clicked()
 {
+    mSetDlg->initFunSlot();
     mSetDlg->exec();
 }

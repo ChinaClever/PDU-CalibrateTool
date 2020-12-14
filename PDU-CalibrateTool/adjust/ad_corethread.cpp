@@ -122,6 +122,12 @@ void Ad_CoreThread::writeLog()
         it.result = tr("失败：%1").arg(mPacket->status);
     }
 
+    if(mItem->cnt.num > 0) {
+        mItem->cnt.num -= 1;
+        if(!mItem->cnt.num)
+            mItem->user.clear();
+    }
+
     DbLogs::bulid()->insertItem(it);
     Ad_Config::bulid()->writeCnt();
 }
