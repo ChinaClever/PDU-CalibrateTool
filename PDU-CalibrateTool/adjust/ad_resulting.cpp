@@ -404,9 +404,9 @@ bool Ad_Resulting::noLoadCurFun()
 
 bool Ad_Resulting::noLoadEnter()
 {
+    mCtrl->openAllSwitch();
     mPacket->status = tr("验证电流：空载电流检查");
-    bool ret = mSource->setCur(0);
-    mCtrl->openAllSwitch(); delay(2);
+    bool ret = mSource->setCur(0, 5);
     if(ret) ret = noLoadCurFun();
     if(ret) ret = volErrRange();
     return ret;

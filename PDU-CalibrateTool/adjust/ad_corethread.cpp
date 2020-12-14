@@ -133,13 +133,13 @@ bool Ad_CoreThread::initSource()
     mSource = mResult->initStandSource();
     if(mSource) {
         mPacket->status = tr("标准源上电中");
-        ret = mSource->setVol(220, 6);
+        ret = mSource->setVol(220, 5);
 
         mPacket->status = tr("等待设备稳定！");
-        ret = mModbus->delay(4);
+        ret = mModbus->delay(3);
 
         mPacket->status = tr("标准源设置电流！");
-        if(ret) mSource->setCur(60, 3);
+        if(ret) mSource->setCur(60, 2);
     } else {
         mItem->step = Test_End;
     }
