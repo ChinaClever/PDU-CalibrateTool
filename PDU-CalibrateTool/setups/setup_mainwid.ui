@@ -387,7 +387,7 @@
       <item row="1" column="2">
        <widget class="QLabel" name="label_date">
         <property name="text">
-         <string>2020-12-10</string>
+         <string>2020-12-11</string>
         </property>
        </widget>
       </item>

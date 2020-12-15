@@ -31,7 +31,12 @@ bool Col_ZpduThread::recvZpduVolCur(uchar *recv, int len)
             mData->hz = *ptr++;
 
             mData->vol[0] = getShort(ptr); ptr += 2;
-            mData->vol[mData->size-1] = getShort(ptr); ptr += 2;
+            if( mData->size == 4 ){//ZPDU四位没有第二个电压
+                mData->vol[mData->size-1] = mData->vol[0]; ptr += 2;
+            }
+            else {
+                mData->vol[mData->size-1] = getShort(ptr); ptr += 2;
+            }
             ushort sw = getShort(ptr); ptr += 2; // 开关状态 1表示开，0表示关
             for(int i=0; i<op; ++i)  mData->sw[i] = (sw >> (15-i)) & 1;
 

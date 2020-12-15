@@ -32,7 +32,7 @@ void Ad_AutoID::initReadType(sRtuItem &it)
 bool Ad_AutoID::analysDevType(uchar *buf, int len)
 {
     if(len != 4) {
-        mPacket->status = tr("读取设备序列号失败：返回长度为%1").arg(len);        
+        mPacket->status = tr("通讯错误，未能正确识别执行板/表头 %1").arg(len);
         return false;
     }
 
