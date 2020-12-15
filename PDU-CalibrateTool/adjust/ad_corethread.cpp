@@ -67,7 +67,10 @@ void Ad_CoreThread::startResult()
 
 bool Ad_CoreThread::initThread()
 {
-    bool ret = false;
+    bool ret = initSource();
+    if(ret) delay(3); else return ret;
+
+    mPacket->sn.clear();
     Col_CoreThread *th = mResult->initThread();
     if(th) {
         ret = th->readPduData();
@@ -80,6 +83,7 @@ bool Ad_CoreThread::initThread()
 
 void Ad_CoreThread::collectData()
 {
+    mPacket->data->size = 0;
     mPacket->status = tr("数据采集");
     bool ret = initThread();
     if(!ret)  return;
@@ -94,9 +98,10 @@ void Ad_CoreThread::collectData()
 
 void Ad_CoreThread::verifyResult()
 {
-    mPacket->status = tr("采集自动验证");
+    mPacket->data->size = 0;
+    mPacket->status = tr("自动验证开始");
     bool ret = initThread();
-    if(ret) {
+    if(ret) {        
         mResult->resEnter();
         mItem->step = Test_End;  // 结束验证
     }
@@ -141,11 +146,11 @@ bool Ad_CoreThread::initSource()
         mPacket->status = tr("标准源上电中");
         ret = mSource->setVol(220, 5);
 
-        mPacket->status = tr("等待设备稳定！");
-        ret = mModbus->delay(3);
+        mPacket->status = tr("等待设备启动完成！");
+        ret = mModbus->delay(5);
 
         mPacket->status = tr("标准源设置电流！");
-        if(ret) mSource->setCur(60, 2);
+        if(ret) mSource->setCur(60, 7);
     } else {
         mItem->step = Test_End;
     }
