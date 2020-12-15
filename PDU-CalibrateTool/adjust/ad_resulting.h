@@ -11,7 +11,6 @@ class Ad_Resulting : public QThread
 public:
     static Ad_Resulting *bulid(QObject *parent = nullptr);
 
-    bool initDev();
     bool resEnter();
     Col_CoreThread *initThread();
     YC_StandSource *initStandSource();
@@ -22,8 +21,8 @@ protected:
     bool curErrRange(int exValue, int cur);
 
     bool curTgCheck(int exValue);
-    bool curRangeByID(int i, int exValue);
-    bool powRangeByID(int i, int exValue);
+    bool curRangeByID(int i, int exValue, int cnt);
+    bool powRangeByID(int i, int exValue, int cnt);
     bool volErrRange();
     bool volErrRangeByID(int i);
 
@@ -39,12 +38,12 @@ protected:
     bool delay(int s) {return mModbus->delay(s);}
     bool outputCurCheck(int exValue);
 
-    bool eachCurCheck(int exValue);
+    bool eachCurCheck(int exValue, int cnt);
     bool eachCurEnter(int exValue);
 
     bool noLoadEnter();
     bool noLoadCurFun();
-    bool noLoadCurCheck();
+    bool noLoadCurCheck(int cnt);
 
 private:
     sDataUnit *mData;

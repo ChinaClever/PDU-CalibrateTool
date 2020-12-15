@@ -25,7 +25,7 @@ Ad_Modbus *Ad_Modbus::bulid(QObject *parent)
 bool Ad_Modbus::delay(int s)
 {
     bool ret = true;
-    for(int i=0; i<10*s; ++i) {
+    for(int i=0; i<7*s; ++i) {
         if(mItem->step != Test_Over) {
             msleep(100);
         } else {

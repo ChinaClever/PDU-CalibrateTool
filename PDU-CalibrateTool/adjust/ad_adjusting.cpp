@@ -64,18 +64,9 @@ bool Ad_Adjusting::waitDcRecv()
     return ret;
 }
 
-bool Ad_Adjusting::sentCmd(YC_StandSource *source)
+bool Ad_Adjusting::writeOffset()
 {
-    mPacket->status = tr("即将开始校准！");
-    mModbus->delay(1);
-
-    mPacket->status = tr("发送校准解锁命令！");
-    bool ret = writeCmd(0xA0, 0);
-    if(!ret){
-        ret = writeCmd(0xA0, 0);  // 重复发一次命令
-        if(!ret) return ret;
-    }
-
+    bool ret = true;
     sDevType *dt = mPacket->devType;
     if(DC == dt->ac) {
         mPacket->status = tr("发送直流偏移命令！");
@@ -84,25 +75,56 @@ bool Ad_Adjusting::sentCmd(YC_StandSource *source)
         if(dt->devType == IP_PDU)
             if(ret) ret = waitDcRecv();//15
         if(!ret) return ret;
+
+        mPacket->status = tr("设置标准源电流6A");
+        ret = mSource->setCur(60);
+        if(ret) ret = mModbus->delay(10);
+        if(!ret) return ret;
+    } else {
+        ret = mModbus->delay(1);//15
     }
 
-    mPacket->status = tr("设置标准源电流6A");
-    ret = source->setCur(60);
-    if(ret) ret = mModbus->delay(10);
+    return ret;
+}
+
+bool Ad_Adjusting::writePhase()
+{
+    bool ret = mModbus->delay(10);
+    if(!ret) return ret;
+
+    sDevType *dt = mPacket->devType;
+    if(AC == dt->ac) {
+        if(dt->devType == IP_PDU || dt->devType == BM_PDU|| dt->devType == SI_PDU){
+            mPacket->status = tr("发送电流电压相位校准命令！");
+            ret = writeCmd(0xA3, 60);
+            if(ret) ret = mModbus->delay(10);
+            if(!ret) return ret;
+        }
+    }
+
+    return ret;
+}
+
+bool Ad_Adjusting::sentCmd()
+{
+    mPacket->status = tr("即将开始校准！");
+    mModbus->delay(2);
+
+    mPacket->status = tr("发送校准解锁命令！");
+    bool ret = writeCmd(0xA0, 0);
+    if(!ret){
+        mModbus->delay(4);
+        ret = writeCmd(0xA0, 0);  // 重复发一次命令
+        if(!ret) return ret;
+    }
+
+    if(ret) ret = writeOffset();
     if(!ret) return ret;
 
     mPacket->status = tr("发送启动校准命令！");
     ret = writeCmd(0xA2, 0);
-    if(ret) ret = mModbus->delay(10);
-    //    if(!ret) return ret;
-    //    if(AC == dt->ac) {
-    //        if(dt->devType == IP_PDU || dt->devType == BM_PDU|| dt->devType == SI_PDU){
-    //            mPacket->status = tr("发送电流电压相位校准命令！");
-    //            ret = writeCmd(0xA3, 60);
-    //            if(ret) ret = mModbus->delay(10);
-    //            if(!ret) return ret;
-    //        }
-    //    }
+    //ret = writePhase();
+
     return ret;
 }
 
@@ -226,8 +248,9 @@ bool Ad_Adjusting::readData()
 
 bool Ad_Adjusting::startAdjust(YC_StandSource *source)
 {
+    mSource = source;
     mItem->step = Test_Ading;
-    bool ret = sentCmd(source);
+    bool ret = sentCmd();
     if(ret) {
         if(mItem->step == Test_Ading)
             ret = readData();

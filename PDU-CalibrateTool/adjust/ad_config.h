@@ -22,6 +22,7 @@ enum {
  */
 struct sCount
 {
+    uint num;
     uint all;
     uint ok;
     uint err;

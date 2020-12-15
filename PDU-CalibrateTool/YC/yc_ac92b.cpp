@@ -71,7 +71,7 @@ bool YC_Ac92b::powerOn(int v)
 }
 
 
-bool YC_Ac92b::setVol(int v)
+bool YC_Ac92b::setVol(int v, int sec)
 {
     int vol = 100;
     if(v == 200) {
@@ -81,17 +81,17 @@ bool YC_Ac92b::setVol(int v)
 
     bool ret = setValue("V", vol);
     if(ret) {
-        ret = delay(10);
+        ret = delay(sec);
     }
 
     return ret;
 }
 
-bool YC_Ac92b::setCur(int v)
+bool YC_Ac92b::setCur(int v, int sec)
 {
     bool ret = setValue("A", v);
     if(ret) {
-        ret = delay(10);
+        ret = delay(sec);
     }
     return ret;
 }

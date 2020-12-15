@@ -13,8 +13,8 @@ public:
     virtual void powerDown()=0; // 下电
     virtual bool powerReset(); //
 
-    virtual bool setCur(int v)=0;
-    virtual bool setVol(int v)=0;
+    virtual bool setCur(int v, int sec=10)=0;
+    virtual bool setVol(int v, int sec=10)=0;
     virtual bool handShake()=0;
     int acOrDc;
 

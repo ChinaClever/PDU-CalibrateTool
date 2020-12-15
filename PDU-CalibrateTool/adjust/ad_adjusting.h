@@ -13,13 +13,16 @@ public:
     bool startAdjust(YC_StandSource *source);
 
 protected:
-    bool sentCmd(YC_StandSource *source);
+    bool sentCmd();
     bool writeCmd(uchar fn, uchar line);
     bool transmit(uchar *buf, int len);
 
+    bool writePhase();
+    bool writeOffset();
+
     bool readData();
     bool waitDcRecv();
-    int readSerial(uchar *recv, int sec=15);
+    int readSerial(uchar *recv, int sec=16);
     bool recvStatus(uchar *recv, int len);
     bool updateStatus(ushort status);
     bool overWork(const QString &str);
@@ -28,6 +31,7 @@ private:
     sConfigItem *mItem;
     Ad_Modbus *mModbus;
     sDataPacket *mPacket;
+    YC_StandSource *mSource;
 };
 
 #endif // AD_ADJUSTING_H

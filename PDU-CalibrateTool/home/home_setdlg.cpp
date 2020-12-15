@@ -24,6 +24,7 @@ Home_SetDlg::~Home_SetDlg()
 void Home_SetDlg::initFunSlot()
 {
     ui->userEdit->setText(mItem->user);
+    ui->numSpin->setValue(mItem->cnt.num);
     QString str = tr("数量:%1 \t成功:%2 \t失败:%3 ")
             .arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
     ui->cntLab->setText(str);
@@ -31,8 +32,9 @@ void Home_SetDlg::initFunSlot()
 
 void Home_SetDlg::on_okBtn_clicked()
 {    
-    this->close();
+    this->close();    
     mItem->user = ui->userEdit->text();
+    mItem->cnt.num = ui->numSpin->value();
     Ad_Config::bulid()->writeCnt();
 }
 

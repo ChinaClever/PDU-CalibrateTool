@@ -91,17 +91,19 @@ void Ad_Config::writeErrData()
 
 void Ad_Config::initCnt()
 {
-    item->cnt.all = read("all", 0, "Count").toInt();
-    item->cnt.ok = read("ok", 0, "Count").toInt();
-    item->cnt.err = read("err", 0, "Count").toInt();
+    item->cnt.num = read("num", 0, "Cnt").toInt();
+    item->cnt.all = read("all", 0, "Cnt").toInt();
+    item->cnt.ok = read("ok", 0, "Cnt").toInt();
+    item->cnt.err = read("err", 0, "Cnt").toInt();
     item->user = read("user", "", "User").toString();
 }
 
 void Ad_Config::writeCnt()
 {
-    write("all", item->cnt.all, "Count");
-    write("ok", item->cnt.ok, "Count");
-    write("err", item->cnt.err, "Count");
+    write("num", item->cnt.num, "Cnt");
+    write("all", item->cnt.all, "Cnt");
+    write("ok", item->cnt.ok, "Cnt");
+    write("err", item->cnt.err, "Cnt");
     write("user", item->user, "User");
 }
 

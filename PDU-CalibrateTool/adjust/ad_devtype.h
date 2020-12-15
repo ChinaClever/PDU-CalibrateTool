@@ -8,10 +8,10 @@ enum eDevTypes {
     MPDU,
     RPDU,     // RPDU 执行板
     RPDU_Mc, // RPDU 主控
+    APDU,
     SI_PDU,
     IP_PDU,
-    BM_PDU,
-    APDU,
+    BM_PDU,    
 
     AC = 1, // 交流
     DC,     // 直流

@@ -55,9 +55,7 @@ void Ctrl_CoreThread::openOnlySwSlot(int id)
 void Ctrl_CoreThread::openOnlySwitch(int id)
 {
     openOutputSwitch(id);
-    if(delay(2)) {
-        closeOtherSwitch(id);
-    }
+    closeOtherSwitch(id);
 }
 
 void Ctrl_CoreThread::closeOtherSwitch(int id)

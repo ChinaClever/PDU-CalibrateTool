@@ -68,7 +68,7 @@ bool YC_Dc107::setRange()
     return ret;
 }
 
-bool YC_Dc107::setVol(int v)
+bool YC_Dc107::setVol(int v, int sec)
 {
     char cmd220[] = {'V', 0, 0x73, 0x33, 0x40};
     char cmd200[] = {'V', 0, 0x66, 0x70, 0};
@@ -77,16 +77,16 @@ bool YC_Dc107::setVol(int v)
     if(v == 200) cmd = cmd200;
     QByteArray array(cmd, sizeof(cmd220));
     bool ret = sendCmd(array);
-    if(ret) ret = delay(5);
+    if(ret) ret = delay(sec);
 
     return ret;
 }
 
-bool YC_Dc107::setCur(int v)
+bool YC_Dc107::setCur(int v, int sec)
 {
     v /= 10; v <<= 4;
     bool ret = setValue('A', 0, v);
-    if(ret) ret = delay(5);
+    if(ret) ret = delay(sec);
 
     return ret;
 }
