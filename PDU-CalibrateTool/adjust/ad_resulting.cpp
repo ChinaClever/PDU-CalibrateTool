@@ -273,11 +273,11 @@ bool Ad_Resulting::eachCurEnter(int exValue)
         if(AC == dt->ac) value = value*0.5;
         mPacket->status = tr("校验数据: 期望电流%1A 功率%2kW").arg(exValue/AD_CUR_RATE).arg(value);
         if(i) mPacket->status += tr(" 第%1次").arg(i+1);
-        else delay(3);
+        else delay(4);
 
         mCollect->readPduData();
         ret = eachCurCheck(exValue, i);
-        if(ret) break; else if(!delay(2)) break;
+        if(ret) break; else if(!delay(3)) break;
     }
     mModbus->appendLogItem(ret);
 
@@ -400,11 +400,11 @@ bool Ad_Resulting::noLoadCurFun()
     bool ret = true;
     for(int i=0; i<5; ++i) {
         if(i)mPacket->status = tr("校验数据: 空载电流 第%2次检查").arg(i+1);
-        else delay(2);
+        else delay(3);
 
         mCollect->readPduData();
         ret = noLoadCurCheck(i);
-        if(ret) break; else if(!delay(2)) break;
+        if(ret) break; else if(!delay(3)) break;
     }
     mModbus->appendLogItem(ret);
 

@@ -83,10 +83,12 @@ bool Ad_CoreThread::initThread()
 
 void Ad_CoreThread::collectData()
 {
+    bool ret = true;
     mPacket->sn.clear();
     mPacket->data->size = 0;
     mPacket->status = tr("数据采集");
-    bool ret = initThread();
+    if(!mSource) ret = initThread();
+    else ret = mSource->setVol(220, 5);
     if(!ret)  return;
 
     Col_CoreThread *th = mResult->initThread();
