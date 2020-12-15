@@ -116,7 +116,7 @@ bool SerialPort::isContains(const QString &name)
 
 void SerialPort::timeoutDone()
 {
-    if(mCount++ % 5) {
+    if(mCount++ % 7) {
         recvSlot();
     } else {
         writeSlot();
