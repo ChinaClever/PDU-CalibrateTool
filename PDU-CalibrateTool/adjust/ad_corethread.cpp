@@ -83,6 +83,7 @@ bool Ad_CoreThread::initThread()
 
 void Ad_CoreThread::collectData()
 {
+    mPacket->sn.clear();
     mPacket->data->size = 0;
     mPacket->status = tr("数据采集");
     bool ret = initThread();
@@ -98,10 +99,11 @@ void Ad_CoreThread::collectData()
 
 void Ad_CoreThread::verifyResult()
 {
+    mPacket->sn.clear();
     mPacket->data->size = 0;
     mPacket->status = tr("自动验证开始");
     bool ret = initThread();
-    if(ret) {        
+    if(ret) {
         mResult->resEnter();
         mItem->step = Test_End;  // 结束验证
     }
