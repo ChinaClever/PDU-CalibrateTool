@@ -43,6 +43,10 @@ struct sConfigItem
     int logCount;
     sCount cnt;
 
+    bool si_led;
+    uchar si_ac;
+    uchar si_line;
+
     QString user; // 客户名称
     uchar pcNum;
     ushort currentNum; // 当天序号

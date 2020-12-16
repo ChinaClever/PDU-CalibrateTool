@@ -15,6 +15,7 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
     mItem = Ad_Config::bulid()->item;
     mDt = mPacket->devType;
 
+    mLedSi = Ad_LedSi::bulid(this);
     mModbus = Ad_Modbus::bulid(this);
     mAutoID = Ad_AutoID::bulid(this);
     mAdjust = Ad_Adjusting::bulid(this);
@@ -82,7 +83,7 @@ bool Ad_CoreThread::initThread()
     }
 
     if(mItem->step != Test_Over)
-    if(!ret) ret = readDevInfo();
+        if(!ret) ret = readDevInfo();
 
     return ret;
 }
@@ -120,7 +121,6 @@ void Ad_CoreThread::writeLog()
     it.op = user_land_name();
     it.user = mItem->user;
     it.sn = mPacket->sn;
-    if(it.sn.isEmpty()) return;
 
     mItem->cnt.all += 1;
     if(mPacket->pass == Test_Success) {
@@ -137,8 +137,9 @@ void Ad_CoreThread::writeLog()
             mItem->user.clear();
     }
 
-    DbLogs::bulid()->insertItem(it);
     Ad_Config::bulid()->writeCnt();
+    if(it.sn.isEmpty()) return;
+    DbLogs::bulid()->insertItem(it);
 }
 
 bool Ad_CoreThread::initSource()
@@ -179,11 +180,57 @@ bool Ad_CoreThread::readDevInfo()
     return ret;
 }
 
+
+bool Ad_CoreThread::initLedSi()
+{
+    bool ret = false;
+    mDt->devType = SI_PDU;
+    mDt->ac = mItem->si_ac;
+    //mDt->lines = mItem->si_line;
+    mPacket->dev_type = tr("SI/BM数码管");
+
+    mPacket->status = tr("已启动校准！连接标准源");
+    mSource = mResult->initStandSource();
+    if(mSource) {
+        mPacket->status = tr("标准源上电中");
+        ret = mSource->setVol(200, 4);
+        if(AC == mDt->ac) {
+            mPacket->status = tr("标准源设置电流！");
+            if(ret) mSource->setCur(60, 5);
+        }
+    }
+
+    Col_CoreThread *th = mResult->initThread();
+    if(th) {
+        for(int i=0; i<5; i++) {
+            if(i) mPacket->status = tr("读取设备数据 %1").arg(i);
+            ret = th->readPduData();
+            if(ret) break; else if(!delay(3)) break;
+        }
+    }
+
+    if(ret) {
+        if(mDt->lines != mItem->si_line) {
+            mPacket->status = tr("设备相数与设置中的参数不符合");
+            ret = false;
+        }
+    }
+
+    return ret;
+}
+
 void Ad_CoreThread::workDown()
 {
+    bool ret = true;
     mPacket->clear();
-    bool ret = readDevInfo(); if(!ret) return;
-    ret = mAdjust->startAdjust(mSource);
+    if(mItem->si_led) {
+        ret = initLedSi(); if(!ret) return;
+        ret = mLedSi->startAdjust(mSource);
+    } else {
+        ret = readDevInfo(); if(!ret) return;
+        ret = mAdjust->startAdjust(mSource);
+    }
+
     if(ret) {
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();

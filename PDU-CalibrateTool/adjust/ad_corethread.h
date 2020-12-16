@@ -1,7 +1,7 @@
 #ifndef AD_CORETHREAD_H
 #define AD_CORETHREAD_H
 
-#include "ad_adjusting.h"
+#include "ad_ledsi.h"
 #include "ad_resulting.h"
 
 class Ad_CoreThread : public QThread
@@ -18,6 +18,7 @@ public:
 
 protected:
     void run();
+    bool initLedSi();
     bool initThread();
     bool initSource();
 
@@ -39,6 +40,7 @@ private:
     Ad_Resulting *mResult;
     YC_StandSource *mSource;
     SN_ManageThread *mSn;
+    Ad_LedSi *mLedSi;
 };
 
 #endif // AD_CORETHREAD_H

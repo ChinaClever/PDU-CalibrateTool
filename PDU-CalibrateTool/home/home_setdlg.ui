@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>505</width>
-    <height>309</height>
+    <height>395</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>350</x>
-     <y>250</y>
+     <x>360</x>
+     <y>340</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -93,7 +93,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>130</y>
+     <y>230</y>
      <width>471</width>
      <height>91</height>
     </rect>
@@ -139,6 +139,87 @@
       <property name="text">
        <string>重新计数</string>
       </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>140</y>
+     <width>461</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>微软雅黑</family>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="title">
+    <string>SI/BM数码管</string>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_3">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="maximumSize">
+       <size>
+        <width>70</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>校准功能</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QCheckBox" name="ledCheck">
+      <property name="text">
+       <string>启用</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>类型</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QComboBox" name="siLineBox">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <item>
+       <property name="text">
+        <string>直流</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>交流-单相</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>交流-二路</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>交流-三相</string>
+       </property>
+      </item>
      </widget>
     </item>
    </layout>
