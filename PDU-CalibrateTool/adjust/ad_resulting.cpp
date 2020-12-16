@@ -334,7 +334,6 @@ Col_CoreThread *Ad_Resulting::initThread()
         mCtrl = Ctrl_RpduThread::bulid(this);
         break;
 
-    case PDU:
     case SI_PDU:
     case BM_PDU:
         mCollect = Col_SiThread::bulid(this);

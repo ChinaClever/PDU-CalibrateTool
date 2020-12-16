@@ -67,29 +67,31 @@ void Ad_CoreThread::startResult()
 
 bool Ad_CoreThread::initThread()
 {
-    bool ret = initSource();
-    if(ret) delay(3); else return ret;
+    bool ret = false;
+    mPacket->status = tr("给标准源上电中！");
+    if(mSource) ret = mSource->setVol(200, 5);
+    else {ret = readDevInfo(); return ret;}
 
-    mPacket->sn.clear();
     Col_CoreThread *th = mResult->initThread();
     if(th) {
-        ret = th->readPduData();
-        if(ret) ret = mSn->snEnter();//写入序列号
-        else ret = readDevInfo();
+        for(int i=0; i<5; i++) {
+            if(i) mPacket->status = tr("读取设备数据 %1").arg(i);
+            ret = th->readPduData();
+            if(ret) break; else if(!delay(3)) break;
+        }
     }
+
+    if(mItem->step != Test_Over)
+    if(!ret) ret = readDevInfo();
 
     return ret;
 }
 
 void Ad_CoreThread::collectData()
 {
-    bool ret = true;
-    mPacket->sn.clear();
-    mPacket->data->size = 0;
-    mPacket->status = tr("数据采集");
-    if(!mSource) ret = initThread();
-    else ret = mSource->setVol(220, 5);
-    if(!ret)  return;
+    bool ret = initThread();
+    if(ret) mPacket->status = tr("正在读取设备数据");
+    else {mItem->step = Test_End; return;}
 
     Col_CoreThread *th = mResult->initThread();
     while(mItem->step != Test_Over) {
@@ -101,14 +103,12 @@ void Ad_CoreThread::collectData()
 
 void Ad_CoreThread::verifyResult()
 {
-    mPacket->sn.clear();
-    mPacket->data->size = 0;
-    mPacket->status = tr("自动验证开始");
     bool ret = initThread();
     if(ret) {
+        mPacket->status = tr("自动验证开始");
         mResult->resEnter();
-        mItem->step = Test_End;  // 结束验证
     }
+    mItem->step = Test_End;  // 结束验证
 }
 
 void Ad_CoreThread::writeLog()
@@ -197,6 +197,8 @@ void Ad_CoreThread::run()
     if(!isRun) {
         isRun = true;
         mPacket->pass = 0;
+        mPacket->sn.clear();
+        mPacket->data->size = 0;
 
         switch (mItem->step) {
         case Test_Start: workDown(); break;
