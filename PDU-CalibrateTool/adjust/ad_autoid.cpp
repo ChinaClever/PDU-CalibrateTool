@@ -55,12 +55,12 @@ bool Ad_AutoID::readDevId()
     sRtuItem it;
     initReadType(it);
 
+    int len = 0;
     uchar recv[8] = {0};
-    int len = mModbus->rtuRead(&it, recv);
-    if(!len){
-        mPacket->status = tr("再次读取设备ID");
-        mModbus->delay(6);
+    for(int i=0; i<5; ++i) {
+        if(i) mPacket->status = tr("第%1次读取设备ID ").arg(i+1);
         len = mModbus->rtuRead(&it, recv);
+        if(len) break; else if(!mModbus->delay(3)) break;
     }
 
     if(0 == len){
