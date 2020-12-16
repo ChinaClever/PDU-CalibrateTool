@@ -24,9 +24,11 @@ bool Ad_LedSi::transmit(uchar *buf, int len)
 {
     bool ret = false;
     uchar recv[64] = {0};
-    len = mModbus->transmit(buf, len, recv, 3);
+    len = mModbus->transmit(buf, len, recv, 10);
     if(len > 0) {
         if(recv[1] == buf[1]) ret = true;
+    } else {
+        qDebug() << "Ad_LedSi err " << len;
     }
 
     return ret;
@@ -39,10 +41,8 @@ bool Ad_LedSi::writeCmd(uchar fn, uchar line)
 
     cmd[1] = fn;
     cmd[2] = line;
-
-    ushort crc = mModbus->rtu_crc(cmd, len-2);
-    cmd[len-2] = ((0xff) & crc);
-    cmd[len-1] = (crc >> 8);
+    uchar crc = mModbus->getXorNumber(cmd, len-1);
+    cmd[len-1] = crc;
 
     return transmit(cmd, len);
 }
@@ -99,6 +99,11 @@ bool Ad_LedSi::startAdjust(YC_StandSource *source)
 {
     mSource = source;
     mItem->step = Test_Ading;
+    bool ret = sentCmd();
+    if(!ret) {
+        mItem->step = Test_End; // Test_End;
+        mPacket->pass = Test_Fail;
+    }
 
-    return sentCmd();
+    return ret;
 }

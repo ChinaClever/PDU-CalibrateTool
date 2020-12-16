@@ -180,7 +180,6 @@ bool Ad_CoreThread::readDevInfo()
     return ret;
 }
 
-
 bool Ad_CoreThread::initLedSi()
 {
     bool ret = false;
@@ -193,12 +192,12 @@ bool Ad_CoreThread::initLedSi()
     mSource = mResult->initStandSource();
     if(mSource) {
         mPacket->status = tr("标准源上电中");
-        ret = mSource->setVol(200, 4);
+        ret = mSource->setVol(220, 4);
         if(AC == mDt->ac) {
             mPacket->status = tr("标准源设置电流！");
             if(ret) mSource->setCur(60, 5);
         }
-    }
+    } else return ret;
 
     Col_CoreThread *th = mResult->initThread();
     if(th) {
@@ -211,7 +210,7 @@ bool Ad_CoreThread::initLedSi()
 
     if(ret) {
         if(mDt->lines != mItem->si_line) {
-            mPacket->status = tr("设备相数与设置中的参数不符合");
+            mPacket->status = tr("设备相数不对 %1").arg(mDt->lines);
             ret = false;
         }
     }
@@ -224,8 +223,8 @@ void Ad_CoreThread::workDown()
     bool ret = true;
     mPacket->clear();
     if(mItem->si_led) {
-        ret = initLedSi(); if(!ret) return;
-        ret = mLedSi->startAdjust(mSource);
+        ret = initLedSi();
+        if(ret) ret = mLedSi->startAdjust(mSource);
     } else {
         ret = readDevInfo(); if(!ret) return;
         ret = mAdjust->startAdjust(mSource);
