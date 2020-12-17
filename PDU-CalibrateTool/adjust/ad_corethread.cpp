@@ -185,6 +185,7 @@ bool Ad_CoreThread::initLedSi()
     bool ret = false;
     mDt->devType = SI_PDU;
     mDt->ac = mItem->si_ac;
+    mDt->specs = Transformer;
     mDt->lines = mItem->si_line;
     mPacket->dev_type = tr("SI/BM数码管");
 
@@ -211,6 +212,7 @@ bool Ad_CoreThread::initLedSi()
     if(ret) {
         if(mDt->lines != mItem->si_line) {
             mPacket->status = tr("设备相数不对 %1").arg(mDt->lines);
+            mPacket->pass = Test_Fail;
             ret = false;
         }
     }
