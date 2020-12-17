@@ -25,13 +25,13 @@
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>200</height>
+       <height>300</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>200</width>
-       <height>250</height>
+       <height>340</height>
       </size>
      </property>
      <property name="font">
@@ -56,9 +56,6 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <property name="horizontalSpacing">
-       <number>6</number>
-      </property>
       <item row="0" column="0">
        <widget class="QWidget" name="serialWid" native="true">
         <property name="minimumSize">
@@ -71,6 +68,16 @@
       </item>
       <item row="1" column="0">
        <widget class="QWidget" name="sourceWid" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>80</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QWidget" name="jigWid" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>

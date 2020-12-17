@@ -40,6 +40,7 @@ private:
     Ad_Resulting *mResult;
     YC_StandSource *mSource;
     SN_ManageThread *mSn;
+    Ctrl_JigThread *mJig;
     Ad_LedSi *mLedSi;
 };
 

@@ -8,6 +8,7 @@
 Ad_Config::Ad_Config()
 {
     item = new sConfigItem();
+    item->jig = nullptr;
     item->serial = nullptr;
     item->source = nullptr;
     item->addr = getAddr();

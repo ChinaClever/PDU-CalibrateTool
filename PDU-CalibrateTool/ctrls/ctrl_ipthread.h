@@ -1,7 +1,7 @@
 #ifndef CTRL_HEADERTHREAD_H
 #define CTRL_HEADERTHREAD_H
 
-#include "ctrl_sithread.h"
+#include "ctrl_jigthread.h"
 
 class Ctrl_IpThread : public Ctrl_CoreThread
 {

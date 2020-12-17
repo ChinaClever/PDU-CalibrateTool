@@ -30,6 +30,9 @@ void Setup_MainWid::initSerial()
 
     mSourceWid = new SerialStatusWid(ui->sourceWid);
     item->source = mSourceWid->initSerialPort(tr("标准源"));
+
+    mJigWid = new SerialStatusWid(ui->jigWid);
+    item->jig = mJigWid->initSerialPort(tr("治具"));
 }
 
 void Setup_MainWid::checkPcNumSlot()

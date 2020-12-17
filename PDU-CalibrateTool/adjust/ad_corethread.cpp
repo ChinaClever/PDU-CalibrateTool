@@ -21,6 +21,7 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
     mAdjust = Ad_Adjusting::bulid(this);
     mResult = Ad_Resulting::bulid(this);
     mSn = SN_ManageThread::bulid(this);
+    mJig = Ctrl_JigThread::bulid(this);
 }
 
 Ad_CoreThread::~Ad_CoreThread()
@@ -247,6 +248,7 @@ void Ad_CoreThread::run()
         mPacket->pass = 0;
         mPacket->sn.clear();
         mPacket->data->size = 0;
+        mJig->open();
 
         switch (mItem->step) {
         case Test_Start: workDown(); break;
@@ -256,6 +258,7 @@ void Ad_CoreThread::run()
 
         if(mSource) mSource->powerDown();
         mModbus->writeLogs();
+        mJig->down();
         isRun = false;
     } else {
         qDebug() << "AdjustCoreThread run err" << isRun;
