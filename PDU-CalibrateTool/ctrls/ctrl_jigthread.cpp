@@ -15,7 +15,7 @@ void Ctrl_JigThread::initSerialSlot()
 {
     if(!mSerial) {
         mSerial = Ad_Config::bulid()->item->jig;
-        if(mSerial) mSerial->setBaudRate(19200);
+        //if(mSerial) mSerial->setBaudRate(19200);
     }
 }
 
