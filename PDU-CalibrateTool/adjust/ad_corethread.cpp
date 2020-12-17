@@ -194,7 +194,7 @@ bool Ad_CoreThread::initLedSi()
     mSource = mResult->initStandSource();
     if(mSource) {
         mPacket->status = tr("标准源上电中");
-        ret = mSource->setVol(220, 4);
+        ret = mSource->setVol(220, 6);
         if(AC == mDt->ac) {
             mPacket->status = tr("标准源设置电流！");
             if(ret) mSource->setCur(60, 5);
