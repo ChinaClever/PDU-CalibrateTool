@@ -185,7 +185,7 @@ bool Ad_CoreThread::initLedSi()
     bool ret = false;
     mDt->devType = SI_PDU;
     mDt->ac = mItem->si_ac;
-    //mDt->lines = mItem->si_line;
+    mDt->lines = mItem->si_line;
     mPacket->dev_type = tr("SI/BM数码管");
 
     mPacket->status = tr("已启动校准！连接标准源");
