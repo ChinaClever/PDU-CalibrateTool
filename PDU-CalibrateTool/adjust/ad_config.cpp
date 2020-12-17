@@ -8,9 +8,14 @@
 Ad_Config::Ad_Config()
 {
     item = new sConfigItem();
+    item->jig = nullptr;
     item->serial = nullptr;
     item->source = nullptr;
     item->addr = getAddr();
+
+    item->si_led = false;
+    item->si_ac = 1;
+    item->si_line = 1;
 
     initCnt();
     initErrData();

@@ -126,7 +126,7 @@ bool Ad_Resulting::volErrRangeByID(int i)
 
     bool ret = true;
     int vol = mData->vol[i];
-    mPacket->status = tr("期望电压200V，实际电压%1V 第%2位 电压").arg(vol/AD_CUR_RATE).arg(i+1);
+    mPacket->status = tr("期望电压200V，实际电压%1V 第%2位 电压").arg(vol/mData->rate).arg(i+1);
     if((vol >= min) && (vol <= max)) {
         mData->status[i] = Test_Success;
     } else {
@@ -334,7 +334,6 @@ Col_CoreThread *Ad_Resulting::initThread()
         mCtrl = Ctrl_RpduThread::bulid(this);
         break;
 
-    case PDU:
     case SI_PDU:
     case BM_PDU:
         mCollect = Col_SiThread::bulid(this);

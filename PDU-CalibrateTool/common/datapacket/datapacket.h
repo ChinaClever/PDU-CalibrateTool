@@ -66,7 +66,7 @@ struct sTgObjData
 
 struct sDevType
 {
-    sDevType() {}
+    sDevType() {devType=0;}
 
     uint devId;
     uchar devType; // 1 ZPDU执行板类型  2 MPDU执行板类型   3 RPDU执行板类型

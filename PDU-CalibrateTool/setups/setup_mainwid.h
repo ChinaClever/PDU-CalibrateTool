@@ -39,6 +39,7 @@ private:
     Ui::Setup_MainWid *ui;
     UserMainWid *mUserWid;
 
+    SerialStatusWid *mJigWid;
     SerialStatusWid *mSerialWid;
     SerialStatusWid *mSourceWid;
 };

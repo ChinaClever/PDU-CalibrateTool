@@ -16,6 +16,9 @@ public:
     explicit Home_SetDlg(QWidget *parent = nullptr);
     ~Home_SetDlg();
 
+protected:
+    void updateSiLed();
+
 public slots:
     void initFunSlot();
 

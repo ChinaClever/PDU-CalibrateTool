@@ -33,6 +33,7 @@ struct sConfigItem
     sConfigItem() {step=0; vol=200; currentNum=0;addr=1;}
     SerialPort *serial; // 串口对象
     SerialPort *source; // 标准源
+    SerialPort *jig; // 治具
 
     uchar step; // 步骤
     uchar addr;
@@ -42,6 +43,10 @@ struct sConfigItem
 
     int logCount;
     sCount cnt;
+
+    bool si_led;
+    uchar si_ac;
+    uchar si_line;
 
     QString user; // 客户名称
     uchar pcNum;

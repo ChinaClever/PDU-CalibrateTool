@@ -30,9 +30,23 @@ void Home_SetDlg::initFunSlot()
     ui->cntLab->setText(str);
 }
 
+void Home_SetDlg::updateSiLed()
+{
+    mItem->si_led = ui->ledCheck->isChecked();
+    int rtn = ui->siLineBox->currentIndex();
+    if(rtn) {
+        mItem->si_ac = AC;
+        mItem->si_line = rtn;
+    } else {
+        mItem->si_ac = DC;
+        mItem->si_line = 1;
+    }
+}
+
 void Home_SetDlg::on_okBtn_clicked()
 {    
     this->close();    
+    updateSiLed();
     mItem->user = ui->userEdit->text();
     mItem->cnt.num = ui->numSpin->value();
     Ad_Config::bulid()->writeCnt();
