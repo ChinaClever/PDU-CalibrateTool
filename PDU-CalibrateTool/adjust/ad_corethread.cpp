@@ -71,10 +71,10 @@ bool Ad_CoreThread::initThread()
 {
     bool ret = false;
     mPacket->status = tr("给标准源上电中！");
-    if(mSource) ret = mSource->setVol(200, 6);
+    Col_CoreThread *th = mResult->initThread();
+    if(mSource && th) ret = mSource->setVol(200, 6);
     else {ret = readDevInfo(); return ret;}
 
-    Col_CoreThread *th = mResult->initThread();
     if(th) {
         for(int i=0; i<5; i++) {
             if(i) mPacket->status = tr("读取设备数据 %1").arg(i);
