@@ -351,6 +351,7 @@ Col_CoreThread *Ad_Resulting::initThread()
         break;
 
     default:
+        mCollect = nullptr;
         break;
     }
 
