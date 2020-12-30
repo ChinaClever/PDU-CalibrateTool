@@ -71,7 +71,6 @@ bool Ad_Adjusting::writeOffset()
     sDevType *dt = mPacket->devType;
     if(DC == dt->ac) {
         mPacket->status = tr("发送直流偏移命令！");
-        ret = mModbus->delay(4);
         ret = writeCmd(0xA1, 0);
         if(dt->devType == IP_PDU) ret = waitDcRecv();
         else ret = mModbus->delay(15);
