@@ -39,7 +39,7 @@ bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
 
     cmd[1] = mItem->addr;
     cmd[2] = fn;
-    cmd[3] = line;    
+    cmd[3] = line;
 
     if(mPacket->devType->devType == APDU) cmd[1] = 0;//A系列校准时，用地址0，读取设备时用0x04
     ushort crc = mModbus->rtu_crc(cmd, len-2);
@@ -71,10 +71,10 @@ bool Ad_Adjusting::writeOffset()
     sDevType *dt = mPacket->devType;
     if(DC == dt->ac) {
         mPacket->status = tr("发送直流偏移命令！");
+        ret = mModbus->delay(4);
         ret = writeCmd(0xA1, 0);
-        if(ret) ret = mModbus->delay(15);//15
-        if(dt->devType == IP_PDU)
-            if(ret) ret = waitDcRecv();//15
+        if(dt->devType == IP_PDU) ret = waitDcRecv();
+        else ret = mModbus->delay(15);
         if(!ret) return ret;
 
         mPacket->status = tr("设置标准源电流6A");
