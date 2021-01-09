@@ -10,6 +10,7 @@ public:
     explicit Col_CoreThread(QObject *parent = nullptr);
 
     virtual bool readPduData()=0;
+    void changeBaudRate() {mModbus->changeBaudRate();}
 
 protected:
     uchar *toInt(uchar *ptr, int line, uint *value);
