@@ -57,20 +57,11 @@ bool Ad_AutoID::readDevId()
 
     int len = 0;
     uchar recv[8] = {0};
-    for(int i=0; i<5; ++i) {
+    for(int i=0; i<6; ++i) {
         if(i) mPacket->status = tr("第%1次读取设备ID ").arg(i+1);
         len = mModbus->rtuRead(&it, recv);
         if(len) break; else if(!mModbus->delay(3)) break;
-    }
-
-    if(0 == len){
-        mPacket->status = tr("修改波特率，读取设备ID");
-        bool ret = mModbus->changeBaudRate(); // 自动转变波特率
-        if(!ret) {mModbus->delay(2); len = mModbus->rtuRead(&it, recv);}
-        if(!len) {
-            mModbus->changeBaudRate(); mModbus->delay(2);
-            len = mModbus->rtuRead(&it, recv);
-        }
+        if(i>1 && i%2) mModbus->changeBaudRate();
     }
 
     return analysDevType(recv, len);

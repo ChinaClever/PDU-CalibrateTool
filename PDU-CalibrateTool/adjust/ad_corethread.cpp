@@ -76,10 +76,11 @@ bool Ad_CoreThread::initThread()
     else {ret = readDevInfo(); return ret;}
 
     if(th) {
-        for(int i=0; i<5; i++) {
+        for(int i=0; i<6; i++) {
             if(i) mPacket->status = tr("读取设备数据 %1").arg(i);
             ret = th->readPduData();
             if(ret) break; else if(!delay(3)) break;
+            if(i>1 && i%2) th->changeBaudRate();
         }
     }
 
