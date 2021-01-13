@@ -186,7 +186,9 @@ bool SN_ManageThread::snEnter()
         mPacket->status = tr("已读到序列号");
     } else {
         sDevType *dt = mPacket->devType;
-        if(dt->devType <= APDU) {
+        // if(dt->devType <= APDU)
+        if(1) ///////============
+        {
             ret = writeSn(mSnItem);
             writeStatus(ret);
         } else {
