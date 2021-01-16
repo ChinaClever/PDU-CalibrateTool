@@ -186,12 +186,11 @@ bool SN_ManageThread::snEnter()
         mPacket->status = tr("已读到序列号");
     } else {
         sDevType *dt = mPacket->devType;
-        // if(dt->devType <= APDU)
-        if(1) ///////============
-        {
+        if(dt->devType <= APDU) {
             ret = writeSn(mSnItem);
             writeStatus(ret);
         } else {
+            mPacket->status = tr("序列号读取错误：%1").arg(mSnItem.sn);
             mItem->step = Test_End;
             mPacket->pass = Test_Fail;
         }
