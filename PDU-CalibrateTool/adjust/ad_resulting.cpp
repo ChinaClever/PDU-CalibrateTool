@@ -97,9 +97,7 @@ bool Ad_Resulting::curRangeByID(int i, int exValue, int cnt)
 {
     int cur = mData->cur[i];
     if(mData->rate < 10) cur *= 10;
-    if(mPacket->devType->lines == 2 &&i == 0)
-        exValue *= 2;
-
+    if(mPacket->devType->lines == 2 &&i == 0) return true; //exValue *= 2;
     mPacket->status = tr("期望电流%1A 第%2位 电流").arg(exValue/AD_CUR_RATE).arg(i+1);
     bool ret = curErrRange(exValue, cur);
     mData->cured[i] = mData->cur[i];

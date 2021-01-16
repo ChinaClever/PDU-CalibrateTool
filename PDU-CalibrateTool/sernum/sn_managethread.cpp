@@ -31,13 +31,13 @@ void SN_ManageThread::initReadCmd(sRtuItem &item)
 bool SN_ManageThread::checkSn(uchar *sn, int len)
 {
     bool ret = false;
-    if((len == 8) && (sn[0] == 0)){
+    if((len != 8) || (sn[0] != 0)  || (sn[1] > 99) ){
+        qDebug() << "SN check err" << len << sn[0];
+    } else {
         uchar exor = mModbus->getXorNumber(sn, len-1);//暂时注释下面的异或和校验不对
         if(exor == sn[len-1]) {
             ret = true;
         }
-    } else {
-        qDebug() << "SN check err" << len << sn[0];
     }
     return ret;
 }
@@ -53,28 +53,21 @@ void SN_ManageThread::initDevType(sSnItem &it)
 bool SN_ManageThread::analySn(uchar *sn, int len, sSnItem &it)
 {
     uchar *ptr = sn;
-    bool ret = checkSn(sn, len);
-    if(ret) {
-        for(int i=0; i<4; ++i) {
-            it.date[i] = *ptr++;
-        }
-        it.num = (*ptr++) << 8;
-        it.num += *ptr++;
-        it.pc = *ptr++;
-        it.exor = *ptr++;
+    for(int i=0; i<4; ++i) {
+        it.date[i] = *ptr++;
     }
+    it.num = (*ptr++) << 8;
+    it.num += *ptr++;
+    it.pc = *ptr++;
+    it.exor = *ptr++;
 
-    return ret;
+    return checkSn(sn, len);
 }
 
 void SN_ManageThread::toSnStr(sSnItem &it)
 {
     QString cmd;
-    for(int i=0; i<9; ++i) {
-        cmd += "%" + QString::number(i+1);
-        if(i<7)if((i%2==1)||i==6) cmd += " ";
-    }
-
+    for(int i=0; i<9; ++i) {cmd += "%" + QString::number(i+1); if(i<7)if((i%2==1)||i==6) cmd += " ";}
     QString sn  = QString(cmd)
             //.arg(it.devType[0], 2, 16, QLatin1Char('0'))
             //.arg(it.devType[1], 2, 16, QLatin1Char('0'))
@@ -102,8 +95,7 @@ bool SN_ManageThread::readSn(sSnItem &itSn)
     int len = mModbus->rtuRead(&itRtu, buf);
     if(8 != len) len = mModbus->rtuRead(&itRtu, buf);
     if(len == 8) {
-        ret = analySn(buf, len, itSn);
-        if(ret) toSnStr(itSn);
+        ret = analySn(buf, len, itSn); toSnStr(itSn);
     } else {
         mPacket->status = tr("通讯错误，未能正确识别执行板/表头");
     }
@@ -121,7 +113,7 @@ void SN_ManageThread::initWriteCmd(sRtuSetItems &item, uchar *data, int len)
 
     for(int i=0; i<len; ++i) {
         item.data[i] = data[i];
-    }    
+    }
 }
 
 void SN_ManageThread::createSn(sSnItem &it)
@@ -172,7 +164,7 @@ void SN_ManageThread::writeStatus(bool ret)
 {
     if(ret) {
         Ad_Config::bulid()->setCurrentNum();
-        mPacket->status = tr("已写入序列号");        
+        mPacket->status = tr("已写入序列号");
     } else {
         mPacket->status = tr("序列号写入失败");
         mItem->currentNum -= 1;
@@ -193,9 +185,17 @@ bool SN_ManageThread::snEnter()
     if(ret) {
         mPacket->status = tr("已读到序列号");
     } else {
-        ret = writeSn(mSnItem);
-        writeStatus(ret);
+        sDevType *dt = mPacket->devType;
+        if(dt->devType <= APDU) {
+            ret = writeSn(mSnItem);
+            writeStatus(ret);
+        } else {
+            mPacket->status = tr("序列号读取错误：%1").arg(mSnItem.sn);
+            mItem->step = Test_End;
+            mPacket->pass = Test_Fail;
+        }
     }
+
     mPacket->sn = mSnItem.sn;
     mModbus->delay(1);
 
