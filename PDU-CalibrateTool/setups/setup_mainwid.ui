@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1023</width>
-    <height>750</height>
+    <height>786</height>
    </rect>
   </property>
   <property name="font">
@@ -394,7 +394,7 @@
       <item row="1" column="2">
        <widget class="QLabel" name="label_date">
         <property name="text">
-         <string>2020-12-11</string>
+         <string>2020-12-24</string>
         </property>
        </widget>
       </item>
