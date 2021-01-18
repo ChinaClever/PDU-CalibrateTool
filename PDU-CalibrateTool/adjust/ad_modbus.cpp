@@ -55,7 +55,7 @@ bool Ad_Modbus::appendLogItem(bool pass)
     it.memo = packet->status;
 
     bool ret = true;
-    if(it.sn.size()) {
+    if(it.sn.size() && !pass) {
         mLogItems << it;
     } else {
         ret = false;
