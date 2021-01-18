@@ -60,7 +60,7 @@ bool Ad_AutoID::readDevId()
     for(int i=0; i<6; ++i) {
         if(i) mPacket->status = tr("第%1次读取设备ID ").arg(i+1);
         len = mModbus->rtuRead(&it, recv);
-        if(len) break; else if(!mModbus->delay(3)) break;
+        if(len) break; else if(!mModbus->delay(2)) break;
         if(i>1 && i%2) mModbus->changeBaudRate();
     }
 

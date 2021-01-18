@@ -71,21 +71,11 @@ bool Ad_CoreThread::initThread()
 {
     bool ret = false;
     mPacket->status = tr("给标准源上电中！");
-    Col_CoreThread *th = mResult->initThread();
-    if(mSource && th) ret = mSource->setVol(200, 6);
-    else {ret = readDevInfo(); return ret;}
-
-    if(th) {
-        for(int i=0; i<6; i++) {
-            if(i) mPacket->status = tr("读取设备数据 %1").arg(i);
-            ret = th->readPduData();
-            if(ret) break; else if(!delay(3)) break;
-            if(i>1 && i%2) th->changeBaudRate();
-        }
+    if(mSource){
+        ret = mSource->setVol(200, 6);
+        ret = mAutoID->readDevType();
     }
-
-    if(mItem->step != Test_Over)
-        if(!ret) ret = readDevInfo();
+    if(!ret) ret = readDevInfo();
 
     return ret;
 }
