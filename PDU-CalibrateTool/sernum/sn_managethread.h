@@ -6,7 +6,7 @@
 struct sSnItem
 {
     sSnItem() {}
-    char devType[4];
+    uchar devType[4];
     uchar date[4];
     ushort num;
     uchar pc;
