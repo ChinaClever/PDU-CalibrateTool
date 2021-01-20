@@ -92,6 +92,7 @@ void Ad_CoreThread::collectData()
         mResult->resTgData();
         delay(2);
     }
+    mPacket->status = tr("读取设备数据停止！");
 }
 
 void Ad_CoreThread::verifyResult()
@@ -215,7 +216,6 @@ bool Ad_CoreThread::initLedSi()
 void Ad_CoreThread::workDown()
 {
     bool ret = true;
-    mPacket->clear();
     if(mItem->si_led) {
         ret = initLedSi();
         if(ret) ret = mLedSi->startAdjust(mSource);
@@ -239,6 +239,7 @@ void Ad_CoreThread::run()
         mPacket->pass = 0;
         mPacket->sn.clear();
         mPacket->data->size = 0;
+        mPacket->clear();
         mJig->open();
 
         switch (mItem->step) {

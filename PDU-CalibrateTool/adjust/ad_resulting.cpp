@@ -419,16 +419,30 @@ bool Ad_Resulting::noLoadEnter()
     return ret;
 }
 
-bool Ad_Resulting::resEnter()
+bool Ad_Resulting::powerOn()
 {
-    bool ret = false;
     if(!mSource) initStandSource();
-    if(mSource) ret = mSource->setVol(200, 1);
-    if(ret) initThread(); else return ret;
+    if(mSource) initThread(); else return false;
+    if(6 == mPacket->data->reserve) {
+        mSource->powerDown(); delay(2);
+    }
 
     mItem->step = Test_vert;
-    ret = mCollect->readPduData();
-    if(!ret) {delay(2); ret = mCollect->readPduData();}
+    bool ret = mSource->setVol(200, 1);
+    if(ret) {
+        for(int i=0; i<3; ++i) {
+            ret = mCollect->readPduData();
+            if(ret) break; else delay(2);
+        }
+    }
+
+    return ret;
+}
+
+
+bool Ad_Resulting::resEnter()
+{
+    bool ret = powerOn();
     if(ret) {
         for(int i=0; i<1; ++i) {
             int exCur = 0;
