@@ -45,6 +45,8 @@ protected:
     bool noLoadCurFun();
     bool noLoadCurCheck(int cnt);
 
+    bool powerOn();
+
 private:
     sDataUnit *mData;
     Ad_Modbus *mModbus;
