@@ -29,19 +29,9 @@ bool Col_MpduThread::recvMpduVolCur(uchar *recv, int)
             int size = mData->size;
             mData->size= 8;
             uchar sw = *ptr++; // 开关状态 1表示开，0表示关
-            if( mData->size == 8 && mData->reserve == 6){
-                for(int i=0 , k=0; i<mData->size && k < mData->size; ++i) {
-                    if(i==2 || i==6) continue;
-                    mData->sw[i] =  (sw >> (7-k)) & 1;
-                    k++;
-                }
+            for(int i=0; i<mData->size; ++i) {
+                mData->sw[i] =  (sw >> (7-i)) & 1;
             }
-            else {
-                for(int i=0; i<mData->size; ++i) {
-                    mData->sw[i] =  (sw >> (7-i)) & 1;
-                }
-            }
-
 
             ptr = toShort(ptr, mData->size, mData->cur);
             ushort vol = getShort(ptr); ptr += 2;
