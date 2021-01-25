@@ -34,7 +34,7 @@ QString Log_LogQueryDlg::getCmd()
     if(!str.isEmpty()) cmd += QString(" and sn like '%%1%'").arg(str);
 
     str = ui->statusEdit->text();
-    if(!str.isEmpty()) cmd += QString(" and status like '%%1%'").arg(str);
+    if(!str.isEmpty()) cmd += QString(" and result like '%%1%'").arg(str);
 
     return cmd;
 }
