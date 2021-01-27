@@ -21,9 +21,9 @@ Home_DebugDlg::~Home_DebugDlg()
 
 void Home_DebugDlg::initWid()
 {
-    mThresholdWid = new Home_ThresholdWid(ui->tabWidget);
-    ui->tabWidget->addTab(mThresholdWid, tr("设备报警阈值"));
-
     mOutputWid = new Home_OutputWid(ui->tabWidget);
     ui->tabWidget->addTab(mOutputWid, tr("输出位控制"));
+
+    mThresholdWid = new Home_ThresholdWid(ui->tabWidget);
+    ui->tabWidget->addTab(mThresholdWid, tr("设备报警阈值"));
 }

@@ -212,20 +212,10 @@ void Home_WorkWid::on_resBtn_clicked()
 }
 
 void Home_WorkWid::on_deBtn_clicked()
-{
-    if(!usr_land_jur()) {
-        CriticalMsgBox box(this, tr("您没有权限进行此操作"));
-        return;
-    }
-
-    if(mItem->step != Collect_Start) { // 开始采集数据
-        on_updateBtn_clicked();
-    }
-
+{    
+    //mItem->step = Test_Over;
     Home_DebugDlg dlg(this);
     dlg.exec();
-
-    on_updateBtn_clicked(); // 停止采集数据
 }
 
 void Home_WorkWid::on_updateBtn_clicked()

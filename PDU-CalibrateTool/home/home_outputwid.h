@@ -16,7 +16,6 @@ public:
     ~Home_OutputWid();
 
 protected:
-    void initThread();
 
 private slots:
     void on_onAllBtn_clicked();
@@ -30,6 +29,7 @@ private slots:
     void on_downBtn_clicked();
     void workDownSlot();
     void initFunSlot();
+    void on_devBox_currentIndexChanged(int index);
 
 private:
     Ui::Home_OutputWid *ui;

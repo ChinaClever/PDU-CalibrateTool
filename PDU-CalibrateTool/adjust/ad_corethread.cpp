@@ -88,8 +88,15 @@ void Ad_CoreThread::collectData()
 
     Col_CoreThread *th = mResult->initThread();
     while(mItem->step != Test_Over) {
-        th->readPduData();
-        mResult->resTgData();
+        ret = th->readPduData();
+        if(ret){
+            mResult->resTgData();
+            mPacket->pass = Test_Success;
+            mPacket->status = tr("正在读取设备数据");
+        } else {
+            mPacket->pass = Test_Fail;
+            mPacket->status = tr("读取设备数据错误！");
+        }
         delay(2);
     }
     mPacket->status = tr("读取设备数据停止！");

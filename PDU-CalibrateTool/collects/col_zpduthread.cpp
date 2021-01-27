@@ -60,6 +60,8 @@ bool Col_ZpduThread::recvZpduVolCur(uchar *recv, int len)
 
             ret = true;
         }
+    } else {
+        qDebug() << "recvZpduVolCur err" << len << cm_ByteArrayToHexStr(QByteArray((char *)recv, len));
     }
 
     return ret;
