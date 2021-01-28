@@ -17,7 +17,7 @@ protected:
     bool openAllSwitch();
     bool closeAllSwitch();
     bool writeSerial(quint8 *cmd, int len);
-    bool funSwitch(uchar *on, uchar *off, int f);
+    bool funSwitch(uchar *on, uchar *off);
 
 protected slots:
     void initSerialSlot();

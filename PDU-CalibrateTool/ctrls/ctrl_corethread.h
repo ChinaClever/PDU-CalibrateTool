@@ -26,7 +26,7 @@ protected:
     bool delay(int s) {return  mModbus->delay(s);}
 
     virtual void funClearEle(uchar *buf)=0;
-    virtual void funSwitch(uchar *on, uchar *off, int f)=0;
+    virtual void funSwitch(uchar *on, uchar *off)=0;
 
 protected slots:
     void closeOtherSwitchSlot();

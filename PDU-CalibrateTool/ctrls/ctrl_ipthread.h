@@ -11,8 +11,8 @@ public:
     static Ctrl_IpThread *bulid(QObject *parent = nullptr);
 
 protected:
-    void funSwitch(uchar *on, uchar *off, int f);
-    void funClearEle(uchar *buf);
+    void funSwitch(uchar *, uchar *){}
+    void funClearEle(uchar *){}
     bool sentRtuCmd(ushort reg, ushort value);
 };
 

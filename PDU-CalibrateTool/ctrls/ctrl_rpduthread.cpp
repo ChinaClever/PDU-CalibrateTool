@@ -19,7 +19,7 @@ Ctrl_RpduThread *Ctrl_RpduThread::bulid(QObject *parent)
 }
 
 
-void Ctrl_RpduThread::funSwitch(uchar *on, uchar *off, int f)
+void Ctrl_RpduThread::funSwitch(uchar *on, uchar *off)
 {
     uchar cmd[] = {0x7B, 0xA1, 0x10,
                    0xFF, 0xFF, 0xFF, 0xC7, 0xC8, 0xC9,

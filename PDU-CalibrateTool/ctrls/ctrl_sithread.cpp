@@ -18,12 +18,7 @@ Ctrl_SiThread *Ctrl_SiThread::bulid(QObject *parent)
     return sington;
 }
 
-void Ctrl_SiThread::funSwitch(uchar *on, uchar *off, int f)
-{
-
-}
-
-void Ctrl_SiThread::funClearEle(uchar *buf)
+void Ctrl_SiThread::funClearEle(uchar *)
 {
     mPacket->status = tr("清除电能");
     sentRtuCmd(0x1013, 0xFF00);

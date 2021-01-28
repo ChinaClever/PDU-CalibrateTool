@@ -16,6 +16,7 @@ Ad_Config::Ad_Config()
     item->si_led = false;
     item->si_ac = 1;
     item->si_line = 1;
+    item->aiMode = 0;
 
     initCnt();
     initErrData();

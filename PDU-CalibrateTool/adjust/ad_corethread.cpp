@@ -231,10 +231,11 @@ void Ad_CoreThread::workDown()
         ret = mAdjust->startAdjust(mSource);
     }
 
-    if(ret) {
+    if(mItem->step != Test_End) {
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
     }
+
     writeLog(); msleep(20);  //记录校准设备校准成功还是校准失败
     mItem->step = Test_End;
 }

@@ -26,7 +26,3 @@ void Ctrl_ApduThread::funClearEle(uchar *buf)
     mModbus->writeSerial(cmd, sizeof(cmd));
 }
 
-void Ctrl_ApduThread::funSwitch(uchar *on, uchar *off, int f)
-{
-
-}

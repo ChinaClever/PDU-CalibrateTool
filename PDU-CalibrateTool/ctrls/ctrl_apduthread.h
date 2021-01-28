@@ -11,7 +11,7 @@ public:
 
 protected:
     void funClearEle(uchar *buf);
-    void funSwitch(uchar *on, uchar *off, int f);
+    void funSwitch(uchar *, uchar *){}
 };
 
 #endif // CTRL_APDUTHREAD_H

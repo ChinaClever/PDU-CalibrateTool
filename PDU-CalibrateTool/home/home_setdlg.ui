@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>505</width>
+    <width>494</width>
     <height>395</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>微软雅黑</family>
+    <pointsize>11</pointsize>
+   </font>
   </property>
   <property name="windowTitle">
    <string>设备设置</string>
@@ -16,7 +22,7 @@
   <widget class="QPushButton" name="okBtn">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>350</x>
      <y>340</y>
      <width>131</width>
      <height>41</height>
@@ -37,7 +43,7 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>471</width>
+     <width>461</width>
      <height>98</height>
     </rect>
    </property>
@@ -54,11 +60,14 @@
     <item row="0" column="0">
      <widget class="QLabel" name="label_17">
       <property name="text">
-       <string>客户名称：</string>
+       <string>客户名称</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
+    <item row="0" column="1" colspan="3">
      <widget class="QLineEdit" name="userEdit"/>
     </item>
     <item row="1" column="0">
@@ -87,6 +96,48 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="2">
+     <widget class="QLabel" name="label_20">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>70</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>校验模式</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QComboBox" name="aiBox">
+      <property name="minimumSize">
+       <size>
+        <width>30</width>
+        <height>0</height>
+       </size>
+      </property>
+      <item>
+       <property name="text">
+        <string>标准模式</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>智能模式</string>
+       </property>
+      </item>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QGroupBox" name="groupBox_3">
@@ -94,7 +145,7 @@
     <rect>
      <x>20</x>
      <y>230</y>
-     <width>471</width>
+     <width>461</width>
      <height>91</height>
     </rect>
    </property>

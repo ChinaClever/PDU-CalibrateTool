@@ -25,6 +25,7 @@ public slots:
 private slots:
     void on_okBtn_clicked();
     void on_resBtn_clicked();
+    void on_aiBox_currentIndexChanged(int index);
 
 private:
     Ui::Home_SetDlg *ui;

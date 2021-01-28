@@ -174,10 +174,10 @@ void Ad_Resulting::resTgData(sTgObjData *tg)
 bool Ad_Resulting::outputCurById(int k, int exValue)
 {
     bool ret = false;
-    for(int i=0; i<5; ++i) {
+    for(int i=0; i<=5; ++i) {
         mCollect->readPduData();
         ret = curRangeByID(k, exValue, i);
-        if(!ret) delay(2); else break;
+        if(!ret) delay(3); else break;
     }
     mModbus->appendLogItem(ret);
 

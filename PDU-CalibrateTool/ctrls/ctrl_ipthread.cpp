@@ -18,15 +18,6 @@ Ctrl_IpThread *Ctrl_IpThread::bulid(QObject *parent)
     return sington;
 }
 
-void Ctrl_IpThread::funSwitch(uchar *on, uchar *off, int f)
-{
-
-}
-
-void Ctrl_IpThread::funClearEle(uchar *buf)
-{   
-}
-
 
 bool Ctrl_IpThread::sentRtuCmd(ushort reg, ushort value)
 {

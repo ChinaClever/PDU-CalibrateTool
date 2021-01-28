@@ -40,7 +40,7 @@ bool Ctrl_JigThread::writeSerial(quint8 *cmd, int len)
     return ret;
 }
 
-bool Ctrl_JigThread::funSwitch(uchar *on, uchar *off, int f)
+bool Ctrl_JigThread::funSwitch(uchar *on, uchar *off)
 {
     int k = 5;
     static uchar cmd[68] = {0x7B, 0xC1, 0x00, 0xA2, 0xB2};
@@ -52,7 +52,7 @@ bool Ctrl_JigThread::funSwitch(uchar *on, uchar *off, int f)
     for(int i=0; i<3; i++)  cmd[k++] = 0xC7 + i;
     for(int i=0; i<3; i++)  cmd[k++] = 0xD7 + i;
     for(int i=0; i<39; i++)  cmd[k++] = 0x00;
-    cmd[k++] = f; // 统一开关为1
+    cmd[k++] = 0; // 统一开关为1
 
     for(int i=0; i<3; i++)  cmd[k++] = 0x0E;
     cmd[k++] = 0x44;
@@ -67,7 +67,7 @@ bool Ctrl_JigThread::openAllSwitch()
     for(int i=0; i<6; i++)  on[i] = 0xFF;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
-    return funSwitch(on, off, 1);
+    return funSwitch(on, off);
 }
 
 bool Ctrl_JigThread::closeAllSwitch()
@@ -76,7 +76,7 @@ bool Ctrl_JigThread::closeAllSwitch()
     for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0xff;  //关闭有效位
 
-    return funSwitch(on, off, 1);
+    return funSwitch(on, off);
 }
 
 bool Ctrl_JigThread::open()

@@ -20,7 +20,7 @@ void Ctrl_CoreThread::openAllSwitch()
     for(int i=0; i<6; i++)  on[i] = 0xFF;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
-    funSwitch(on, off, 0);
+    funSwitch(on, off);
 }
 
 void Ctrl_CoreThread::setBitControl(int id, uchar *buf)
@@ -37,7 +37,7 @@ void Ctrl_CoreThread::openOutputSwitch(int id)
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
     setBitControl(id, on);
-    funSwitch(on, off, 0);
+    funSwitch(on, off);
 }
 
 void Ctrl_CoreThread::closeOtherSwitchSlot()
@@ -66,7 +66,7 @@ void Ctrl_CoreThread::closeOtherSwitch(int id)
 
     setBitControl(id, off);
     for(int i=0; i<6; i++)  off[i] = ~off[i];
-    funSwitch(on, off, 0);
+    funSwitch(on, off);
 }
 
 void Ctrl_CoreThread::closeAllSwitch()
@@ -75,9 +75,8 @@ void Ctrl_CoreThread::closeAllSwitch()
     for(int i=0; i<6; i++)  on[i] = 0x00;  //打开有效位
     for(int i=0; i<6; i++)  off[i] = 0xff;  //关闭有效位
 
-    funSwitch(on, off, 0);
+    funSwitch(on, off);
 }
-
 
 void Ctrl_CoreThread::closeOutputSwitch(int id)
 {
@@ -86,9 +85,8 @@ void Ctrl_CoreThread::closeOutputSwitch(int id)
     for(int i=0; i<6; i++)  off[i] = 0x00;  //关闭有效位
 
     setBitControl(id, off);
-    funSwitch(on, off, 0);
+    funSwitch(on, off);
 }
-
 
 void Ctrl_CoreThread::clearAllEle()
 {
@@ -96,8 +94,6 @@ void Ctrl_CoreThread::clearAllEle()
     for(int i=0; i<6; i++) cmd[i] = 0xFF;
     funClearEle(cmd);
 }
-
-
 
 void Ctrl_CoreThread::setClearEle(int id)
 {

@@ -63,3 +63,7 @@ void Home_SetDlg::on_resBtn_clicked()
     }
 }
 
+void Home_SetDlg::on_aiBox_currentIndexChanged(int index)
+{
+    mItem->aiMode = index;
+}

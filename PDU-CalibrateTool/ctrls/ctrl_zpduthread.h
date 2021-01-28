@@ -11,7 +11,7 @@ public:
     static Ctrl_ZpduThread *bulid(QObject *parent = nullptr);
 
 protected:
-    void funSwitch(uchar *on, uchar *off, int f);
+    void funSwitch(uchar *on, uchar *off);
     void funClearEle(uchar *buf);
 };
 

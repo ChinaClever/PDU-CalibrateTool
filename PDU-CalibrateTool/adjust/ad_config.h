@@ -50,6 +50,7 @@ struct sConfigItem
 
     QString user; // 客户名称
     uchar pcNum;
+    uchar aiMode;
     ushort currentNum; // 当天序号
     QString currentName; // 当前用户名称
     QTime startTime;

@@ -130,14 +130,14 @@ bool Ad_Adjusting::sentCmd()
 
 bool Ad_Adjusting::updateStatus(ushort status)
 {
-    bool ret = true;
     QString str;
 
     if(0x1100 == status) {
-        mItem->step = Test_vert;
+        if(mItem->aiMode) mItem->step = Test_End; //Test_vert;
         mPacket->status = tr("校准返回正常！");
     } else if(0x1101 == status) {
         str = tr("校准失败");
+        mItem->step = Test_vert;
     } else if(0x1102 == status) {
         mPacket->status = tr("校准解锁成功");
     } else if(0x1108 == status) {
@@ -172,11 +172,16 @@ bool Ad_Adjusting::updateStatus(ushort status)
     }
 
     if(str.size()) {
-        ret = overWork(str);
+        //ret = overWork(str);
+        //mItem->step = Test_End;
+        //mPacket->pass = Test_Fail;
+        mPacket->status = str;
+        mModbus->appendLogItem(false);
+    } else {
+        mPacket->pass = Test_Success;
     }
-    mModbus->appendLogItem(ret);
 
-    return ret;
+    return true;
 }
 
 bool Ad_Adjusting::recvStatus(uchar *recv, int len)
@@ -219,7 +224,7 @@ int Ad_Adjusting::readSerial(uchar *recv, int sec)
 
 bool Ad_Adjusting::overWork(const QString &str)
 {
-    mItem->step = Test_End; // Test_End;
+    mItem->step = Test_End;
     mPacket->pass = Test_Fail;
     mPacket->status = str;
     
@@ -237,8 +242,7 @@ bool Ad_Adjusting::readData()
         if(len > 0){
             ret = recvStatus(buf, len);
         } else {
-            ret = overWork(tr("校准超时！"));
-            break;
+            ret = overWork(tr("校准超时！")); break;
         }
         if(mItem->step >= Test_vert) break;
     } while(true == ret);
@@ -251,9 +255,8 @@ bool Ad_Adjusting::startAdjust(YC_StandSource *source)
     mSource = source;
     mItem->step = Test_Ading;
     bool ret = sentCmd();
-    if(ret) {
-        if(mItem->step == Test_Ading)
-            ret = readData();
+    if(ret && (mItem->step == Test_Ading)){
+        ret = readData();
     }
 
     return ret;

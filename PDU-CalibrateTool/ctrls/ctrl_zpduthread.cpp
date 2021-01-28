@@ -20,7 +20,7 @@ Ctrl_ZpduThread *Ctrl_ZpduThread::bulid(QObject *parent)
 }
 
 
-void Ctrl_ZpduThread::funSwitch(uchar *on, uchar *off, int f)
+void Ctrl_ZpduThread::funSwitch(uchar *on, uchar *off)
 {
     int k = 5;
     static uchar cmd[68] = {0x7B, 0xC1, 0x00, 0xA2, 0xB2};
@@ -32,7 +32,7 @@ void Ctrl_ZpduThread::funSwitch(uchar *on, uchar *off, int f)
     for(int i=0; i<3; i++)  cmd[k++] = 0xC7 + i;
     for(int i=0; i<3; i++)  cmd[k++] = 0xD7 + i;
     for(int i=0; i<39; i++)  cmd[k++] = 0x00;
-    cmd[k++] = f; // 统一开关为1
+    cmd[k++] = 0; // 统一开关为1
 
     for(int i=0; i<3; i++)  cmd[k++] = 0x0E;
     cmd[k++] = 0x44;

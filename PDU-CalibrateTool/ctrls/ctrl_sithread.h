@@ -11,9 +11,9 @@ public:
     static Ctrl_SiThread *bulid(QObject *parent = nullptr);
 
 protected:
-    void funSwitch(uchar *on, uchar *off, int f);
+    void funSwitch(uchar *, uchar *){}
     bool sentRtuCmd(ushort reg, ushort value);
-    void funClearEle(uchar *buf);
+    void funClearEle(uchar *);
 };
 
 #endif // CTRL_SITHREAD_H
