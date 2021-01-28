@@ -28,6 +28,10 @@ void Home_SetDlg::initFunSlot()
     QString str = tr("数量:%1 \t成功:%2 \t失败:%3 ")
             .arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
     ui->cntLab->setText(str);
+
+    Ad_Config *con = Ad_Config::bulid();
+    int value = con->read("ai_mode", 0, "Sys").toInt();
+    ui->aiBox->setCurrentIndex(value);
 }
 
 void Home_SetDlg::updateSiLed()
@@ -66,4 +70,6 @@ void Home_SetDlg::on_resBtn_clicked()
 void Home_SetDlg::on_aiBox_currentIndexChanged(int index)
 {
     mItem->aiMode = index;
+    Ad_Config *con = Ad_Config::bulid();
+    con->write("ai_mode", index, "Sys");
 }
