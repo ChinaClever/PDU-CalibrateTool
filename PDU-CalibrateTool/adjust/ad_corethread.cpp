@@ -88,7 +88,7 @@ void Ad_CoreThread::collectData()
 
     Col_CoreThread *th = mResult->initThread();
     while(mItem->step != Test_Over) {
-        ret = th->readPduData();
+        ret = th->readPduData(); delay(2);
         if(ret){
             mResult->resTgData();
             mPacket->pass = Test_Success;
@@ -97,7 +97,6 @@ void Ad_CoreThread::collectData()
             mPacket->pass = Test_Fail;
             mPacket->status = tr("读取设备数据错误！");
         }
-        delay(2);
     }
     mPacket->status = tr("读取设备数据停止！");
 }
@@ -109,7 +108,6 @@ void Ad_CoreThread::verifyResult()
         mPacket->status = tr("自动验证开始");
         mResult->resEnter();
     }
-    mItem->step = Test_End;  // 结束验证
 }
 
 void Ad_CoreThread::writeLog()
@@ -137,6 +135,7 @@ void Ad_CoreThread::writeLog()
             mItem->user.clear();
     }
 
+    mModbus->writeLogs();
     Ad_Config::bulid()->writeCnt();
     if(it.sn.isEmpty()) return;
     DbLogs::bulid()->insertItem(it);
@@ -234,10 +233,10 @@ void Ad_CoreThread::workDown()
     if(mItem->step != Test_End) {
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
+    } else {
+         Col_CoreThread *th = mResult->initThread();
+         th->readPduData();
     }
-
-    writeLog(); msleep(20);  //记录校准设备校准成功还是校准失败
-    mItem->step = Test_End;
 }
 
 void Ad_CoreThread::run()
@@ -256,10 +255,10 @@ void Ad_CoreThread::run()
         case Test_vert: verifyResult(); break;
         }
 
-        if(mSource) mSource->powerDown();
-        mModbus->writeLogs();
-        mJig->down();
         isRun = false;
+        mItem->step = Test_End;
+        if(mSource) mSource->powerDown();
+        mJig->down(); writeLog();
     } else {
         qDebug() << "AdjustCoreThread run err" << isRun;
     }

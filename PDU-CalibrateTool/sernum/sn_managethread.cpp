@@ -196,9 +196,7 @@ bool SN_ManageThread::snEnter()
             mPacket->pass = Test_Fail;
         }
     }
-
     mPacket->sn = mSnItem.sn;
-    mModbus->delay(1);
 
     return ret;
 }

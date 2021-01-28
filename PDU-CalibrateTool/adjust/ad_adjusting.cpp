@@ -133,8 +133,9 @@ bool Ad_Adjusting::updateStatus(ushort status)
     QString str;
 
     if(0x1100 == status) {
-        if(mItem->aiMode) mItem->step = Test_End; //Test_vert;
+        uchar step = Test_vert;
         mPacket->status = tr("校准返回正常！");
+        if(mItem->aiMode) step = Test_End; mItem->step = step;
     } else if(0x1101 == status) {
         str = tr("校准失败");
         mItem->step = Test_vert;

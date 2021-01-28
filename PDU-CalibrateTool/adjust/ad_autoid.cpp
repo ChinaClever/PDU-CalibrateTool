@@ -60,8 +60,8 @@ bool Ad_AutoID::readDevId()
     for(int i=0; i<6; ++i) {
         if(i) mPacket->status = tr("第%1次读取设备ID ").arg(i+1);
         len = mModbus->rtuRead(&it, recv);
-        if(len) break; else if(!mModbus->delay(2)) break;
-        if(i>1 && i%2) mModbus->changeBaudRate();
+        if(len) break; else if(!mModbus->delay(1)) break;
+        if(i>1) mModbus->changeBaudRate(); mModbus->delay(1);
     }
 
     return analysDevType(recv, len);
@@ -73,7 +73,6 @@ bool Ad_AutoID::readDevType()
     bool ret = readDevId();
     if(ret) {
         mPacket->status = tr("识别模块成功！");
-        ret = mModbus->delay(1);
         if((IP_PDU == mDt->devType) && (DC == mDt->ac)){
             mPacket->status = tr("读取IP模块代号！");
             ret = mModbus->delay(7);

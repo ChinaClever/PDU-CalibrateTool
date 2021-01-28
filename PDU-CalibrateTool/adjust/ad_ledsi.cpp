@@ -101,8 +101,10 @@ bool Ad_LedSi::startAdjust(YC_StandSource *source)
     mItem->step = Test_Ading;
     bool ret = sentCmd();
     if(ret) {
-        if(mItem->aiMode) mItem->step = Test_End;
+        uchar step = Test_vert;
         mPacket->pass = Test_Success;
+        mPacket->status = tr("校准返回正常！");
+        if(mItem->aiMode) step = Test_End; mItem->step = step;
     } else {
         mItem->step = Test_vert;
         mPacket->pass = Test_Fail;
