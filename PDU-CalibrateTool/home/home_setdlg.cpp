@@ -32,6 +32,7 @@ void Home_SetDlg::initFunSlot()
     Ad_Config *con = Ad_Config::bulid();
     int value = con->read("ai_mode", 0, "Sys").toInt();
     ui->aiBox->setCurrentIndex(value);
+    mItem->aiMode = value;
 }
 
 void Home_SetDlg::updateSiLed()
