@@ -30,7 +30,7 @@ void Home_SetDlg::initFunSlot()
     ui->cntLab->setText(str);
 
     Ad_Config *con = Ad_Config::bulid();
-    int value = con->read("ai_mode", 0, "Sys").toInt();
+    int value = con->read("ai_mode", 1, "Sys").toInt();
     ui->aiBox->setCurrentIndex(value);
     mItem->aiMode = value;
 }
