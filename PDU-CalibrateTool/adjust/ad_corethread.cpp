@@ -135,8 +135,7 @@ void Ad_CoreThread::writeLog()
 
     if(mItem->cnt.num > 0) {
         mItem->cnt.num -= 1;
-        if(!mItem->cnt.num)
-            mItem->user.clear();
+        if(!mItem->cnt.num) mItem->user.clear();
     }
 
     mModbus->writeLogs();
@@ -147,21 +146,13 @@ void Ad_CoreThread::writeLog()
 
 bool Ad_CoreThread::initSource()
 {
-    bool ret = false;
+    int sec = 6; bool ret = false;
     mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
     if(mSource) {
-        mPacket->status = tr("标准源上电中");
-        if((mDt->devType > APDU) || (mDt->specs == Transformer)) {
-            ret = mSource->setVol(220, 0);
-        } else {
-            ret = mSource->setVol(220, 5);
-            mPacket->status = tr("等待设备启动完成！");
-            ret = mModbus->delay(1);
-        }
-
-        mPacket->status = tr("标准源设置电流！");
-        if(ret) mSource->setCur(60, 6);
+        if((mDt->devType>APDU)||(mDt->specs==Transformer)) sec = 0;
+        mPacket->status = tr("标准源上电中"); ret = mSource->setVol(220, sec);
+        mPacket->status = tr("标准源设置电流！"); if(ret) mSource->setCur(60, 6);
     } else {
         mItem->step = Test_End;
     }
@@ -202,16 +193,14 @@ bool Ad_CoreThread::initLedSi()
         ret = mSource->setVol(220, 0);
         if(AC == mDt->ac) {
             mPacket->status = tr("标准源设置电流！");
-            if(ret) mSource->setCur(60, 6);
-        }
-    } else return ret;
+            if(ret) mSource->setCur(60, 5);
+        } } else return ret;
 
     Col_CoreThread *th = mResult->initThread();
     if(th) {
         for(int i=0; i<5; i++) {
             if(i) mPacket->status = tr("读取设备数据 %1").arg(i);
-            ret = th->readPduData();
-            if(ret) break; else if(!delay(3)) break;
+            ret = th->readPduData(); if(ret) break; else if(!delay(3)) break;
         }
     }
 
@@ -220,8 +209,7 @@ bool Ad_CoreThread::initLedSi()
             mPacket->status = tr("等待设备稳定"); ret = delay(5);
         } else {
             mPacket->status = tr("设备相数不对 %1").arg(mDt->lines);
-            mPacket->pass = Test_Fail;
-            ret = false;
+            mPacket->pass = Test_Fail; ret = false;
         }
     }
 
@@ -264,8 +252,7 @@ void Ad_CoreThread::run()
         case Test_vert: verifyResult(); break;
         }
 
-        isRun = false;
-        mItem->step = Test_End;
+        isRun = false; mItem->step = Test_End;
         if(mSource) mSource->powerDown();
         mJig->down(); writeLog();
     } else {
