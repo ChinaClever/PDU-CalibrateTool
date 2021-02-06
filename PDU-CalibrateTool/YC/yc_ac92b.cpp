@@ -42,21 +42,25 @@ bool YC_Ac92b::setRange()
     return write(array);
 }
 
-bool YC_Ac92b::initFun()
+void YC_Ac92b::initFunSlot()
 {
-    QByteArray p("P3\r");
-    serialWrite(p);
+    bool ret = setRange();
+    if(ret) {
+        QByteArray p("P3\r");
+        serialWrite(p);
 
-    QByteArray f("F50\r");
-    serialWrite(f);
-
-    return setRange();
+        QByteArray f("F50\r");
+        serialWrite(f);
+    } else {
+        qDebug() << "YC_Ac92b initFunSlot err";
+    }
 }
 
 void YC_Ac92b::powerDown()
 {
     setValue("A", 0);
     setValue("V", 0);
+    initFunSlot();
 }
 
 
@@ -108,7 +112,7 @@ bool YC_Ac92b::handShake()
         int rtn = mSerial->transmit(array, res, 2);
         if(rtn > 0)  {
             acOrDc = 1;
-            ret = initFun();
+            QTimer::singleShot(800,this,SLOT(initFunSlot())); //延时初始化
         } else {
             acOrDc = 0;
             ret = false;

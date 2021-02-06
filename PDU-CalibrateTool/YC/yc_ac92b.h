@@ -18,10 +18,13 @@ public:
     bool setVol(int v, int sec=10);
 
 protected:
-    bool initFun();
     bool setRange();
     bool setValue(const QString &str, int v);
     bool serialWrite(const QByteArray &array);
+
+protected slots:
+    void initFunSlot();
+
 };
 
 #endif // YC_AC92B_H

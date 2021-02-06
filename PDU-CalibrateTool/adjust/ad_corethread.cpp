@@ -72,7 +72,7 @@ bool Ad_CoreThread::initThread()
     bool ret = false;
     mPacket->status = tr("给标准源上电中！");
     if(mSource){
-        ret = mSource->setVol(200, 6);
+        ret = mSource->setVol(200, 4);
         ret = mAutoID->readDevType();
     }
     if(!ret) ret = readDevInfo();
@@ -148,13 +148,13 @@ bool Ad_CoreThread::initSource()
     mSource = mResult->initStandSource();
     if(mSource) {
         mPacket->status = tr("标准源上电中");
-        ret = mSource->setVol(220, 6);
+        ret = mSource->setVol(220, 4);
 
         mPacket->status = tr("等待设备启动完成！");
-        ret = mModbus->delay(4);
+        ret = mModbus->delay(1);
 
         mPacket->status = tr("标准源设置电流！");
-        if(ret) mSource->setCur(60, 5);
+        if(ret) mSource->setCur(60, 3);
     } else {
         mItem->step = Test_End;
     }
@@ -192,10 +192,10 @@ bool Ad_CoreThread::initLedSi()
     mSource = mResult->initStandSource();
     if(mSource) {
         mPacket->status = tr("标准源上电中");
-        ret = mSource->setVol(220, 6);
+        ret = mSource->setVol(220, 3);
         if(AC == mDt->ac) {
             mPacket->status = tr("标准源设置电流！");
-            if(ret) mSource->setCur(60, 5);
+            if(ret) mSource->setCur(60, 3);
         }
     } else return ret;
 
