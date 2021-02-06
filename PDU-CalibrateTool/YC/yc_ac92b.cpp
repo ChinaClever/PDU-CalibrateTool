@@ -102,12 +102,11 @@ bool YC_Ac92b::handShake()
     array.append("H0\r");
 
     bool ret = setBaudRate(9600);
-    if(ret) {
+    if(ret && setRange()) {
         QByteArray res;
         int rtn = mSerial->transmit(array, res, 2);
         if(rtn > 0)  {
             acOrDc = 1;
-            ret = setRange();
         } else {
             acOrDc = 0;
             ret = false;
