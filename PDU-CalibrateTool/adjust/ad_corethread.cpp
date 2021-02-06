@@ -70,12 +70,16 @@ void Ad_CoreThread::startResult()
 bool Ad_CoreThread::initThread()
 {
     bool ret = false;
-    mPacket->status = tr("给标准源上电中！");
-    if(mSource){
-        ret = mSource->setVol(200, 4);
-        ret = mAutoID->readDevType();
+    if(mItem->si_led) {
+        ret = initLedSi();
+    } else {
+        if(mSource){
+            mPacket->status = tr("给标准源上电中！");
+            ret = mSource->setVol(200, 4);
+            ret = mAutoID->readDevType();
+        }
+        if(!ret) ret = readDevInfo();
     }
-    if(!ret) ret = readDevInfo();
 
     return ret;
 }
@@ -148,13 +152,16 @@ bool Ad_CoreThread::initSource()
     mSource = mResult->initStandSource();
     if(mSource) {
         mPacket->status = tr("标准源上电中");
-        ret = mSource->setVol(220, 4);
-
-        mPacket->status = tr("等待设备启动完成！");
-        ret = mModbus->delay(1);
+        if((mDt->devType > APDU) || (mDt->specs == Transformer)) {
+            ret = mSource->setVol(220, 0);
+        } else {
+            ret = mSource->setVol(220, 5);
+            mPacket->status = tr("等待设备启动完成！");
+            ret = mModbus->delay(1);
+        }
 
         mPacket->status = tr("标准源设置电流！");
-        if(ret) mSource->setCur(60, 3);
+        if(ret) mSource->setCur(60, 6);
     } else {
         mItem->step = Test_End;
     }
@@ -192,10 +199,10 @@ bool Ad_CoreThread::initLedSi()
     mSource = mResult->initStandSource();
     if(mSource) {
         mPacket->status = tr("标准源上电中");
-        ret = mSource->setVol(220, 3);
+        ret = mSource->setVol(220, 0);
         if(AC == mDt->ac) {
             mPacket->status = tr("标准源设置电流！");
-            if(ret) mSource->setCur(60, 3);
+            if(ret) mSource->setCur(60, 6);
         }
     } else return ret;
 
@@ -209,7 +216,9 @@ bool Ad_CoreThread::initLedSi()
     }
 
     if(ret) {
-        if(mDt->lines != mItem->si_line) {
+        if(mDt->lines == mItem->si_line) {
+            mPacket->status = tr("等待设备稳定"); ret = delay(5);
+        } else {
             mPacket->status = tr("设备相数不对 %1").arg(mDt->lines);
             mPacket->pass = Test_Fail;
             ret = false;
@@ -234,8 +243,8 @@ void Ad_CoreThread::workDown()
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
     } else {
-         Col_CoreThread *th = mResult->initThread();
-         th->readPduData();
+        Col_CoreThread *th = mResult->initThread();
+        th->readPduData();
     }
 }
 

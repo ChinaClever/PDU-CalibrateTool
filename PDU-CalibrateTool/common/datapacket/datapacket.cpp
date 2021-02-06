@@ -11,14 +11,20 @@ sDataPacket::sDataPacket()
     data = new sDataUnit;
     devType = new sDevType;
     clear();
+    devType->specs = 0;
+    devType->devType = 0;
 }
 
 void sDataPacket::clear()
 {
+    uchar sp = devType->specs;
+    uchar dt = devType->devType;
     memset(tg, 0, sizeof(sTgObjData));
     memset(data, 0, sizeof(sDataUnit));
     memset(devType, 0, sizeof(sDevType));
 
+    devType->devType = dt;
+    devType->specs = sp;
     dev_type.clear();
     status.clear();
     sn.clear();
