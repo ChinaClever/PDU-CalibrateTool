@@ -146,13 +146,13 @@ void Ad_CoreThread::writeLog()
 
 bool Ad_CoreThread::initSource()
 {
-    int sec = 6; bool ret = false;
+    int sec = 5; bool ret = false;
     mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
     if(mSource) {
         if((mDt->devType>APDU)||(mDt->specs==Transformer)) sec = 0;
         mPacket->status = tr("标准源上电中"); ret = mSource->setVol(220, sec);
-        mPacket->status = tr("标准源设置电流！"); if(ret) mSource->setCur(60, 6);
+        mPacket->status = tr("标准源设置电流！"); if(ret) mSource->setCur(60, 4);
     } else {
         mItem->step = Test_End;
     }
