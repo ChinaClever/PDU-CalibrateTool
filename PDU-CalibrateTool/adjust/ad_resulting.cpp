@@ -382,9 +382,9 @@ bool Ad_Resulting::noLoadCurCheck(int cnt)
                 res = false;
                 if(cnt > 2) {
                     mData->status[k] = Test_Fail;
-                    mPacket->status = tr("校验数据: 空载电流0A 第%1位 ").arg(k+1);
-                    if(mData->cur[k]) mPacket->status += tr("电流错误");
-                    if(mData->pow[k]) mPacket->status += tr("功率错误");
+                    mPacket->status = tr("空载校验:第%1位").arg(k+1);
+                    if(mData->cur[k]) mPacket->status += tr("电流有底数");
+                    if(mData->pow[k]) mPacket->status += tr(" 功率有底数");
                 }
             } else {
                 mData->status[k] = Test_Success;
@@ -398,7 +398,7 @@ bool Ad_Resulting::noLoadCurFun()
 {
     bool ret = true;
     for(int i=0; i<5; ++i) {
-        if(i)mPacket->status = tr("校验数据: 空载电流 第%2次检查").arg(i+1);
+        if(i)mPacket->status = tr("空载校验: 第%2次检查").arg(i+1);
         else delay(3);
 
         mCollect->readPduData();
@@ -413,7 +413,7 @@ bool Ad_Resulting::noLoadCurFun()
 bool Ad_Resulting::noLoadEnter()
 {
     mCtrl->openAllSwitch();
-    mPacket->status = tr("验证电流：空载电流检查");
+    mPacket->status = tr("空载验证：设置空载电流");
     bool ret = mSource->setCur(0, 4);
     if(ret) ret = noLoadCurFun();
     if(ret) ret = volErrRange();
