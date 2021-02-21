@@ -227,10 +227,10 @@ void Ad_CoreThread::workDown()
         ret = mAdjust->startAdjust(mSource);
     }
 
-    if(mItem->step != Test_End) {
+    if(mItem->step == Test_vert) {
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
-    } else {
+    } else if(mItem->step == Test_End) {
         Col_CoreThread *th = mResult->initThread();
         th->readPduData();
     }
