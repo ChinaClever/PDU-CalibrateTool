@@ -104,6 +104,7 @@ bool Ad_LedSi::startAdjust(YC_StandSource *source)
         mItem->step = Test_vert;
         mPacket->pass = Test_Success;
         mPacket->status = tr("校准返回正常！");
+        ret = mModbus->delay(1);
     } else {
         mItem->step = Test_vert;
         mPacket->pass = Test_Fail;

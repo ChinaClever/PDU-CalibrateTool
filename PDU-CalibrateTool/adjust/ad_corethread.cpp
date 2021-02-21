@@ -193,7 +193,7 @@ bool Ad_CoreThread::initLedSi()
         ret = mSource->setVol(220, 0);
         if(AC == mDt->ac) {
             mPacket->status = tr("标准源设置电流！");
-            if(ret) ret = mSource->setCur(60, 5);
+            if(ret) ret = mSource->setCur(60, 4);
         } } else return ret;
 
     Col_CoreThread *th = mResult->initThread();
@@ -206,7 +206,7 @@ bool Ad_CoreThread::initLedSi()
 
     if(ret) {
         if(mDt->lines == mItem->si_line) {
-            mPacket->status = tr("等待设备稳定"); ret = delay(4);
+            mPacket->status = tr("等待设备稳定"); ret = delay(5);
         } else {
             mPacket->status = tr("设备相数不对 %1").arg(mDt->lines);
             mPacket->pass = Test_Fail; ret = false;
