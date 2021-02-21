@@ -67,7 +67,7 @@ void Ad_CoreThread::startResult()
     }
 }
 
-bool Ad_CoreThread::initThread()
+bool Ad_CoreThread::initThread(int v)
 {
     bool ret = false;
     if(mItem->si_led) {
@@ -75,7 +75,7 @@ bool Ad_CoreThread::initThread()
     } else {
         if(mSource){
             mPacket->status = tr("给标准源上电中！");
-            ret = mSource->setVol(200, 4);
+            ret = mSource->setVol(v, 4);
             ret = mAutoID->readDevType();
         }
         if(!ret) ret = readDevInfo();
@@ -86,7 +86,7 @@ bool Ad_CoreThread::initThread()
 
 void Ad_CoreThread::collectData()
 {
-    bool ret = initThread();
+    bool ret = initThread(220);
     if(ret) mPacket->status = tr("正在读取设备数据");
     else {mItem->step = Test_End; return;}
 
@@ -107,7 +107,7 @@ void Ad_CoreThread::collectData()
 
 void Ad_CoreThread::verifyResult()
 {
-    bool ret = initThread();
+    bool ret = initThread(200);
     if(ret) {
         mPacket->status = tr("自动验证开始");
         mResult->resEnter();
@@ -152,7 +152,7 @@ bool Ad_CoreThread::initSource()
     if(mSource) {
         if((mDt->devType>APDU)||(mDt->specs==Transformer)) sec = 0;
         mPacket->status = tr("标准源上电中"); ret = mSource->setVol(220, sec);
-        mPacket->status = tr("标准源设置电流！"); if(ret) mSource->setCur(60, 4);
+        mPacket->status = tr("标准源设置电流！"); if(ret) ret = mSource->setCur(60, 4);
     } else {
         mItem->step = Test_End;
     }
@@ -163,7 +163,7 @@ bool Ad_CoreThread::initSource()
 bool Ad_CoreThread::readDevInfo()
 {
     bool ret = initSource();
-    if(mSource) {
+    if(mSource && ret) {
         ret = mAutoID->readDevType();//读取设备类型
         if(ret){
             if(DC == mDt->ac) mSource->setCur(0, 0);
@@ -193,11 +193,11 @@ bool Ad_CoreThread::initLedSi()
         ret = mSource->setVol(220, 0);
         if(AC == mDt->ac) {
             mPacket->status = tr("标准源设置电流！");
-            if(ret) mSource->setCur(60, 5);
+            if(ret) ret = mSource->setCur(60, 5);
         } } else return ret;
 
     Col_CoreThread *th = mResult->initThread();
-    if(th) {
+    if(th && ret) {
         for(int i=0; i<5; i++) {
             if(i) mPacket->status = tr("读取设备数据 %1").arg(i);
             ret = th->readPduData(); if(ret) break; else if(!delay(3)) break;

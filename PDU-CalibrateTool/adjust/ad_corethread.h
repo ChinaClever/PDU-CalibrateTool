@@ -19,7 +19,7 @@ public:
 protected:
     void run();
     bool initLedSi();
-    bool initThread();
+    bool initThread(int v);
     bool initSource();
 
     void writeLog();
