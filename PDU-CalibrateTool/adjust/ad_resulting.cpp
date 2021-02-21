@@ -430,7 +430,7 @@ bool Ad_Resulting::powerOn()
     }
 
     mItem->step = Test_vert;
-    ret = mSource->setVol(200, 0);
+    ret = mSource->setVol(200, 1);
     if(mPacket->devType->specs != Transformer) {
         for(int i=0; i<3; ++i) {
             ret = mCollect->readPduData();
