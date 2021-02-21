@@ -102,6 +102,7 @@ bool Ad_Resulting::curRangeByID(int i, int exValue, int cnt)
     bool ret = curErrRange(exValue, cur);
     mData->cured[i] = mData->cur[i];
     if(ret) {
+        if(mItem->si_led) return ret;
         ret = powRangeByID(i, exValue, cnt);
     } else {
         if(cnt > 2) {
