@@ -206,7 +206,7 @@ bool Ad_CoreThread::initLedSi()
 
     if(ret) {
         if(mDt->lines == mItem->si_line) {
-            mPacket->status = tr("等待设备稳定"); ret = delay(5);
+            mPacket->status = tr("等待设备稳定"); ret = delay(4);
         } else {
             mPacket->status = tr("设备相数不对 %1").arg(mDt->lines);
             mPacket->pass = Test_Fail; ret = false;
