@@ -413,7 +413,7 @@ bool Ad_Resulting::noLoadEnter()
 {
     mCtrl->openAllSwitch();
     mPacket->status = tr("验证电流：空载电流检查");
-    bool ret = mSource->setCur(0, 3);
+    bool ret = mSource->setCur(0, 4);
     if(ret) ret = noLoadCurFun();
     if(ret) ret = volErrRange();
     return ret;
@@ -421,18 +421,19 @@ bool Ad_Resulting::noLoadEnter()
 
 bool Ad_Resulting::powerOn()
 {
+    bool ret = false;
     if(!mSource) initStandSource();
-    if(mSource) initThread(); else return false;
+    if(mSource) initThread(); else return ret;
     if(6 == mPacket->data->reserve) {
-        mSource->powerDown(); delay(2);
+        mSource->powerDown(); ret = delay(3);
     }
 
     mItem->step = Test_vert;
-    bool ret = mSource->setVol(200, 1);
-    if(ret) {
+    ret = mSource->setVol(200, 0);
+    if(mPacket->devType->specs != Transformer) {
         for(int i=0; i<3; ++i) {
             ret = mCollect->readPduData();
-            if(ret) break; else delay(2);
+            if(ret) break; else if(!delay(3)) break;
         }
         if(!ret) mPacket->status = tr("通讯协议不正确");
     }
@@ -453,7 +454,7 @@ bool Ad_Resulting::resEnter()
             }
 
             mPacket->status = tr("验证电流：期望电流%1A").arg(exCur);
-            ret = mSource->setCur(exCur*10, 2);
+            ret = mSource->setCur(exCur*10, 3);
             if(ret) ret = workDown(exCur*AD_CUR_RATE);
             if(!ret) break;
         }
