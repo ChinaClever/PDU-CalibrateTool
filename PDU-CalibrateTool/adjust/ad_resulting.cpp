@@ -434,6 +434,7 @@ bool Ad_Resulting::powerOn()
             ret = mCollect->readPduData();
             if(ret) break; else delay(2);
         }
+        if(!ret) mPacket->status = tr("通讯协议不正确");
     }
 
     return ret;
@@ -456,10 +457,8 @@ bool Ad_Resulting::resEnter()
             if(ret) ret = workDown(exCur*AD_CUR_RATE);
             if(!ret) break;
         }
-    }else{
-        mPacket->status = tr("通讯协议不正确");
+        if(ret) ret = noLoadEnter();
     }
-    if(ret) ret = noLoadEnter();
 
     return workResult(ret);
 }

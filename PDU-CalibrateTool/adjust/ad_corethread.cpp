@@ -220,8 +220,8 @@ void Ad_CoreThread::workDown()
 {
     bool ret = true;
     if(mItem->si_led) {
-        ret = initLedSi();
-        if(ret) ret = mLedSi->startAdjust(mSource);
+        ret = initLedSi(); if(!ret) return;
+        ret = mLedSi->startAdjust(mSource);
     } else {
         ret = readDevInfo(); if(!ret) return;
         ret = mAdjust->startAdjust(mSource);
