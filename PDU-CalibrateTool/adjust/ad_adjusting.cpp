@@ -108,7 +108,7 @@ bool Ad_Adjusting::writePhase()
 bool Ad_Adjusting::sentCmd()
 {
     mPacket->status = tr("即将开始校准！");
-    mModbus->delay(3);
+    mModbus->delay(5);
 
     mPacket->status = tr("发送校准解锁命令！");
     bool ret = writeCmd(0xA0, 0);
