@@ -64,6 +64,7 @@ void Home_SetDlg::on_resBtn_clicked()
         mItem->cnt.all = 0;
         mItem->cnt.ok = 0;
         mItem->cnt.err = 0;
+        initFunSlot();
         Ad_Config::bulid()->writeCnt();
     }
 }

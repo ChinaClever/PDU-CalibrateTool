@@ -150,9 +150,9 @@ bool Ad_CoreThread::initSource()
     mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
     if(mSource) {
-        if((mDt->devType>APDU)||(mDt->specs==Transformer)) sec = 0;
+        if((mDt->devType>APDU)||(mDt->specs==Transformer)) sec = 1;
         mPacket->status = tr("标准源上电中"); ret = mSource->setVol(220, sec);
-        mPacket->status = tr("标准源设置电流！"); if(ret) ret = mSource->setCur(60, 4);
+        mPacket->status = tr("标准源设置电流！"); if(ret) ret = mSource->setCur(60, 6);
     } else {
         mItem->step = Test_End;
     }
@@ -190,10 +190,10 @@ bool Ad_CoreThread::initLedSi()
     mSource = mResult->initStandSource();
     if(mSource) {
         mPacket->status = tr("标准源上电中");
-        ret = mSource->setVol(220, 0);
+        ret = mSource->setVol(220, 1);
         if(AC == mDt->ac) {
             mPacket->status = tr("标准源设置电流！");
-            if(ret) ret = mSource->setCur(60, 4);
+            if(ret) ret = mSource->setCur(60, 6);
         } } else return ret;
 
     Col_CoreThread *th = mResult->initThread();
@@ -206,7 +206,7 @@ bool Ad_CoreThread::initLedSi()
 
     if(ret) {
         if(mDt->lines == mItem->si_line) {
-            mPacket->status = tr("等待设备稳定"); ret = delay(6);
+            mPacket->status = tr("等待设备稳定"); ret = delay(8);
         } else {
             mPacket->status = tr("设备相数不对 %1").arg(mDt->lines);
             mPacket->pass = Test_Fail; ret = false;
