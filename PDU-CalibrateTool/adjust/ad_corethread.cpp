@@ -199,7 +199,7 @@ bool Ad_CoreThread::initLedSi()
     if(th && ret) {
         for(int i=0; i<5; i++) {
             mPacket->status = tr("读取设备数据");
-            if(i) mPacket->status += tr(" %1").arg(i);
+            if(i) mPacket->status += tr(" 第%1次").arg(i);
             ret = th->readPduData(); if(ret) break; else if(!delay(3)) break;
         }
     }
