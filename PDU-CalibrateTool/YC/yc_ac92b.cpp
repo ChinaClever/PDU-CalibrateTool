@@ -73,17 +73,13 @@ bool YC_Ac92b::powerOn(int v)
 bool YC_Ac92b::setVol(int v, int sec)
 {
     int vol = 100;
-    QByteArray p("P3\r");
     if(v == 200) {
         vol = 91;
-        p = "P5\r"; // 改变功率因素
+        serialWrite("P5\r"); // 改变功率因素
     }
 
     bool ret = setValue("V", vol);
-    if(ret) {
-        serialWrite(p);
-        ret = delay(sec);
-    }
+    if(ret) ret = delay(sec);
 
     return ret;
 }
@@ -92,6 +88,7 @@ bool YC_Ac92b::setCur(int v, int sec)
 {
     bool ret = setValue("A", v);
     if(ret) {
+        if(v == 60) serialWrite("P3\r");
         ret = delay(sec);
     }
     return ret;

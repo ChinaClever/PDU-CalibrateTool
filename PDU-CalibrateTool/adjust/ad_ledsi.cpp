@@ -68,7 +68,7 @@ bool Ad_LedSi::writeAc()
     int line = mPacket->devType->lines;
     for(int i=0; i<line; ++i) {
         mPacket->status = tr("L%1 校准").arg(i+1);
-        if(i) ret = mModbus->delay(3);
+        ret = mModbus->delay(3);
         if(ret) ret = writeCmd(0xA1, i);
         if(ret) {
             mPacket->status += tr("成功！");

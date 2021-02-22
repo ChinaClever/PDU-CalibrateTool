@@ -128,14 +128,13 @@ void Ad_CoreThread::writeLog()
     if(mPacket->pass == Test_Success) {
         it.result = tr("通过");
         mItem->cnt.ok += 1;
+        if(mItem->cnt.num > 0) {
+            mItem->cnt.num -= 1;
+            if(!mItem->cnt.num) mItem->user.clear();
+        }
     } else {
         mItem->cnt.err += 1;
         it.result = tr("失败：%1").arg(mPacket->status);
-    }
-
-    if(mItem->cnt.num > 0) {
-        mItem->cnt.num -= 1;
-        if(!mItem->cnt.num) mItem->user.clear();
     }
 
     mModbus->writeLogs();
@@ -199,7 +198,8 @@ bool Ad_CoreThread::initLedSi()
     Col_CoreThread *th = mResult->initThread();
     if(th && ret) {
         for(int i=0; i<5; i++) {
-            if(i) mPacket->status = tr("读取设备数据 %1").arg(i);
+            mPacket->status = tr("读取设备数据");
+            if(i) mPacket->status += tr(" %1").arg(i);
             ret = th->readPduData(); if(ret) break; else if(!delay(3)) break;
         }
     }
