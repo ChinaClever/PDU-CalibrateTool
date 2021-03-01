@@ -72,7 +72,7 @@ bool Ad_Resulting::curTgCheck(int exValue)
 bool Ad_Resulting::powRangeByID(int i, int exValue, int cnt)
 {
     sDevType *dt = mPacket->devType;
-    exValue = mItem->vol * exValue/AD_CUR_RATE;
+    exValue = mItem->vol * mData->cur[i]/(10*mData->rate);  //exValue/AD_CUR_RATE;
     if(AC == dt->ac) exValue *= 0.5;
     mPacket->status = tr("期望功率%1kW 第%2位 功率").arg(exValue/1000.0).arg(i+1);
 
@@ -398,7 +398,7 @@ bool Ad_Resulting::noLoadCurFun()
 {
     bool ret = true;
     for(int i=0; i<5; ++i) {
-        if(i)mPacket->status = tr("空载校验: 第%2次检查").arg(i+1);
+        if(i)mPacket->status = tr("空载校验: 第%1次检查").arg(i+1);
         else delay(3);
 
         mCollect->readPduData();
@@ -415,8 +415,8 @@ bool Ad_Resulting::noLoadEnter()
     mCtrl->openAllSwitch();
     mPacket->status = tr("空载验证：设置空载电流");
     bool ret = mSource->setCur(0, 4);
-    if(ret) ret = noLoadCurFun();
     if(ret) ret = volErrRange();
+    if(ret) ret = noLoadCurFun();
     return ret;
 }
 
