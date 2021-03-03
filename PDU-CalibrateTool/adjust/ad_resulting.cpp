@@ -72,7 +72,7 @@ bool Ad_Resulting::curTgCheck(int exValue)
 bool Ad_Resulting::powRangeByID(int i, int exValue, int cnt)
 {
     sDevType *dt = mPacket->devType;
-    exValue = mItem->vol * mData->cur[i]/(10*mData->rate);  //exValue/AD_CUR_RATE;
+    exValue = mItem->vol * exValue/AD_CUR_RATE;
     if(AC == dt->ac) exValue *= 0.5;
     mPacket->status = tr("期望功率%1kW 第%2位 功率").arg(exValue/1000.0).arg(i+1);
 
