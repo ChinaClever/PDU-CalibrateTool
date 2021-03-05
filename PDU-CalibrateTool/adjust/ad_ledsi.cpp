@@ -64,21 +64,21 @@ bool Ad_LedSi::writeDc()
 
 bool Ad_LedSi::writeAc()
 {
-    bool ret = true;
+    bool res = true;
     int line = mPacket->devType->lines;
     for(int i=0; i<line; ++i) {
         mPacket->status = tr("L%1 校准").arg(i+1);
-        ret = mModbus->delay(3);
+        bool ret = mModbus->delay(3);
         if(ret) ret = writeCmd(0xA1, i);
         if(ret) {
             mPacket->status += tr("成功！");
         } else {
             mPacket->status += tr("失败！");
-            break;
+            res = false;
         }
     }
 
-    return ret;
+    return res;
 }
 
 
