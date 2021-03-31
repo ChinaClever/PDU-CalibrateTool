@@ -26,7 +26,7 @@ bool Ad_Modbus::delay(int s)
 {
     bool ret = true;
     for(int i=0; i<7*s; ++i) {
-        if(mItem->step < Test_Over) {
+        if(mItem->step < Test_End) {
             msleep(100);
         } else {
             ret = false;
