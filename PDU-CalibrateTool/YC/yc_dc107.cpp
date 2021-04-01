@@ -57,11 +57,9 @@ bool YC_Dc107::setRange()
 {
     bool ret = setValue('P', 0x11);
     if(ret) {
-        //delay(2);
         ret = setValue('U', 7);
-        if(ret) {
-            //delay(2);
-            ret = setValue('I', 12);
+        if(ret) {            
+            ret = setValue('I', 12); delay(1);
         }
     }
 
