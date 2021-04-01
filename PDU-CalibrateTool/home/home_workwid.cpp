@@ -224,7 +224,7 @@ void Home_WorkWid::on_updateBtn_clicked()
     QString str = tr("停止采集");
     if(!initWid()) return;
 
-    if(mItem->step != Collect_Start) {
+    if(mItem->step != Tset_Collect) {
         mCore->startCollect();
     } else {
         en = true;

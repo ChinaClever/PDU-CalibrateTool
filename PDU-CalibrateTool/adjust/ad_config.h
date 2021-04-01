@@ -9,8 +9,8 @@ enum {
     Test_Start, // 开始
     Test_Ading,
     Test_vert, // 验证
+    Tset_Collect, // 数据采集
     Test_End, // 完成
-    Collect_Start, // 数据采集
 
     Test_Success=1,
     Test_Fail,

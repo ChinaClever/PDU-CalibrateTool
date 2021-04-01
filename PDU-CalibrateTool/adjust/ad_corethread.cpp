@@ -54,7 +54,7 @@ void Ad_CoreThread::startAdjust()
 void Ad_CoreThread::startCollect()
 {
     if(!isRun) {
-        mItem->step = Collect_Start;
+        mItem->step = Tset_Collect;
         start();
     }
 }
@@ -248,7 +248,7 @@ void Ad_CoreThread::run()
 
         switch (mItem->step) {
         case Test_Start: workDown(); break;
-        case Collect_Start: collectData(); break;
+        case Tset_Collect: collectData(); break;
         case Test_vert: verifyResult(); break;
         }
 
