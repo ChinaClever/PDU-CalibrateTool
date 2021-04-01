@@ -61,6 +61,7 @@ bool Ad_Adjusting::waitDcRecv()
     } else {
         ret = overWork(tr("直流偏移等待超时！"));
     }
+    if(3 == mPacket->devType->version) ret = mModbus->delay(25);
 
     return ret;
 }
@@ -143,7 +144,7 @@ bool Ad_Adjusting::updateStatus(ushort status)
     } else if(0x1102 == status) {
         mPacket->status = tr("校准解锁成功");
     } else if(0x1108 == status) {
-        mPacket->status = tr("准直流偏移校准成功");
+        mPacket->status = tr("直流偏移校准成功");
     }else if(0x1109 == status) {
         str = tr("直流偏移校准失败");
     }else if(0x110A == status) {
