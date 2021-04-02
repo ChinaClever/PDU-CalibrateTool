@@ -243,3 +243,8 @@ void Home_WorkWid::on_setBtn_clicked()
     mSetDlg->initFunSlot();
     mSetDlg->exec();
 }
+
+void Home_WorkWid::on_addrSpin_valueChanged(int arg1)
+{
+    mItem->addr = arg1;
+}

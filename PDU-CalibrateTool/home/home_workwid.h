@@ -35,6 +35,8 @@ private slots:
     void on_updateBtn_clicked();
     void on_setBtn_clicked();
 
+    void on_addrSpin_valueChanged(int arg1);
+
 private:
     Ui::Home_WorkWid *ui;
     Home_SetDlg *mSetDlg;

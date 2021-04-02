@@ -258,7 +258,7 @@ bool Ad_Adjusting::startAdjust(YC_StandSource *source)
     mItem->step = Test_Ading;
     bool ret = sentCmd();
     if(ret && (mItem->step == Test_Ading)){
-        ret = readData();
+        ret = readData(); if(ret) ret = mModbus->delay(3);
     }
 
     return ret;

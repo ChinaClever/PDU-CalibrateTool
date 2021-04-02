@@ -145,9 +145,8 @@ bool Ad_Resulting::volErrRange()
         if(i < mData->size) {
             ret = volErrRangeByID(i);
             if(!ret) {
-                if(k++ < 5){
-                    i = -1;
-                    delay(2);
+                if(k++ < 6){
+                    i = -1; delay(2);
                     mCollect->readPduData();
                 } else {
                     ret = false;
@@ -178,7 +177,7 @@ bool Ad_Resulting::outputCurById(int k, int exValue)
     for(int i=0; i<=5; ++i) {
         mCollect->readPduData();
         ret = curRangeByID(k, exValue, i);
-        if(!ret) delay(3); else break;
+        if(!ret) delay(2); else break;
     }
     mModbus->appendLogItem(ret);
 
@@ -192,10 +191,12 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
         k = outputIdCheck(k);
         if(k < mData->size) {
             mPacket->status = tr("校验数据 期望电流%1A 第%2输出位 ").arg(exValue/AD_CUR_RATE).arg(k+1);
-            mCtrl->openOnlySwitch(k); if(!delay(3)) break;
+            mCtrl->openOutputSwitch(k); if(!delay(1)) break;
+            mCtrl->openOnlySwitch(k); if(!delay(1)) break;
+            mCtrl->openOnlySwitch(k); if(!delay(1)) break;
             ret = outputCurById(k, exValue);
             if(ret) {
-                ret = delay(2); if(!ret) break;
+                ret = delay(1); if(!ret) break;
             } else {
                 //mPacket->status = tr("错误");
                 break;
@@ -286,9 +287,7 @@ bool Ad_Resulting::eachCurEnter(int exValue)
 bool Ad_Resulting::outputCurCheck(int exValue)
 {
     bool ret = outputSwCtrl(exValue);
-    if(ret) {
-        mCtrl->openAllSwitch();
-    }
+    mCtrl->openAllSwitch();
 
     return ret;
 }
@@ -412,11 +411,14 @@ bool Ad_Resulting::noLoadCurFun()
 
 bool Ad_Resulting::noLoadEnter()
 {
-    mCtrl->openAllSwitch();
     mPacket->status = tr("空载验证：设置空载电流");
-    bool ret = mSource->setCur(0, 4);
-    if(ret) ret = volErrRange();
+    bool ret = mSource->setCur(0, 5);
     if(ret) ret = noLoadCurFun();
+    if(ret) {
+        mCtrl->closeAllSwitch();
+        ret = volErrRange();
+        mCtrl->openAllSwitch();
+    }
     return ret;
 }
 
@@ -428,7 +430,7 @@ bool Ad_Resulting::powerOn()
     if(6 == mPacket->data->reserve) {
         mSource->powerDown(); ret = delay(3);
     }
-
+    mCtrl->factorySet();
     mItem->step = Test_vert;
     ret = mSource->setVol(200, 1);
     if(mPacket->devType->specs != Transformer) {

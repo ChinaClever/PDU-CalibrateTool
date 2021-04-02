@@ -16,7 +16,7 @@ SerialPort::SerialPort(QObject *parent) : QThread(parent)
     mSerial = NULL;
 
     timer = new QTimer(this);
-    timer->start(SERIAL_TIMEOUT);
+    timer->start(2*SERIAL_TIMEOUT);
     connect(timer, SIGNAL(timeout()),this, SLOT(timeoutDone()));
 }
 
@@ -116,10 +116,10 @@ bool SerialPort::isContains(const QString &name)
 
 void SerialPort::timeoutDone()
 {
-    if(mCount++ % 7) {
-        recvSlot();
-    } else {
+    if(mWriteArrays.size()) {
         writeSlot();
+    } else {
+        recvSlot();
     }
 }
 
@@ -211,7 +211,7 @@ int SerialPort::read(QByteArray &array, int secs)
         for(int i=0; i<10*secs; ++i) {
             int rtn = mSerialData.size();
             if(rtn > 0) {
-                msleep(450);
+                msleep(650);
                 QWriteLocker locker(&mRwLock);
                 array += mSerialData;
                 mSerialData.clear();

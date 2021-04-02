@@ -104,7 +104,7 @@
      </size>
     </property>
     <property name="text">
-     <string>清除电能</string>
+     <string>清除延时</string>
     </property>
    </widget>
   </widget>
@@ -284,6 +284,9 @@
       <width>0</width>
       <height>30</height>
      </size>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
     </property>
     <item>
      <property name="text">

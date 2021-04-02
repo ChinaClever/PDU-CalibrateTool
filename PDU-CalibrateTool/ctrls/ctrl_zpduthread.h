@@ -10,9 +10,10 @@ class Ctrl_ZpduThread : public Ctrl_CoreThread
 public:
     static Ctrl_ZpduThread *bulid(QObject *parent = nullptr);
 
+    bool factorySet();
 protected:
     void funSwitch(uchar *on, uchar *off);
-    void funClearEle(uchar *buf);
+    void funClearEle(uchar *buf);    
 };
 
 #endif // CTRL_ZPDUTHREAD_H

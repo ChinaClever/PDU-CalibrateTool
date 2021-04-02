@@ -26,7 +26,7 @@ Home_OutputWid::~Home_OutputWid()
 void Home_OutputWid::initFunSlot()
 {
     this->setEnabled(true);
-    on_devBox_currentIndexChanged(0);
+    on_devBox_currentIndexChanged(1);
 }
 
 void Home_OutputWid::on_onAllBtn_clicked()
@@ -36,7 +36,9 @@ void Home_OutputWid::on_onAllBtn_clicked()
 
 void Home_OutputWid::on_eleAllBtn_clicked()
 {
-    if(mThread)mThread->clearAllEle();
+    if(mThread)mThread->factorySet();
+    //mThread->clearAllEle();
+     InfoMsgBox box(this, tr("延时已清除"));
 }
 
 void Home_OutputWid::on_closeAllBtn_clicked()
@@ -48,7 +50,7 @@ void Home_OutputWid::on_openBtn_clicked()
 {
     if(mThread) {
         int id = ui->spinBox->value();
-        mThread->openOutputSwitch(id-1);
+        mThread->openOnlySwitch(id-1);
     }
 }
 
@@ -68,7 +70,6 @@ void Home_OutputWid::on_eleBtn_clicked()
     }
 }
 
-
 void Home_OutputWid::workDownSlot()
 {
     int size = ui->opSpin->value();
@@ -84,8 +85,8 @@ void Home_OutputWid::on_swAllBtn_clicked()
 {
     if(!mThread) return;
     QuMsgBox box(this, tr("确认是否开启自动切换功能?"));
-    if(box.Exec()) {       
-       QTimer::singleShot(100,this,SLOT(workDownSlot())); mId=0;
+    if(box.Exec()) {
+        QTimer::singleShot(100,this,SLOT(workDownSlot())); mId=0;
     }
 }
 

@@ -9,7 +9,7 @@ class Ctrl_MpduThread : public Ctrl_CoreThread
     explicit Ctrl_MpduThread(QObject *parent = nullptr);
 public:
     static Ctrl_MpduThread *bulid(QObject *parent = nullptr);
-
+    bool factorySet();
 protected:
     void funSwitch(uchar *on, uchar *off);
     void funClearEle(uchar *buf);
