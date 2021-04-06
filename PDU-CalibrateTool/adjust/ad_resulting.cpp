@@ -193,7 +193,7 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
             mPacket->status = tr("校验数据 期望电流%1A 第%2输出位 ").arg(exValue/AD_CUR_RATE).arg(k+1);
             mCtrl->openOutputSwitch(k); if(!delay(1)) break;
             mCtrl->openOnlySwitch(k); if(!delay(1)) break;
-            mCtrl->openOnlySwitch(k); if(!delay(1)) break;
+            mCtrl->closeOtherSwitch(k); if(!delay(1)) break;
             ret = outputCurById(k, exValue);
             if(ret) {
                 ret = delay(1); if(!ret) break;
