@@ -431,7 +431,7 @@ bool Ad_Resulting::powerOn()
         mSource->powerDown(); ret = delay(3);
     } else if(mPacket->devType->devType < RPDU_Mc) {
         if(mPacket->devType->specs != Transformer) {
-             mPacket->status = tr("正在重启执行板！");
+            mPacket->status = tr("正在重启执行板！");
             mSource->setCur(0, 1); mSource->setVol(0, 1); ret = delay(5);
         }
     }
