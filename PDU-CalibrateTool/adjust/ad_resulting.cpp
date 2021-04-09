@@ -429,14 +429,16 @@ bool Ad_Resulting::powerOn()
     if(mSource) initThread(); else return ret;
     if(6 == mPacket->data->reserve) {
         mSource->powerDown(); ret = delay(3);
+    } else if(mPacket->devType->devType < RPDU_Mc) {
+        mSource->setCur(0, 1); mSource->setVol(0, 1); ret = delay(6);
     }
-    mCtrl->factorySet();
+
     mItem->step = Test_vert;
-    ret = mSource->setVol(200, 1);
+    ret = mSource->setVol(200, 4);
     if(mPacket->devType->specs != Transformer) {
         for(int i=0; i<3; ++i) {
             ret = mCollect->readPduData();
-            if(ret) break; else if(!delay(3)) break;
+            if(ret) break; else if(!delay(3+i)) break;
         }
         if(!ret) mPacket->status = tr("通讯协议不正确");
     }
@@ -457,7 +459,7 @@ bool Ad_Resulting::resEnter()
             }
 
             mPacket->status = tr("验证电流：期望电流%1A").arg(exCur);
-            ret = mSource->setCur(exCur*10, 3);
+            ret = mSource->setCur(exCur*10, 3); mCtrl->factorySet();
             if(ret) ret = workDown(exCur*AD_CUR_RATE);
             if(!ret) break;
         }

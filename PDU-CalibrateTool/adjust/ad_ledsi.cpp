@@ -4,6 +4,7 @@
  *      Author: Lzy
  */
 #include "ad_ledsi.h"
+#include "col_sithread.h"
 
 Ad_LedSi::Ad_LedSi(QObject *parent) : QThread(parent)
 {
@@ -24,7 +25,7 @@ bool Ad_LedSi::transmit(uchar *buf, int len)
 {
     bool ret = false;
     uchar recv[64] = {0};
-    len = mModbus->transmit(buf, len, recv, 10);
+    len = mModbus->transmit(buf, len, recv, 20);
     if(len > 0) {
         if(recv[1] == buf[1]) ret = true;
     } else {
@@ -49,14 +50,19 @@ bool Ad_LedSi::writeCmd(uchar fn, uchar line)
 
 
 bool Ad_LedSi::writeDc()
-{
-    mPacket->status = tr("发送直流偏移命令！");
-    bool ret = writeCmd(0xA2, 0);
-    if(ret) ret = mModbus->delay(8);//15
-    if(!ret) return ret;
+{    
+    bool ret = true;
+    Col_SiThread *rtu = Col_SiThread::bulid();
+    for(int i=0; i<3; ++i) {
+        mPacket->status = tr("发送直流偏移命令！%1").arg(i+1);
+        ret = writeCmd(0xA2, 0); ret = mModbus->delay(5);
+        ret = rtu->readPduData(); if(!ret) ret = rtu->readPduData();
+        if(mPacket->data->cur[0]) ret = false; else break; mModbus->delay(3);
+    }
 
+    if(!ret) return ret;
     mPacket->status = tr("设置标准源电流6A");
-    ret = mSource->setCur(60, 8);
+    ret = mSource->setCur(60, 10);
     if(ret) ret = writeCmd(0xA1, 0);
 
     return ret;
