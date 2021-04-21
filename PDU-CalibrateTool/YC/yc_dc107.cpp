@@ -73,6 +73,7 @@ bool YC_Dc107::setVol(int v, int sec)
 
     char *cmd = cmd220;
     if(v == 200) cmd = cmd200;
+    if(v == 0){ return setValue('V', 0);}
     QByteArray array(cmd, sizeof(cmd220));
     bool ret = sendCmd(array);
     if(ret) ret = delay(sec);

@@ -216,6 +216,18 @@ bool Ad_CoreThread::initLedSi()
     return ret;
 }
 
+void Ad_CoreThread::resDev()
+{
+    mPacket->status = tr("正在重启设备！");
+    if(mPacket->devType->devType < RPDU_Mc) {
+        if(mPacket->devType->specs == Mn) {
+            mSource->setCur(0, 1);
+        }
+    }
+
+    mSource->setVol(0, 5);
+}
+
 void Ad_CoreThread::workDown()
 {
     bool ret = true;
@@ -228,6 +240,7 @@ void Ad_CoreThread::workDown()
     }
 
     if(mItem->step == Test_vert) {
+        resDev();
         mPacket->status = tr("开始自动验证");
         ret = mResult->resEnter();
     } else if(mItem->step == Test_End) {

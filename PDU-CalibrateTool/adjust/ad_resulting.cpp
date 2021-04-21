@@ -425,21 +425,9 @@ bool Ad_Resulting::noLoadEnter()
 bool Ad_Resulting::powerOn()
 {
     bool ret = false;
+    mItem->step = Test_vert;
     if(!mSource) initStandSource();
     if(mSource) initThread(); else return ret;
-    // if(6 == mPacket->data->reserve) {
-    //    mSource->powerDown(); ret = delay(3);
-    // }
-
-    mPacket->status = tr("正在重启！");
-    if(mPacket->devType->devType < RPDU_Mc) {
-        if(mPacket->devType->specs == Mn) {
-            mSource->setCur(0, 1);
-        }
-    }
-
-    mSource->setVol(0, 3);
-    mItem->step = Test_vert;
     ret = mSource->setVol(200, 4);
     if(mPacket->devType->specs != Transformer) {
         for(int i=0; i<3; ++i) {

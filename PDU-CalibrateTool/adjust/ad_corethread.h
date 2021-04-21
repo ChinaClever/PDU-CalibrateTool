@@ -21,7 +21,7 @@ protected:
     bool initLedSi();
     bool initThread(int v);
     bool initSource();
-
+    void resDev();
     void writeLog();
     void workDown();
     void collectData();
