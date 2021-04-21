@@ -224,7 +224,7 @@ void Ad_CoreThread::resDev()
             mSource->setCur(0, 1);
         }
     }
-    mSource->setVol(0, 4);
+    mSource->setVol(0, 5);
 }
 
 void Ad_CoreThread::workDown()
