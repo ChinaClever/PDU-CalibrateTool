@@ -145,7 +145,7 @@ void Ad_CoreThread::writeLog()
 
 bool Ad_CoreThread::initSource()
 {
-    int sec = 5; bool ret = false;
+    int sec = 7; bool ret = false;
     mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
     if(mSource) {
@@ -224,7 +224,7 @@ void Ad_CoreThread::resDev()
             mSource->setCur(0, 1);
         }
     }
-    mSource->setVol(0, 4);
+    mSource->setVol(0, 5);
 }
 
 void Ad_CoreThread::workDown()
