@@ -145,8 +145,8 @@ bool Ad_Resulting::volErrRange()
         if(i < mData->size) {
             ret = volErrRangeByID(i);
             if(!ret) {
-                if(k++ < 6){
-                    i = -1; delay(2);
+                if(k++ <= 6){
+                    i = -1; delay(5);
                     mCollect->readPduData();
                 } else {
                     ret = false;
@@ -273,7 +273,7 @@ bool Ad_Resulting::eachCurEnter(int exValue)
         if(AC == dt->ac) value = value*0.5;
         mPacket->status = tr("校验数据: 期望电流%1A 功率%2kW").arg(exValue/AD_CUR_RATE).arg(value);
         if(i) mPacket->status += tr(" 第%1次").arg(i+1);
-        else delay(4);
+        else delay(5);
 
         mCollect->readPduData();
         ret = eachCurCheck(exValue, i);
