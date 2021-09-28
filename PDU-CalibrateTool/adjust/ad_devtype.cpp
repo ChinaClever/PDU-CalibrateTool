@@ -29,7 +29,7 @@ QString Ad_DevType::getDevStr(uint id)
 {
     QString str;
     if(id == 0x0293) { //ZPDU 互感器D系列 6位(字节定制)
-        str = "ZPDU 互感器D系列 6位";
+        str = "ZPDU 互感器D系列 6位(字节定制)";
         mPacket->data->size = 6;
     } str = Json_Recv::bulid()->getDevTypeByID(id);
 
