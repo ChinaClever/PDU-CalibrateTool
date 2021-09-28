@@ -460,6 +460,10 @@ bool Ad_Resulting::resEnter()
         if(ret) ret = noLoadEnter();
     }
 
+    mCtrl->openAllSwitch();
+    delay(1);
+    mCtrl->openAllSwitch();
+
     return workResult(ret);
 }
 
