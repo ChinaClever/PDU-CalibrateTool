@@ -197,7 +197,7 @@ void SerialPort::recvSlot()
 
         // 过滤单片机开机发出0xff无效数据
         if(dataTemp.size() == 1)  {
-           if(dataTemp.at(0) == (char)0xFF) dataTemp.clear();
+            if(dataTemp.at(0) == (char)0xFF) dataTemp.clear();
         }
 
         mSerialData += dataTemp;
@@ -211,13 +211,13 @@ int SerialPort::read(QByteArray &array, int secs)
         for(int i=0; i<10*secs; ++i) {
             int rtn = mSerialData.size();
             if(rtn > 0) {
-                msleep(650);
+                msleep(350);
                 QWriteLocker locker(&mRwLock);
                 array += mSerialData;
                 mSerialData.clear();
                 break;
             } else {
-                msleep(SERIAL_TIMEOUT);
+                if(i) msleep(SERIAL_TIMEOUT); else msleep(550);
             }
         }
     }
