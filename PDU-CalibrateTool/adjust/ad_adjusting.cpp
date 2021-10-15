@@ -35,12 +35,11 @@ bool Ad_Adjusting::transmit(uchar *buf, int len)
 bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
 {
     uchar cmd[] = {0x7B, 0x00, 0xA0, 0x00, 0x66, 0xBB, 0xBB};
-    int len = sizeof(cmd);
-
-    cmd[1] = mItem->addr;
+    if(mItem->addr <= 4) cmd[1] = mItem->addr;
     cmd[2] = fn;
     cmd[3] = line;
 
+    int len = sizeof(cmd);
     if(mPacket->devType->devType == APDU) cmd[1] = 0;//A系列校准时，用地址0，读取设备时用0x04
     ushort crc = mModbus->rtu_crc(cmd, len-2);
     cmd[len-2] = ((0xff) & crc);
