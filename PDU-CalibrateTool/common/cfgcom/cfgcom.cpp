@@ -30,10 +30,11 @@ CfgCom *CfgCom::bulid(QObject *parent)
 QString CfgCom::pathOfData(const QString& name)
 {
     QDir dataDir(QDir::home());  //QCoreApplication::applicationDirPath()
-    QString dirName = "." + QCoreApplication::applicationName();
-    if(!dataDir.exists(dirName))
-        dataDir.mkdir(dirName);
-    dataDir.cd(dirName);
+    QString dirName = "." + QCoreApplication::organizationName();
+    if(!dataDir.exists(dirName)) {dataDir.mkdir(dirName);} dataDir.cd(dirName);
+
+    dirName = QCoreApplication::applicationName();
+    if(!dataDir.exists(dirName)) {dataDir.mkdir(dirName);} dataDir.cd(dirName);
     return dataDir.absoluteFilePath(name);
 }
 
