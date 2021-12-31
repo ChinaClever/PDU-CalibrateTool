@@ -40,7 +40,7 @@ bool Ad_Adjusting::writeCmd(uchar fn, uchar line)
     cmd[3] = line;
 
     int len = sizeof(cmd);
-    if(mPacket->devType->devType == APDU) cmd[1] = 0;//A系列校准时，用地址0，读取设备时用0x04
+    if(mPacket->devType->devType == APDU || mItem->addr >= 4) cmd[1] = 0;//A系列校准时，用地址0，读取设备时用0x04
     ushort crc = mModbus->rtu_crc(cmd, len-2);
     cmd[len-2] = ((0xff) & crc);
     cmd[len-1] = (crc >> 8);
