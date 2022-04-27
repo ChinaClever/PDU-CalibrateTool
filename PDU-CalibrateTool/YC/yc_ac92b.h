@@ -16,14 +16,13 @@ public:
 
     bool setCur(int v, int sec=10);
     bool setVol(int v, int sec=10);
+    void initFunSlot();
 
 protected:
     bool setRange();
     bool setValue(const QString &str, int v);
     bool serialWrite(const QByteArray &array);
 
-protected slots:
-    void initFunSlot();
 
 };
 

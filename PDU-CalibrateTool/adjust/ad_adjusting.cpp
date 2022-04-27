@@ -176,7 +176,7 @@ bool Ad_Adjusting::updateStatus(ushort status)
         //ret = overWork(str);
         //mItem->step = Test_End;
         mPacket->status = str;
-        mPacket->pass = Test_Fail;
+        //mPacket->pass = Test_Fail;
         mModbus->appendLogItem(false);
     } else {
         mPacket->pass = Test_Success;

@@ -103,7 +103,10 @@ void Home_WorkWid::upTgWid()
         if(curRate!=0&&powRate!=0)
             str = tr("总电流：%1A  总功率：%2Kw").arg(tg->cur/curRate).arg(tg->pow/powRate);
     }
-
+    if( packet->data->version != 0)
+        str +=tr("   版本： %1").arg(QString::number(packet->data->version));
+    else
+        str +=tr("   版本： %1").arg(tr("-----"));
     ui->tgLab->setText(str);
     ui->userLab->setText(mItem->user);
 }
