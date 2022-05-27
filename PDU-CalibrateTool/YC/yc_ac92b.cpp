@@ -49,18 +49,22 @@ void YC_Ac92b::initFunSlot()
 
     QByteArray f("F50\r");
     serialWrite(f);
+
+    QByteArray r("R1\r");
+    serialWrite(r);
 }
 
 void YC_Ac92b::powerDown()
 {
     setValue("A", 0);
     setValue("V", 0);
-    initFunSlot();
+
 }
 
 
 bool YC_Ac92b::powerOn(int v)
 {
+    initFunSlot();
     bool ret = setValue("V", 100);
     if(ret) {
         // ret = setValue("A", v);

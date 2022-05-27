@@ -148,6 +148,7 @@ bool Ad_CoreThread::initSource()
     int sec = 15; bool ret = false;
     mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
+    if(mSource) mSource->initFunSlot();
     if(mSource) {
         if((mDt->devType>APDU)||(mDt->specs==Transformer)) sec = 0;
         mPacket->status = tr("标准源上电中"); ret = mSource->setVol(220, sec);

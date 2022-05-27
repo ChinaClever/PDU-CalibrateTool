@@ -16,6 +16,7 @@ public:
 
     bool setCur(int v, int sec=5);
     bool setVol(int v, int sec=5);
+    void initFunSlot(){}
 
 protected:
     bool setRange();
