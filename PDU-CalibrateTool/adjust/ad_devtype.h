@@ -11,7 +11,8 @@ enum eDevTypes {
     APDU,
     SI_PDU,
     IP_PDU,
-    BM_PDU,    
+    BM_PDU,
+    IP_PDU_APDU,
 
     AC = 1, // 交流
     DC,     // 直流
@@ -36,6 +37,7 @@ protected:
     int getColMode(const QString &str);
     int getLineNum(const QString &str);
     int getSerie(const QString &str);
+    int getDevBothType(const QString &str);
 
 private:
     sDevType *mDt;

@@ -464,6 +464,7 @@ bool Ad_Resulting::resEnter()
     delay(5);
     mCtrl->openAllSwitch();
     delay(5);
+    mCtrl->clearAllEle();
     return workResult(ret);
 }
 

@@ -27,10 +27,19 @@ uchar *Col_CoreThread::toInt(uchar *ptr, int line, uint *value)
 
 uchar *Col_CoreThread::toOutputEle(uchar *ptr, int line, uint *value)
 {
-    for(int i=0; i<line; ++i) {
-        value[i] = (*ptr++) << 16;
-        value[i] += (*ptr++) << 8;
-        value[i] += *ptr++;
+    if( mDt->devBothType != IP_PDU_APDU){
+        for(int i=0; i<line; ++i) {
+            value[i] = (*ptr++) << 16;
+            value[i] += (*ptr++) << 8;
+            value[i] += *ptr++;
+        }
+    }else{
+        for(int i=0; i<line; ++i) {
+            value[i] = (*ptr++) << 24;
+            value[i] += (*ptr++) << 16;
+            value[i] += (*ptr++) << 8;
+            value[i] += *ptr++;
+        }
     }
 
     return ptr;

@@ -72,6 +72,15 @@ int Ad_DevType::getDevType(const QString &str)
     return ret;
 }
 
+int Ad_DevType::getDevBothType(const QString &str)
+{
+    int ret = 0;
+    if(str.contains("IP-PDU") && str.contains("断路器")) {
+        ret = IP_PDU_APDU;
+    }
+    return ret;
+}
+
 int Ad_DevType::getAcType(const QString &str)
 {
     int ret = AC;
@@ -118,6 +127,7 @@ bool Ad_DevType::analysDevType(uint id)
         mPacket->dev_type = str;
         mDt->devId = id;
         mDt->devType = getDevType(str);
+        mDt->devBothType = getDevBothType(str);
         mDt->ac = getAcType(str);
         mDt->specs = getColMode(str);
         mDt->series = getSerie(str);

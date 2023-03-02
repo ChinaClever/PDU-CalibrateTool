@@ -71,6 +71,7 @@ struct sDevType
     uint devId;
     uchar devType; // 1 ZPDU执行板类型  2 MPDU执行板类型   3 RPDU执行板类型
                    // 4 SI-PDU  5 IP-PDU  6 BM-PDU
+    uchar devBothType;
 
     uchar ac; // 1 交流 2 直流
     uchar series; // 1 A系列  2 B系列  3 C系列  4 D系列1
