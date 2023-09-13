@@ -9,6 +9,7 @@ class Ctrl_SiThread : public Ctrl_CoreThread
     explicit Ctrl_SiThread(QObject *parent = nullptr);
 public:
     static Ctrl_SiThread *bulid(QObject *parent = nullptr);
+    bool funSetDelayToZero(){return true;}
 
 protected:
     void funSwitch(uchar *, uchar *){}

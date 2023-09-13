@@ -8,6 +8,7 @@ class Ctrl_ApduThread : public Ctrl_CoreThread
     explicit Ctrl_ApduThread(QObject *parent = nullptr);
 public:
     static Ctrl_ApduThread *bulid(QObject *parent = nullptr);
+    bool funSetDelayToZero(){return true;}
 
 protected:
     void funClearEle(uchar *buf);

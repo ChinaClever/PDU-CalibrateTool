@@ -1,6 +1,6 @@
 #ifndef LOGMAINWID_H
 #define LOGMAINWID_H
-#include "dbstates.h"
+#include "dbvalue.h"
 #include "logquerydlg/log_logquerydlg.h"
 
 namespace Ui {
@@ -25,6 +25,7 @@ private:
     LogComWid *mLogWid;
     LogComWid *mMacWid;
     LogComWid *mStatusWid;
+    LogComWid *mValueWid;
 };
 
 #endif // LOGMAINWID_H

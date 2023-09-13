@@ -4,7 +4,7 @@
  *      Author: Lzy
  */
 #include "ad_corethread.h"
-#include "dblogs.h"
+#include "dbvalue.h"
 extern QString user_land_name();
 
 Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
@@ -118,20 +118,25 @@ void Ad_CoreThread::writeLog()
 {
     Db_Tran db;
     sLogItem it;
+    sValueItem val;
 
-    it.dev =mPacket->dev_type.split("_").first();
-    it.op = user_land_name();
-    it.user = mItem->user;
-    it.sn = mPacket->sn;
+    val.dev = it.dev = mPacket->dev_type.split("_").first();
+    val.op = it.op = user_land_name();
+    val.user = it.user = mItem->user;
+    val.sn = it.sn = mPacket->sn;
 
     mItem->cnt.all += 1;
     if(mPacket->pass == Test_Success) {
-        it.result = tr("通过");
+        val.result = it.result = tr("通过");
         mItem->cnt.ok += 1;
         if(mItem->cnt.num > 0) {
             mItem->cnt.num -= 1;
             if(!mItem->cnt.num) mItem->user.clear();
         }
+        QString valStr;
+        mAutoID->readDevValue(mDt->lines , valStr);
+        val.value = valStr;
+        DbValue::bulid()->insertItem(val);
     } else {
         mItem->cnt.err += 1;
         it.result = tr("失败：%1").arg(mPacket->status);
@@ -139,6 +144,7 @@ void Ad_CoreThread::writeLog()
 
     mModbus->writeLogs();
     Ad_Config::bulid()->writeCnt();
+
     if(it.sn.isEmpty()) return;
     DbLogs::bulid()->insertItem(it);
 }

@@ -115,6 +115,35 @@ bool Ad_Resulting::curRangeByID(int i, int exValue, int cnt)
     return ret;
 }
 
+bool Ad_Resulting::curByIDOtherZero(int k, int exValue,QVector<int> vec)
+{
+    bool ret = false;
+    for(int i=0; i<=5; ++i) {
+        mCollect->readPduData();
+        ret = curRangeByID(k, exValue, i);
+        for(int j = 0 ; j < mData->size ; j++){
+            bool flag = false;
+            for(int m = 0 ; m < vec.size() ; m++){
+                if(vec[m] == j ) {flag = true;break;}
+            }
+            if(!flag){
+                int cur = mData->cur[j];
+                if(cur){
+                   mPacket->status += tr("校验:第%1位").arg(j+1);
+                   mPacket->status += tr("电流有底数");
+                   mData->status[j] = Test_Fail;
+                   ret = false;
+                   mData->cured[j] = mData->cur[j];
+                }
+            }
+        }
+        if(!ret) delay(2); else break;
+    }
+    mModbus->appendLogItem(ret);
+
+    return ret;
+}
+
 
 bool Ad_Resulting::volErrRangeByID(int i)
 {
@@ -189,11 +218,20 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
     bool ret = false;
     for(int k=0; k<mData->size; ++k) {
         k = outputIdCheck(k);
+
         if(k < mData->size) {
+            QVector<int> vec;
+            if(mPacket->devType->devType == MPDU && mData->reserve == 6) {
+                vec.push_back(2);
+                vec.push_back(6);
+            }
+            vec.push_back(k);
+
             mPacket->status = tr("校验数据 期望电流%1A 第%2输出位 ").arg(exValue/AD_CUR_RATE).arg(k+1);
             mCtrl->openOutputSwitch(k); if(!delay(1)) break;
             mCtrl->openOnlySwitch(k); if(!delay(1)) break;
             mCtrl->closeOtherSwitch(k); if(!delay(1)) break;
+            //ret = curByIDOtherZero(k, exValue ,vec);
             ret = outputCurById(k, exValue);
             if(ret) {
                 ret = delay(1); if(!ret) break;
@@ -201,6 +239,7 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
                 //mPacket->status = tr("错误");
                 break;
             }
+            QVector<int>().swap(vec);
         }
     }
 
@@ -460,6 +499,10 @@ bool Ad_Resulting::resEnter()
         if(ret) {ret = noLoadEnter();}
     }
 
+    sDevType *dt = mPacket->devType;
+    for(int i=0; i<3; ++i) {
+        if(ZPDU == dt->devType){ mCtrl->setDelayToZero();delay(5);}
+    }
     mCtrl->openAllSwitch();
     delay(5);
     mCtrl->openAllSwitch();

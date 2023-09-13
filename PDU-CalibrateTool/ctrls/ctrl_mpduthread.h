@@ -10,6 +10,7 @@ class Ctrl_MpduThread : public Ctrl_CoreThread
 public:
     static Ctrl_MpduThread *bulid(QObject *parent = nullptr);
     bool factorySet();
+    bool funSetDelayToZero(){return true;}
 protected:
     void funSwitch(uchar *on, uchar *off);
     void funClearEle(uchar *buf);

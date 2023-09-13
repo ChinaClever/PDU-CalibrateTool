@@ -29,6 +29,11 @@ void LogMainWid::initFunSLot()
 
     mStatusWid = new LogComWid(ui->tabWidget);
     mStatusWid->initWid(DbStates::bulid(),new LogBtnBar(),  new Log_LogQueryDlg(this));
-    ui->tabWidget->addTab(mStatusWid, tr("校准过程日志"));    
+    ui->tabWidget->addTab(mStatusWid, tr("校准过程日志"));
+
+    QString str = tr("校准值");
+    mValueWid = new LogComWid(ui->tabWidget);
+    mValueWid->initWid(DbValue::bulid(),new LogBtnBar(),  new Log_LogQueryDlg(this));
+    ui->tabWidget->addTab(mValueWid, str);
 }
 

@@ -9,6 +9,7 @@ class Ctrl_RpduThread : public Ctrl_CoreThread
     explicit Ctrl_RpduThread(QObject *parent = nullptr);
 public:
     static Ctrl_RpduThread *bulid(QObject *parent = nullptr);
+    bool funSetDelayToZero(){return true;}
 
 protected:
     void funSwitch(uchar *on, uchar *off);

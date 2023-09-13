@@ -104,3 +104,7 @@ void Ctrl_CoreThread::setClearEle(int id)
     funClearEle(cmd);
 }
 
+void Ctrl_CoreThread::setDelayToZero()
+{
+    funSetDelayToZero();
+}

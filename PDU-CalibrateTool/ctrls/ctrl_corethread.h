@@ -11,6 +11,7 @@ public:
 
     virtual void openAllSwitch();
     virtual void closeAllSwitch();
+    virtual void setDelayToZero();
     virtual void openOutputSwitch(int id);
     virtual void closeOutputSwitch(int id);
     virtual void openOnlySwSlot(int id);
@@ -20,6 +21,7 @@ public:
     virtual void clearAllEle();
     virtual void setClearEle(int id);
     virtual bool factorySet(){return true;}
+    virtual bool funSetDelayToZero()=0;
 
 protected:
     void setBitControl(int id, uchar *buf);

@@ -11,6 +11,7 @@ public:
     static Ctrl_ZpduThread *bulid(QObject *parent = nullptr);
 
     bool factorySet();
+    bool funSetDelayToZero();
 protected:
     void funSwitch(uchar *on, uchar *off);
     void funClearEle(uchar *buf);    

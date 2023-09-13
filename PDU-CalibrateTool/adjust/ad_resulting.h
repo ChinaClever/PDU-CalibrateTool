@@ -15,6 +15,7 @@ public:
     Col_CoreThread *initThread();
     YC_StandSource *initStandSource();
     void resTgData() {resTgData(mPacket->tg);}
+    bool curByIDOtherZero(int k, int exValue,QVector<int> vec);
 
 protected:
     bool powErrRange(int exValue, int cur);

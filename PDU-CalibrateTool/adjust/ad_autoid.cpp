@@ -86,3 +86,63 @@ bool Ad_AutoID::readDevType()
     return ret;
 }
 
+
+bool Ad_AutoID::readDevValue(int size , QString & valStr)
+{
+    mPacket->status = tr("正在读取校准值！");
+    bool ret = readDevVal(size, valStr);
+    if(!ret){
+        for(int i = 0 ; i < size ; ++i){
+            valStr += "0";
+            if(i != size - 1) valStr += "/";
+        }
+    }
+
+
+    return ret;
+}
+
+bool Ad_AutoID::readDevVal(int size , QString & valStr)
+{
+    sRtuItem it;
+    initReadCalibrationsVal(it , size);
+
+    int len = 0;
+    static uchar recv[255] = {0};
+    for(int i=0; i<=6; ++i) {
+        if(i>1) mPacket->status = tr("第%1次读取设备校准值 ").arg(i);
+        len = mModbus->rtuRead(&it, recv);
+        if(len==size*4) break; else if(!mModbus->delay(1)) break;
+    }
+
+    return analysDevCalibrationValue(recv, len , size , valStr);
+}
+
+void Ad_AutoID::initReadCalibrationsVal(sRtuItem &it , int size)
+{
+    it.addr = mItem->addr;
+    it.fn = 0x03;
+    it.reg = 0xA020;
+    it.num = 2*size;
+}
+
+bool Ad_AutoID::analysDevCalibrationValue(uchar *buf, int len ,int size , QString &valStr)
+{
+    bool ret = false;
+    QString str;
+    if(len != size*4) {
+        str = tr("读取设备校准值失败：返回长度为%1").arg(len);
+        return ret;
+    }
+    str = tr("读取设备校准值成功");
+    uint id = 0;
+    ret = true;
+    for(int i = 0; i < len; i += 4) {
+        id += buf[i]*256 + buf[i+1];
+        id <<= 16;
+        id += buf[i+2]*256 + buf[i+3];
+        if(i != len - 4) valStr += QString::number(id)+"/";
+    }
+
+    return ret;
+}

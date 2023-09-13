@@ -9,7 +9,7 @@ class Ctrl_IpThread : public Ctrl_CoreThread
     explicit Ctrl_IpThread(QObject *parent = nullptr);
 public:
     static Ctrl_IpThread *bulid(QObject *parent = nullptr);
-
+    bool funSetDelayToZero(){return true;}
 protected:
     void funSwitch(uchar *, uchar *){}
     void funClearEle(uchar *){}

@@ -11,10 +11,15 @@ public:
      static Ad_AutoID *bulid(QObject *parent = nullptr);
 
     bool readDevType();
+    bool readDevValue(int size , QString & valStr);
 protected:
     bool readDevId();
     void initReadType(sRtuItem &it);
     bool analysDevType(uchar *buf, int len);
+
+    bool readDevVal(int size , QString & valStr);
+    void initReadCalibrationsVal(sRtuItem &it , int size);
+    bool analysDevCalibrationValue(uchar *buf, int len ,int size , QString &valStr);
 
 private:
     sConfigItem *mItem;

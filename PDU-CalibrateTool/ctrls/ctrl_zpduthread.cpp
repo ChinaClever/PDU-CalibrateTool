@@ -67,3 +67,18 @@ bool Ctrl_ZpduThread::factorySet()
     cmd[k] = mModbus->getXorNumber(cmd,sizeof(cmd)-1); //异或校验码
     return mModbus->writeSerial(cmd, sizeof(cmd));
 }
+
+bool Ctrl_ZpduThread::funSetDelayToZero()
+{
+    int k = 5;
+    static uchar cmd[68] = {0x7B, 0xC1, 0x00, 0xA3, 0xB3};
+
+    for(int i=0; i<42; i++) cmd[k++] = 0;    //输出为延时
+    for(int i=0; i<8; i++) cmd[k++] = 0x01;  //组延时
+    for(int i=0; i<8; i++) cmd[k++] = 0x00;  //预留位
+    for(int i=0; i<3; i++) cmd[k++] = 0x0E;
+    cmd[k++] = 0x44;
+    cmd[k] = mModbus->getXorNumber(cmd,sizeof(cmd)-1); //异或校验码
+    return mModbus->writeSerial(cmd, sizeof(cmd));
+}
+
