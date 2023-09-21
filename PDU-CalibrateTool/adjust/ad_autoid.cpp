@@ -138,6 +138,7 @@ bool Ad_AutoID::analysDevCalibrationValue(uchar *buf, int len ,int size , QStrin
     uint id = 0;
     ret = true;
     for(int i = 0; i < len; i += 4) {
+        id = 0;
         id += buf[i]*256 + buf[i+1];
         id <<= 16;
         id += buf[i+2]*256 + buf[i+3];

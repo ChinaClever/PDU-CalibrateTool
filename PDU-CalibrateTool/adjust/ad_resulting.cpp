@@ -491,6 +491,7 @@ bool Ad_Resulting::resEnter()
             case 1: exCur = 8; break;
             }
 
+            sleep(5);///////MPDU Pro新执行板
             mPacket->status = tr("验证电流：期望电流%1A").arg(exCur);
             ret = mSource->setCur(exCur*10, 3); mCtrl->factorySet();
             if(ret) ret = workDown(exCur*AD_CUR_RATE);
