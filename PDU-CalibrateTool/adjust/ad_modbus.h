@@ -68,8 +68,8 @@ public:
     ushort rtu_crc(uchar *buf, int len);
     uchar getXorNumber(uchar *buf, int len);
 
-    int rtuRead(sRtuItem *pkt, uchar *recv);
-    int rtuRead(sRtuItem *pkt, sRtuReplyItem *recv);
+    int rtuRead(sRtuItem *pkt, uchar *recv, int mode=1);
+    int rtuRead(sRtuItem *pkt, sRtuReplyItem *recv, int mode=1);
 
     bool rtuWrite(sRtuSetItem *pkt);
     bool rtuWrites(sRtuSetItems *pkt);
@@ -84,6 +84,7 @@ protected:
     ushort calccrc (ushort crc, uchar crcbuf);
     int rtu_sent_packet(sRtuItem *pkt, uchar *ptr);
     int rtuRecvData(uchar *ptr,  sRtuReplyItem *pkt);
+    int rtuRecvIPData(uchar *ptr, sRtuReplyItem *pkt);
 
     bool rtuRecvCrc(uchar *buf, int len);
     bool rtuRecvCrc(uchar *buf, int len, sRtuReplyItem *msg);

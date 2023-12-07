@@ -111,7 +111,7 @@ bool Ad_AutoID::readDevVal(int size , QString & valStr)
     static uchar recv[255] = {0};
     for(int i=0; i<=6; ++i) {
         if(i>1) mPacket->status = tr("第%1次读取设备校准值 ").arg(i);
-        len = mModbus->rtuRead(&it, recv);
+        len = mModbus->rtuRead(&it, recv , 2);
         if(len==size*4) break; else if(!mModbus->delay(1)) break;
     }
 
@@ -143,6 +143,7 @@ bool Ad_AutoID::analysDevCalibrationValue(uchar *buf, int len ,int size , QStrin
         id <<= 16;
         id += buf[i+2]*256 + buf[i+3];
         if(i != len - 4) valStr += QString::number(id)+"/";
+        else valStr += QString::number(id);
     }
 
     return ret;

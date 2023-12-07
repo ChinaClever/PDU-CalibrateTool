@@ -134,7 +134,7 @@ void Ad_CoreThread::writeLog()
             if(!mItem->cnt.num) mItem->user.clear();
         }
         QString valStr;
-        mAutoID->readDevValue(mDt->lines , valStr);
+        mAutoID->readDevValue(mPacket->data->size , valStr);
         val.value = valStr;
         DbValue::bulid()->insertItem(val);
     } else {
