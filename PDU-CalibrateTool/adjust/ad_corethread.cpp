@@ -142,6 +142,7 @@ void Ad_CoreThread::writeLog()
     bool res = false;
     QString str = tr("最终结果 ");
     if(mPro->result != Test_Fail) {
+        res = true;
         str += tr("通过");
         mPro->uploadPassResult = 1;
     } else {

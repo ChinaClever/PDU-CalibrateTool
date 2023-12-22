@@ -130,7 +130,6 @@ void Home_WorkWid::upTgWid()
     ui->userLab->setText(mItem->user);
     packet->getPro()->clientName = ui->userLab->text();
     packet->getPro()->softwareVersion = QString::number(packet->data->version);
-
 }
 void Home_WorkWid::endFun()
 {
