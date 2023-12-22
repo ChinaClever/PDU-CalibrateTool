@@ -13,14 +13,18 @@ include(serialport/serialport.pri)
 include(backcolour/backcolour.pri)
 include(qtsingleapplication/qtsingleapplication.pri)
 include(json/json.pri)
-
-HEADERS += \	
+include(network/network.pri)
+include(http/http.pri)
+HEADERS += \
     $$PWD/common.h
 	
-SOURCES += \	
+SOURCES += \
     $$PWD/common.cpp
 
+
 FORMS += \
+
+DISTFILES += \
 
 
 

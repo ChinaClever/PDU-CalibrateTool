@@ -14,7 +14,7 @@ Ad_CoreThread::Ad_CoreThread(QObject *parent) : QThread(parent)
     mPacket =sDataPacket::bulid();
     mItem = Ad_Config::bulid()->item;
     mDt = mPacket->devType;
-
+    mPro = mPacket->getPro();
     mLedSi = Ad_LedSi::bulid(this);
     mModbus = Ad_Modbus::bulid(this);
     mAutoID = Ad_AutoID::bulid(this);
@@ -80,7 +80,6 @@ bool Ad_CoreThread::initThread(int v)
         }
         if(!ret) ret = readDevInfo();
     }
-
     return ret;
 }
 
@@ -89,7 +88,6 @@ void Ad_CoreThread::collectData()
     bool ret = initThread(220);
     if(ret) mPacket->status = tr("正在读取设备数据");
     else {mItem->step = Test_End; return;}
-
     Col_CoreThread *th = mResult->initThread();
     while(mItem->step != Test_Over) {
         ret = th->readPduData(); delay(2);
@@ -141,6 +139,21 @@ void Ad_CoreThread::writeLog()
         mItem->cnt.err += 1;
         it.result = tr("失败：%1").arg(mPacket->status);
     }
+    bool res = false;
+    QString str = tr("最终结果 ");
+    if(mPro->result != Test_Fail) {
+        str += tr("通过");
+        mPro->uploadPassResult = 1;
+    } else {
+        res = false;
+        str += tr("失败");
+        mPro->uploadPassResult = 0;
+    }
+    mPacket->updatePro(str, res);
+    mPro->step = Test_Over;
+
+    sleep(2);
+    Json_Pack::bulid()->http_post("debugdata/add","192.168.1.12");//全流程才发送记录(http)
 
     mModbus->writeLogs();
     Ad_Config::bulid()->writeCnt();
@@ -191,7 +204,6 @@ bool Ad_CoreThread::initLedSi()
     mDt->specs = Transformer;
     mDt->lines = mItem->si_line;
     mPacket->dev_type = tr("SI/BM数码管");
-
     mPacket->status = tr("已启动校准！连接标准源");
     mSource = mResult->initStandSource();
     if(mSource) {
@@ -262,9 +274,8 @@ void Ad_CoreThread::run()
         mPacket->pass = 0;
         mPacket->sn.clear();
         mPacket->data->size = 0;
-        mPacket->clear();
         mJig->open();
-
+        mPacket->getPro()->recordstep = mPacket->getPro()->step;
         switch (mItem->step) {
         case Test_Start: workDown(); break;
         case Tset_Collect: collectData(); break;

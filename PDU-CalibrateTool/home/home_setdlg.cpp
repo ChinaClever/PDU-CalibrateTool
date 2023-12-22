@@ -13,6 +13,7 @@ Home_SetDlg::Home_SetDlg(QWidget *parent) :
     ui->setupUi(this);
     groupBox_background_icon(this);
     mItem = Ad_Config::bulid()->item;
+    packet = sDataPacket::bulid();
     QTimer::singleShot(500,this,SLOT(initFunSlot()));
 }
 
@@ -24,6 +25,7 @@ Home_SetDlg::~Home_SetDlg()
 void Home_SetDlg::initFunSlot()
 {
     ui->userEdit->setText(mItem->user);
+    packet->getPro()->clientName = mItem->user;
     ui->numSpin->setValue(mItem->cnt.num);
     QString str = tr("数量:%1 \t成功:%2 \t失败:%3 ")
             .arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
@@ -75,3 +77,9 @@ void Home_SetDlg::on_aiBox_currentIndexChanged(int index)
     Ad_Config *con = Ad_Config::bulid();
     con->write("ai_mode", index, "Sys");
 }
+
+void Home_SetDlg::on_userEdit_selectionChanged()
+{
+    ui->userEdit->setClearButtonEnabled(1);
+}
+

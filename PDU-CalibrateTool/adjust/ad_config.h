@@ -12,8 +12,9 @@ enum {
     Tset_Collect, // 数据采集
     Test_End, // 完成
 
+    Test_Info=0,
     Test_Success=1,
-    Test_Fail,
+    Test_Fail=2,
 };
 
 

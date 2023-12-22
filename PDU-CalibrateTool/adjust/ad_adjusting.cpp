@@ -53,14 +53,12 @@ bool Ad_Adjusting::waitDcRecv()
     bool ret = false;
     uchar buf[MODBUS_RTU_SIZE] = {0};
     mPacket->status = tr("正在等待直流偏移：请等待...");
-
     int len = readSerial(buf, 60);
     if(len > 0){
         ret = recvStatus(buf, len);
     } else {
         ret = overWork(tr("直流偏移等待超时！"));
     }
-
     return ret;
 }
 
@@ -100,17 +98,17 @@ bool Ad_Adjusting::writePhase()
             if(!ret) return ret;
         }
     }
-
     return ret;
 }
 
 bool Ad_Adjusting::sentCmd()
 {
+    bool ret = true;
     mPacket->status = tr("即将开始校准！");
     mModbus->delay(4);
 
     mPacket->status = tr("发送校准解锁命令！");
-    bool ret = writeCmd(0xA0, 0);
+    ret = writeCmd(0xA0, 0);
     if(!ret){
         mModbus->delay(4);
         ret = writeCmd(0xA0, 0);  // 重复发一次命令
@@ -130,7 +128,6 @@ bool Ad_Adjusting::sentCmd()
 bool Ad_Adjusting::updateStatus(ushort status)
 {
     QString str;
-
     if(0x1100 == status) {
         uchar step = Test_vert;
         mPacket->status = tr("校准返回正常！");
@@ -152,12 +149,15 @@ bool Ad_Adjusting::updateStatus(ushort status)
     }else if(0x110C == status) {
         str = tr("直流电压校准失败");
     }else if(status <= 0x1115) {
-        if(status%3 == 0)
+        if(status%3 == 0){
             mPacket->status = tr("L%1相， 正在校准").arg((status-0x110D)/3+1);
-        else if(status%3 == 1)
+        }
+        else if(status%3 == 1){
             mPacket->status = tr("L%1相， 校准成功").arg((status-0x110D)/3+1);
-        else if(status%3 == 2)
+        }
+        else if(status%3 == 2){
             mPacket->status = tr("L%1相， 校准失败").arg((status-0x110D)/3+1);
+        }
     } else if(status <= 0x1118) {
         str = tr("校准失败：L%1相电流 ").arg(status-0x1115);
     } else if(status <= 0x111C) {
@@ -181,7 +181,6 @@ bool Ad_Adjusting::updateStatus(ushort status)
     } else {
         mPacket->pass = Test_Success;
     }
-
     return true;
 }
 
@@ -237,7 +236,6 @@ bool Ad_Adjusting::readData()
     bool ret = false;
     uchar buf[MODBUS_RTU_SIZE] = {0};
     mPacket->status = tr("正在校准：请等待...");
-
     do {
         int len = readSerial(buf);
         if(len > 0){
@@ -247,7 +245,6 @@ bool Ad_Adjusting::readData()
         }
         if(mItem->step >= Test_vert) break;
     } while(true == ret);
-
     return ret;
 }
 

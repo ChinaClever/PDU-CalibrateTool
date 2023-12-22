@@ -176,10 +176,7 @@
          </size>
         </property>
         <property name="text">
-         <string>客户名称：</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <string>    工单号：</string>
         </property>
        </widget>
       </item>
@@ -193,8 +190,8 @@
         </property>
         <property name="font">
          <font>
+          <family>微软雅黑</family>
           <pointsize>20</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -222,6 +219,7 @@
         </property>
         <property name="font">
          <font>
+          <family>微软雅黑</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -319,8 +317,8 @@
         </property>
         <property name="font">
          <font>
+          <family>微软雅黑</family>
           <pointsize>16</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>

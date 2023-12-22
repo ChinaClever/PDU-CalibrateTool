@@ -32,6 +32,7 @@ private:
     Ad_Modbus *mModbus;
     sDataPacket *mPacket;
     YC_StandSource *mSource;
+
 };
 
 #endif // AD_ADJUSTING_H

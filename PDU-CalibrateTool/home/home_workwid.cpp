@@ -6,6 +6,8 @@
 #include "home_workwid.h"
 #include "ui_home_workwid.h"
 #include "home_debugdlg.h"
+
+
 extern bool usr_land_jur();
 
 Home_WorkWid::Home_WorkWid(QWidget *parent) :
@@ -16,15 +18,17 @@ Home_WorkWid::Home_WorkWid(QWidget *parent) :
     mSetDlg = new Home_SetDlg(this);
     mItem = Ad_Config::bulid()->item;
     mCore = Ad_CoreThread::bulid(this);
+    packet = sDataPacket::bulid();
     ui->addrSpin->setValue(mItem->addr);
-
+    mPro = packet->getPro();
     timer = new QTimer(this);
     timer->start(500);
     connect(timer, SIGNAL(timeout()), this, SLOT(timeoutDone()));
-
+    connect(Json_Pack::bulid(this), &Json_Pack::httpSig, this, &Home_WorkWid::insertText);
     QGridLayout *gridLayout = new QGridLayout(parent);
     gridLayout->setContentsMargins(0, 10, 0, 0);
     gridLayout->addWidget(this);
+
 }
 
 Home_WorkWid::~Home_WorkWid()
@@ -34,11 +38,13 @@ Home_WorkWid::~Home_WorkWid()
 
 bool Home_WorkWid::initWid()
 {
+    packet->init();
+    packet->getPro()->testStartTime = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss");
     bool ret = mItem->serial->isOpened();
     if(!ret){CriticalMsgBox box(this, tr("请先打开串口!")); return ret;}
 
     if(mItem->user.isEmpty()) {
-        CriticalMsgBox box(this, tr("请先填写客户名称！"));
+        CriticalMsgBox box(this, tr("请先填写工单号！"));
         return false;
     }
 
@@ -61,9 +67,22 @@ bool Home_WorkWid::initWid()
 
     return ret;
 }
+void Home_WorkWid::insertText(const QString &msg, bool ret)
+{
+        // mPro->no <<QString::number(mId);
+        // QString str = QString::number(mId++) + "、"+ mPro->status.first() + "\n";
+        // if(mPro->status.first().contains(tr("版本")) && mPro->pass.first())
+        // mPro->status.removeFirst();
+        // mPro->pass.removeFirst();
+        // mPro->itemName<<msg;
+        // mPro->uploadPass<<ret;
+        packet->updatePro(msg,ret);
+
+}
 
 void Home_WorkWid::on_startBtn_clicked()
 {
+
     bool en = false;
     QString str = tr("停止校准");
     if(mItem->step == Test_Over) {
@@ -95,8 +114,8 @@ void Home_WorkWid::on_startBtn_clicked()
 void Home_WorkWid::upTgWid()
 {
     QString str = tr("数量:%1 成功:%2 失败:%3 ").arg(mItem->cnt.all).arg(mItem->cnt.ok).arg(mItem->cnt.err);
-    sDataPacket *packet = sDataPacket::bulid();
     sTgObjData *tg = packet->tg;
+    sDevType *dt = packet->devType;
     if(tg->cur && (mItem->step<Test_Over)) {
         float curRate = packet->data->rate * COM_RATE_CUR;
         float powRate = packet->data->rate * COM_RATE_POW;
@@ -109,8 +128,10 @@ void Home_WorkWid::upTgWid()
         str +=tr("   版本： %1").arg(tr("-----"));
     ui->tgLab->setText(str);
     ui->userLab->setText(mItem->user);
-}
+    packet->getPro()->clientName = ui->userLab->text();
+    packet->getPro()->softwareVersion = QString::number(packet->data->version);
 
+}
 void Home_WorkWid::endFun()
 {
     mItem->step = Test_Over;
@@ -131,18 +152,28 @@ void Home_WorkWid::upStatusLab()
 {
     sDataPacket *packet = sDataPacket::bulid();
     QString str = packet->status;
+
+    bool pass = true;
+    // QString str1 = QString::number(mId++) + "、"+ mPro->status.first() + "\n";
     ui->statusLab->setText(str);
 
     ui->devTypeLab->setText(packet->dev_type);
     ui->snLab->setText(packet->sn);
 
+    sProgress *temp = sDataPacket::bulid()->getPro();
+    temp->productSN = packet->sn;
+    temp->productType =packet->dev_type;
+
+    // temp->productSN = "000A 0021 0616 0001 0301";//test
+
     QPalette pe;
     switch (packet->pass) {
     case 0:  pe.setColor(QPalette::WindowText, Qt::black); break;
-    case 1:  pe.setColor(QPalette::WindowText, Qt::darkGreen); break;
-    case 2:  pe.setColor(QPalette::WindowText, Qt::red); break;
+    case 1:  pe.setColor(QPalette::WindowText, Qt::darkGreen); pass = true;break;
+    case 2:  pe.setColor(QPalette::WindowText, Qt::red); pass = false;break;
     }
     ui->statusLab->setPalette(pe);
+    mPro->uploadPassResult = pass;
 }
 
 QString Home_WorkWid::getTime()

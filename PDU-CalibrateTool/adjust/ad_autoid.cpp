@@ -36,7 +36,6 @@ bool Ad_AutoID::analysDevType(uchar *buf, int len)
         mPacket->status = tr("通讯错误，未能正确识别执行板/表头 %1").arg(len);
         return false;
     }
-
     uint id = 0;
     for(int i=0; i<len; ++i) {
         id *= 256;  id += buf[i];
@@ -46,7 +45,6 @@ bool Ad_AutoID::analysDevType(uchar *buf, int len)
     if(!ret){
         mPacket->status = QObject::tr("不支持此设备类型 ID是%1").arg(id);
     }
-
     return ret;
 }
 
@@ -63,7 +61,6 @@ bool Ad_AutoID::readDevId()
         if(len) break; else if(!mModbus->delay(1)) break;
         if(i>2) mModbus->changeBaudRate(); mModbus->delay(1);
     }
-
     return analysDevType(recv, len);
 }
 
@@ -98,7 +95,6 @@ bool Ad_AutoID::readDevValue(int size , QString & valStr)
         }
     }
 
-
     return ret;
 }
 
@@ -113,6 +109,7 @@ bool Ad_AutoID::readDevVal(int size , QString & valStr)
         if(i>1) mPacket->status = tr("第%1次读取设备校准值 ").arg(i);
         len = mModbus->rtuRead(&it, recv , 2);
         if(len==size*4) break; else if(!mModbus->delay(1)) break;
+
     }
 
     return analysDevCalibrationValue(recv, len , size , valStr);
@@ -134,7 +131,7 @@ bool Ad_AutoID::analysDevCalibrationValue(uchar *buf, int len ,int size , QStrin
         str = tr("读取设备校准值失败：返回长度为%1").arg(len);
         return ret;
     }
-    str = tr("读取设备校准值成功");
+
     uint id = 0;
     ret = true;
     for(int i = 0; i < len; i += 4) {
@@ -145,6 +142,7 @@ bool Ad_AutoID::analysDevCalibrationValue(uchar *buf, int len ,int size , QStrin
         if(i != len - 4) valStr += QString::number(id)+"/";
         else valStr += QString::number(id);
     }
-
+    str = tr("读取设备校准值成功,校准值为%1").arg(valStr);
+    mPacket->updatePro(str,ret);
     return ret;
 }

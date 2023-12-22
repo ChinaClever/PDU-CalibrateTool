@@ -5,13 +5,17 @@
  */
 #include "ad_resulting.h"
 #define AD_CUR_RATE 100
+#include "datapacket.h"
+
 
 Ad_Resulting::Ad_Resulting(QObject *parent) : QThread(parent)
 {
     mPacket =sDataPacket::bulid();
     mSource =YC_Ac92b::bulid(this);;
     mModbus = Ad_Modbus::bulid(this);
+    mPro = sDataPacket::bulid()->getPro();
     mItem = Ad_Config::bulid()->item;
+    log = sDataPacket::bulid();
     mData = mPacket->data;
     mCollect= nullptr;
 }
@@ -89,7 +93,6 @@ bool Ad_Resulting::powRangeByID(int i, int exValue, int cnt)
         }
         ret = false;
     }
-
     return ret;
 }
 
@@ -111,7 +114,6 @@ bool Ad_Resulting::curRangeByID(int i, int exValue, int cnt)
         }
         ret = false;
     }
-
     return ret;
 }
 
@@ -140,7 +142,6 @@ bool Ad_Resulting::curByIDOtherZero(int k, int exValue,QVector<int> vec)
         if(!ret) delay(2); else break;
     }
     mModbus->appendLogItem(ret);
-
     return ret;
 }
 
@@ -160,7 +161,6 @@ bool Ad_Resulting::volErrRangeByID(int i)
     } else {
         ret = false;
     }
-
     return ret;
 }
 
@@ -187,7 +187,6 @@ bool Ad_Resulting::volErrRange()
             }
         }
     }
-
     return ret;
 }
 
@@ -242,7 +241,6 @@ bool Ad_Resulting::outputSwCtrl(int exValue)
             QVector<int>().swap(vec);
         }
     }
-
     return ret;
 }
 
@@ -254,6 +252,8 @@ bool Ad_Resulting::workResult(bool res)
     } else {
         mPacket->pass = Test_Fail;
     }
+
+
     mModbus->appendLogItem(res);
 
     return res;
@@ -272,7 +272,6 @@ bool Ad_Resulting::sumCurCheck(int exValue)
         ret = curTgCheck(exValue);
         if(ret) break; else if(!delay(2)) break;
     }
-
     return ret;
 }
 
@@ -319,7 +318,6 @@ bool Ad_Resulting::eachCurEnter(int exValue)
         if(ret) break; else if(!delay(3)) break;
     }
     mModbus->appendLogItem(ret);
-
     return ret;
 }
 
@@ -348,7 +346,6 @@ YC_StandSource *Ad_Resulting::initStandSource()
             }
         }
     }
-
     return mSource;
 }
 
@@ -444,7 +441,6 @@ bool Ad_Resulting::noLoadCurFun()
         if(ret) break; else if(!delay(3)) break;
     }
     mModbus->appendLogItem(ret);
-
     return ret;
 }
 
@@ -475,7 +471,6 @@ bool Ad_Resulting::powerOn()
         }
         if(!ret) mPacket->status = tr("通讯协议不正确");
     }
-
     return ret;
 }
 

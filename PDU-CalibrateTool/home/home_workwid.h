@@ -1,8 +1,9 @@
 #ifndef MODESELECTWID_H
 #define MODESELECTWID_H
-
 #include "ad_corethread.h"
 #include "home_setdlg.h"
+#include "datapacket.h"
+#include "json_pack.h"
 
 namespace Ui {
 class Home_WorkWid;
@@ -34,7 +35,7 @@ private slots:
     void on_resBtn_clicked();
     void on_updateBtn_clicked();
     void on_setBtn_clicked();
-
+    void insertText(const QString &msg, bool ret);
     void on_addrSpin_valueChanged(int arg1);
 
 private:
@@ -43,6 +44,9 @@ private:
     Ad_CoreThread *mCore;
     sConfigItem *mItem;
     QTimer *timer;
+    sDataPacket *packet;
+    sProgress *mPro;
+    uint mId;
 };
 
 #endif // MODESELECTWID_H

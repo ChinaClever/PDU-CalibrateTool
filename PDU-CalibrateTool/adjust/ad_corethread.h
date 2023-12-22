@@ -42,6 +42,7 @@ private:
     SN_ManageThread *mSn;
     Ctrl_JigThread *mJig;
     Ad_LedSi *mLedSi;
+    sProgress *mPro;
 };
 
 #endif // AD_CORETHREAD_H

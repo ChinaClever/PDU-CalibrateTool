@@ -3,6 +3,7 @@
 #include <QtCore>
 #include <QColor>
 
+#define DEV_NUM 3
 #define PACK_ARRAY_SIZE 16
 
 // 倍率定义
@@ -82,6 +83,55 @@ struct sDevType
     uchar version; // 版本号
 };
 
+struct sDevData
+{
+    sDevData() {id=1; en=0;}
+
+    uchar id, en;  // 设备号
+    sDevType devType; //设备类型
+    uchar offLine; //离线标志 > 0在线
+
+    sTgObjData line; // 相数据
+    // sEnvData env; // 环境数据
+
+    uchar hz; // 电压频率
+    ushort br;  // 00	表示波特率9600(00默认9600，01为4800，02为9600，03为19200，04为38400)
+    ushort version;
+    ushort reserve;
+};
+
+struct sProgress
+{
+    sProgress() {step=0;}
+
+    uchar step; // 步骤
+    QString time;
+    uchar recordstep; // 记录启动步骤
+    QList<bool> pass, itPass;
+    QStringList status, item;
+
+    uchar result;    // 最终结果
+    QTime startTime;
+
+    QString softwareType;
+    QString companyName;
+    QString protocolVersion;
+
+    QString productType;
+    QString productSN;
+    QString macAddress;
+    // uchar softwareVersion;
+    QString softwareVersion;
+    QString clientName;
+    QString testTime;
+    QString testStartTime;
+    QString testEndTime;
+    QStringList no, itemName;
+    QList<bool> uploadPass;
+    uchar uploadPassResult;
+
+};
+
 /**
  * 数据包
  */
@@ -91,7 +141,7 @@ class sDataPacket
 public:
     static sDataPacket *bulid();
 
-    void clear();
+    // void clear();
     int tgCur();
 
     sTgObjData *tg; // 统计数据
@@ -103,6 +153,17 @@ public:
 
     QString status;
     int pass;
+
+    void init();
+    sProgress *getPro() {return pro;}
+    sDevData *getDev(int id=1) {return dev[id];}
+    bool updatePro(const QString &str, bool pass=true, int sec=1);
+    bool delay(int s=1);
+    void clear(int id=1);
+protected:
+
+    sDevData *dev[DEV_NUM];
+    sProgress *pro;
 };
 
 

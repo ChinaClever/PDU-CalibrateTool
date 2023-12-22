@@ -27,9 +27,12 @@ private slots:
     void on_resBtn_clicked();
     void on_aiBox_currentIndexChanged(int index);
 
+    void on_userEdit_selectionChanged();
+
 private:
     Ui::Home_SetDlg *ui;
     sConfigItem *mItem;
+    sDataPacket *packet;
 };
 
 #endif // HOME_SETDLG_H

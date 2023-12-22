@@ -3,6 +3,7 @@
 
 #include "sn_managethread.h"
 #include "yc_dc107.h"
+#include "udpsendsocket.h"
 
 class Ad_Resulting : public QThread
 {
@@ -57,6 +58,8 @@ private:
 
     Col_CoreThread *mCollect;
     Ctrl_CoreThread *mCtrl;
+    sProgress *mPro;
+    sDataPacket *log;
 };
 
 #endif // AD_RESULTING_H
