@@ -56,6 +56,7 @@ bool Home_WorkWid::initWid()
     mItem->startTime = QTime::currentTime();
     mItem->addr = ui->addrSpin->value();
     Ad_Config::bulid()->setAddr(mItem->addr);
+    packet->getPro()->PCB_Code = ui->pcbEdit->text();
 
     ui->devTypeLab->setText("---");
     ui->snLab->setText("---");
@@ -84,14 +85,19 @@ void Home_WorkWid::on_startBtn_clicked()
 {
 
     bool en = false;
-    QString str = tr("停止校准");
+    QString str = tr("开始校准") ;
     if(mItem->step == Test_Over) {
-        bool ret = initWid();
-        if(ret){
-            mCore->startAdjust();
-            emit startSig();
-        } else {
-            return;
+        if(!ui->pcbEdit->text().isEmpty()){
+            bool ret = initWid();
+            if(ret){
+                str = tr("停止校准");
+                mCore->startAdjust();
+                emit startSig();
+            } else {
+                return;
+            }
+        }else{
+            CriticalMsgBox box(this, tr("请先填写pcb码！"));
         }
     } else {
         QuMsgBox box(this, tr("是否停止校准?"));
@@ -163,7 +169,6 @@ void Home_WorkWid::upStatusLab()
     temp->productSN = packet->sn;
     temp->productType =packet->dev_type;
 
-    // temp->productSN = "000A 0021 0616 0001 0301";//test
 
     QPalette pe;
     switch (packet->pass) {
@@ -281,3 +286,9 @@ void Home_WorkWid::on_addrSpin_valueChanged(int arg1)
 {
     mItem->addr = arg1;
 }
+
+void Home_WorkWid::on_pcbEdit_textChanged(const QString &arg1)
+{
+    ui->pcbEdit->setClearButtonEnabled(1);
+}
+

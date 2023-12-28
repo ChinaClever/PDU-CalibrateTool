@@ -77,6 +77,7 @@ bool Ad_CoreThread::initThread(int v)
             mPacket->status = tr("给标准源上电中！");
             ret = mSource->setVol(v, 4);
             ret = mAutoID->readDevType();
+            mPacket->updatePro(mPacket->status);
         }
         if(!ret) ret = readDevInfo();
     }
@@ -86,7 +87,9 @@ bool Ad_CoreThread::initThread(int v)
 void Ad_CoreThread::collectData()
 {
     bool ret = initThread(220);
-    if(ret) mPacket->status = tr("正在读取设备数据");
+    if(ret) {
+        mPacket->status = tr("正在读取设备数据");
+    }
     else {mItem->step = Test_End; return;}
     Col_CoreThread *th = mResult->initThread();
     while(mItem->step != Test_Over) {
@@ -139,22 +142,8 @@ void Ad_CoreThread::writeLog()
         mItem->cnt.err += 1;
         it.result = tr("失败：%1").arg(mPacket->status);
     }
-    bool res = false;
-    QString str = tr("最终结果 ");
-    if(mPro->result != Test_Fail) {
-        res = true;
-        str += tr("通过");
-        mPro->uploadPassResult = 1;
-    } else {
-        res = false;
-        str += tr("失败");
-        mPro->uploadPassResult = 0;
-    }
-    mPacket->updatePro(str, res);
-    mPro->step = Test_Over;
 
-    sleep(2);
-    Json_Pack::bulid()->http_post("debugdata/add","192.168.1.12");//全流程才发送记录(http)
+
 
     mModbus->writeLogs();
     Ad_Config::bulid()->writeCnt();
@@ -190,7 +179,7 @@ bool Ad_CoreThread::readDevInfo()
             ret = mSn->snEnter();//写入序列号
         }
         mModbus->appendLogItem(ret);  // 序列号操作成功，才能记录日志
-    } else {        
+    } else {
         mItem->step = Test_End;
     }
 

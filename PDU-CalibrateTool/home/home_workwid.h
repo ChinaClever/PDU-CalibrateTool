@@ -38,6 +38,8 @@ private slots:
     void insertText(const QString &msg, bool ret);
     void on_addrSpin_valueChanged(int arg1);
 
+    void on_pcbEdit_textChanged(const QString &arg1);
+
 private:
     Ui::Home_WorkWid *ui;
     Home_SetDlg *mSetDlg;

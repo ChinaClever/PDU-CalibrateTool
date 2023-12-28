@@ -36,8 +36,6 @@ void Home_StatusTabWid::appendItem()
         mStatus = mPacket->status;
         mPacket->getPro()->uploadPass << mPacket->getPro()->uploadPassResult;
         mPacket->getPro()->itemName << mStatus;
-
-       // qDebug() << mStatus;
     }
 }
 

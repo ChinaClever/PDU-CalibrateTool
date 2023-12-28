@@ -129,6 +129,7 @@ struct sProgress
     QStringList no, itemName;
     QList<bool> uploadPass;
     uchar uploadPassResult;
+    QString PCB_Code;
 
 };
 

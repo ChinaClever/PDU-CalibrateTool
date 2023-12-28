@@ -252,8 +252,21 @@ bool Ad_Resulting::workResult(bool res)
     } else {
         mPacket->pass = Test_Fail;
     }
-
-
+    bool ret = false;
+    QString str = tr("最终结果 ");
+    if(mPro->result != Test_Fail) {
+        ret = true;
+        str += tr("通过");
+        mPro->uploadPassResult = 1;
+    } else {
+        ret = false;
+        str += tr("失败");
+        mPro->uploadPassResult = 0;
+    }
+    mPacket->updatePro(str, ret);
+    mPro->step = Test_Over;
+    sleep(2);
+    Json_Pack::bulid()->http_post("debugdata/add","192.168.1.12");//全流程才发送记录(http)
     mModbus->appendLogItem(res);
 
     return res;

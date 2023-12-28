@@ -61,6 +61,7 @@ void sDataPacket::clear(int id)
     pro->itemName.clear();
     pro->uploadPass.clear();
     pro->softwareVersion.clear();
+    pro->PCB_Code.clear();
 }
 
 
