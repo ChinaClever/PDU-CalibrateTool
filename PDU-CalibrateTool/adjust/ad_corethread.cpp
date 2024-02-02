@@ -272,8 +272,9 @@ void Ad_CoreThread::run()
         }
 
         isRun = false; mItem->step = Test_End;
-        if(mSource) mSource->powerDown();
+
         mJig->down(); writeLog();
+        if(mSource) mSource->powerDown();
     } else {
         qDebug() << "AdjustCoreThread run err" << isRun;
     }
