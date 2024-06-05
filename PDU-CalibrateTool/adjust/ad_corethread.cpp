@@ -270,10 +270,10 @@ void Ad_CoreThread::run()
         case Tset_Collect: collectData(); break;
         case Test_vert: verifyResult(); break;
         }
-
+        writeLog();
         isRun = false; mItem->step = Test_End;
 
-        mJig->down(); writeLog();
+        mJig->down();
         if(mSource) mSource->powerDown();
     } else {
         qDebug() << "AdjustCoreThread run err" << isRun;

@@ -187,7 +187,9 @@ int Ad_Modbus::rtuRead(sRtuItem *pkt, sRtuReplyItem *recv , int mode)
 {
     static uchar sendBuf[64]={0}, recvBuf[256]={0};
     int rtn = rtu_sent_packet(pkt, sendBuf);
-    rtn = transmit(sendBuf, rtn, recvBuf, 5);
+    int recs = 2;
+    if(mode == 2) recs = 10;
+    rtn = transmit(sendBuf, rtn, recvBuf, recs);
     if(rtn > 0) {
         bool ret = rtuRecvCrc(recvBuf, rtn, recv);
         if(ret) {
