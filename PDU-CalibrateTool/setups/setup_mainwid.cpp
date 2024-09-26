@@ -62,6 +62,7 @@ void Setup_MainWid::initFunSlot()
     QTimer::singleShot(2*1000,this,SLOT(checkPcNumSlot()));
     QDate buildDate = QLocale(QLocale::English ).toDate( QString(__DATE__).replace("  ", " 0"), "MMM dd yyyy");
     ui->label_date->setText(buildDate.toString("yyyy-MM-dd"));
+
 }
 
 void Setup_MainWid::initPcNum()

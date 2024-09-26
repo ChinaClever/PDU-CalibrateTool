@@ -158,6 +158,7 @@ bool Ad_CoreThread::initSource()
     if(mSource) {
         if((mDt->devType>APDU)||(mDt->specs==Transformer)) sec = 0;
         mPacket->status = tr("标准源上电中"); ret = mSource->setVol(220, sec);
+        sleep(8);
         mPacket->status = tr("标准源设置电流！"); ret = mSource->setCur(60, 5);
     } else {
         mItem->step = Test_End;
