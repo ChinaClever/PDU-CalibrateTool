@@ -493,10 +493,21 @@ bool Ad_Resulting::resEnter()
 
             //sleep(5);///////MPDU Pro新执行板
             mPacket->status = tr("验证电流：期望电流%1A").arg(exCur);
+            if(mPacket->devType->devAPei == 1 && mPacket->devType->devType == ZPDU && mPacket->devType->specs == Transformer){
+                mCtrl->closeAllSwitch();
+                delay(5);
+                mCtrl->closeAllSwitch();
+            }
             sleep(8);///////MPDU Pro高密度新执行板
             ret = mSource->setCur(exCur*10, 3); mCtrl->factorySet();
             if(ret) ret = workDown(exCur*AD_CUR_RATE);
             if(!ret) break;
+        }
+        if(mPacket->devType->devAPei == 1 && mPacket->devType->devType == ZPDU && mPacket->devType->specs == Transformer){
+            mCtrl->openAllSwitch();
+            delay(5);
+            mCtrl->openAllSwitch();
+            delay(5);
         }
         if(ret) {ret = noLoadEnter();}
     }

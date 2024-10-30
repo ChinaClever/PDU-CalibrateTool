@@ -79,6 +79,7 @@ struct sDevType
     uchar outputs;
 
     uchar specs; // 1 互感器  2锰铜
+    uchar devAPei; // 0 其他 1 63A
     uchar version; // 版本号
 };
 

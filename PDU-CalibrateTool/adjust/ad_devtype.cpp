@@ -132,6 +132,7 @@ bool Ad_DevType::analysDevType(uint id)
         mDt->specs = getColMode(str);
         mDt->series = getSerie(str);
         mDt->lines = getLineNum(str);
+        mDt->devAPei = str.contains("63A")?1:0;
     } else {
         ret = false;
     }
