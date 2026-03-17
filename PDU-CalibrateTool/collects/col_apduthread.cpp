@@ -26,7 +26,7 @@ bool Col_ApduThread::recvApduVolCur(uchar *recv, int len)
     int index = 62;
     if( mDt->devBothType == IP_PDU_APDU) index = 69;
 
-    if((*ptr++ == 0x7B) && (*ptr++ == 0xC1) && (len == index)) {
+    if((*ptr++ == 0x7B) && (*ptr++ == 0xC1)) {
     //if((*ptr++ == 0x7B) && (*ptr++ == 0xC1)) {
         if(*ptr++ == mItem->addr) {
 //            mData->size = *ptr++;

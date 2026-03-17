@@ -111,6 +111,9 @@ bool Ad_Adjusting::sentCmd()
 
     mPacket->status = tr("发送校准解锁命令！");
     bool ret = writeCmd(0xA0, 0);
+    mModbus->delay(4);
+    ret = writeCmd(0xA0, 0);  // 重复发一次命令
+    mModbus->delay(4);
     if(!ret){
         mModbus->delay(4);
         ret = writeCmd(0xA0, 0);  // 重复发一次命令
@@ -122,6 +125,8 @@ bool Ad_Adjusting::sentCmd()
 
     mPacket->status = tr("发送启动校准命令！");
     ret = writeCmd(0xA2, 0);
+    mModbus->delay(4);
+    writeCmd(0xA2, 0);
     //ret = writePhase();
 
     return ret;

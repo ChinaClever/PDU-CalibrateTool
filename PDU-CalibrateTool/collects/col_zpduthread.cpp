@@ -25,7 +25,7 @@ bool Col_ZpduThread::recvZpduVolCur(uchar *recv, int len)
     bool ret = false;
     uchar *ptr = recv;
 
-    if((*ptr++ == 0x7B) && (*ptr++ == 0xC1) && (len == 127)) {
+    if((*ptr++ == 0x7B) && (*ptr++ == 0xC1)) {
         if(*ptr++ == mItem->addr) {
             mData->size = *ptr++;
             mData->hz = *ptr++;
