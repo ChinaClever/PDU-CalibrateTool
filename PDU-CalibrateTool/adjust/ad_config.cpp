@@ -17,10 +17,12 @@ Ad_Config::Ad_Config()
     item->si_ac = 1;
     item->si_line = 1;
     item->aiMode = 1;
+    item->mproXHD = 0;
 
     initCnt();
     initErrData();
     initCurrentNum();
+    initFlag();
 }
 
 Ad_Config *Ad_Config::bulid()
@@ -111,5 +113,16 @@ void Ad_Config::writeCnt()
     write("ok", item->cnt.ok, "Cnt");
     write("err", item->cnt.err, "Cnt");
     write("user", item->user, "User");
+}
+
+
+void Ad_Config::initFlag()
+{
+    item->mproXHD = read("mproxhd", 0, "Sys").toInt();
+}
+
+void Ad_Config::writeFlag()
+{
+    write("mproxhd", item->mproXHD, "Sys");
 }
 

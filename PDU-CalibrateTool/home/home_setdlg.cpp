@@ -33,6 +33,7 @@ void Home_SetDlg::initFunSlot()
     int value = con->read("ai_mode", 1, "Sys").toInt();
     ui->aiBox->setCurrentIndex(value);
     mItem->aiMode = value;
+    ui->mproxHDcheckBox->setChecked(mItem->mproXHD);
 }
 
 void Home_SetDlg::updateSiLed()
@@ -55,6 +56,9 @@ void Home_SetDlg::on_okBtn_clicked()
     mItem->user = ui->userEdit->text();
     mItem->cnt.num = ui->numSpin->value();
     Ad_Config::bulid()->writeCnt();
+
+    mItem->mproXHD = ui->mproxHDcheckBox->isChecked();
+    Ad_Config::bulid()->writeFlag();
 }
 
 void Home_SetDlg::on_resBtn_clicked()

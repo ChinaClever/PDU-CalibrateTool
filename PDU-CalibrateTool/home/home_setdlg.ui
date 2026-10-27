@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>494</width>
-    <height>395</height>
+    <height>457</height>
    </rect>
   </property>
   <property name="font">
@@ -23,7 +23,7 @@
    <property name="geometry">
     <rect>
      <x>350</x>
-     <y>340</y>
+     <y>410</y>
      <width>131</width>
      <height>41</height>
     </rect>
@@ -44,7 +44,7 @@
      <x>20</x>
      <y>20</y>
      <width>461</width>
-     <height>111</height>
+     <height>181</height>
     </rect>
    </property>
    <property name="font">
@@ -57,6 +57,22 @@
     <string>设置区</string>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="1">
+     <widget class="QSpinBox" name="numSpin">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="maximum">
+       <number>99999</number>
+      </property>
+      <property name="singleStep">
+       <number>100</number>
+      </property>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QLabel" name="label_17">
       <property name="minimumSize">
@@ -70,16 +86,6 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" colspan="3">
-     <widget class="QLineEdit" name="userEdit">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
       </property>
      </widget>
     </item>
@@ -102,22 +108,6 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QSpinBox" name="numSpin">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="maximum">
-       <number>99999</number>
-      </property>
-      <property name="singleStep">
-       <number>100</number>
       </property>
      </widget>
     </item>
@@ -163,13 +153,30 @@
       </item>
      </widget>
     </item>
+    <item row="0" column="1" colspan="3">
+     <widget class="QLineEdit" name="userEdit">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="2">
+     <widget class="QCheckBox" name="mproxHDcheckBox">
+      <property name="text">
+       <string>是否MProX HD执行板</string>
+      </property>
+     </widget>
+    </item>
    </layout>
   </widget>
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>230</y>
+     <y>300</y>
      <width>461</width>
      <height>91</height>
     </rect>
@@ -223,7 +230,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>140</y>
+     <y>210</y>
      <width>461</width>
      <height>71</height>
     </rect>

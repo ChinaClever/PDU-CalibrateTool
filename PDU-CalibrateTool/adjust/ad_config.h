@@ -51,6 +51,7 @@ struct sConfigItem
     QString user; // 客户名称
     uchar pcNum;
     uchar aiMode;
+    uchar mproXHD;
     ushort currentNum; // 当天序号
     QString currentName; // 当前用户名称
     QTime startTime;
@@ -70,6 +71,9 @@ public:
 
     void writeCnt();
     void writeErrData();
+
+    void initFlag();
+    void writeFlag();
 
 protected:
     bool getDate();
